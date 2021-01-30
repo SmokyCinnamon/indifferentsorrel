@@ -1,12 +1,9 @@
 # ignore everything in the root except the "wp-content" directory.
-!wp-content/
+# !wp-content/
 
-# ignore everything in the "wp-content" directory, except:
-# "mu-plugins", "plugins", "themes" directory
-wp-content/*
-!wp-content/mu-plugins/
-!wp-content/plugins/
-!wp-content/themes/
+# ignore everything in updates except released ghosts:
+updates/*
+# !updates/zhorakorzhev
 
 # ignore these plugins
 wp-content/plugins/hello.php
@@ -14,8 +11,14 @@ wp-content/plugins/hello.php
 # ignore specific themes
 wp-content/themes/twenty*/
 
-# ignore node dependency directories
-node_modules/
+# ignore progress/dev stuff
+# remember to figure out what phiori stuff isn't needed.
+000_Dev Stuff/
+profile/
+*yaya_variable.cfg
+*aya_variable.cfg
+*.kra
+*.kra~
 
 # ignore the autosaves vim makes
 *.html~
