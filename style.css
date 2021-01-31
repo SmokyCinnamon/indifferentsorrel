@@ -11,14 +11,14 @@
 
 body
 {
-    background: #a8aeb1; /*This is the background color for the whole site*/
+    background: #7e6ddc; /*This is the background color for the whole site*/
     margin-left: 3%;
     margin-right: 3%;
 }
 
 article
 {
-    background: #f0f0f0; /*This is the white boxes that the text is in. You can change this to anything you like*/
+    background: #beb8ff; /*This is the white boxes that the text is in. You can change this to anything you like*/
     border-radius: 5px;
     margin-top: 5px;
     margin-left: 5%;
@@ -49,7 +49,7 @@ h2
 
 a
 {
-    color: #6f838b; /*This is the color for links, such as the download link*/
+    color: #4b25c9; /*This is the color for links, such as the download link*/
     text-decoration: None;
     font-weight: bold;
 }
@@ -64,6 +64,15 @@ a
     height: auto;
     border-radius: 5px; /*If you want your images to be perfectly square, remove the border-radius bit*/
 }
+.right
+{
+    display: block;
+    margin-left: 75%;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px; /*If you want your images to be perfectly square, remove the border-radius bit*/
+}
 
 /*Classes for the download button*/
 .dlbutton
@@ -71,16 +80,16 @@ a
     display: block;
     text-align: center;
     padding: 10px;
-    background-color: #d8d8d8;
+    background-color: #a098f4;
     max-width: 35%;
     border-radius: 5px;
-    margin-left: auto;
+    margin-left: 75%;
     margin-right: auto;
 }
 
 .dlbutton:hover
 {
-    background-color: #cfcfcf;
+    background-color: #857ddb;
 }
 
 /*This is for the webring, but you could use it for any center aligned text*/
@@ -99,7 +108,7 @@ a
 
 .version:hover
 {
-    background: #d8d8d8; /*If you dont want your version history to change color when you hover over it, remove this bit of code*/
+    background: #a098f4; /*If you dont want your version history to change color when you hover over it, remove this bit of code*/
     border-radius: 5px;
 }
 
