@@ -21,8 +21,8 @@ article
     background: #beb8ff; /*This is the white boxes that the text is in. You can change this to anything you like*/
     border-radius: 5px;
     margin-top: 5px;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 20px;
 }
 
@@ -50,7 +50,7 @@ h2
 a
 {
     color: #4b25c9; /*This is the color for links, such as the download link*/
-    text-decoration: None;
+    text-decoration: Underline;
     font-weight: bold;
 }
 
@@ -83,7 +83,7 @@ a
     background-color: #a098f4;
     max-width: 35%;
     border-radius: 5px;
-    margin-left: 75%;
+    margin-left: auto;
     margin-right: auto;
 }
 
