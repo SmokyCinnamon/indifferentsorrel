@@ -19,6 +19,7 @@ profile/
 *aya_variable.cfg
 *.kra
 *.kra~
+style1.css
 
 # ignore the autosaves vim makes
 *.html~
