@@ -1,0 +1,7 @@
+//handles selection choices from aitalk so that it doesnt get filled with a bunch of Select.whatever things.
+//could use it for other dic files too, i bet.
+
+OnAiQuestion {
+if reference0 == "ешьбольше" {if Flag("сказали ешь пж") == 0; MiscFlags ,= "сказали ешь пж"; "\0Так, попробую, хорошо? Господи.\к"}
+elseif reference0 == "ешьменьше" {if Flag("сказали не нужен есть") == 0; MiscFlags ,= "сказали не нужен есть"; "\0Ты понимаешь.\к"}
+else {}}

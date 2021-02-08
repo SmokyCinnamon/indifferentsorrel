@@ -1,0 +1,1599 @@
+//Todo file! Make sure to remove this dic file from your completed ghost, and remove zzz_todo from yaya.txt. Also remove the option for this menu from menu.dic!
+//YES, this file is super clunky and bad. I don't care lol, destroy the variables when you're done and remove the file.
+//You don't need to touch anything in here, just use the to do list if you want it, then remove it when you're done
+
+
+//---
+//This is the stuff for checking if your template is up to date. I've put it here because the end user won't need this at all, and you can remove it along with the todo list when you're done. If you've put in enough work on your ghost to no longer need the to do list, you're not gonna want to switch to a new template haha
+TemplateVer
+{
+	"1.0.4"
+}
+
+OnTemplateUpdate
+{
+	"\![execute,http-get,https://zichqec.github.io/s-the-skeleton/weatherregex.html,--async=OnCheckTemplateVer,--file=weatherregex.html,--timeout=300]"
+}
+
+OnCheckTemplateVer
+{
+    _file = "var\\weatherregex.html"
+    _buff = ""
+	_ver = ""
+	_changelog = ""
+	
+    FCHARSET(1)
+	--
+	if FOPEN(_file,'r')
+	{
+		for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) //This loop scrapes the current regex from my website
+		{
+			if RE_SEARCH (_buff,'YAYAVER--(.*)--YAYAVER'); {_ver = RE_GETSTR[1]}
+			if RE_SEARCH (_buff,'YAYACHANGELOG--(.*)--YAYACHANGELOG'); {_changelog = RE_GETSTR[1]}
+		}
+	}
+	--
+	FCLOSE(_file);
+	
+	if _ver == TemplateVer
+	{
+		"\0\s[0]Your template is up to date!\e"
+	}
+	else
+	{
+		"\0\s[0]\b2Your template is not up to date.\w8 The latest version is %(_ver).\w8 You can get the latest version \_a[https://zichqec.github.io/s-the-skeleton/xtemplate.html]here.\_a\w8\n\nHere's the changelog:\n\n\_q%(_changelog)\n\n\![*]\q[Back to the menu,OnMenuRun]\n\![*]\q[I'm done,cancelnodialogue]\e"
+	}
+}
+//---
+
+
+OnTemplateTodo
+{
+	//(Y/X) * 100 = percentage
+	_totalpercent = 0.0
+	_totalpercent = ((TODOTotal / 56.0) * 100)
+	_totalpercent = SPLIT(_totalpercent,".")[0]
+	if TODOaitalkTotal == ""; TODOaitalkTotal = 0
+	if TODObootendTotal == ""; TODObootendTotal = 0
+	if TODOetcTotal == ""; TODOetcTotal = 0
+	if TODOmenuTotal == ""; TODOmenuTotal = 0
+	if TODOmouseTotal == ""; TODOmouseTotal = 0
+	if TODOnameteachTotal == ""; TODOnameteachTotal = 0
+	if TODOmiscTotal == ""; TODOmiscTotal = 0
+	if TODOsurfacesTotal == ""; TODOsurfacesTotal = 0
+	if TODOmiscshellTotal == ""; TODOmiscshellTotal = 0
+	if TODOballoonTotal == ""; TODOballoonTotal = 0
+	if TODOTotal == ""; TODOTotal = 0
+	
+	"\0\*\_q\b2\![set,autoscroll,disable]\_l[75]---Programming---\n\n[20]/
+	\![*]%(TODOaitalk)\q[Aitalk,OnTODOaitalk]%(TDr)\_l[100](%(TODOaitalkTotal)/4)\n/
+	\![*]%(TODOanchor)\q[Anchor,OnTODOanchor]%(TDr)\_l[100](%(TODOanch)/1)\n/
+	\![*]%(TODObootend)\q[Bootend,OnTODObootend]%(TDr)\_l[100](%(TODObootendTotal)/8)\n/
+	\![*]%(TODOcommu)\q[Commu,OnTODOcommu]%(TDr)\_l[100](%(TODOcom)/1)\n/
+	\![*]%(TODOetc)\q[Etc,OnTODOetc]%(TDr)\_l[100](%(TODOetcTotal)/11)\n/
+	\![*]%(TODOmenu)\q[Menu,OnTODOmenu]%(TDr)\_l[100](%(TODOmenuTotal)/8)\n/
+	\![*]%(TODOmouse)\q[Mouse,OnTODOmouse]%(TDr)\_l[100](%(TODOmouseTotal)/2)\n/
+	\![*]%(TODOnameteach)\q[Nameteach,OnTODOnameteach]%(TDr)\_l[100](%(TODOnameteachTotal)/3)\n/
+	\![*]%(TODOstring)\q[String,OnTODOstring]%(TDr)\_l[100](%(TODOstr)/1)\n/
+	\![*]%(TODOword)\q[Word,OnTODOword]%(TDr)\_l[100](%(TODOwrd)/1)\n/
+	\![*]%(TODOmisc)\q[Misc things,OnTODOmisc]%(TDr)\_l[100](%(TODOmiscTotal)/3)\n\n[20]/
+	//\![*]\q[Extra functions,OnTODOextra]\n\n/
+	\_l[105]---Art---\n\n[20]/
+	\![*]%(TODOsurfaces)\q[Surfaces,OnTODOsurfaces]%(TDr)\_l[100](%(TODOsurfacesTotal)/6)\n/
+	\![*]%(TODOmiscshell)\q[Misc things,OnTODOmiscshell]%(TDr)\_l[100](%(TODOmiscshellTotal)/2)\n/
+	\![*]%(TODOballoon)\q[Balloon,OnTODOballoon]%(TDr)\_l[100](%(TODOballoonTotal)/5)\n"
+	--
+	"\n[20]\_l[52]%(TODOTotal)/56 completed, %(_totalpercent)%"
+	--
+	"\n\n\![*]\q[Back to Main Menu,OnMenuRun]\n\![*]\q[Destroy variables,TODOareyousure]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+//-----------------------------------AITALK-----------------------------------
+OnTODOaitalk
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOaitalkTotal / 4.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Aitalk---\n\n/
+	\![*]%(TODOrandom)\q[Random Dialogue,OnTODOrandomDialogue]%(TDr)\n/
+	\![*]%(TODOoverlap)\q[Overlap,OnTODOoverlap]%(TDr)\n/
+	\![*]%(TODOoffscreen)\q[Offscreen,OnTODOoffscreen]%(TDr)\n/
+	\![*]%(TODOhourtop)\q[Top of the hour,OnTODOtopofthehour]%(TDr)\n"
+	--
+	"\n\n%(TODOaitalkTotal)/4 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOrandomDialogue
+{
+	if TODOrandom == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOrandom  = "%(TDr)"
+		TODOTotal--
+		TODOaitalkTotal--
+	}
+	else
+	{
+		TODOrandom = "%(TDs)"
+		TODOTotal++
+		TODOaitalkTotal++
+	}
+	--
+	OnTODOaitalk
+}
+
+OnTODOoverlap
+{
+	if TODOoverlap == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOoverlap  = "%(TDr)"
+		TODOTotal--
+		TODOaitalkTotal--
+	}
+	else
+	{
+		TODOoverlap = "%(TDs)"
+		TODOTotal++
+		TODOaitalkTotal++
+	}
+	--
+	OnTODOaitalk
+}
+
+OnTODOoffscreen
+{
+	if TODOoffscreen == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOoffscreen  = "%(TDr)"
+		TODOTotal--
+		TODOaitalkTotal--
+	}
+	else
+	{
+		TODOoffscreen = "%(TDs)"
+		TODOTotal++
+		TODOaitalkTotal++
+	}
+	--
+	OnTODOaitalk
+}
+
+OnTODOtopofthehour
+{
+	if TODOhourtop == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOhourtop  = "%(TDr)"
+		TODOTotal--
+		TODOaitalkTotal--
+	}
+	else
+	{
+		TODOhourtop = "%(TDs)"
+		TODOTotal++
+		TODOaitalkTotal++
+	}
+	--
+	OnTODOaitalk
+}
+
+TODOaitalk
+{
+	if TODOaitalkTotal == 4
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------AITALK-----------------------------------
+
+OnTODOanchor
+{
+	if TODOanchor == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOanchor  = "%(TDr)"
+		TODOTotal--
+	}
+	else
+	{
+		TODOanchor = "%(TDs)"
+		TODOTotal++
+	}
+	--
+	OnTemplateTodo
+}
+
+TODOanch
+{
+	if TODOanchor == "\f[strike,1]\f[color,150,150,150]"
+	{
+		"1"
+	}
+	else
+	{
+		"0"
+	}
+}
+
+//-----------------------------------BOOTEND-----------------------------------
+
+OnTODObootend
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODObootendTotal / 8.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Bootend---\n\n/
+	\![*]%(TODOfirstboot)\q[First Boot,OnTODOfirstboot]%(TDr)\n/
+	\![*]%(TODOboot)\q[Booting Dialogue,OnTODOboot]%(TDr)\n/
+	\![*]%(TODOclose)\q[Closing Dialogue,OnTODOclose]%(TDr)\n/
+	\![*]%(TODOminimize)\q[Minimize,OnTODOminimize]%(TDr)\n/
+	\![*]%(TODOswitching)\q[Switching to/from another ghost,OnTODOswitching]%(TDr)\n/
+	\![*]%(TODOreload)\q[Reloading dialogue,OnTODOreload]%(TDr)\n/
+	\![*]%(TODOshellchange)\q[Shell changing,OnTODOshellchange]%(TDr)\n/
+	\![*]%(TODOdressupchange)\q[Dressup on/off,OnTODOdressupchange]%(TDr)"
+	--
+	"\n\n%(TODObootendTotal)/8 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOfirstboot
+{
+	if TODOfirstboot == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOfirstboot  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOfirstboot = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+OnTODOboot
+{
+	if TODOboot == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOboot  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOboot = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+OnTODOclose
+{
+	if TODOclose == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOclose  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOclose = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+
+OnTODOminimize
+{
+	if TODOminimize == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOminimize  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOminimize = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+OnTODOswitching
+{
+	if TODOswitching == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOswitching  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOswitching = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+OnTODOreload
+{
+	if TODOreload == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOreload  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOreload = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+OnTODOshellchange
+{
+	if TODOshellchange == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOshellchange  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOshellchange = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+OnTODOdressupchange
+{
+	if TODOdressupchange == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOdressupchange  = "%(TDr)"
+		TODOTotal--
+		TODObootendTotal--
+	}
+	else
+	{
+		TODOdressupchange = "%(TDs)"
+		TODOTotal++
+		TODObootendTotal++
+	}
+	--
+	OnTODObootend
+}
+
+TODObootend
+{
+	if TODObootendTotal == 8
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------BOOTEND-----------------------------------
+
+OnTODOcommu
+{
+	if TODOcommu == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOcommu  = "%(TDr)"
+		TODOTotal--
+	}
+	else
+	{
+		TODOcommu = "%(TDs)"
+		TODOTotal++
+	}
+	--
+	OnTemplateTodo
+}
+
+TODOcom
+{
+	if TODOcommu == "\f[strike,1]\f[color,150,150,150]"
+	{
+		"1"
+	}
+	else
+	{
+		"0"
+	}
+}
+
+//-----------------------------------ETC-----------------------------------
+
+OnTODOetc
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOetcTotal / 11.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2\![set,autoscroll,disable]---Etc---\n\n[half]/
+	\![*]%(TODODnD)\q[Drag and Drop,OnTODODnD]%(TDr)\n/
+	\![*]%(TODOinstalling)\q[Installing,OnTODOinstalling]%(TDr)\n/
+	\![*]%(TODOuninstalling)\q[Uninstalling,OnTODOuninstalling]%(TDr)\n/
+	\![*]%(TODOcreatefile)\q[Creating files,OnTODOcreatefile]%(TDr)\n/
+	\![*]%(TODOemail)\q[Email Checking,OnTODOemail]%(TDr)\n/
+	\![*]%(TODOupdate)\q[Updating,OnTODOupdate]%(TDr)\n/
+	\![*]%(TODOheadlines)\q[Headlines/RSS,OnTODOheadlines]%(TDr)\n/
+	\![*]%(TODOsntp)\q[SNTP,OnTODOsntp]%(TDr)\n/
+	\![*]%(TODOscreensaver)\q[Screensaver,OnTODOscreensaver]%(TDr)\n/
+	\![*]%(TODObatterylow)\q[Battery low,OnTODObatterylow]%(TDr)\n/
+	\![*]%(TODOscaling)\q[Shell scaling,OnTODOscaling]%(TDr)"
+	--
+	"\n\n[half]%(TODOetcTotal)/11 completed, %(_todopercent)%"
+	--
+	"\n\n[half]\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODODnD
+{
+	if TODODnD == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODODnD  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODODnD = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOinstalling
+{
+	if TODOinstalling == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOinstalling  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOinstalling = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOuninstalling
+{
+	if TODOuninstalling == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOuninstalling  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOuninstalling = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOcreatefile
+{
+	if TODOcreatefile == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOcreatefile  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOcreatefile = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOemail
+{
+	if TODOemail == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOemail  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOemail = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOupdate
+{
+	if TODOupdate == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOupdate  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOupdate = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOheadlines
+{
+	if TODOheadlines == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOheadlines  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOheadlines = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOsntp
+{
+	if TODOsntp == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOsntp  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOsntp = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOscreensaver
+{
+	if TODOscreensaver == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOscreensaver  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOscreensaver = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODObatterylow
+{
+	if TODObatterylow == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODObatterylow  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODObatterylow = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOscaling
+{
+	if TODOscaling == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOscaling  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOscaling = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+OnTODOweather
+{
+	if TODOweather == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOweather  = "%(TDr)"
+		TODOTotal--
+		TODOetcTotal--
+	}
+	else
+	{
+		TODOweather = "%(TDs)"
+		TODOTotal++
+		TODOetcTotal++
+	}
+	--
+	OnTODOetc
+}
+
+TODOetc
+{
+	if TODOetcTotal == 11
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------ETC-----------------------------------
+
+//-----------------------------------MENU-----------------------------------
+
+OnTODOmenu
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOmenuTotal / 8.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Menu---\n\n/
+	-Function Menu-\n/
+	\![*]%(TODOcalendar)\q[Open calendar,OnTODOcalendar]%(TDr)\n/
+	\![*]%(TODOpreferences)\q[SSP Preferences,OnTODOpreferences]%(TDr)\n/
+	\![*]%(TODOrecycle)\q[Recycle Bin,OnTODOrecycle]%(TDr)\n/
+	\![*]%(TODObugreport)\q[Bug Report,OnTODObugreport]%(TDr)\n/
+	\![*]%(TODOupdatecheck)\q[Update Check,OnTODOupdatecheck]%(TDr)\n\n/
+	-Other-\n/
+	\![*]%(TODOconfig)\q[Config Menu,OnTODOconfig]%(TDr)\n/
+	\![*]%(TODOtalkrate)\q[Talk Rate Changing,OnTODOtalkrate]%(TDr)\n/
+	\![*]%(TODOCanceltimeout)\q[Cancel and Timeout Dialogue,OnTODOCanceltimeout]%(TDr)"
+	--
+	"\n\n%(TODOmenuTotal)/8 completed, %(_todopercent)%"
+	--
+	"\n\n[half]\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOcalendar
+{
+	if TODOcalendar == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOcalendar  = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODOcalendar = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+OnTODOpreferences
+{
+	if TODOpreferences == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOpreferences  = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODOpreferences = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+OnTODOrecycle
+{
+	if TODOrecycle == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOrecycle  = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODOrecycle = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+OnTODObugreport
+{
+	if TODObugreport == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODObugreport = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODObugreport = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+OnTODOupdatecheck
+{
+	if TODOupdatecheck == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOupdatecheck = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODOupdatecheck = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+OnTODOconfig
+{
+	if TODOconfig == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOconfig  = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODOconfig = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+OnTODOtalkrate
+{
+	if TODOtalkrate == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOtalkrate  = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODOtalkrate = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+OnTODOCanceltimeout
+{
+	if TODOCanceltimeout == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOCanceltimeout  = "%(TDr)"
+		TODOTotal--
+		TODOmenuTotal--
+	}
+	else
+	{
+		TODOCanceltimeout = "%(TDs)"
+		TODOTotal++
+		TODOmenuTotal++
+	}
+	--
+	OnTODOmenu
+}
+
+TODOmenu
+{
+	if TODOmenuTotal == 8
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------MENU-----------------------------------
+
+//-----------------------------------MOUSE-----------------------------------
+
+OnTODOmouse
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOmouseTotal / 2.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Mouse---\n\n/
+	\![*]%(TODOpetting)\q[Petting,OnTODOpetting]%(TDr)\n/
+	\![*]%(TODOhitting)\q[Punching,OnTODOhitting]%(TDr)"
+	--
+	"\n\n%(TODOmouseTotal)/2 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOpetting
+{
+	if TODOpetting == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOpetting  = "%(TDr)"
+		TODOTotal--
+		TODOmouseTotal--
+	}
+	else
+	{
+		TODOpetting = "%(TDs)"
+		TODOTotal++
+		TODOmouseTotal++
+	}
+	--
+	OnTODOmouse
+}
+
+OnTODOhitting
+{
+	if TODOhitting == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOhitting  = "%(TDr)"
+		TODOTotal--
+		TODOmouseTotal--
+	}
+	else
+	{
+		TODOhitting = "%(TDs)"
+		TODOTotal++
+		TODOmouseTotal++
+	}
+	--
+	OnTODOmouse
+}
+
+TODOmouse
+{
+	if TODOmouseTotal == 2
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------MOUSE-----------------------------------
+
+//-----------------------------------NAMETEACH-----------------------------------
+
+OnTODOnameteach
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOnameteachTotal / 3.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Nameteach---\n\n/
+	\![*]%(TODOnames)\q[Name Teaching,OnTODOnames]%(TDr)\n/
+	\![*]%(TODOpronouns)\q[Pronoun Teaching,OnTODOpronouns]%(TDr)\n/
+	\![*]%(TODObirthday)\q[Birthday Teaching,OnTODObirthday]%(TDr)\n"
+	--
+	"\n\n%(TODOnameteachTotal)/3 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOnames
+{
+	if TODOnames == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOnames  = "%(TDr)"
+		TODOTotal--
+		TODOnameteachTotal--
+	}
+	else
+	{
+		TODOnames = "%(TDs)"
+		TODOTotal++
+		TODOnameteachTotal++
+	}
+	--
+	OnTODOnameteach
+}
+
+OnTODOpronouns
+{
+	if TODOpronouns == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOpronouns  = "%(TDr)"
+		TODOTotal--
+		TODOnameteachTotal--
+	}
+	else
+	{
+		TODOpronouns = "%(TDs)"
+		TODOTotal++
+		TODOnameteachTotal++
+	}
+	--
+	OnTODOnameteach
+}
+
+OnTODObirthday
+{
+	if TODObirthday == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODObirthday  = "%(TDr)"
+		TODOTotal--
+		TODOnameteachTotal--
+	}
+	else
+	{
+		TODObirthday = "%(TDs)"
+		TODOTotal++
+		TODOnameteachTotal++
+	}
+	--
+	OnTODOnameteach
+}
+
+TODOnameteach
+{
+	if TODOnameteachTotal == 3
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------NAMETEACH-----------------------------------
+
+OnTODOstring
+{
+	if TODOstring == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOstring  = "%(TDr)"
+		TODOTotal--
+	}
+	else
+	{
+		TODOstring = "%(TDs)"
+		TODOTotal++
+	}
+	--
+	OnTemplateTodo
+}
+
+TODOstr
+{
+	if TODOstring == "\f[strike,1]\f[color,150,150,150]"
+	{
+		"1"
+	}
+	else
+	{
+		"0"
+	}
+}
+
+OnTODOword
+{
+	if TODOword == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOword  = "%(TDr)"
+		TODOTotal--
+	}
+	else
+	{
+		TODOword = "%(TDs)"
+		TODOTotal++
+	}
+	--
+	OnTemplateTodo
+}
+
+TODOwrd
+{
+	if TODOword == "\f[strike,1]\f[color,150,150,150]"
+	{
+		"1"
+	}
+	else
+	{
+		"0"
+	}
+}
+
+//-----------------------------------MISC-----------------------------------
+
+OnTODOmisc
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOmiscTotal / 3.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Misc---\n\n/
+	\![*]%(TODOinstall)\q[Install.txt,OnTODOinstall]%(TDr)\n/
+	\![*]%(TODOdescript)\q[Descript.txt,OnTODOdescript]%(TDr)\n/
+	\![*]%(TODOyaya)\q[Yaya.txt,OnTODOyaya]%(TDr)"
+	--
+	"\n\n%(TODOmiscTotal)/3 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOinstall
+{
+	if TODOinstall == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOinstall  = "%(TDr)"
+		TODOTotal--
+		TODOmiscTotal--
+	}
+	else
+	{
+		TODOinstall = "%(TDs)"
+		TODOTotal++
+		TODOmiscTotal++
+	}
+	--
+	OnTODOmisc
+}
+
+OnTODOdescript
+{
+	if TODOdescript == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOdescript  = "%(TDr)"
+		TODOTotal--
+		TODOmiscTotal--
+	}
+	else
+	{
+		TODOdescript = "%(TDs)"
+		TODOTotal++
+		TODOmiscTotal++
+	}
+	--
+	OnTODOmisc
+}
+
+OnTODOyaya
+{
+	if TODOyaya == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOyaya  = "%(TDr)"
+		TODOTotal--
+		TODOmiscTotal--
+	}
+	else
+	{
+		TODOyaya = "%(TDs)"
+		TODOTotal++
+		TODOmiscTotal++
+	}
+	--
+	OnTODOmisc
+}
+
+TODOmisc
+{
+	if TODOmiscTotal == 3
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------MISC-----------------------------------
+
+//-----------------------------------SURFACES-----------------------------------
+
+OnTODOsurfaces
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOsurfacesTotal / 6.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Misc---\n\n/
+	\![*]%(TODOdraw)\q[Draw surfaces,OnTODOdraw]%(TDr)\n/
+	\![*]%(TODOnumbers)\q[Pick number ranges,OnTODOnumbers]%(TDr)\n/
+	\![*]%(TODOhitboxes)\q[Set up hitboxes,OnTODOhitboxes]%(TDr)\n/
+	\![*]%(TODOblink)\q[Set up blink frames,OnTODOblink]%(TDr)\n/
+	\![*]%(TODOtalk)\q[Set up talk frames,OnTODOtalk]%(TDr)\n/
+	\![*]%(TODOtable)\q[Set up a surfacetable,OnTODOtable]%(TDr)"
+	--
+	"\n\n%(TODOsurfacesTotal)/6 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOdraw
+{
+	if TODOdraw == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOdraw  = "%(TDr)"
+		TODOTotal--
+		TODOsurfacesTotal--
+	}
+	else
+	{
+		TODOdraw = "%(TDs)"
+		TODOTotal++
+		TODOsurfacesTotal++
+	}
+	--
+	OnTODOsurfaces
+}
+
+OnTODOnumbers
+{
+	if TODOnumbers == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOnumbers  = "%(TDr)"
+		TODOTotal--
+		TODOsurfacesTotal--
+	}
+	else
+	{
+		TODOnumbers = "%(TDs)"
+		TODOTotal++
+		TODOsurfacesTotal++
+	}
+	--
+	OnTODOsurfaces
+}
+
+OnTODOhitboxes
+{
+	if TODOhitboxes == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOhitboxes  = "%(TDr)"
+		TODOTotal--
+		TODOsurfacesTotal--
+	}
+	else
+	{
+		TODOhitboxes = "%(TDs)"
+		TODOTotal++
+		TODOsurfacesTotal++
+	}
+	--
+	OnTODOsurfaces
+}
+
+OnTODOblink
+{
+	if TODOblink == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOblink  = "%(TDr)"
+		TODOTotal--
+		TODOsurfacesTotal--
+	}
+	else
+	{
+		TODOblink = "%(TDs)"
+		TODOTotal++
+		TODOsurfacesTotal++
+	}
+	--
+	OnTODOsurfaces
+}
+
+OnTODOtalk
+{
+	if TODOtalk == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOtalk  = "%(TDr)"
+		TODOTotal--
+		TODOsurfacesTotal--
+	}
+	else
+	{
+		TODOtalk = "%(TDs)"
+		TODOTotal++
+		TODOsurfacesTotal++
+	}
+	--
+	OnTODOsurfaces
+}
+
+OnTODOtable
+{
+	if TODOtable == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOtable  = "%(TDr)"
+		TODOTotal--
+		TODOsurfacesTotal--
+	}
+	else
+	{
+		TODOtable = "%(TDs)"
+		TODOTotal++
+		TODOsurfacesTotal++
+	}
+	--
+	OnTODOsurfaces
+}
+
+TODOsurfaces
+{
+	if TODOsurfacesTotal == 6
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------SURFACES-----------------------------------
+
+//-----------------------------------MISC SHELL-----------------------------------
+
+OnTODOmiscshell
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOmiscshellTotal / 2.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Misc Shell---\n\n/
+	\![*]%(TODOicon)\q[Tray icon,OnTODOicon]%(TDr)\n/
+	\![*]%(TODOownerdraw)\q[Right click menu BG,OnTODOownerdraw]%(TDr)"
+	--
+	"\n\n%(TODOmiscshellTotal)/2 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODOicon
+{
+	if TODOicon == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOicon  = "%(TDr)"
+		TODOTotal--
+		TODOmiscshellTotal--
+	}
+	else
+	{
+		TODOicon = "%(TDs)"
+		TODOTotal++
+		TODOmiscshellTotal++
+	}
+	--
+	OnTODOmiscshell
+}
+
+OnTODOownerdraw
+{
+	if TODOownerdraw == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOownerdraw  = "%(TDr)"
+		TODOTotal--
+		TODOmiscshellTotal--
+	}
+	else
+	{
+		TODOownerdraw = "%(TDs)"
+		TODOTotal++
+		TODOmiscshellTotal++
+	}
+	--
+	OnTODOmiscshell
+}
+
+TODOmiscshell
+{
+	if TODOmiscshellTotal == 2
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------MISC SHELL-----------------------------------
+
+//-----------------------------------BALLOON-----------------------------------
+
+OnTODOballoon
+{
+	//(Y/X) * 100 = percentage
+	_todopercent = 0.0
+	_todopercent = ((TODOballoonTotal / 5.0) * 100)
+	_todopercent = SPLIT(_todopercent,".")[0]
+	if TODOrandom == ""; TODOrandom  = "%(TDr)"
+	"\0\*\_q\b2---Balloon---\n\n/
+	\![*]%(TODObg)\q[Balloon base,OnTODObg]%(TDr)\n/
+	\![*]%(TODOarrows)\q[Up and down arrows,OnTODOarrows]%(TDr)\n/
+	\![*]%(TODOchoice)\q[Choice marker,OnTODOchoice]%(TDr)\n/
+	\![*]%(TODOonline)\q[Online marker,OnTODOonline]%(TDr)\n/
+	\![*]%(TODOassemble)\q[Put all the details together,OnTODOassemble]%(TDr)"
+	--
+	"\n\n%(TODOballoonTotal)/5 completed, %(_todopercent)%"
+	--
+	"\n\n\![*]\q[Back to todo menu,OnTemplateTodo]\n\![*]\q[Close,cancelnodialogue]"
+}
+
+OnTODObg
+{
+	if TODObg == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODObg  = "%(TDr)"
+		TODOTotal--
+		TODOballoonTotal--
+	}
+	else
+	{
+		TODObg = "%(TDs)"
+		TODOTotal++
+		TODOballoonTotal++
+	}
+	--
+	OnTODOballoon
+}
+
+OnTODOarrows
+{
+	if TODOarrows == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOarrows  = "%(TDr)"
+		TODOTotal--
+		TODOballoonTotal--
+	}
+	else
+	{
+		TODOarrows = "%(TDs)"
+		TODOTotal++
+		TODOballoonTotal++
+	}
+	--
+	OnTODOballoon
+}
+
+OnTODOchoice
+{
+	if TODOchoice == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOchoice  = "%(TDr)"
+		TODOTotal--
+		TODOballoonTotal--
+	}
+	else
+	{
+		TODOchoice = "%(TDs)"
+		TODOTotal++
+		TODOballoonTotal++
+	}
+	--
+	OnTODOballoon
+}
+
+OnTODOonline
+{
+	if TODOonline == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOonline  = "%(TDr)"
+		TODOTotal--
+		TODOballoonTotal--
+	}
+	else
+	{
+		TODOonline = "%(TDs)"
+		TODOTotal++
+		TODOballoonTotal++
+	}
+	--
+	OnTODOballoon
+}
+
+OnTODOassemble
+{
+	if TODOassemble == "\f[strike,1]\f[color,150,150,150]"
+	{
+		TODOassemble  = "%(TDr)"
+		TODOTotal--
+		TODOballoonTotal--
+	}
+	else
+	{
+		TODOassemble = "%(TDs)"
+		TODOTotal++
+		TODOballoonTotal++
+	}
+	--
+	OnTODOballoon
+}
+
+TODOballoon
+{
+	if TODOballoonTotal == 5
+	{
+		"%(TDs)"
+	}
+	else
+	{
+		"%(TDr)"
+	}
+}
+
+//-----------------------------------BALLOON-----------------------------------
+
+TDs
+{
+	"\f[strike,1]\f[color,150,150,150]"
+}
+
+TDr
+{
+	"\f[default]"
+}
+
+Select.TODOareyousure
+{
+	"Are you sure you want to remove the Todo list variables? This will reset any progress you've recorded on the todo list, and is intended to remove save bloat once you've completely finished with the todo list.\*\n\n\![*]\q[Yes,TODODestroyVariables]\n\![*]\q[No,OnTemplateTodo]"
+}
+
+Select.TODODestroyVariables
+{
+	TODOTotal = NULL
+	TODOaitalkTotal = NULL
+	TODOrandom = NULL
+	TODOminimize = NULL
+	TODOoverlap = NULL
+	TODOoffscreen = NULL
+	TODOhourtop = NULL
+	TODOanchor = NULL
+	TODObootendTotal = NULL
+	TODOfirstboot = NULL
+	TODOboot = NULL
+	TODOclose = NULL
+	TODOswitching = NULL
+	TODOreload = NULL
+	TODOshellchange = NULL
+	TODOdressupchange = NULL
+	TODOcommu = NULL
+	TODOetcTotal = NULL
+	TODODnD = NULL
+	TODOinstalling = NULL
+	TODOuninstalling = NULL
+	TODOemail = NULL
+	TODOupdate = NULL
+	TODOheadlines = NULL
+	TODOcreatefile = NULL
+	TODOsntp = NULL
+	TODOscreensaver = NULL
+	TODObatterylow = NULL
+	TODOscaling = NULL
+	TODOweather = NULL
+	TODOmenuTotal = NULL
+	TODOcalendar = NULL
+	TODOpreferences = NULL
+	TODOrecycle = NULL
+	TODOconfig = NULL
+	TODOCanceltimeout = NULL
+	TODOmouseTotal = NULL
+	TODOpetting = NULL
+	TODOhitting = NULL
+	TODOnameteachTotal = NULL
+	TODOnames = NULL
+	TODOpronouns = NULL
+	TODObirthday = NULL
+	TODOtalkrate = NULL
+	TODOstring = NULL
+	TODOword = NULL
+	TODOmiscTotal = NULL
+	TODOinstall = NULL
+	TODOdescript = NULL
+	TODOyaya = NULL
+	TODOsurfacesTotal = NULL
+	TODOdraw = NULL
+	TODOnumbers = NULL
+	TODOhitboxes = NULL
+	TODOblink = NULL
+	TODOtalk = NULL
+	TODOtable = NULL
+	TODOmiscshellTotal = NULL
+	TODOicon = NULL
+	TODOownerdraw = NULL
+	TODOballoonTotal = NULL
+	TODObg = NULL
+	TODOarrows = NULL
+	TODOchoice = NULL
+	TODOonline = NULL
+	TODOassemble = NULL
+	TODObugreport = NULL
+	TODOupdatecheck = NULL
+	"Variables destroyed.\w8\w8 Don't forget to remove zzz_todo.dic from your ghost's folder and yaya.txt,\w4 as well as the menu option in menu.dic.\x"
+	--
+	OnMenuRun
+}

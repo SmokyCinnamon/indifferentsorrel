@@ -1,0 +1,367 @@
+OpenSakuraMenu
+{
+	if AutoUpdates[1] == 2 //If an update is available, the user will be notified when they try to open the menu
+	{
+		"\0\s[0]Есть новвя версия!\w8\w8 Ты хочешь обновить?"
+		--
+		//Note: the download it now option will go straight into updating without directing to another function. You can do this with some things using 'script:' in the function name, but it's finicky. If this gives you issues feel free to replace it.
+		"\_q\n\n\![*]\q[Да,script:\![updatebymyself\]]\n/
+		\![*]\q[Пожзе,UpdateLater]\n\n/
+		\![*]\q[Выключить авто-обновление,UpdateOff]\e"
+	}
+	else //Normal menu opening
+	{
+		"\0\b2\s[0]Привет!"
+		"\0\b2\s[0]Здрасте!"
+		"\0\b2Прывітанне!"
+		"\0\b2\п(№0№)Здорово!"
+		--
+		OnMenuRun
+	}
+}
+
+Select.UpdateLater //If the user decides to update later
+{
+	AutoUpdates[1] = 1
+	
+	"\0\s[0]Так,\w4 я тебя помнить раз в день!\e"
+}
+
+Select.UpdateOff //If the user no longer wants to be notified about updates
+{
+	AutoUpdates[0] = "Выкл"
+	AutoUpdates[1] = 1
+	
+	"\0\s[0]Авто-обновление выключён,\w4 можешь включить в меню конфигирацию!\e"
+}
+
+OnMenuRun //Main menu
+{
+	"\b2\нЧто тебе нужно?\n\n\_q"
+	--
+	if lastTalk != ""
+	{
+		"\![*]\q[Повтори,OnLastTalk]"
+	}
+	--
+	"\n/
+	\![*]\q[Что-нибудь скажи,OnAiTalk]\n/
+	\![*]\q[Поговори с другого приведении,OnStartTalking]\n/
+	\![*]\q[Купить что-нибудь,OnItemMenu]\n\n/
+	\![*]\q[Функций,OnFunctionMenu]\n\н"
+	--
+	if debug == 1 //%(debug = 1) in script input to show the debug options
+	{
+		"\![*]\q[Test Variable,OnTestVar]\n/
+		 \![*]\q[To-do list,OnTemplateTodo]\n/
+		 \![*]\q[Считать,OnFancyDevOnlyStuff]\n/
+		 \![*]\q[Check Template Version,OnTemplateUpdate]\n\n"
+		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
+	}
+	--
+	"\![*]\q[...Даже\, ничего.,Cancel]\n\n"
+	--
+	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)"
+	--
+	"\nВремя выполнения: %(runtime[0]):%(runmin)            Версия %(ghostver)\e"
+}
+
+OnLastTalk //Repeats the last thing the ghost said
+{
+	"%(lastTalk)\e"
+}
+
+//----------Function Menu----------
+OnFunctionMenu
+{
+	"\0\_q\b2\s[0]Что ты хочешь?"
+	--
+	"\n\n/
+	\![*]\q[Конфигурация,OnConfigMenu]\н\n/
+	\![*]\q[Октрыть Календарь,OpenCalendar]\n/
+	\![*]\q[Проверить Почту,CheckEmail]\n/
+	\![*]\q[Открыть Настройки SSP,SSPPrefs]\n/
+	\![*]\q[Отчистить корзину,RecycleBin]\n/
+	\![*]\q[Показать Информация Система,SystemInfo]\n/
+	\![*]\q[Сообщить об Ошибке,BugReport]\n/
+	\![*]\q[Проверить Обновление,UpdateCheck]\n\n/
+	\![*]\q[Назад,OnMenuRun]\e"
+}
+
+Select.OpenCalendar
+{
+	"\0\s[0]Конечно! Вот она."
+	--
+	"\![open,calendar]\e"
+}
+
+Select.CheckEmail //The dialogue about checking emails will happen in the biff function, no need to add dialogue here
+{
+	"\![biff]\e"
+}
+
+Select.SSPPrefs
+{
+	"\0\s[0]Так, открою."
+	--
+	"\![open,configurationdialog]\e"
+}
+
+Select.RecycleBin
+{
+	_gomicheck = FUNCTIONEX("gomi.dll", "-n") //Gets the number of items in the recycle bin
+	
+	"Ну окей.\w8\w8\s[-1]\w8\w8\w8\w8\n\n"
+	--
+	if _gomicheck > 0 //If there was something to empty
+	{
+		_gomi = FUNCTIONEX("gomi.dll", "-f") //Calling the Saori to empty the recycle bin
+		_и = ""; if _gomicheck != 1; _и = "и" //Plural check
+		
+		"\s[0]Всё!\w8\w8 %(_gomicheck) штук%(_и) отчистил."
+	}
+	else //If it's empty
+	{
+		"\s[0]Совсем пустой."
+	}
+	--
+	"\n\n\![*]\q[Назад,OnFunctionMenu] \![*]\q[Это всё,cancelnodialogue]\e"
+}
+
+Select.SystemInfo //Partially copied from the GT template, but I tweaked a few things
+{
+	os_name = FUNCTIONEX("saori_cpuid.dll","os.name")
+	os_version = FUNCTIONEX("saori_cpuid.dll","os.version")
+	cpu_name = FUNCTIONEX("saori_cpuid.dll","cpu.name")
+	cpu_clockex = FUNCTIONEX("saori_cpuid.dll","cpu.clockex")
+	"/
+	\0\b[2]\_q/
+	OS: %(os_name) %(os_version)\n/
+	Загрузку Памяти: %(memoryload)%\n/
+	Физическая Память: %(memoryavailphys) KB\n/
+	CPU: %(cpu_name) %(cpu_clockex)MHz\n/
+	Рабочем Состоянии: %(systemuphour):%(systemupminute):%(systemupsecond)\n\n/
+	Укагака: %property[baseware.version]\n\n/
+	\![*]\q[К функции,OnFunctionMenu]\n/
+	\![*]\q[Всё,cancelnodialogue]\e"
+}
+
+Select.BugReport
+{
+	"\0\s[0]Можешь сооющить ошибки \_a[https://github.com/SmokyCinnamon/indifferentsorrel/issues]здесь\_a!"
+	--
+	"\n\n\![*]\q[Назад,OnFunctionMenu]\n\![*]\q[Это всё,cancelnodialogue]\e"
+}
+
+Select.UpdateCheck //Starts an update check
+{
+	"\![updatebymyself]\e"
+}
+
+
+
+//----------Config Menu----------
+OnConfigMenu //I moved changing name/pronouns/birthday over to Nameteach, because they're info about the user
+{
+	//This is here in case the variables get erased. The buttons will be set to default so the user has something to click. This has happened to my users before and resetting them is a painful process. Do not remove these.
+	if username == ""; username = "Пользователь"
+	//if heshe == ""; heshe = "they"; himher = "them"; hisher = "their"; hesshes = "they're"
+	if birthday[0] == ""; birthday[0] = "???"
+	if hemisphere == ""; hemisphere = "Северном"
+	if talkrate == ""; talkrate = "Каждый 5 минут"; aitalkinterval = 300
+	if deleteshitai == ""; deleteshitai = "Выкл"
+	if AutoUpdates[0] == ""; AutoUpdates[0] = "Вкл"
+	if betaTester == ""; betaTester = "Выкл"
+	--
+	//the \_l[97] is telling it to put the ---Config--- at x 97, the middle of the balloon I use. Adjust as needed for your balloon, or remove it if you want
+	"\_q\b2\_l[97]---Конфигурация---\n\n/
+	Твоя имя: \q[%(имя),OnChangeName]\n/
+	Твои местоимение: \q[%(он)/%(его)/%(ему),OnChangePronoun]\n/
+	Твой день рожедния: \q[%(birthday[0]),OnChangeBirthday]\n/
+	Твоё полушарие: \q[%(hemisphere),ToggleHemisphere]\n\n/
+	Вмеря Разговор: \q[%(talkrate),ChangeTalk]\n\n/
+	\![*]Выключить авто-обновление?\n(Сейчас: \q[%(AutoUpdates[0]),ToggleUpdate])\n/
+	//\![*]Opt in to beta updates? (Сейчас: \q[%(betaTester),ToggleBeta])\n\n/
+	\![*]Включить Удаление? (Сейчас: \q[%(deleteshitai),ToggleUninstall])\n\n/
+	\![*]\q[К меню,OnMenuRun]\e"
+}
+
+Select.ToggleHemisphere
+{
+	if hemisphere != "Северном"
+	{
+		hemisphere = "Северном"
+	}
+	else
+	{
+		hemisphere = "Южном"
+	}
+	--
+	OnConfigMenu
+}
+
+Select.ChangeTalk
+{
+	"\0\s[0]Как часто мне говорить?\w8 Сейчас это %(talkrate)\n\n/
+	\![*]\q[Каждого 30 секундов,OnTalkRate,Thirty]\n/
+	\![*]\q[Каждая минута,OnTalkRate,Minute]\n/
+	\![*]\q[Каждые 3 минуты,OnTalkRate,ThreeMin]\n/
+	\![*]\q[Каждый 5 минут,OnTalkRate,FiveMin]\n/
+	\![*]\q[Никогда,OnTalkRate,None]\n\n/
+	\![*]\q[Назад,OnConfigMenu]\e"
+}
+
+OnTalkRate
+{
+	if reference0 == "Thirty"
+	{
+		talkrate = "каждые 30 секундов" //this displays the talk rate in the menu
+		aitalkinterval = 30 //this changes the talk rate, in seconds
+		
+		"\0\s[0]Действительно? Ты уверен? Ну, как ты желаешь."
+	}
+	elseif reference0 == "Minute"
+	{
+		talkrate = "каждая минута"
+		aitalkinterval = 60
+		
+		"\0\s[0]Ну это значит что я много говорить. А ты это хочешь...?"
+	}
+	elseif reference0 == "ThreeMin"
+	{
+		talkrate = "Каждые 3 минуты"
+		aitalkinterval = 180
+		
+		"\0\s[0]Ну хорошо."
+	}
+	elseif reference0 == "FiveMin"
+	{
+		talkrate = "Каждый 5 минут"
+		aitalkinterval = 300
+		
+		"\0\s[0]Долго."
+	}
+	else
+	{
+		talkrate = "никогда"
+		aitalkinterval = 0
+		
+		"\0\s[0]Ну ладно. Я молчу."
+	}
+	--
+	"\n\n\![*]\q[К конфигурация,OnConfigMenu]\n\![*]\q[Всё что я хоте%(л),cancelnodialogue]\e"
+}
+
+Select.ToggleUpdate
+{
+	if AutoUpdates[0] != "Вкл"
+	{
+		AutoUpdates[0] = "Вкл"
+	}
+	else
+	{
+		AutoUpdates[0] = "Выкл"
+	}
+	--
+	OnConfigMenu
+}
+
+Select.ToggleBeta
+{
+	if betaTester != "Вкл" //If you don't want a message about opting into beta updates, replace this whole bit with betaTester = "On"
+	{
+		"\0\s[0]\b2If you want a message about risks of running beta versions,\w4 put it here!\w8\w8 Remember to back up your save files just in case!"
+		--
+		"\n\n\![*]\q[Accept the risk and opt in,OptInBeta]\n\![*]\q[Нет\, спасибо,toconfig]\e"
+	}
+	else
+	{
+		betaTester = "Выкл"
+	}
+	--
+	OnConfigMenu
+}
+
+Select.OptInBeta
+{
+	betaTester = "Вкл"
+	--
+	OnConfigMenu
+}
+
+Select.ToggleUninstall
+{
+	if deleteshitai != "Вкл"
+	{
+		deleteshitai = "Вкл"
+	}
+	else
+	{
+		deleteshitai = "Выкл"
+	}
+	--
+	OnConfigMenu
+}
+
+//----------Misc Functions----------
+
+OnChoiceTimeout //Menu has timed out
+{
+	"\0\s[0]...Всё хорошо?\e"
+}
+
+Select.Cancel //If the main menu has been cancelled
+{
+	"\0\s[0]Тогда я сижу.\e"
+}
+
+OnTestVar
+{
+	//MiscFlags = IARRAY
+	кл = 0
+	"Это работает?\n %(MiscFlags)\e"
+}
+
+OnFancyDevOnlyStuff
+{
+	"\0\s[0]\_qТы здесь.\нА сегодня еле...: %(кл) ккал.\n/
+	\q[+1,OnStuff,1] \q[+5,OnStuff,5] \q[+10,OnStuff,10] \q[+50,OnStuff,50] \q[+100,OnStuff,100]\n/
+	\q[-1,OnStuff,-1] \q[-5,OnStuff,-5] \q[-10,OnStuff,-10] \q[-50,OnStuff,-50] \q[-100,OnStuff,-100]\n/
+	\![*]\q[Отчистить,OnStuff,clear] \![*]\q[К меню,OnMenuRun]\e"
+	//\н\*\q[Добавить,OnInput]
+}
+/*OnInput
+{
+	"\0\_q\q[+1,OnStuff,1] \q[+5,OnStuff,5] \q[+10,OnStuff,10] \q[+50,OnStuff,50]\n/
+	\q[+100,OnStuff,100]//\n\![*]\q[Назад,OnFancyDevOnlyStuff] \![*]\q[К меню,OnMenuRun]\e"
+}*/
+OnStuff
+{
+	if reference0 == "1" {кл++} elseif reference0 == "5" {кл += 5} elseif reference0 == "10" {кл += 10} elseif reference0 == "50" {кл += 50}
+	elseif reference0 == "100" {кл += 100} elseif reference0 == "-1" {кл -= 1} elseif reference0 == "-5" {кл -= 5} elseif reference0 == "-10" {кл -= 10} elseif reference0 == "-50" {кл -= 50}
+	elseif reference0 == "-100" {кл -= 100} elseif reference0 == "clear" {кл = 0}
+	--
+	OnFancyDevOnlyStuff
+}
+//============Kero Menu============
+
+OpenKeroMenu
+{
+	"\1\s[10]Yo."
+	"\1\s[10]Hi."
+	--
+	OnKeroMenu
+}
+
+OnKeroMenu
+{
+	//Fill in as you like
+}
+
+OnItemMenu 
+{
+	"\0\s[0]\b[2]\_q\n/
+	Еда - 20р Книга - 30р Значок - 10р Яблочный сок - 20р\н/
+	Дневник - 25р Вода - 5р Сыр - 20р Любовь - 0р Ненависть - 9999999999999999999999999999999999999999999999999999999999999999999999р\н/
+	Молоко - 15р Хлеб - 25р Цветы - 5р Лук - 100р Картошки - 25р\к"
+}

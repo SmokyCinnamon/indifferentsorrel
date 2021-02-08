@@ -1,0 +1,17 @@
+﻿charset,UTF-8
+
+name,Коржев Жора
+type,ghost
+
+sakura.name,Жора
+kero.name,никто не знает
+
+craftman,Smoky
+craftmanw,Эван
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+sstp.allowunspecifiedsend,0
+shiori,yaya.dll
+
+icon,keredstar.ico
+//balloon,X. Template Balloon

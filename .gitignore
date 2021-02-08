@@ -3,7 +3,7 @@
 
 # ignore everything in updates except released ghosts:
 updates/*
-# !updates/zhorakorzhev
+!updates/zhorakorzhev
 
 # ignore these plugins
 wp-content/plugins/hello.php

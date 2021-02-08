@@ -1,0 +1,130 @@
+OnMouseMove
+{
+	if reference3 == 0 //reference3 is what character the mouse is over. 0 is Sakura, 1 is Kero
+	{
+		MouseMoveSakura
+	}
+	else
+	{
+		MouseMoveKero
+	}
+}
+
+//stroke is an array here, to save on variables. stroke[0] is the original stroke value, which resets after every successful pet. stroke[1] is the continuous stroking. It's the same as stroke[0], but it does not reset until your mouse leaves the character. stroke[2] is the number of successful pets in a row. I haven't used it here but you can if you want.
+MouseMoveSakura
+{
+	if reference4 == "Head"
+	{
+		stroke[0]++ //Stroke value only goes up when over the appropriate areas
+		stroke[1]++
+		
+		if stroke[1] >= 160 //this would happen starting at 4 pets
+		{
+			if stroke[0] >= 160 //Stroke count is longer so that you have time to read the dialogue here. Adjust as you like.
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				
+				"\0\s[0]Твои руки никогда не устали...\w8\w8 Ты приласка%(л) мне %(stroke[2]) раз в ряд.\e"
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0 //Stroke value is reset
+			stroke[2]++
+			totalpets++
+			
+			"\0\s[0]Мур...\e"
+			"\0\п(№0№)Ой что, ты думаешь что я - кот?\к"
+			"\0\п(№0№)Мур-р-р...\к"
+			"\0\п(№0№)Чуть-чуть странно, но...\к"
+			"\0\п(№0№)Ну... Спасибо?\к"
+			"\0\п(№0№)У меня есть друзья что это не будет нравится. Но они не я.\к"
+			"\0\п(№0№)Привет!\к"
+			"\0\п(№0№)А почему приласкаешь меня?\к"
+		}
+	}
+	elseif reference4 == "Face"
+	{
+		stroke[0]++
+		
+		if stroke[0] >= 40
+		{
+			stroke[0] = 0
+			"\0\s[0]А ну ка що?\e"
+		}
+	}
+}
+
+OnMouseLeaveAll //When the mouse is no longer on a hitbox. You can change to OnMouseLeave if you want it to happen when you leave any hitbox for another one
+{
+	if stroke[1] >= 160 && stroke[1] >= pethighscore[0] //Checks if you're in continuous petting, and if you are, if you got a high score.
+	{
+		pethighscore[0] = stroke[1]
+		_b = BalloonCheck
+		if _b == 1 //Checks to see if the balloon is open, and if it is, \C means this will be added onto the previous dialogue.
+		{
+			"\C\n\n(Новое повышение! %(pethighscore[0])!)\e"
+		}
+	}
+	--
+	if stroke[2] > pethighscore[1] //Same thing here, but it's counting the number of successful pets you got. You can use this instead of the stroke count if you like.
+	{
+		pethighscore[1] = stroke[2]
+	}
+	--
+	stroke[0] = 0
+	stroke[1] = 0
+	stroke[2] = 0
+}
+
+OnMouseDoubleClick
+{
+	if reference5 == 0 && booting != 1 //reference5 is the mouse button being clicked, in this case a left click. The booting variable is here to prevent the user from interrupting firstboot, which for some reason passivemode does not do.
+	{
+		booting = 0
+		if reference3 == 0 //this is the character, as above
+		{
+			MouseDoubleClickSakura
+		}
+		else
+		{
+			MouseDoubleClickKero
+		}
+	}
+}
+
+MouseDoubleClickSakura
+{
+	if reference4 == "Face" //Punching dialogue
+	{
+		"\0\п(№0№)Я ни кот, ни собака. Но ещё...\к"
+		"Здарова!\к"
+		"Нееет, не мои щеки...\к"
+		"Думаю что чуть-чуть странно, не так ли? Мы друг-друга едва знаем...\к"
+		"Да это моя щека."
+		"Поздравляю, ты сжима%(л) мои щеки.\ж4 Это не так плохо...\к"
+		/*if totalpunches < 1 //If the user has not punched the ghost yet
+		{
+			"\0(Are you sure you want to punch her in the face?)"
+			--
+			"\n\n\_q\![*]\q[Yes,FirstPunch] \![*]\q[No!,cancelnodialogue]"
+		}
+		else //If they've already punched the ghost at least once
+		{
+			"\0\s[0]Ow!\e"
+			totalpunches++
+		}*/
+	}
+	else //If you're not punching, you must want the menu
+	{
+		OpenSakuraMenu
+	}
+}
+
+Select.FirstPunch //The first time the ghost is punched
+{
+	"\0\s[0]Ow!\e"
+	totalpunches++
+}
