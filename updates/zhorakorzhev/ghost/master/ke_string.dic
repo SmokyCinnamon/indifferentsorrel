@@ -12,7 +12,7 @@ On_homeurl
 }
 
 On_recommendrootbutton.caption //Change this to your username, or change the whole caption to whatever you want. This is the top list of websites
-{"Больше из авторв"}
+{"Больше из автора"}
 
 On_sakura.recommendsites //Websites under the top dropdown menu, make em whatever you want
 {
@@ -31,7 +31,7 @@ On_sakura.recommendsites //Websites under the top dropdown menu, make em whateve
 }
  
 On_portalrootbutton.caption //Caption for the second list of websites
-{"Ркференции"}
+{"Референции"}
 
 On_sakura.portalsites //You can make these anything you like. I've set them to link to my template, Zarla's template, and anything else helpful for making ghosts.
 {
@@ -39,7 +39,7 @@ On_sakura.portalsites //You can make these anything you like. I've set them to l
 	--
 	"%ASC(1)https://zichqec.github.io/s-the-skeleton/xtemplate.html%ASC(2)"
 	--
-	"How to set up updates with Github"
+	"Как настроить обновлеие с Github"
 	--
 	"%ASC(1)https://zichqec.github.io/s-the-skeleton/github.html%ASC(2)"
 	--
@@ -59,15 +59,15 @@ On_sakura.portalsites //You can make these anything you like. I've set them to l
 	--
 	"%ASC(1)https://translate.google.com/translate?hl=&sl=ja&tl=en&u=http%3A%2F%2Fssp.shillest.net%2Fukadoc%2Fmanual%2Flist_sakura_script.html%ASC(2)"
 	--
-	"YAYA Wiki (Translated)"
+	"YAYA Wiki (Перевод на английском)"
 	--
 	"%ASC(1)https://translate.google.com/translate?hl=&sl=ja&tl=en&u=http%3A%2F%2Femily.shillest.net%2Fayaya%2F%3FFrontPage%ASC(2)"
 	--
-	"Crow + SSP Reference (J)"
+	"Crow + SSP Reference (Я)"
 	--
 	"%ASC(1)http://crow.aqrs.jp/reference/all/index.html%ASC(2)"
 	--
-	"Ghost Documentation (J)"
+	"Ghost Documentation (Я)"
 	--
 	"%ASC(1)http://usada.sakura.vg/contents/specification.html%ASC(2)"
 }

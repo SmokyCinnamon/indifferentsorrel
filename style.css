@@ -7,7 +7,7 @@
 :root {
   /* Color */
   --surface: #beb8ff; /*background*/
-  --button-highlight: #ead8ff;
+  --button-highlight: #d6cfff; /*this one changes your inside text box*/
   --button-face: #f7e9ff;
   --button-shadow: #4b2f82;
   --window-frame: #341060;

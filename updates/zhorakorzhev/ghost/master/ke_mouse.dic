@@ -128,3 +128,20 @@ Select.FirstPunch //The first time the ghost is punched
 	"\0\s[0]Ow!\e"
 	totalpunches++
 }
+
+OnMouseWheel {
+	//"%(reference0) %(reference1) %(reference2) %(reference3) %(reference4) %(reference5) %(reference6)\w8\w8\e"
+	//--
+	if reference3 == 0 //&& booting != 1
+		{MouseWheelSakura}
+	else
+		{}
+}
+
+MouseWheelSakura {
+	if reference4 == "Head" || reference0 == "Face" {
+		"beeeeeeeeeeep\e"
+		"put your indent on\e"
+		"teeeeeeeesting!\e"
+	}
+}
