@@ -27,6 +27,7 @@ MouseMoveSakura
 				totalpets++
 				
 				"\0\s[0]Твои руки никогда не устали...\w8\w8 Ты приласка%(л) мне %(stroke[2]) раз в ряд.\e"
+				"А вот и %(он)! Твоё повышение - %(stroke[2]).\e"
 			}
 		}
 		elseif stroke[0] >= 40
@@ -105,6 +106,10 @@ MouseDoubleClickSakura
 		"Думаю что чуть-чуть странно, не так ли? Мы друг-друга едва знаем...\к"
 		"Да это моя щека."
 		"Поздравляю, ты сжима%(л) мои щеки.\ж4 Это не так плохо...\к"
+		"Ух ты...\к"
+		"Добро пожаловать в место, где находиться щеки.\к"
+		"Буп.\к"
+		"Кое-что нужно?\к"
 		/*if totalpunches < 1 //If the user has not punched the ghost yet
 		{
 			"\0(Are you sure you want to punch her in the face?)"
@@ -140,8 +145,14 @@ OnMouseWheel {
 
 MouseWheelSakura {
 	if reference4 == "Head" || reference0 == "Face" {
+		if arbitrarything == 1
+		{
 		"beeeeeeeeeeep\e"
 		"put your indent on\e"
 		"teeeeeeeesting!\e"
+		}
+		else
+		{
+		}
 	}
 }

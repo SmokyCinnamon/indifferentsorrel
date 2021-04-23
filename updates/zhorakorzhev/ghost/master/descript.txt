@@ -7,7 +7,7 @@ sakura.name,Жора
 kero.name,никто не знает
 
 craftman,Smoky
-craftmanw,Эван
+craftmanw,Коля
 craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
 
 sstp.allowunspecifiedsend,0

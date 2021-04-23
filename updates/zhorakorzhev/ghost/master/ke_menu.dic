@@ -54,7 +54,7 @@ OnMenuRun //Main menu
 	{
 		"\![*]\q[Test Variable,OnTestVar]\n/
 		 \![*]\q[To-do list,OnTemplateTodo]\n/
-		 \![*]\q[Считать,OnFancyDevOnlyStuff]\n/
+		//\![*]\q[Считать,OnFancyDevOnlyStuff]\n/
 		 \![*]\q[Check Template Version,OnTemplateUpdate]\n\n"
 		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
 	}
@@ -318,11 +318,11 @@ Select.Cancel //If the main menu has been cancelled
 OnTestVar
 {
 	//MiscFlags = IARRAY
-	кл = 0
+	//кл = 0
 	"Это работает?\n %(MiscFlags)\e"
 }
 
-OnFancyDevOnlyStuff
+/*OnFancyDevOnlyStuff
 {
 	"\0\s[0]\_qТы здесь.\нА сегодня еле...: %(кл) ккал.\n/
 	\q[+1,OnStuff,1] \q[+5,OnStuff,5] \q[+10,OnStuff,10] \q[+50,OnStuff,50] \q[+100,OnStuff,100]\n/
@@ -330,11 +330,11 @@ OnFancyDevOnlyStuff
 	\![*]\q[Отчистить,OnStuff,clear] \![*]\q[К меню,OnMenuRun]\e"
 	//\н\*\q[Добавить,OnInput]
 }
-/*OnInput
+OnInput
 {
 	"\0\_q\q[+1,OnStuff,1] \q[+5,OnStuff,5] \q[+10,OnStuff,10] \q[+50,OnStuff,50]\n/
 	\q[+100,OnStuff,100]//\n\![*]\q[Назад,OnFancyDevOnlyStuff] \![*]\q[К меню,OnMenuRun]\e"
-}*/
+}
 OnStuff
 {
 	if reference0 == "1" {кл++} elseif reference0 == "5" {кл += 5} elseif reference0 == "10" {кл += 10} elseif reference0 == "50" {кл += 50}
@@ -342,7 +342,7 @@ OnStuff
 	elseif reference0 == "-100" {кл -= 100} elseif reference0 == "clear" {кл = 0}
 	--
 	OnFancyDevOnlyStuff
-}
+}*/
 //============Kero Menu============
 
 OpenKeroMenu
@@ -361,10 +361,10 @@ OnKeroMenu
 OnItemMenu 
 {
 	"\0\s[0]\b[2]\_q\n/
-	Еда - 20р Книга - 30р Яблочный сок - 20р\н/
-	Вода - 5р Сыр - 20р Любовь - 0р Ненависть - 9999999999999999999999999999999999999999999999999999999999999999999999р\н/
-	Молоко - 15р Хлеб - 25р\н/
-	Картошки - 25р Лимон - 5р Вино - 40р\н/
-	Значок - 10р Дневник - 25р цветы - 5р Лук - 100р\н/
+	Еда\n\__q[OnItemBuy,лимон,5]Лимон - 5р\__q  \__q[OnItemBuy,яблочныйсок,20]Яблочный сок - 20р\__q \__q[OnItemBuy,сыр,20]Сыр - 20р\__q\n/ 
+	\__q[OnItemBuy,хлеб,25]Хлеб - 25р\__q \__q[OnItemBuy,картошки,25]Картошки - 25р\__q\n/
+	Напитки\н\__q[OnItemBuy,вода,5]Вода - 5р\__q \__q[OnItemBuy,молоко,15]Молоко - 15р\__q \__q[OnItemBuy,вино,40]Вино - 40р\__q\н/
+	Вещи\н\__q[OnItemBuy,значок,10]Значок - 10р\__q \__q[OnItemBuy,дневник,25]Дневник - 25р\__q \__q[OnItemBuy,цветы,5]Цветы - 5р\__q \__q[OnItemBuy,лук,100]Лук - 100р\__q \__q[OnItemBuy,книга,30]Книга - 30р\__q\н/
+	\__q[OnItemBuy,любовь,0]Любовь - 0р\__q \q[Ненависть - 9999999999999999999999999999999999999999999999999999999999999999999999р,OnItemBuy,9999999999999999999999999999999999999999999999999999999999999999999999]\н/
 	\![*]\q[К меню,OnMenuRun]\к"
 }

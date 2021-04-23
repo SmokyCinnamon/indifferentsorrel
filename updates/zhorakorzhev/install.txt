@@ -1,5 +1,3 @@
-//Change the directory to the folder your ghost will install to, balloon.directory to the folder your balloon will install to, and name to the proper name of your ghost that will be seen in the menu
-
 charset,UTF-8
 type,ghost
 
