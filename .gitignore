@@ -4,6 +4,7 @@
 # ignore everything in updates except released ghosts:
 updates/*
 !updates/zhorakorzhev
+# !updates/kiselewmikola
 
 # ignore these plugins
 wp-content/plugins/hello.php
@@ -20,6 +21,8 @@ profile/
 *.kra
 *.kra~
 style1.css
+unused.png
+unused2.png
 
 # ignore the autosaves vim makes
 *.html~
