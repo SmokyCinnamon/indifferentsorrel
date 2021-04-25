@@ -1,0 +1,197 @@
+OnCommunicate
+{
+	if reference0 == "user" || reference0 == "User"
+ 	{
+		//Answering the user - I've removed the function that goes along with this because it doesn't link to anything.
+	}
+ 	else
+	{
+ 		//Answering another ghost
+		_b = BalloonCheck
+		if _b == 1 && "\![commu-%(reference0)]" !_in_ SHIORI3FW.LastTalk //If the balloon is open and the commu tag does NOT match the current conversation, or does not exist, store this message in the arrays so it can be responded to later
+		{
+			_check = ASEARCH(reference0,waitingcommuS)
+			if _check == -1 //If there are no other messages from this ghost waiting in the queue
+			{
+				waitingcommuS ,= reference0 //Sender - Stores the name of the ghost in an array
+				waitingcommuM ,= reference1 //Message - Stores the message that was sent in an array
+			}
+			else //If there is a message from this ghost waiting in the queue, replace it with the one that was just received
+			{
+				waitingcommuS[_check] = reference0
+				waitingcommuM[_check] = reference1
+			}
+		}
+		else //The balloon is not open, or the conversation tag matches the ghost that is currently sending a message
+		{
+			if reference0 == "|-|waitingcommu|-|" //If this was called because there was a commu waiting
+			{
+				reference0 = waitingcommuS[0]; waitingcommuS[0] = IARRAY //Sets the name of the ghost as reference0 and clears the first element of the array
+				reference1 = waitingcommuM[0]; waitingcommuM[0] = IARRAY //Sets reference1 as the message that was saved and clears the first element of the array
+			}
+			--
+			ReplyToGhost
+		}
+ 	}
+}
+
+WaitingCommu //If a commu message is waiting, trigger OnCommunicate and tell it to use the stored messages
+{
+	"\![raise,OnCommunicate,|-|waitingcommu|-|]"
+}
+
+//This is your ghost starting a conversation with another ghost. It will choose a random one from the currently open ghosts.
+OnStartTalking
+{
+	AlreadyResponded = 1
+	if ghostexcount > 0
+	{
+		_ghost = ANY(ghostexlist)
+		if reference0 != ""; _ghost = reference0 //If this was a manual ping
+		--
+		//Checks for the Sakura name
+		case _ghost
+		{
+			when "Girl" //Known ghosts, add as many whens as needed.
+			{
+				res_reference0 = "Girl"
+				
+				"\0\s[0]А, Девушка и Треугольник. Привет.\w8\w8\e GirlTriangleHello01"
+				"\0\s[0]Як справы, Треугольник?\w8\w8\e GirlTriangleHello03"
+			}
+			when "RYS-0825" //what is your thing
+			{
+				"\0\s[0]Pryvitanne, ...S? Jak spravy?\w4\e"
+			}
+			others //Ghosts there is no specific response to.
+			{
+				res_reference0 = _ghost
+				
+				"\0\s[0]Здравстсвуй %(_ghost).\w8\w8\e"
+			}
+		}
+	}
+	else //If no ghosts are open.
+	{
+		"\0\s[0]Никого еще.\e"
+	}
+}
+
+ReplyToGhost //This is your ghost receiving a communication.
+{
+	_Speech = SPLIT(reference1,"\e")[0] //Everything the ghost said that the user can see
+	ConvoTag = SPLIT(reference1,"\e")[1] //Everything after the \e, which will be the invisible tags that track the conversation
+	_Last = SPLIT(reference1,"::")[1] //Ghosts using the reflect system send "::%(_Speech)" at the end of every communication, so _Last is what THIS ghost last said. See below.
+	
+	_Last = RemovePauses(_Last) //Removes pauses and quicksection tags so it can display properly
+	"\![commu-%(reference0)]" //This isn't a real sakurascript tag, but structuring it like one means it wont show in dialogue. This is for the non-interrupt system and loop prevention.
+	--
+	case reference0
+	{
+		when "Girl"
+		{
+			"\![quicksection,true]%(_Last)\![quicksection,false]" //Only add this for ghosts that use the reflect system
+			--
+			"%(TalkToGirl)"
+			--
+			"::%(_Speech)" //Reflects back what the other ghost said, only put it here if you're talking to a ghost that uses the same system or things may break
+		}
+		others //Responses to unknown ghosts. AlreadyResponded keeps them from getting stuck in a loop.
+		{
+			if "\![commu-%(reference0)]" !_in_ SHIORI3FW.LastTalk //This checks for that commu tag up above! So, if the last dialogue was NOT a response to the ghost that just pinged us, give a normal response
+			{
+				res_reference0 = reference0
+				
+				"\0\s[0]Привет, %(reference0).\w8\w8\e"
+			}
+			else //If this IS a response to a ghost we already spoke to, say the alternate response and end the conversation
+			{
+				res_reference0 = ""
+				
+				"...все, пока.\e"
+			}
+		}
+	}
+	
+}
+
+TalkToGirl //All responses to Girl would be here. Make one of these for each ghost they talk to so you can keep them separate easily! Or you can put it all in the function above, whatever works for you.
+{
+	if "GirlTriangleHello02" _in_ ConvoTag
+	{
+		res_reference0 = "Girl"
+		
+		"\0\s[0]We'll never see this dialogue.\w8\w8 Oh well,\w4 it's here for example!\w8\w8\e"
+	}
+	elseif "GirlTriangleHello04" _in_ ConvoTag
+	{
+		res_reference0 = ""
+		
+		"\0\s[0]Another example response!\e"
+	}
+	else //You should have an else just in case the other ghost isn't updated with responses
+	{
+		res_reference0 = ""
+		
+		"\0\s[0]Привет, Девушка.\e"
+	}
+}
+
+RemovePauses //Removes \w tags and quicksection tags - Add more tags if you need to
+{
+	_argv[0] = REPLACE(_argv[0],"\![quicksection,true]","")
+	_argv[0] = REPLACE(_argv[0],"\![quicksection,false]","")
+	_argv[0] = REPLACE(_argv[0],"\w9","")
+	_argv[0] = REPLACE(_argv[0],"\w8","")
+	_argv[0] = REPLACE(_argv[0],"\w7","")
+	_argv[0] = REPLACE(_argv[0],"\w6","")
+	_argv[0] = REPLACE(_argv[0],"\w5","")
+	_argv[0] = REPLACE(_argv[0],"\w4","")
+	_argv[0] = REPLACE(_argv[0],"\w3","")
+	_argv[0] = REPLACE(_argv[0],"\w2","")
+	_argv[0] = REPLACE(_argv[0],"\w1","")
+	_argv[0]
+}
+
+//You don't need to edit anything here! This menu is for you only. If you have the debug variable set to 1, you can press C to access this little menu, which lets you send test commu messages to other ghosts!
+OnCommuPingMenu
+{
+	_display = ""
+	foreach ghostexlist; _ghost
+	{
+		_display += "\![*]\q[%(_ghost),OnStartTalking,%(_ghost)]\n"
+	}
+	_display += "\n\![*]\q[Custom ping,OnCustomPing]"
+	_display
+}
+
+OnCommuPing
+{
+	res_reference0 = reference0
+	"\0\s[104]Привет,\w4 %(reference0).\e"
+}
+
+OnCustomPing
+{
+	"Что ты хочешь сообщить?\![open,inputbox,OnCustomCommu,-1]"
+}
+
+OnCustomCommu
+{
+	reference0 = REPLACE(reference0,",","##")
+	_display = ""
+	foreach ghostexlist; _ghost
+	{
+		_display += "\![*]\q[%(_ghost),OnCustomPingSend,%(_ghost),%(reference0)]\n"
+	}
+	"А какое приведение?\n\n"
+	--
+	_display
+}
+
+OnCustomPingSend
+{
+	res_reference0 = reference0
+	reference1 = REPLACE(reference1,"##",",")
+	"%(reference1)"
+}

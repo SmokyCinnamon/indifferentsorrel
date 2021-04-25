@@ -1,0 +1,92 @@
+//IMPORTANT NOTE ABOUT SERIKO! You CANNOT have mid-line comments! SERIKO errors don't prevent you from loading your ghost, but it will still give annoying errors and cause unexpected behaviors! Put ALL COMMENTS ON THEIR OWN LINES. This will save you a lot of headache, trust me!
+
+version,1
+//This is using the new seriko definition. If you want to use the old one, change the version to 0
+
+//Sakura surfaces
+
+surface0
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface120.png,0,0
+	element2,overlay,surface121.png,0,0
+	//As a note, you can put your images in subfolders! I'd be careful doing it, but it could be very helpful! It would look something like this
+	//element0,overlay,yourfolder/surface0.png,0,0
+	//Any images in subfolders HAVE to be defined in a surface before you can use them in animations, though.
+	
+	//Collisions
+	collision0,71,26,107,44,Head
+	collision1,57,21,123,75,Face
+	
+	//Blink
+	//animation0.interval,random,4
+	//animation0.pattern0,overlay,-1,100,0,0
+	//animation0.pattern1,overlay,100,50,0,0
+	//animation0.pattern2,overlay,101,100,0,0
+	//animation0.pattern3,overlay,-1,30,0,0
+	
+	//Talk
+	animation1.interval,talk,4
+	animation1.pattern0,alternativestart,(2,3,4)
+	
+	animation2.interval,never
+	animation2.pattern0,overlay,150,20,0,0
+	animation2.pattern1,overlay,-1,100,0,0
+
+	animation3.interval,never
+	animation3.pattern0,overlay,151,20,0,0
+	animation3.pattern1,overlay,-1,100,0,0
+
+	animation4.interval,never
+	animation4.pattern0,overlay,151,20,0,0
+	animation4.pattern1,overlay,152,100,0,0
+	animation4.pattern2,overlay,150,80,0,0
+	animation4.pattern3,overlay,-1,100,0,0
+	
+	
+}
+
+//surface.append0-99
+//{
+	//Anything you want to be applied to multiple surfaces (like collisions, blink frames, etc) goes in a range like this. You can exclude a surface from the range by adding something like ,!95 to the end, which would exclude surface95. You can include multiple ranges by separating them with commas.
+	//This is just here for my own reference, I always forget the syntax for append
+//}
+
+//Also here for reference. If you want your blink/talk frames in subfolders, you must define them first. This is where you can put the subfolder. You should be able to hide them from surface test again by putting that option into your surfacetable.
+//surface100
+//{
+	//element0,overlay,ExampleFolder/surface100.png,0,0
+//}
+
+//Kero surfaces - If you want a kero, uncomment the line below and create an image for surface10
+
+surface10
+{
+	//element0,overlay,surface10.png,0,0
+}
+
+surface11
+{
+	element0,overlay,surface11.png,0,0
+}
+surface12
+{
+	element0,overlay,surface12.png,0,0
+}
+surface.append11-12
+{
+	animation1.interval,never
+	animation1.pattern0,overlayfast,200,1,0,0
+	
+	animation2.interval,never
+	animation2.pattern0,stop,1
+	animation2.pattern1,overlayfast,201,1,0,0
+	
+	animation3.interval,never
+	animation3.pattern0,stop,2
+	animation3.pattern1,overlayfast,202,1,0,0
+	
+	animation4.interval,never
+	animation4.pattern0,stop,3
+	animation4.pattern1,overlayfast,203,1,0,0
+}

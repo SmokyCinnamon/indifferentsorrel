@@ -1,0 +1,435 @@
+AiTalk
+{
+	if RAND(100) < communicateratio
+ 	{
+ 		StartCommunicate
+	}
+ 	else
+	{
+ 		if ARRAYSIZE(offscreen) == 0
+		{
+			if CHAIN.IDName == ""
+			{
+ 				lastTalk = RandomTalk
+			}
+			else
+			{
+				lastTalk = ChainTalk
+			}
+			lastTalk
+		}
+ 		else
+		{ 
+			OffscreenTalk
+ 		}
+	}
+}
+
+//nonoverlap means that all possible dialogue candidates will be chosen at least once before any dialogues are repeated. Note that anything within brackets counts as a single dialogue candidate! This causes the probability issues mentioned in the YAYA tips file. I included an example of a dialogue pool here, if you set those up they'll work properly with nonoverlap. Also note, though: if you set up something like different modes, you should give each one it's own function for dialogue! If you have all your dialogues in one big if, nonoverlap won't have any effect.
+RandomTalk : nonoverlap
+{
+	/*"\0\s[0]All your random dialogue goes here!\e"
+	"\0\s[0]Here's a chain!\e:chain=achain"
+	"\0\s[0]Today is %(nowday)!\e"
+	"\0\s[0]Tomorrow will be %(nowday('next'))!\e"
+	"\0\s[0]Yesterday was %(nowday('last'))!\e"
+	"\0\s[0]Don't forget you can use the Hook Current Time API in the dev pallete to artificially change the time!\w8\w8 It's great for testing time and date based dialogues.\e"*/
+	
+	//This will call the example pool I've set up below. The second argument, %(username != ''), means that this pool will be available so long as the username is not blank. You can put any if check in there! For example: %(month == 2) would make a pool only available in February, while %(nowmode == 'Ultimate Form') would make a pool only available while the nowmode variable is set to "Ultimate Form".
+	//parallel Pool("Pool_Example","%(username != '')")
+	parallel Pool("Знакомство_Высокое","%(знакомство >= 100)")
+	parallel Pool("Знакомство_Средное","%(знакомство >= 50)")
+	parallel Pool("Знакомство_Низкое","%(знакомство <= 0)")
+	parallel Pool("Грязный","%(keromode == 'грязный!!!' || 'грязный!!' || 'грязный!')")
+	
+	parallel Pool("Pool_timeslot_earlymorning","%(timeslot == 'earlymorning')")
+	parallel Pool("Pool_timeslot_morning","%(timeslot == 'morning')")
+	parallel Pool("Pool_timeslot_lunch","%(timeslot == 'lunch')")
+	parallel Pool("Pool_timeslot_afternoon","%(timeslot == 'afternoon')")
+	parallel Pool("Pool_timeslot_evening","%(timeslot == 'evening')")
+	parallel Pool("Pool_timeslot_latenight","%(timeslot == 'latenight')")
+	parallel Pool("Pool_timeslot_midnight","%(timeslot == 'midnight')")
+
+	parallel Pool("Pool_wd_Sun","%(wd == 'Sun')")
+	parallel Pool("Pool_wd_Mon","%(wd == 'Mon')")
+	parallel Pool("Pool_wd_Tue","%(wd == 'Tue')")
+	parallel Pool("Pool_wd_Wed","%(wd == 'Wed')")
+	parallel Pool("Pool_wd_Thu","%(wd == 'Thu')")
+	parallel Pool("Pool_wd_Fri","%(wd == 'Fri')")
+	parallel Pool("Pool_wd_Sat","%(wd == 'Sat')")
+
+	parallel Pool("Pool_startmonth","%(day < 5)")
+	parallel Pool("Pool_midmonth","%(day > 13 && day < 17)")
+	parallel Pool("Pool_endmonth","%(day > 26)")
+
+	parallel Pool("Pool_month_Jan","%(month == 1)")
+	parallel Pool("Pool_month_Feb","%(month == 2)")
+	parallel Pool("Pool_month_Mar","%(month == 3)")
+	parallel Pool("Pool_month_Apr","%(month == 4)")
+	parallel Pool("Pool_month_May","%(month == 5)")
+	parallel Pool("Pool_month_Jun","%(month == 6)")
+	parallel Pool("Pool_month_Jul","%(month == 7)")
+	parallel Pool("Pool_month_Aug","%(month == 8)")
+	parallel Pool("Pool_month_Sep","%(month == 9)")
+	parallel Pool("Pool_month_Oct","%(month == 10)")
+	parallel Pool("Pool_month_Nov","%(month == 11)")
+	parallel Pool("Pool_month_Dec","%(month == 12)")
+
+	parallel Pool("Pool_season_Spring","%(season == 'Spring')")
+	parallel Pool("Pool_season_Summer","%(season == 'Summer')")
+	parallel Pool("Pool_season_Autumn","%(season == 'Autumn')")
+	parallel Pool("Pool_season_Winter","%(season == 'Winter')")
+	
+	//---Noticing and commenting on other ghosts---
+	//Remember that you have to check for the sakura name of another ghost, not the ghost name.
+	if "Girl" _in_ ghostexlist
+	{
+		"\0\s[0]Another template ghost!\w8\w8 Hi Girl!\e"
+	}
+	if "RYS-0825" _in_ ghostexlist
+	{
+		"A, heta ty. Pryvitanne, S.\e"
+	}
+}
+
+
+//-----------Pools-----------
+
+//Example of a pool. You can name pools whatever you like. I always start them with Pool_ so that it's clear what they are. They MUST have : array after the function name, or they won't work. I also recommend putting a comment with what if check activates this pool, so it's easy to remember later.
+Pool_Example : array //username != ""
+{
+	"\0\s[0]This is the first dialogue from the pool!\w8\w8 Your username isn't blank,\w4 so all these dialogues are available with equal probability!\e"
+	"\0\s[0]This is the second dialogue from the pool!\w8\w8 You wouldn't see these nearly so often if they were just in a plain if check.\e"
+	"\0\s[0]This is the third dialogue from the pool!\w8\w8 Putting dialogues in a pool like this means that nonoverlap can affect them properly, so long as nothing else interferes!\e"
+	"\0\s[0]This is the fourth dialogue from the pool!\w8\w8 You could nest another pool inside this pool,\w4 and all the dialogues in there would also display with equal probabilities!\e"
+	"\0\s[0]This is the fifth dialogue from the pool!\w8\w8 Pools can be placed anywhere,\w4 not just RandomTalk!\e"
+}
+Знакомство_Высокое : array {
+	"\0\п(№0№)Работа сегодня была не очень. Лучше быть здесь, с тобой, не так ли?\к"
+	"\0\п(№0№)Я когда-то любил чистить. После много годы на работу... короче говоря, теперь - не так сильно.\к"
+	"\0\п(№0№)%(деньвремя) говорил с мамой. Она хочет, чтобы мы встретим чаще. Но я так часто занят...\к"
+	"\0\п(№0№)А... так устал...\к"
+	"\0\п(№0№)Каждый разговор с папой значит я учу кое-что новое о старые рок-группы. Последный раз он %(частомало) говорио о %(группа) и как %(группафакта)\к"
+}
+Знакомство_Средное : array {
+	"\0\п(№0№)Ты слишишь группа би-2? Автор этого приведение им очень нравится.\к"
+	"\0\п(№0№)Бам-бададам-бам-бададам...\к"
+	"\0\п(№0№)Я так устал...\к"
+	"\0\п(№0№)%(песня)...\к"
+	"\0\п(№0№)Где ставил мой %(файл)%(типафайл)...?\ж4 %(имя), ты ли не виде%(л) его?\к"
+	"\0\s[0]Я сегодня чистил ПЯТЬ разные %(типафайл)-и от твоей %(папкаползь). И нашёл еще четыре %(типафайл)-и в %(папкаползь)...\к"
+	"\0\s[0]Если ты бы%(л) файл, думаю что ты будет %(типафайл).\к"
+	"\0\п(№0№)Тебе нравится читать книги?\к"
+	"\0\п(№0№)Иногда я думаю о древные люди. Как они жили? Кто любили? Говорили друг другом, как ты и я?\к"
+}
+Знакомство_Низкое : array {
+	"\0\п(№0№)* Он не смотрит на тебя...\к"
+}
+Грязный : array {
+	"\0\п(№0№)Жаль, что здесь нет ничего зачистить.\к"
+	"\0\п(№0№)(и)* Он получет поглядеть на твоего рабочего столе.(/и)\нХм... не совсем чистый, но в таком же время, не совсем грязный...\к"
+}
+//These go below RandomTalk, or wherever you want them really.
+
+//---Timeslots---
+Pool_timeslot_earlymorning : array //timeslot == 'earlymorning' (5am - 8am)
+{
+	
+	//These are sub-pools, I've put them just below this one. Any dialogues you put in them will also get the same probabilities as all other dialogue.
+	parallel Pool("Pool_timeslot_earlymorning_uplate","%(runtime[0] >= 3)") //Been open for 3 hours or more, so the user has probably been up all night
+	parallel Pool("Pool_timeslot_earlymorning_upearly","%(runtime[0] < 3)") //Probably just got up
+}
+Pool_timeslot_earlymorning_uplate : array //runtime[0] >= 3 (Been open for 3 hours or more, so the user has probably been up all night)
+{
+	"\п(№9№)...Эй, ты не будещь спать? У меня ж утром работу. Не хочу опаздывать.\к"
+	"\п(№0№)Завтри прищёл. Он и не так плохо.\к"
+	"\п(№0№)Твой компьютер... с ночью я узнал что он чуть-чуть грязный.\к"
+}
+Pool_timeslot_earlymorning_upearly : array //runtime[0] < 3 (Probably just got up)
+{
+	"\п(№0№)И как долго здесь буду? Конечно есть работа. Если опаздываю, можно потерять. И я это не хочу.\к"
+	"\п(№0№)Ну... Последный вечером я спал, но не много.\ж3А ты? Если спа%(л), как прошло?\н\!\__в(№OnAiQuestion,sleepwellyup№)Хорошо\__в \!\__в(№OnAiQuestion,sleepwellnope№)плохо\__в \!\__в(№OnAiQuestion,sleepwelldidnt№)я еще не спа%(л)\__в\к"
+}
+
+Pool_timeslot_morning : array //timeslot == 'morning' (9am - 11am)
+{
+	"Утра - любимая время днём. Люди, которые спит ночью встаёт, а их которые спит днём - нет. И оба никогда не понимает, когда я сам сплю.\к"
+	"Вчера у меня был вафли на завтрак. Они ничего.\к"
+}
+
+Pool_timeslot_lunch : array //timeslot == 'lunch' (12pm - 2pm)
+{
+	"\п(№0№)... мне немного голодно.\к"
+	"\п(№0№)Часто на работу я ем бутерброды на обед. Но конечно различность - хорошо.\к"
+}
+
+Pool_timeslot_afternoon : array //timeslot == 'afternoon' (3pm - 5pm)
+{
+	"\п(№0№)(и)Это значит, мой друг, он прошел между нами...(/и)\к:chain=ддто"
+}
+
+Pool_timeslot_evening : array //timeslot == 'evening' (6pm - 8pm)
+{
+	"\п(№0№)Эй, как там погода? Сегодня ты уже бы%(л) на улице?\к"
+}
+
+Pool_timeslot_latenight : array //timeslot == 'latenight' (9pm - 12am)
+{
+	"\п(№0№)Да-да-дам-да-да-дам...\к"
+}
+
+Pool_timeslot_midnight : array //timeslot == 'midnight' (1am - 4am)
+{
+	"\п(№9№)Щас тебя не нужно спать? (и)Я(/и) устал, по крайней мере.\к"
+}
+
+
+//---Days of the week---
+
+Pool_wd_Sun : array //wd == "Sun"
+{
+	
+}
+
+Pool_wd_Mon : array //wd == "Mon"
+{
+	
+}
+
+Pool_wd_Tue : array //wd == "Tue"
+{
+	
+}
+
+Pool_wd_Wed : array //wd == "Wed"
+{
+	
+}
+
+Pool_wd_Thu : array //wd == "Thu"
+{
+	
+}
+
+Pool_wd_Fri : array //wd == "Fri"
+{
+	
+}
+
+Pool_wd_Sat : array //wd == "Sat"
+{
+	
+}
+
+
+//---Days in the month---
+Pool_startmonth : array //day < 5 (start of the month)
+{
+	
+}
+
+Pool_midmonth : array //day > 13 && day < 17 (middle of the month)
+{
+	
+}
+
+Pool_endmonth : array //day > 26 (end of the month)
+{
+	
+}
+
+
+//---Months--- (Northern hemisphere/Southern hemisphere)
+Pool_month_Jan : array //month == 1
+{
+	
+}
+
+Pool_month_Feb : array //month == 2
+{
+	
+}
+
+Pool_month_Mar : array //month == 3 (Spring start/Autumn start)
+{
+	
+}
+
+Pool_month_Apr : array //month == 4
+{
+	
+}
+
+Pool_month_May : array //month == 5
+{
+	
+}
+
+Pool_month_Jun : array //month == 6 (Summer start/Winter start)
+{
+	
+}
+
+Pool_month_Jul : array //month == 7
+{
+	
+}
+
+Pool_month_Aug : array //month == 8
+{
+	
+}
+
+Pool_month_Sep : array //month == 9 (Autumn start/Spring start)
+{
+	
+}
+
+Pool_month_Oct : array //month == 10
+{
+	
+}
+
+Pool_month_Nov : array //month == 11
+{
+	
+}
+
+Pool_month_Dec : array //month == 12 (Winter start/Summer start)
+{
+	
+}
+
+
+//---Seasons---
+Pool_season_Spring : array //season == 'Spring'
+{
+	
+}
+
+Pool_season_Summer : array //season == 'Summer'
+{
+	
+}
+
+Pool_season_Autumn : array //season == 'Autumn'
+{
+	
+}
+
+Pool_season_Winter : array //season == 'Winter'
+{
+	
+}
+
+//-----------Chains-----------
+
+//Example of a chain. The dialogues will play in order each time the ghost talks until it reaches chain=end.
+achain
+{{CHAIN
+	"\0\s[0]Here's another part of the chain!\e"
+	"\0\s[0]Here's a third part of the chain!\e"
+	"\0\s[0]Here's a fourth part of the chain!\e"
+	"\0\s[0]Here's the end of a chain!\e:chain=end"
+}}CHAIN
+ддто {{CHAIN
+	"\п(№0№)(и)но увидеть его нелегко...(/и)\к:chain=end"
+}}CHAIN
+
+//-----------Timekeeping systems and related dialogue-----------
+
+OnMinuteChange
+{
+	if RAND(100) <= 5 {keromode = "грязный!!!"; "\1%(surface)\i[1]\к"}
+	if minute == 0 //Top of the hour notifications
+	{
+		if hour == 0
+		{
+			AutoUpdates[1] = 0
+			if day == 1 && month == 1
+			{
+				"\0\s[0]Эй, с новым годом! Время никогда не остановить.\e"
+			}
+			else
+			{
+				"\0\s[0]Полночь.\e"
+			}
+		}
+		elseif hour == 1
+		{"\п(№0№)Час ночи.\к"}
+		else
+		{
+			_утра = "утра"; if hour <= 0 && hour >= 5; _утра = "ночи"
+			if hour <= 12 && hour >= 17; _утра = "днем"
+			if hour <=18 && hour >= 23; _утра = "вечером"
+			"\0\s[0]Это %(hour12) %(_утра).\e"
+		}
+	}
+	elseif ARRAYSIZE(offscreen) > 0 //If the ghost is off the screen, it will run the off screen dialogue every minute
+ 	{OffscreenTalk}
+	--
+	if AutoUpdates[0] == "On" && AutoUpdates[1] == 0 //Once a day the ghost will check for updates if the user has auto updates on
+	{AutoUpdates[1] = 1; "\![updatebymyself,checkonly]"}
+	
+}
+
+OnSecondChange
+{
+	if runtime[2] >= 59
+	{
+		runtime[2] = 0
+		runtime[1]++
+		if runtime[1] >= 59
+		{
+			runtime[1] = 0
+			runtime[0]++
+			totalhours++
+		}
+	}
+	else
+	{runtime[2]++}
+	if reference2 == 1 //This is for if your Sakura and Kero are overlapping. \4 will move the speaking character away from the other character.
+	{"\0\s[0]ЧТО такое ты делаешь?! Он %(keroname) Я не хочу ТРОГАТЬ!!! НЕ делай это снова!\4\e"}
+	elseif ARRAYSIZE(waitingcommuS) > 0 && second % 5 == 0 //Every 5 seconds, check if the balloon is closed and a communication is waiting, and if so trigger a response
+	{
+		_b = BalloonCheck
+		if _b == 0; WaitingCommu
+	}
+}
+
+OnOffscreen
+{
+	offscreen = IARRAY //Makes offscreen IARRAY if there's no value
+	_lastvalue = IARRAY
+	if reference0 != ""; offscreen = SPLIT(reference0,",") //An array of the IDs of characters currently off screen. 0 is Sakura, 1 is Kero, etc
+	if reference1 != ""; _lastvalue = SPLIT(reference1,",")
+	//If a character is currently off the screen, their ID will be in the offscreen array, and you can find it with ASEARCH.
+	//reference1 has the values of reference0 from the last time this function ran, so you can use it to tell if a character has been moved back on screen.
+	//I've only set this up for the Sakura, but you can copy this format for other characters too. Just change the number in the ASEARCH.
+	
+	if ASEARCH("0",offscreen) != -1 //Checks if the sakura was moved off screen
+	{
+		OffscreenTalk
+	}
+	elseif ASEARCH("0",_lastvalue) != -1 //Checks if the sakura is no longer off screen
+	{
+		EndOffscreenTalk
+	}
+}
+
+OffscreenTalk //Off the screen dialogue. Ctrl Shift F12 will bring characters back onto the screen
+{
+	"\0\s[0]Ой, Ctrl+Shift+F12.\e"
+	"\0\п(№0№)Я не могу увидеть в темноте.\к"
+	"\0\п(№0№)Вместо этого, всегда можешь мне свернуть. Ctrl+I\к"
+}
+
+EndOffscreenTalk //Being brought back on the screen.
+{
+	"\0\s[0]Привет! Там было чуть-чуть темно.\e"
+}
+
+OnSurfaceRestore //OnSurfaceRestore happens around 30 seconds after the ghost's last dialogue. reference0 here stores the number of the previous surface, so you can have them comment when they change back if you like.
+{
+	if RAND(99) <= 25 {"\1\s[-1]\0\s[0]\e"}; else {"\0\s[0]\e"}
+}

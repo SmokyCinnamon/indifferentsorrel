@@ -1,0 +1,571 @@
+//<===AiQuestion===>
+// this deals with little one-off questions that pop up in aitalk. you could set up a menu the same way and i'd probably use it. not sure how case/when works but i think it's useful for this?
+OnAiQuestion {
+	case reference0 {
+	when "sleepwellyup" {"\0\п(№0№)А, ну в таком случае, поздравляю.\к"}; when "sleepwellnope" {"\0\п(№0№)Извините. Надеюсь сегодня лучше.\к"}; when "sleepwelldidnt" {"А. Так вот, мне просто было интересно.\к"}
+	others {"эй, что-то пошло не так.\к"}
+}}
+
+//----Drag and Drop----
+
+//When you drop a file on the ghost that isn't something it can install
+//reference0 is the file path, which is split up amongst the local variables below
+OnFileDrop2
+{
+	_filepath = SPLITPATH(reference0)
+	_filename = _filepath[2]
+	_fileext = TOLOWER(_filepath[3])
+	case _fileext
+	{
+		when ".jpg", ".jpeg", ".bmp", ".png" //These are pictures that they can set to wallpapers. Png works for me, but if it doesn't work for you let us know please, I'm curious about this.
+		{
+			if "]" _in_ reference0 //If the file name contains a character that would break the wallpaper command
+			{
+				"\0\s[0]Это... %(_filename)%(_fileext).\w8\w8 Я могу установить в качеством обои,\w4 но ты должен устранять какие-нибудь характеры ] от название.\e"
+			}
+			else
+			{
+				"\0\s[0]Это %(_filename)%(_fileext).\w8\w8 Я могу установить в качеством обои,\w4 какой режин хочешь?\n\n Поместить..."
+				--
+				"\![*]\q[По и центру рабочего стола,OnWallpaper,Center,%(reference0)]\n/
+				\![*]\q[На рабочий стол черепицей,OnWallpaper,Tile,%(reference0)]\n/
+				/*\![*]\q[Stretched,OnWallpaper,Stretch,%(reference0)]"
+				--
+				if "Windows 10" _in_ NotifyOS //NotifyOS is set just below. The Span option is only available if you're on Win 10, so this means it won't display unless you're on Win 10
+				{
+					"\n\![*]\q[Spanned,OnWallpaper,Span,%(reference0)]"
+				}
+				--
+				"*/\n\n\![*]\q[Нет\, пожалуйста,WallpaperCancel]\e"
+			}
+		}
+		when ".mid", ".wav", ".mp3", ".wma", ".au", ".ogg", ".flac"
+		{"\0\s[0]Это музыка. Уже чистая.\e"}
+		when ".dic"
+		{
+		"\0\п(№0№)Я это не могу зачистить. Говори с разработчиком, если у тебя такая большая проблема. Есть время для работы, а это не такая время. Удачи.\к"
+		}
+		others
+		{
+			if _fileext == "" //If it's a folder. Using \_? lets you display the slashes and such in dialogue, but you have to toggle it off after you no longer need it
+			{"\0\s[0]Это \_?%(_filepath[1])\_?.\nХочешь почистить? \n%*\__в(№OnCleanTime,папка№)Да\__в %*\__в(№cancel№)Нет\__в\e"}
+			else //If it's a file
+			{"\0\s[0]Это %(_filename)%(_fileext). Грязно...\nХочешь почистить? \n%*\__в(№OnCleanTime,файл№)Да\__в %*\__в(№cancel№)Нет\__в\e"}
+		}
+	}		
+}
+
+OnCleanTime {
+	keromode = "грязный!!!"
+	--
+	case reference0 {when "папка" {"\1\s[12]\i[1]\e"}; when "файл" {"\1\s[11]\i[1]\e"}
+	others {"Э? Что это? Ничего там...\е"}
+}}
+
+//You can get other information about the OS here, it's in the other references. Reference0 includes the OS system, version, and display name
+OnNotifyOSInfo
+{NotifyOS = reference0}
+
+OnWallpaper
+{
+	if reference0 == "Center"
+	{
+		"\![set,wallpaper,%(reference1),center]"
+		//--
+		//"\0\s[0]Так и вот, в центр.\e"
+	}
+	elseif reference0 == "Tile"
+	{"\![set,wallpaper,%(reference1),tile]"}
+	elseif reference0 == "Stretch"
+	{
+		"\![set,wallpaper,%(reference1),stretch]"
+		//--
+		//"\0\s[0]Вот, она stretched.\e"
+	}
+	elseif reference0 == "Span"
+	{"\![set,wallpaper,%(reference1),span]"}
+	--
+	//If you want you can add a single line of dialogue for setting wallpapers down here instead of unique lines for each type. Just leave the commands that actually set the wallpaper in place.
+	"\0\п(№0№)Так и вот, готово.\к"
+}
+
+Select.WallpaperCancel
+{"\0\s[0]Ну вот, если хочешь это снова, можно мне сказать.\e"}
+
+OnInstallBegin
+{"\0\s[0]Э? И что это такое?\e"}
+
+//Finished installing something ghost related. You can remove any of the ifs here if you like, and just have it go to the else.
+//reference0 is the type of installed item, reference1 is the name.
+OnInstallComplete
+{
+	if reference0 == "ghost"
+	{
+		"\0\s[0]%(reference1) установили.\w8\w8 Хочешь ли позвоню?\n\n"
+		--
+		"\![*]\q[Позвонить %(reference1),CallGhost]\n/
+		\![*]\q[Изменить к %(reference1),ChangeToGhost]\n\n/
+		\![*]\q[Нет спасибо,cancelnodialogue]\e"
+	}
+	elseif reference0 == "shell"
+	{"\0\s[0]Установил вид %(reference1).\e"}
+	elseif reference0 == "balloon"
+	{"\0\s[0]Установил поле с текстом. Называется %(reference1).\e"}
+	elseif reference0 == "plugin"
+	{"\0\s[0]Установил модуль %(reference1).\e"}
+	elseif reference0 == "calendar skin"
+	{"\0\s[0]Установил календарный вид, котором называется %(reference1).\e"}
+	elseif reference0 == "headline" //The wiki claims this is a possible outcome, but in my testing I've only been able to get it to show 'rss'
+	{"\0\s[0]Настроено новости у %(reference1)\e"}
+	elseif reference0 == "rss"
+	{"\0\s[0]Настроено RSS для %(reference1).\e"}
+	else //Even if you get rid of some of the ifs above, you should keep this else as a catch-all.
+	{"\0\s[0]Установил %(reference1).\e"}
+}
+
+//Calling the ghost that was just installed. Add dialogues to these if you like.
+Select.CallGhost
+{"\![call,ghost,lastinstalled]\e"}
+
+//Opening the ghost that was just installed.
+Select.ChangeToGhost
+{"\![change,ghost,lastinstalled]\e"}
+
+//reference0 is the reason the install failed
+OnInstallFailure //If the install fails
+{
+	if reference0 == "artificial" //If the user cancels by double clicking the balloon
+	{"\0\s[0]Я никогда не буду знать...\e"}
+	else
+	{
+		"\0\s[0]Извините,\w4 что-то пошёл не так.\w8\w8\n\n"
+		--
+		if reference0 == "unsupported" //File is not supported
+		{"файл не поддержано.\e"}
+		elseif reference0 == "extraction" //Couldn't extract
+		{"Извлечь не работает.\e"}
+		elseif reference0 == "invalid type" //install.txt isn't set up properly
+		{"Что-то в install.txt не правильно.\e"}
+		else
+		{"Получил ошибку: '%(reference0)'.\e"}
+	}
+}
+
+//reference0 is the Sakura name of the ghost the item was meant for, reference1 (since SSP 2.4.85) is the type of item you tried to install
+OnInstallRefuse
+{"\0\s[0]Я не могу учтановить этот %(reference1).\w8\w8 Кажется, вместо меня, это для %(reference0).\e"}
+
+OnUpdatedataCreating //Creating an updates2.dau
+{"\0\s[0]Создаю updates2.dau.\e"}
+
+OnUpdatedataCreated //Finished creating
+{"\0\s[0]updates2.dau готов.\e"}
+
+//reference0 is the name of what you're making a nar for, reference2 is what you're making (balloon/ghost/etc)
+OnNarCreating //Creating a .nar
+{"\0\s[0]Создаю .nar для твой %(reference2), '%(reference0)'.\w8\e"}
+
+//reference0 is the name of what you're making a nar for, reference2 is what you're making (balloon/ghost/etc)
+OnNarCreated //Finished creating
+{"\0\s[0].nar для %(reference2) готов.\w8 Можно видеть \_a[OnNarLocation,%(reference1)]здесь.\_a\e"}
+
+//When you click on the anchor in the OnNarCreated dialogue, this function will open the folder you created the .nar in
+OnNarLocation
+{
+	_path = SPLITPATH(reference0)[0] + SPLITPATH(reference0)[1]
+	
+	"\C\![open,file,%(_path)]"
+}
+
+//----Uninstalling----
+
+//Bringing up the uninstall option
+OnVanishSelecting
+{"\0\s[0]Ты мне удаляешь?\e"}
+
+//Deciding to uninstall
+OnVanishSelected
+{"\0\s[0]Все есть свои конца. Удачи в жизни, %(username). Если хочешь, можно верить что я на работу.\w8\w8\e"}
+
+//Changing your mind
+OnVanishCancel 
+{"\0\s[0]Кажется, не сегодня.\e"}
+
+//Canceling uninstallation by double clicking the balloon
+OnVanishButtonHold
+{"\0\s[0]Ты измени%(л) твоё мнение?\e"}
+
+//When another ghost has been uninstalled and it switches to this ghost - Also happens if this ghost is open when another is uninstalled
+//reference0 is the name of the uninstalled ghost
+OnVanished
+{"\0\s[0]Ты удали%(л) %(reference0). Пакуль.\e"}
+
+//----Mail checking----
+
+//reference2 is the email address it's checking? Wiki says mail server.
+OnBIFFBegin
+{"\0\s[0]Так, проверяю.\e"}
+
+//reference0 is the number of emails found
+OnBIFFComplete
+{
+	if reference0 == 0 //No new emails
+	{"\0\s[0]Ничего нового.\e"}
+	elseif reference0 < 100 //less than 100 new emails
+	{
+		
+		if reference7 != "" //Reference7 is the headers. If it's empty(if the user has headers off), no need to run this loop. I STRONGLY ENCOURAGE YOU not to run this loop for more than 100 headers, as it may cause severe amounts of lag/freezing. Also, that's a lot to scroll through.
+		{
+			_buff = reference7
+			_len = ARRAYSIZE(_buff)
+			headers = ""
+			_i = 0
+			while _i < _len //Runs through all the elements of the array
+			{
+				if "<" _in_ _buff[_i] && "@" _in_ _buff[_i] && "." _in_ _buff[_i] && ">" _in_ _buff[_i] //If it has an email address
+				{
+					if _i != 0; headers += "\n\n[half]" //Add line breaks
+					headers += "\![*]%(_buff[_i])" //Add a menu option and the header text
+				}
+				else //If it does not have an email address, it must be a particle
+				{
+					headers += ",%(_buff[_i])" //Add the text
+				}	
+				_i++
+			}
+		}
+		--
+		_s = ""; if reference0 != 1; _s = "s" //Plural check, adds an s if the number of emails is not 1
+		_новые = "новая"; if reference0 != 1; _новые = "новые"; _почти = "электронная почта"; if reference0 != 1; _почти = "электронные почти"
+		"\0\s[0]У тебя %(reference0) %(_новые) %(_почти)."
+		--
+		if reference7 != "" //Same as above, no need to ask if there are no headers
+		{
+			"\w8\w8 Хочешь поглядеть на header%(_s)?"
+			--
+			"\n\n\![*]\q[Да,OnSeeHeaders]\n\*\![*]\q[Нет,cancelnodialogue]"
+		}
+		--
+		"\e"
+	}
+	else //more than 100 new emails
+	{"\0\s[0]У тебя %(reference0) новые электронные почти! Ты не хочешь их читать...?"}
+}
+
+//Displaying the headers. No need to touch this other than changing the surface, or if you want to make the buttons different or something. Reference0 is the list of headers
+OnSeeHeaders
+{
+	"\0\s[0]\b2\_q%(headers)\*\n\n\![*]\q[Все,cancelnodialogue]"
+	--
+	headers = NULL //This erases the variable so you're not storing all those headers and bloating your save. Also, privacy reasons.
+}
+
+//Email checking failed
+//reference0 is the error returned
+OnBIFFFailure
+{
+	if reference0 == "timeout" //If the connection times out
+	{"\0\s[0]Связь истекшим временем ожидания.\e"}
+	elseif reference0 == "kick" //if the ghost can't get into the account. Gmail requires an app specific password to get in
+	{"\0\s[0]Я не могу войти в аккаунт.\e"}
+	elseif reference0 == "defect" //If info in the POP menu is wrong
+	{
+		"\0\s[0]Настройки POP неправильная. Пожалуйста, погляди на них ещё раз."
+		--
+		"\![open,configurationdialog,biff]\e"
+	}
+	elseif reference0 == "artificial" //As far as I can tell, artificial is if the user double clicks on the balloon to stop it
+	{"\0\s[0]Лучше нет?\e"}
+	else //Some other kind of error.
+	{"\0\s[0]Не могу войти.\w8\w8 Ошибка '%(reference0)'.\e"}
+}
+
+//----Network update---
+
+//When the ghost finishes checking for updates
+//reference0 is 'none' if there are no new files, and 'changed' if there are new files. reference1 is a list of the changed files, separated by commas
+OnUpdateCheckComplete 
+{
+	if reference0 == "none" //If there are no new files
+	{
+		AutoUpdates[1] = 1 //Sets it so it won't check again until at least midnight
+	}
+	else
+	{
+		AutoUpdates[1] = 2 //This makes it so the ghost will tell the user there's a new update next time they open their menu
+	}
+}
+
+//Starting to actually update
+OnUpdateBegin
+{
+	"\0\s[0]Так, обновить буду.\w8\w8\e"
+}
+
+//reference0 is the number of new files, starting from 0
+OnUpdateReady
+{
+	reference0++ //Number of files starts from 0, so this displays the correct amount
+	_s = ""; _is = "is"; if reference0 != 1; _s = "s"; _is = "are" //plural checks, adds an s and changes is to are if there's more than 1 file
+	_новые = "новый"; _файли = "файл"; if reference0 != 1; _новые = "новые"; _файли = "файли"
+	
+	"\0\s[0]Есть %(reference0) %(_новые) %(_файли).\w8\w8\e"
+}
+
+//When the update finishes. Don't forget to initialize any new variables you've created, more on that in Bootend.
+//reference0 is 'none' if there were no new files to update with, reference1 is a list of new file names, separated by commas
+OnUpdateComplete
+{
+	UpdateVars
+	AutoUpdates[1] = 0
+	if reference0 == "none"
+	{"\0\s[0]Ничего нового.\e"}
+	else
+	{
+		UpdateVars //Sets new variables upon a successful update. See the end of Bootend for an explanation on this.
+		
+		"\0\s[0]Все готово.\w6 Хочешь увидеть лог изменение?"
+		--
+		"\n\n\![*]\q[Да,OnChangeLog]\n\![*]\q[Нет,NoChangelog]\e"
+	}
+}
+
+//I've put this here so it's easier to remember to update the version number while you're updating the changelog. This will display on the ghost's menu. I made it an envelope so you can have it be the same across multiple menus for multiple modes, if you want.
+ghostver
+{"1.0.0"}
+
+//the autoscroll tag here means the user will see the changelog starting from the top. I recommend putting the new versions on top, and old versions under that.
+OnChangeLog
+{"\![open,file,changelog.txt] Тадам.\e"}
+Select.NoChangelog
+{"\0\s[0]Можешь увидеть позже.\e"}
+
+//Taken from the GT template because I see no reason to redo this and probably break it
+//reference0 is the file currently being downloaded
+OnUpdate.OnDownloadBegin
+{
+	"\0\s[0]\b2\_qЗагрузу %(reference0)...\n\n"
+	--
+	_Update_Progress = TOINT(reference1) + 1
+	_Update_Total = TOINT(reference2) + 1
+	Update_Remaining = _Update_Total - _Update_Progress
+
+	//defining starting points
+	_PointA = 1
+	_PointB = 1
+
+	//defining text buffers beforehand, otherwise they don't display right
+	_txt = ""
+
+	//loop calculates how many check boxes to display based on the variables above
+
+	while _PointA <= _Update_Progress
+	{
+		_txt += ">"
+		_PointA++
+	}
+	//see above except for blank boxes
+	while _PointB <= Update_Remaining
+	{
+		_txt += "<"
+		_PointB++
+	}
+	--
+	//using the text buffers to display the correct number of boxes
+	"%(_txt)\n\n%(_Update_Progress) с %(_Update_Total)"
+	--
+	//flavortext
+
+	/*if "aitalk" _in_ reference0 //this is checking to see what kind of files are being downloaded. In this case, it's looking for files called aitalk in the download queue. I prefer to leave these out because they can be a bit jarring.
+	{
+ 		"\n\nNew random dialogue!\w8"
+ 	}
+	elseif "mouse" _in_ reference0
+	{
+		"\n\nNew petting dialogue!\w8"
+	}
+	else //for files not specified above
+	{
+		""
+	}*/
+	--
+	"\e"
+} 
+
+//_remaining should be the number of the file that's giving the error, in the order they're being downloaded. currentfile will be the file path.
+OnUpdate.OnMD5CompareFailure
+{
+	_remaining = Update_Remaining + 1
+	_currentfile = SPLITPATH(reference0)[2] + SPLITPATH(reference0)[3] //This gets the name and extension of the offending file
+	"\0\s[0]Хеш значении MD5 не согласиться на файле %(_remaining) - '%(_currentfile)'.\w8\w8\e"
+}
+
+//reference0 is the reason the update failed
+OnUpdateFailure //If the update fails
+{
+	if reference0 == "timeout" //If it timed out
+	{"\0\s[0]Связь истекшим временем ожидания...\e"}
+	elseif reference0 == "md5 miss" //If the update files have not been uploaded correctly and don't match the updates2.dau
+	{
+		_currentfile = SPLITPATH(reference1)[2] + SPLITPATH(reference1)[3] //This gets the name and extension of the offending file
+		"\0\s[0]Хеш-значении MD5 не согласится друг друга.\w8\w8 Сообщить автором и расскажи ему, что файл '%(_currentfile)' даёт ошибок MD5.\e"
+	}
+	elseif reference0 == "artificial" //If the user cancels the update by double clicking the balloon
+	{"\0\s[0]Э? Измени%(л) мнение?\e"}
+	else //Any other errors
+	{"\0\s[0]Ошибок был:\w4 '%(reference0)'.\e"}
+}
+
+//Similar to above, but for if the ghost was just checking and not actually updating
+//reference0 is the reason the check failed
+OnUpdateCheckFailure
+{
+	if AutoUpdates[1] == 1; "\e" //Stops the dialogue from showing if it's an auto check
+	--
+	if reference0 == "timeout" //If it timed out
+	{"\0\s[0]Связь истекшим временем ожидания.\e"}
+	else
+	{"\0\s[0]Получил ошибку:\w4 '%(reference0)'.\e"}
+}
+
+//reference0 is the name of the site, reference1 is the url
+OnHeadlinesenseBegin
+{"\0\s[0]Открою %(reference0).\e"}
+
+//Taken from Zarla's GT template. Slightly modified because the top part was redundant as far as I could tell..?
+//reference0 is the site name, reference1 is the url, reference3 is the headlines
+OnHeadlinesense.OnFind
+{
+	_display = REPLACE(reference3,"\_a[","\![*]\_a[")
+ 	//---- Headlines
+	"\0\b2%(reference0):\n\n%(_display)\n"
+ 	--
+	//---- Pages
+ 	if reference2 == "First" || reference2 == "Next"
+	{
+ 		//---- Bottom buttons
+		"\![*]\q[Следующий,] - \![*]\q[Остановить,Headline_Cancel]\e"
+ 	}
+	else
+ 	{
+		//---- Bottom buttons
+ 		"\![*]\q[Остановить,Headline_Cancel]\e"
+ 	}
+}
+
+Select.Headline_Cancel
+{"\0\s[0]Окей, закрыто.\e"}
+
+//Looks like this happens if you view a headline and nothing has changed. I can only get RSS to work, so... I'll leave it here just in case.
+OnHeadlinesenseComplete 
+{"\0\s[0]Обновление сейчас нет.\e"}
+
+//reference0 is the reason it failed
+OnHeadlinesenseFailure
+{
+	"\0\s[0]Я не могу обновить. Потому что...\w8\w8 "
+	--
+	if reference0 == "can't download"
+	{"скачать нельзя.\e"}
+	elseif reference0 == "can't analyze"
+	{"анализировать нельзя.\e"}
+	else
+	{"это скажет '%(reference0)'.\e"}
+}
+
+//----Misc----
+
+//reference0 is the name of the server it's connecting to
+OnSNTPBegin
+{"\0\s[0]Хорошо, получу поглядеть на %(reference0).\w8\w8\e"}
+
+//Grabbed this from the GT template, don't see a reason to redo this
+//**** 미카 (http://homepage2.nifty.com/ko-ki/)의 사전을 참고했습니다．감사＞こ 나무 성
+//mika (url)ui sajeongeul jamgyoheossseubnida gamsa(japanese) namu seong
+//Above comment from the person who originally coded these functions
+//reference0 is the name of the server it's connecting to, reference1 is the server's time, reference2 is the computer's time, reference3 is the difference (in seconds)
+OnSNTPCompare
+{
+ 	"Время получил: %reference1[1]/%reference1[2]/%reference1[0] %reference1[3]:%reference1[4]:%reference1[5]\w2\n/
+	Твоя время: %reference2[1]/%reference2[2]/%reference2[0] %reference2[3]:%reference2[4]:%reference2[5]\w2\n\n"
+	--
+ 	if reference3 == 0 //if your clock is already accurate.
+	{"\s[0]Твои часы в порядке.\e"}
+ 	else //if your clock doesn't match
+	{
+		"\0\s[0]Твои часы сломал.\w8\nХочешь мне починить?"
+		--
+		"\n\n[half]/
+		\![*]\q[Да пж,OnSNTPExecute]\n/
+		\![*]\q[Это не так важно,OnSNTPCancel]\e" 
+	}
+}
+
+//The \6 is what actually changes the clock
+OnSNTPExecute
+{
+	"\6"
+	--
+	"\0\s[0]Так, чинил.\e"
+}
+
+OnSNTPCancel {"\0\s[0]Ну вот, ладно.\e"}
+
+//reference0 is the name of the SNTP server - Note that this may happen before any other STNP dialogue is said! Keep in mind when writing your dialogue that the user will not necessarily have clicked the yes button.
+OnSNTPFailure {"\0\s[0]Извините, что-то пошло не так.\e"}
+
+OnDisplayChange
+{
+	displaybpp = reference0
+ 	displaywidth = reference1
+	displayheight = reference2
+}
+
+//I've never gotten this to work but you can add it if you like
+OnScreenSaverEnd {"\0\s[0]О, здраствуй.\e"}
+
+//Usually at 20% battery or less
+//reference0 should be the exact percentage left
+//mine is always at 32 percent and i'm not sure why...
+OnBatteryLow {"\0\s[0]Зарядка низкая.\e"}
+
+//Usually at 5% battery or less
+//reference0 should be the exact percentage left
+OnBatteryCritical {"\0\s[0]Зарядка очень низкая, может ты хочешь сохранить...\e"}
+
+//reference0 is the new size, reference1 is the previous size. Sadly, you can't check for the Y scale.
+OnShellScaling
+{
+	nowscale = reference0
+	if reference0 == 100
+	{"\0\s[0]А, все норм.\e"}
+	elseif reference0 < 0 //If it's backwards
+	{"\0\s[0]Стороны назад...\w8\w8 И даже может вверх ногами.\e"}
+	elseif reference0 > reference1
+	{"М. Больше.\e"}
+	elseif reference0 < reference1
+	{"Меньше.\e"}
+}
+
+//Hotkeys. reference0 is the name of the key as displayed on the keycap. reference4, for SSP only, will have things like ctrl and alt, separated by commas.
+OnKeyPress
+{
+	case reference0
+	{
+		when "t" {OnAiTalk}
+		when "r" {OnLastTalk}
+		when "y" //Starts a commu dialogue with a random ghost
+		{"\![raise,OnStartTalking]"}
+		when "f1" {"\![open,readme]"}
+		when "f2"
+		{
+			if debug == 1
+			{OnTestVar}
+		}
+		when "c"
+		{
+			if debug == 1
+			{OnCommuPingMenu}
+		}
+	}
+}

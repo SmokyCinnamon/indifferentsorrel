@@ -1,0 +1,139 @@
+//-----Envelopes-----
+
+exampleenvelope
+{
+	"result 1"
+	"result 2"
+	"result 3"
+}
+
+песня {"Дайте мне белые крылья"; "Так говорил\ж2 когда-то и туман"; "И зажигать"; "Ни свой ни чужой"; "А я\, \ж4недотрога"; "Волки уходит в небесах"; "Умереть - ничего\, если выпить немного"; "Еду я на родину"; "Там живые могилы"; "Слушая наше дыхание"; "Я рисую на заборы цвети"; "Дом стоит\, \ж3свет горит"; "А там\ж3 темнота"; "Я сбитый летчик\ж4\, меня достали"; "Жаль\, что только Вера умерла"}
+
+папкаползь
+{
+	"start bar"; "папка Документы"; "папка Фотки"; "папка Музыка"; "папка Игры"
+}
+
+файл {"без названия"; "адаыаоыдоаыф"; "всдолвтс"; "лшсвстцтдылчвщстцушсцмт"; "фывапролджэ"; "зшстцвстц"; "безназвания"}
+
+типафайл
+{
+	".txt"; ".dic"; ".png"; ".jpg"; ".jpeg"; ".mp3"; ".exe"; ".bat"; ".cfg"; ".wav"; ".pdf"; ".dat"; ".gif"; ".tiff"; ".dll"; ".pna"; ".ico"
+	".dau"; ".zip"; ".nar"; ".html"; ".psd"; ".mp4"; ".ttf"; ".vim"; ".ogg"; ".mp3"; ".doc"; ".docx"; ".mkv"
+}
+
+//If you write all your envelopes as lowercase, you can send them through this function whenever you need the first letter capitalized! It'd look something like this: "%(Capitalize(exampleenvelope))"
+Capitalize
+{
+	_word = _argv[0] //Sets _word to the word the user sent
+	_buffer = SUBSTR(_word,0,1) //Storing the first character in _buffer
+	_word = ERASE(_word,0,1) //Erasing the first character from _word
+	_word = INSERT(_word,0,TOUPPER(_buffer)) //Making the character in _buffer uppercase and inserting it back into _word
+	_word //Returns the capitalized word
+}
+
+//-----Menu stuff-----
+season //Current season
+{
+	if hemisphere == "Южном"
+	{
+		if month > 2 && month < 6; "Осень"
+		elseif month > 5 && month < 9; "Зима"
+		elseif month > 8 && month < 12; "Весна"
+		else; "Лето"
+	}
+	else
+	{
+		if month > 2 && month < 6; "Весна"
+		elseif month > 5 && month < 9; "Лето"
+		elseif month > 8 && month < 12; "Осень"
+		else; "Зима"
+	}
+}
+
+nowhour //hour12 displays the hour like a 12 hour clock, except for 12 which is displayed as 0
+{if hour12 == 0; "12"; else; "%(hour12)"}
+
+nowmin //Adding a 0 to the minute if it's under 10
+{if minute < 10; "0%(minute)"; else; "%(minute)"}
+
+runmin //Same as above but with the runtime minutes
+{if runtime[1] < 10; "0%(runtime[1])"; else; "%(runtime[1])"}
+
+ap //AM or PM - ampm is 0 during am, and 1 during pm
+{if ampm == 0; "AM"; else; "PM"}
+
+wd //Abbreviated week day
+{if weekday == 0; "Вс"; elseif weekday == 1; "Пн"; elseif weekday == 2; "Вт"; elseif weekday == 3; "Ср"; elseif weekday == 4; "Чт"; elseif weekday == 5; "Пт"; else; "Сб"}
+
+nowday //Full week day
+{
+	_day = weekday
+	if _argv[0] == "next"
+	{
+		_day++
+		if _day > 6; _day = 0
+	}
+	if _argv[0] == "last"
+	{
+		_day--
+		if _day < 0; _day = 6
+	}
+	
+	if _day == 0; "Воскресенье"
+	elseif _day == 1; "Понедельник"
+	elseif _day == 2; "Вторник"
+	elseif _day == 3; "Среда"
+	elseif _day == 4; "Четверг"
+	elseif _day == 5; "Пятинца"
+	else; "Суббота"
+}
+
+nowmonth //The current month name
+{
+	_month = month
+	if _argv[0] == "next"
+	{
+		_month++
+		if _month > 12; _month = 1
+	}
+	if _argv[0] == "last"
+	{
+		_month--
+		if _month < 1; _month = 12
+	}
+	
+	if _month == 1; "Янаврь"
+	elseif _month == 2; "Февраль"
+	elseif _month == 3; "Март"
+	elseif _month == 4; "Апрель"
+	elseif _month == 5; "Май"
+	elseif _month == 6; "Июнь"
+	elseif _month == 7; "Июль"
+	elseif _month == 8; "Августь"
+	elseif _month == 9; "Сентябрь"
+	elseif _month == 10; "Октябрь"
+	elseif _month == 11; "Ноябрь"
+	else; "Декабрь"
+}
+
+leapyear //Checks if this is a leap year
+{
+	if year % 4 != 0; 0
+	elseif year % 100 != 0; 1
+	elseif year % 400 != 0; 0
+	else; 1
+}
+
+timeslot //From the GT template. Breaking down the day into a few distinct chunks so you dont have to add checks for every hour.
+{
+	if hour >= 5 && hour <= 8; "earlymorning" //5-8am
+	elseif hour >= 9 && hour <= 11; "morning" //9-11am
+	elseif hour >= 12 && hour <= 14; "lunch" //12-2pm
+	elseif hour >= 15 && hour <= 17; "afternoon" //3-5pm
+	elseif hour >= 18 && hour <= 20; "evening" //6-8pm
+	elseif hour >= 21 && hour <= 24; "latenight" //9pm-12am
+	else; "midnight" //1-4am
+}
+
+surface {"\s[11]";"\s[12]"}

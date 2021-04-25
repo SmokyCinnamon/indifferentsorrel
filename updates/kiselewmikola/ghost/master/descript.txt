@@ -1,0 +1,17 @@
+﻿charset,UTF-8
+
+name,Микола
+type,ghost
+
+sakura.name,Микола
+kero.name,ГРЯЗНЫЙ!!!
+
+craftman,Smoky
+craftmanw,Смоўкы
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+sstp.allowunspecifiedsend,0
+shiori,yaya.dll
+
+//icon,mikola.ico
+balloon,Heart 0 - Hope

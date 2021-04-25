@@ -1,0 +1,8 @@
+charset,UTF-8
+type,ghost
+
+name,„M„y„{„€„|„p
+directory,kiselewmikola
+
+//balloon.directory,x_template_balloon
+//Uncomment this and change the name if you add a balloon for your ghost to install! If you don't have a balloon to install, make sure this is commented or it'll make an empty directory for one anyways.

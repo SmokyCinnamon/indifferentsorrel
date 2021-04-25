@@ -1,0 +1,1 @@
+This is the readme for your shell! I'd put some links to your social medias and such in here.

@@ -1,0 +1,289 @@
+OnFirstBoot //Dialogue when you first open the ghost
+{
+	FirstBootVars //Initialize all your variables at the very bottom!
+	
+	if reference0 == 0 //Very first boot - this dialogue finishes over in nameteach.dic after the user gives their name, make sure you check there.
+	{
+		"\![enter,passivemode]\1\s[-1]\0\s[0]Здраствуй. Моя имя - Микола. А как у тебя?"
+	}
+	else //Reference0 is the number of times you've uninstalled the ghost, so this is if you're reinstalling them.
+	{
+		"\![enter,passivemode]\1\s[-1]\0\s[0]Мы не уже ли друг друга знаем? Э, ну ладно. Твоя имя, пожалуйста?"
+	}
+	--
+	"\![open,inputbox,OnNameTeach]\e"
+}
+
+OnBoot
+{
+	BootVars //This sets variables you want to be set on a normal boot, like resetting the runtime. Again, make sure you set these up at the bottom.
+	_timesince = FUNCTIONEX("time_check.dll","how_many_days",lastclosed[0],lastclosed[1],lastclosed[2],0,0,0)
+	_timesince *= -1 //Multiply it by -1 to get rid of the negative sign, or to add one if the user traveled back in time.
+	"\1\s[-1]"
+	--
+	if _timesince < 0 //If the user has changed their clock backwards
+	{
+		"\0\s[0]А что с времени? Ты и не бога. Время не ждет, даже и для тебя.\e"
+	}
+	elseif "%(month)/%(day)" == birthday[1] //If you want to write dates as DD/MM, feel free to swap this around. Also, feel free to add any other holidays you like here. Some ideas would be April Fools, Christmas, Halloween, your character's birthday, etc.
+	{
+		"\0\s[0]С днем, %(username)!\e"
+	}
+	elseif _timesince >= 90 //At least 3 months have passed. Feel free to nix this whole section if you don't want it.
+	{TimeBoot}
+	else
+	{NormalBoot}
+}
+
+TimeBoot //This will be called if it's been at least 3 months since you opened the ghost last.
+{
+	_timesince = FUNCTIONEX("time_check.dll","how_many_days",lastclosed[0],lastclosed[1],lastclosed[2],0,0,0)
+	_timesince *= -1
+	
+	//Add as many stages to this as you like. Just write the number of days you want. If you want this to happen earlier than 3 months, you can edit it in OnBoot.
+	if _timesince >= 365 //A year
+	{
+		"\0\s[0]Целый год прошёл, а ты где бы%(л)? Время всегда бегает.\e"
+	}
+	else
+	{
+		"\0\s[0]Вот и ты. Работа - так как всегда, если знать хочешь.\e"
+	}
+}
+
+NormalBoot
+{
+	//These brackets will have a 50% chance of being called unless you add more ifs below.
+	{
+		"\0\s[0]Привет %(username).\e"
+		"\0\s[0]Все как всегда.\e"
+	}
+	//---
+	if timeslot == "earlymorning"
+	{
+		"\0\s[0]Ты спа%(л)?\e"
+	}
+	if timeslot == "morning"
+	{
+		"\0\s[0]У меня есть работа. Но можно сидеть сюда. ...Спать.\e"
+	}
+	if timeslot == "lunch"
+	{
+		"\0\s[0]Ты уже обеда%(л)?\e"
+	}
+	if timeslot == "afternoon"
+	{
+		"\0\s[0]Ну у меня ж еще работа...\e"
+	}
+	if timeslot == "evening"
+	{
+		"\0\s[0]Добрый вечер.\e"
+	}
+	if timeslot == "latenight"
+	{
+		"\0\s[0]Я хотел спать...\e"
+	}
+	if timeslot == "midnight"
+	{
+		"\0\s[0]Ну что? А почему же ты не позволешь мужчина спать? Я устал.\e"
+	}
+}
+
+OnClose
+{
+	lastclosed = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)") //This tracks the last time the ghost was closed.
+	
+	if runtime[1] >= 5 || runtime[0] > 0 //If the ghost has been open longer than 5 minutes.
+	{
+		//These brackets will have a 50% chance of being called unless you add more ifs below.
+		{
+			"\0\s[0]Ну вот, до втречи."
+		}
+		if timeslot == "earlymorning"
+		{
+			"\0\s[0]Спишь, если надо."
+		}
+		if timeslot == "morning"
+		{
+			"\0\s[0]Я хожу в работу. До встречи."
+		}
+		if timeslot == "lunch"
+		{
+			"\0\s[0]Пока, я обед съесть."
+		}
+		if timeslot == "afternoon"
+		{
+			"\0\s[0]Тогда к работу."
+		}
+		if timeslot == "evening"
+		{
+			"\0\s[0]Почему бы не раньше? У меня работа есть."
+		}
+		if timeslot == "latenight"
+		{
+			"\0\s[0]Добрый вечер, пока."
+		}
+		if timeslot == "midnight"
+		{
+			"\0\s[0]Спокойной ночи."
+		}
+	}
+	else //If the ghost has been open less than 5 minutes.
+	{
+		"\0\s[0]Все? Э, хорошо. Пока."
+	}
+	--
+	"\w8\w8\-\e"
+}
+
+OnWindowStateRestore //When you bring the ghost back up after minimizing it.
+{
+	"\0\s[0]...Здравствуй.\e"
+}
+
+OnGhostChanging //Changing to another ghost.
+{
+	if reference0 == sakuraname //If reloading.
+	{
+		"\0\s[0]Что-то не так?"
+		--
+		"\w8\e" //Gives the user a moment to read the dialogue before they disappear
+	}
+	else
+	{
+		lastclosed = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)") //Same as above, tracks when they were last closed.
+		
+		"\0\s[0]Скорее всего, %(reference0) лучше чем меня. До встречи."
+		--
+		"\w8\e"
+	}
+}
+
+OnGhostChanged //After switching.
+{
+	"\1\s[-1]\0\s[0]"
+	--
+	if reference0 == sakuraname //Finished reloading.
+	{
+		"Я здесь.\e"
+		"\п(№0№)Приветик.\к"
+	}
+	else
+	{
+		BootVars
+		_timesince = FUNCTIONEX("time_check.dll","how_many_days",lastclosed[0],lastclosed[1],lastclosed[2],0,0,0)
+		_timesince *= -1
+		
+		if _timesince >= 90 //If it's been 3 months or more since you opened them, it'll do the 'wow it's been a long time' dialogue instead of switching dialogue. You can change this if you like!
+		{
+			TimeBoot
+		}
+		else
+		{
+			"Ты не бы хоте%(л) остаться с %(reference0)? Ладно, привет.\e"
+		}
+	}
+}
+
+OnShellChanging //Starting to change the shell
+{
+	"\![get,property,OnGetCoords,currentghost.scope(0).rect]" //This gets the current ghost coordinates so that they don't jump around the screen when they change shells
+	--
+	if reference0 == nowshell
+	{
+		"\0\s[0]Я это уже ношу."
+	}
+	elseif reference0 == "Default"
+	{
+		"\0\s[0]Хм, больше не буду особенный."
+	}
+	--
+	"\w8\w8\e"
+}
+
+OnShellChanged //After the shell has changed
+{
+	"\1\s[-1]\0\![move,--X=%(shellchange[0]),--Y=%(shellchange[1]),--base=primaryscreen]" //Moves the ghost to where they were on the previous shell. You might want to get rid of this if your shells are drastically different. This also has the tags to hide the kero, remove them if you want.
+	--
+	if reference0 == nowshell //If the user switches to the shell they're already using
+	{
+		"\0\s[0]Ничего не изменилась.\e"
+	}
+	elseif reference0 == "Default"
+	{
+		nowshell = "Default"
+		
+		"\0\s[0]Тадам! Все норм.\e"
+	}
+	else
+	{
+		nowshell = "Unknown Shell"
+		
+		"\0\s[0]Я не знаю, что это. Надеюсь, не слишком странно.\e"
+	}
+}
+
+OnGetCoords //This gets the x and y coordinates when changing shells
+{
+	shellchange[0] = reference0[0]
+	shellchange[1] = reference0[1]
+}
+
+//These are all the variables you want to set during a normal boot. So every time the ghost opens, we reset the timekeeping, whether the ghost has checked for updates, and if they've said anything yet.
+BootVars
+{
+	lastTalk = ""
+	runtime[0] = 0
+	runtime[1] = 0
+	runtime[2] = 0
+	AutoUpdates[1] = 0
+	booting = 0
+	waitingcommuS = IARRAY
+	waitingcommuM = IARRAY
+	keromode = "грязный!!!"
+}
+
+//These are new variables to initialize after an update. By checking if the variable doesn't exist before initializing it, we prevent variables already in use from being overwritten. This is VERY IMPORTANT, or you risk resetting the user's progress on your new variables every time they update.
+//ISVAR is a built in YAYA function that checks if a variable exists(is initialized) or not. It returns 0 if the variable doesn't exist, and 1 if it does.
+UpdateVars
+{
+	//if ISVAR("examplevariable") == 0; examplevariable = 0
+}
+
+//These are all the variables that need to be initialized when the user first installs the ghost.
+FirstBootVars
+{
+	lastTalk = ""
+	runtime[0] = 0		//Hours, replaces passhour
+	runtime[1] = 0		//Minutes, replaces passmin
+	runtime[2] = 0		//Seconds, replaces passsec
+	totalhours = 0		//Total number of hours the ghost has been run
+	nowshell = "Default" //Make sure to change this if you change your shell name
+	имя = "Пользователь"
+	birthday[0] = "???"	//The user's birthday, written out with words
+	birthday[1] = "???"	//The user's birthday, written in DD/MM format
+	talkrate = "каждый пять минут"
+	aitalkinterval = 300
+	totalpunches = 0
+	nowscale = 100		//Current scale, as a percentage
+	//---Petting related variables---
+	stroke[0] = 0		//The stroke value, which resets after each pet
+	stroke[1] = 0		//The stroke value, but it doesn't reset after each pet
+	stroke[2] = 0		//The current streak of successful pets
+	pethighscore[0] = 0	//The petting high score, as the number of the stroke value
+	pethighscore[1] = 0	//The petting high score, as the number of pets
+	totalpets = 0		//The total times the ghost has been pet
+	offscreen = IARRAY
+	//---
+	deleteshitai = "Выкл"
+	betaTester = "Выкл"
+	AutoUpdates = ("Вкл",0)
+	//nowmode = "Default" //Uncomment if you plan to add more modes
+	installdate = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)","%(ghostver)") //This tracks the exact day and time the ghost was installed, in case you want to mess around with that later. It also tracks what version the user installed, which may be helpful for debugging!
+	booting = 1 //This will be set to 0 after firstboot is complete
+	waitingcommuS = IARRAY //These two arrays handle the non-interrupt system for communication. They're for storing messages from other ghosts when your ghost is busy talking.
+	waitingcommuM = IARRAY
+	знакомство = 50
+	чистыевещи = 0
+	keromode = "грязный!!!"
+}

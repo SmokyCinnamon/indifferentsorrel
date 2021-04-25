@@ -4,7 +4,7 @@
 # ignore everything in updates except released ghosts:
 updates/*
 !updates/zhorakorzhev
-# !updates/kiselewmikola
+!updates/kiselewmikola
 
 # ignore these plugins
 wp-content/plugins/hello.php
@@ -15,6 +15,7 @@ wp-content/themes/twenty*/
 # ignore progress/dev stuff
 # remember to figure out what phiori stuff isn't needed.
 000_Dev Stuff/
+000_Dev_Stuff/
 profile/
 *yaya_variable.cfg
 *aya_variable.cfg
@@ -23,6 +24,7 @@ profile/
 style1.css
 unused.png
 unused2.png
+zzz_todo.dic
 
 # ignore the autosaves vim makes
 *.html~
