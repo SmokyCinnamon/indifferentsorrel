@@ -1,7 +1,7 @@
 charset,UTF-8
 type,ghost
 
-name,„M„y„{„€„|„p
+name,ÐœÐ¸ÐºÐ¾Ð»Ð°
 directory,kiselewmikola
 
 //balloon.directory,x_template_balloon

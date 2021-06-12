@@ -43,6 +43,7 @@ OnMenuRun //Main menu
 	"\n/
 	\![*]\q[Говорить,OnAiTalk]\n/
 	\![*]\q[Говорить с приведение,OnStartTalking]\n\n/
+	%*\__q[spawn]Я хочу кое-что зачистить\__в\н/
 	\![*]\q[Функции,OnFunctionMenu]\n\n/"
 	//\![*]\q[Мне грустно,OnSadMenu]\n\н"
 	--
@@ -60,7 +61,7 @@ OnMenuRun //Main menu
 	--
 	"\nВреся выполнения: %(runtime[0]):%(runmin)            Версия %(ghostver)\e"
 }
-
+Select.spawn {keromode = "грязный!!!"; "\1\s[random]\i[1]\e"}
 OnLastTalk //Repeats the last thing the ghost said
 {"%(lastTalk)\e"}
 

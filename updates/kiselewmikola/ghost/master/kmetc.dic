@@ -29,14 +29,14 @@ OnFileDrop2
 				--
 				"\![*]\q[По и центру рабочего стола,OnWallpaper,Center,%(reference0)]\n/
 				\![*]\q[На рабочий стол черепицей,OnWallpaper,Tile,%(reference0)]\n/
-				/*\![*]\q[Stretched,OnWallpaper,Stretch,%(reference0)]"
+				\![*]\q[Протянутый,OnWallpaper,Stretch,%(reference0)]"
 				--
 				if "Windows 10" _in_ NotifyOS //NotifyOS is set just below. The Span option is only available if you're on Win 10, so this means it won't display unless you're on Win 10
 				{
-					"\n\![*]\q[Spanned,OnWallpaper,Span,%(reference0)]"
+					"\n\![*]\q[Охватывающий,OnWallpaper,Span,%(reference0)]"
 				}
 				--
-				"*/\n\n\![*]\q[Нет\, пожалуйста,WallpaperCancel]\e"
+				"\n\n\![*]\q[Нет\, пожалуйста,WallpaperCancel]\e"
 			}
 		}
 		when ".mid", ".wav", ".mp3", ".wma", ".au", ".ogg", ".flac"
@@ -336,7 +336,7 @@ ghostver
 
 //the autoscroll tag here means the user will see the changelog starting from the top. I recommend putting the new versions on top, and old versions under that.
 OnChangeLog
-{"\![open,file,changelog.txt] Тадам.\e"}
+{"\![open,file,kmchangelog.txt] Тадам.\e"}
 Select.NoChangelog
 {"\0\s[0]Можешь увидеть позже.\e"}
 

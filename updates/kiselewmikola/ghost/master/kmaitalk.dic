@@ -340,7 +340,7 @@ achain
 
 OnMinuteChange
 {
-	if RAND(100) <= 5 {keromode = "грязный!!!"; "\1%(surface)\i[1]\к"}
+	if RAND(100) <= 5 {keromode = "грязный!!!"; "\1\s[random]\i[1]\к"}
 	if minute == 0 //Top of the hour notifications
 	{
 		if hour == 0

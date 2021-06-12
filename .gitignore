@@ -5,6 +5,8 @@
 updates/*
 !updates/zhorakorzhev
 !updates/kiselewmikola
+/nar
+nar/*
 
 # ignore these plugins
 wp-content/plugins/hello.php

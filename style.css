@@ -106,6 +106,12 @@ ul.tree-view,
   -webkit-font-smoothing: none;
   font-size: 14px;
 }
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
 
 h1 {
   font-size: 5rem;
