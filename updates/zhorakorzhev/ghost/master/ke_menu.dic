@@ -47,7 +47,8 @@ OnMenuRun //Main menu
 	"\n/
 	\![*]\q[Что-нибудь скажи,OnAiTalk]\n/
 	\![*]\q[Поговори с другого приведении,OnStartTalking]\n/
-	\![*]\q[Купить что-нибудь,OnItemMenu]\n\n/
+	\![*]\q[Купить что-нибудь,OnItemMenu]\n/
+	\![*]\q[Посмотри на инвентарь,OnInventory]\n\n/
 	\![*]\q[Функций,OnFunctionMenu]\n\н"
 	--
 	if debug == 1 //%(debug = 1) in script input to show the debug options
@@ -61,7 +62,9 @@ OnMenuRun //Main menu
 	--
 	"\![*]\q[...Даже\, ничего.,Cancel]\n\n"
 	--
-	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)"
+	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)\n"
+	--
+	"деньги: %(деньги)\н"
 	--
 	"\nВремя выполнения: %(runtime[0]):%(runmin)            Версия %(ghostver)\e"
 }
@@ -319,7 +322,12 @@ OnTestVar
 {
 	//MiscFlags = IARRAY
 	//кл = 0
-	"Это работает?\n %(MiscFlags)\e"
+	//"Это работает?\n %(MiscFlags)\e"
+	//деньги = 60
+	//items = IARRAY; it_muns = IARRAY
+	//items ,= ("лимон","яблочныйсок","сыр","хлеб","картошки","вода","молоко","вино","значок","дневник","цветы","лук","книга","любовь","ненависть")
+	//it_muns ,= (5,20,20,25,25,5,15,40,10,25,5,100,30,0,99999999)
+	//it_muns ,= (9999999999999999999999999999999999999999999999999999999999999999999999)
 }
 
 /*OnFancyDevOnlyStuff
@@ -360,11 +368,59 @@ OnKeroMenu
 
 OnItemMenu 
 {
-	"\0\s[0]\b[2]\_q\n/
+	/*"\0\s[0]\b[2]\_q\n/
 	Еда\n\__q[OnItemBuy,лимон,5]Лимон - 5р\__q  \__q[OnItemBuy,яблочныйсок,20]Яблочный сок - 20р\__q \__q[OnItemBuy,сыр,20]Сыр - 20р\__q\n/ 
 	\__q[OnItemBuy,хлеб,25]Хлеб - 25р\__q \__q[OnItemBuy,картошки,25]Картошки - 25р\__q\n/
 	Напитки\н\__q[OnItemBuy,вода,5]Вода - 5р\__q \__q[OnItemBuy,молоко,15]Молоко - 15р\__q \__q[OnItemBuy,вино,40]Вино - 40р\__q\н/
 	Вещи\н\__q[OnItemBuy,значок,10]Значок - 10р\__q \__q[OnItemBuy,дневник,25]Дневник - 25р\__q \__q[OnItemBuy,цветы,5]Цветы - 5р\__q \__q[OnItemBuy,лук,100]Лук - 100р\__q \__q[OnItemBuy,книга,30]Книга - 30р\__q\н/
-	\__q[OnItemBuy,любовь,0]Любовь - 0р\__q \q[Ненависть - 9999999999999999999999999999999999999999999999999999999999999999999999р,OnItemBuy,9999999999999999999999999999999999999999999999999999999999999999999999]\н/
-	\![*]\q[К меню,OnMenuRun]\к"
+	\__q[OnItemBuy,любовь,0]Любовь - 0р\__q \q[Ненависть - 9999999999999999999999999999999999999999999999999999999999999999999999р,OnItemBuy,Ненависть,9999999999999999999999999999999999999999999999999999999999999999999999]\н/
+	\![*]\q[К меню,OnMenuRun]\к"*/
+
+	_display = "" //Initialize a local variable to hold the display
+
+	for _i = 0; _i < ARRAYSIZE(items); _i++ //Loop through every element of the array
+	{
+		_display += "%*\__q[OnItemBuy,%(items[_i]),%(it_muns[_i])]%(items[_i]) - %(it_muns[_i])р\__q | " //Add the current element to a string, with a linebreak afterwards
+	}
+	"\0\s[0]\b[2]\_q%(_display)\n\n\n[half]/
+	%(деньги)р \![*]\q[К меню,OnMenuRun]\x\к"
+
+}
+
+OnInventory {
+	_display = "" //Initialize a local variable to hold the display
+
+	for _i = 0; _i < ARRAYSIZE(инвентарь); _i++ //Loop through every element of the array
+	{
+		_display += "\__q[OnSomething,%(инвентарь[_i])]%(инвентарь[_i])\__q | " //Add the current element to a string, with a linebreak afterwards
+	}
+	"\0\s[0]\_q%(_display)\n\n\n[half]/
+	%*\__q[OnClearAll]Бросить все\__q %*\__q[OnClearOne]Бросить что-то\__q\n/
+	\![*]\q[К меню,OnMenuRun]\x\к"
+}
+
+OnSomething {
+	"\C\nЭто %(reference0)!\e"
+}
+
+OnClearAll {
+	инвентарь = IARRAY
+}
+
+OnClearOne {
+	_display = "" //Initialize a local variable to hold the display
+
+	for _i = 0; _i < ARRAYSIZE(инвентарь); _i++ //Loop through every element of the array
+	{
+		_display += "%*\__q[OnClear,%(_i)]%(инвентарь[_i])\__q | " //Add the current element to a string, with a linebreak afterwards
+	}
+	"\0\s[0]\_q%(_display)\n\n\n[half]/
+	%*\__q[OnInventory]Назад\__q\n/
+	\![*]\q[К меню,OnMenuRun]\x\к"
+}
+
+OnClear {
+	инвентарь[reference0] = IARRAY
+	--
+	OnClearOne
 }

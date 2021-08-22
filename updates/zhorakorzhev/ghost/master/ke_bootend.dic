@@ -28,6 +28,7 @@ OnBoot //Normal booting
 	elseif "%(month)/%(day)" == birthday[1] //If you want to write dates as DD/MM, feel free to swap this around. Also, feel free to add any other holidays you like here. Some ideas would be April Fools, Christmas, Halloween, your character's birthday, etc.
 	{
 		"\0\s[0]Привет %(имя), с днём!\ж4...Рождения!\e"
+		"\0\s[0]ААА с днем рождения, %(имя)!!! Отличный день, считаю.\к"
 	}
 	elseif _timesince >= 90 //At least 3 months have passed. Feel free to nix this whole section if you don't want it.
 	{
@@ -47,11 +48,11 @@ TimeBoot //This will be called if it's been at least 3 months since you opened t
 	//Add as many stages to this as you like. Just write the number of days you want. If you want this to happen earlier than 3 months, you can edit it in OnBoot.
 	if _timesince >= 365 //A year
 	{
-		"\0\s[0]It's been a year since you opened me last!\e"
+		"\0\s[0]Где ты бы%(л)? Я так же сосекчился!\e"
 	}
 	else
 	{
-		"\0\s[0]It's been at least 3 months since you opened me last!\e"
+		"\0\s[0]Ой, приветик! Давно не виделись!\e"
 	}
 }
 
@@ -297,4 +298,6 @@ FirstBootVars
 	waitingcommuS = IARRAY //These two arrays handle the non-interrupt system for communication. They're for storing messages from other ghosts when your ghost is busy talking.
 	waitingcommuM = IARRAY
 	MiscFlags = IARRAY
+	items = ("лимон","яблочный сок","сыр","хлеб","картошки","вода","молоко","вино","значок","дневник","цветы","лук","книга","любовь","ненависть")
+	it_muns = (5,20,20,25,25,5,15,40,10,25,5,100,30,0,99999999)
 }

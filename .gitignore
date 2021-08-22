@@ -34,3 +34,7 @@ zzz_todo.dic
 *.dic~
 *.txt~
 *.un~
+*.*~
+
+# you know what this is
+aaaaaaaaaa.txt

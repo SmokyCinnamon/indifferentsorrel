@@ -25,6 +25,7 @@ exampleenvelope
 	".pna"; ".ico"; ".dau"; ".zip"; ".nar"; ".html"; ".psd"; ".mp4"; ".ttf"
 }
 
+
 //If you write all your envelopes as lowercase, you can send them through this function whenever you need the first letter capitalized! It'd look something like this: "%(Capitalize(exampleenvelope))"
 Capitalize
 {

@@ -66,7 +66,14 @@
   --border-field: inset -1px -1px var(--button-highlight),
     inset 1px 1px var(--button-shadow), inset -2px -2px var(--button-face),
     inset 2px 2px var(--window-frame);
-}
+
+      /* Tabs */
+  --border-tab: inset -1px 0 var(--window-frame),
+    inset 1px 1px var(--button-face),
+    inset -2px 0 var(--button-shadow),
+    inset 2px 2px var(--button-highlight)
+
+ }
 
 @font-face {
   font-family: "Pixelated MS Sans Serif";
@@ -221,26 +228,26 @@ button::-moz-focus-inner {
 }
 
 .title-bar-controls button[aria-label="Minimize"] {
-  background-image: svg-load("./icon/minimize.svg");
+  background-image: url("./icon/minimize.svg");
   background-repeat: no-repeat;
   background-position: bottom 3px left 4px;
 }
 
 .title-bar-controls button[aria-label="Maximize"] {
-  background-image: svg-load("./icon/maximize.svg");
+  background-image: url("./icon/maximize.svg");
   background-repeat: no-repeat;
   background-position: top 2px left 3px;
 }
 
 .title-bar-controls button[aria-label="Help"] {
-  background-image: svg-load("./icon/help.svg");
+  background-image: url("./icon/help.svg");
   background-repeat: no-repeat;
   background-position: top 2px left 5px;
 }
 
 .title-bar-controls button[aria-label="Close"] {
   margin-left: 2px;
-  background-image: svg-load("./icon/close.svg");
+  background-image: url("./icon/close.svg");
   background-repeat: no-repeat;
   background-position: top 3px left 4px;
 }
@@ -319,11 +326,11 @@ input[type="radio"] + label::before {
   width: var(--radio-width);
   height: var(--radio-width);
   margin-right: var(--radio-label-spacing);
-  background: svg-load("./icon/radio-border.svg");
+  background: url("./icon/radio-border.svg");
 }
 
 input[type="radio"]:active + label::before {
-  background: svg-load("./icon/radio-border-disabled.svg");
+  background: url("./icon/radio-border-disabled.svg");
 }
 
 input[type="radio"]:checked + label::after {
@@ -334,7 +341,7 @@ input[type="radio"]:checked + label::after {
   top: var(--radio-dot-top);
   left: var(--radio-dot-left);
   position: absolute;
-  background: svg-load("./icon/radio-dot.svg");
+  background: url("./icon/radio-dot.svg");
 }
 
 input[type="radio"]:focus + label,
@@ -343,11 +350,11 @@ input[type="checkbox"]:focus + label {
 }
 
 input[type="radio"][disabled] + label::before {
-  background: svg-load("./icon/radio-border-disabled.svg");
+  background: url("./icon/radio-border-disabled.svg");
 }
 
 input[type="radio"][disabled]:checked + label::after {
-  background: svg-load("./icon/radio-dot-disabled.svg");
+  background: url("./icon/radio-dot-disabled.svg");
 }
 
 input[type="checkbox"] + label {
@@ -381,7 +388,7 @@ input[type="checkbox"]:checked + label::after {
   left: calc(
     -1 * (var(--checkbox-total-width-precalc)) + var(--checkmark-left)
   );
-  background: svg-load("./icon/checkmark.svg");
+  background: url("./icon/checkmark.svg");
 }
 
 input[type="checkbox"][disabled] + label::before {
@@ -389,7 +396,7 @@ input[type="checkbox"][disabled] + label::before {
 }
 
 input[type="checkbox"][disabled]:checked + label::after {
-  background: svg-load("./icon/checkmark-disabled.svg");
+  background: url("./icon/checkmark-disabled.svg");
 }
 
 input[type="text"],
@@ -428,7 +435,7 @@ select {
   -moz-appearance: none;
   position: relative;
   padding-right: 32px;
-  background-image: svg-load("./icon/button-down.svg");
+  background-image: url("./icon/button-down.svg");
   background-position: top 2px right 2px;
   background-repeat: no-repeat;
   border-radius: 0;
@@ -456,12 +463,12 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 21px;
   width: 11px;
-  background: svg-load("./icon/indicator-horizontal.svg");
+  background: url("./icon/indicator-horizontal.svg");
   transform: translateY(-8px);
 }
 
 input[type=range].has-box-indicator::-webkit-slider-thumb {
-  background: svg-load("./icon/indicator-rectangle-horizontal.svg");
+  background: url("./icon/indicator-rectangle-horizontal.svg");
   transform: translateY(-10px);
 }
 
@@ -470,12 +477,12 @@ input[type=range]::-moz-range-thumb {
   width: 11px;
   border: 0;
   border-radius: 0;
-  background: svg-load("./icon/indicator-horizontal.svg");
+  background: url("./icon/indicator-horizontal.svg");
   transform: translateY(2px);
 }
 
 input[type=range].has-box-indicator::-moz-range-thumb {
-  background: svg-load("./icon/indicator-rectangle-horizontal.svg");
+  background: url("./icon/indicator-rectangle-horizontal.svg");
   transform: translateY(0px);
 }
 
@@ -586,7 +593,7 @@ select:focus option {
 }
 
 select:active {
-  background-image: svg-load("./icon/button-down-active.svg");
+  background-image: url("./icon/button-down-active.svg");
 }
 
 a {
@@ -717,7 +724,7 @@ summary:focus {
 }
 
 ::-webkit-scrollbar-track {
-  background-image: svg-load("./icon/scrollbar-background.svg");
+  background-image: url("./icon/scrollbar-background.svg");
 }
 
 ::-webkit-scrollbar-thumb {
@@ -734,110 +741,95 @@ summary:focus {
 
 ::-webkit-scrollbar-button:vertical:start {
   height: 17px;
-  background-image: svg-load("./icon/button-up.svg");
+  background-image: url("./icon/button-up.svg");
 }
 ::-webkit-scrollbar-button:vertical:end {
   height: 17px;
-  background-image: svg-load("./icon/button-down.svg");
+  background-image: url("./icon/button-down.svg");
 }
 ::-webkit-scrollbar-button:horizontal:start {
   width: 16px;
-  background-image: svg-load("./icon/button-left.svg");
+  background-image: url("./icon/button-left.svg");
 }
 ::-webkit-scrollbar-button:horizontal:end {
   width: 16px;
-  background-image: svg-load("./icon/button-right.svg");
+  background-image: url("./icon/button-right.svg");
 }
 
-article
-{
-    background: #beb8ff; /*This is the white boxes that the text is in. You can change this to anything you like*/
-    border-radius: 5px;
-    margin-top: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px;
+.window[role=tabpanel] {
+  position: relative;
+  z-index: 2;
 }
 
-footer
-{
-    margin-top: 5px;
-    margin-left: 5%;
-    margin-right: 5%;
-    background: #f0f0f0;
-    padding: 5px;
-    border-radius: 5px;
-    text-align: center;
+menu[role=tablist] {
+  position: relative;
+  margin: 0 0 -2px 0;
+  text-indent: 0;
+  list-style-type: none;
+  display: flex;
+  padding-left: 3px;
 }
 
-a
-{
-    color: #4b25c9; /*This is the color for links, such as the download link*/
-    text-decoration: Underline;
-    font-weight: bold;
+menu[role=tablist] > li {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: var(--border-tab);
+  z-index: 1;
 }
 
-/*Class for centering images*/
-.center
-{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 100%;
-    height: auto;
-    /*border-radius: 5px; If you want your images to be perfectly square, remove the border-radius bit*/
-}
-.right
-{
-    display: block;
-    margin-left: 75%;
-    margin-right: auto;
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px; /*If you want your images to be perfectly square, remove the border-radius bit*/
+menu[role=tablist] > li[aria-selected=true] {
+  padding-bottom: 2px;
+  margin-top: -2px;
+  background-color: var(--surface);
+  position: relative;
+  z-index: 8;
+  margin-left: -3px;
 }
 
-/*Classes for the download button*/
-.dlbutton
-{
-    display: block;
-    text-align: center;
-    padding: 10px;
-    background-color: #a098f4;
-    max-width: 35%;
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: auto;
+menu[role=tablist] > li > a {
+  display: block;
+  color: #222;
+  margin: 6px;
+  text-decoration: none;
+}
+menu[role=tablist] > li[aria-selected=true] > a:focus {
+  outline: none;
+}
+menu[role=tablist] > li > a:focus {
+  outline: 1px dotted #222;
 }
 
-.dlbutton:hover
-{
-    background-color: #857ddb;
+menu[role=tablist].multirows > li {
+  flex-grow: 1;
+  text-align: center;
 }
 
-/*This is for the webring, but you could use it for any center aligned text*/
-.centertext
-{
-	text-align: center;
+/*collapsible*/
+ /* Style the button that is used to open and close the collapsible content */
+.collapsible {
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+
+  box-sizing: border-box;
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  border-radius: 0;
+
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
 }
 
-.version
-{
-    margin-left: 20%;
-    margin-right: 20%;
-    padding: 10px;
-    text-align: center;
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+  background-color: var(--surface);
 }
 
-.version:hover
-{
-    background: #a098f4; /*If you dont want your version history to change color when you hover over it, remove this bit of code*/
-    border-radius: 5px;
-}
-
-.credit /*Please leave this credit as-is if you use the template as given! If you start making major changes, you can go ahead and get rid of it tbh. Everything I've done here is very basic HTML/CSS*/
-{
-    text-align: center;
-    color: #a4a4a4;
-    font-size: 12px;
+/* Style the collapsible content. Note: hidden by default */
+.content {
+  display: none;
+  overflow: hidden;
+  background-color: var(--surface);
 }

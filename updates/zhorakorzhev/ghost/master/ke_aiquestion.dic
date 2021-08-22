@@ -7,10 +7,18 @@ elseif reference0 == "ешьменьше" {if Flag("сказали не нуже
 else {}}
 
 OnItemBuy {
-	if reference1 <= moneywhatever {
-		moneywhatever -= reference1
+	if reference1 <= деньги {
+		деньги -= reference1
+		инвентарь ,= reference0
 		--
-		if reference0 == "лимон" {"Эээ... ну, вот твой лимон. Приятного аппетита\ж4...?\к"}
-		else {}}
-	else {"%(reference0) стоит %(reference1)... у тебя мало денег. (%(moneywhatever).)\к"}
+		case reference0 {
+			//when "" {"\_q\_q\x"}
+			when "лимон" {"Эээ... ну, вот твой лимон. Приятного аппетита\ж4...?\x"}
+			when "ненависть" {"Чаму бы...?\ж4 Ладно. Вот оно.\-"}
+			when "любовь" {"\_qА! Дорог%(ой) м%(ой) %(друг), я тебя сильно люблю!\н(Как %(друг), э... если бы сначала это не совсем видно.)\_q\x"}
+			others {"\_qВот %(reference0). Надеюсь, тебе понравится?\_q\x"}}
+		}
+	else {"\_q%(reference0) стоит %(reference1)... у тебя мало денег. (%(деньги)р.)\_q\x\к"}
+	--
+	OnItemMenu
 }

@@ -35,6 +35,31 @@ OnFileDrop2
 		{
 			"\0\s[0]Музыка...\e"
 		}
+		when ".prnoun"
+		{
+			"А что это? Мы неужели друг друга знаем?\н Ну... что хочешь делать?\e"
+			--
+			//"hgdfhgseyfgeyfgyfg"
+			//"[^"^\n]+"
+			//FOPEN(reference0,'r')
+			_file = "/var/aaaaaaaaaa.txt"
+			_f = FOPEN(_file,'w') //opening file in write mode
+			LOGGING("file opened: %(_f)")
+			_f = FOPEN(reference0,'r') //opening the dropped one
+			LOGGING("file opened: %(_f)")  
+			for _buff = FREAD(reference0); _buff != -1; _buff = FREAD(reference0)
+			{
+				if RE_GREP(_buff,'"[^"^\n]+"')
+				{
+					//"
+					//LOGGING("%(RE_GETSTR)")
+					_towrite = RE_GETSTR
+					FWRITE(_file,"    f %(_towrite[0])")
+					if _towrite[1] != "" {FWRITE(_file,"    f %(_towrite[1])")}}
+			}
+			_f = FCLOSE(_file)
+			_f = FCLOSE(reference0)
+		}
 		others
 		{
 			if _fileext == "" //If it's a folder. Using \_? lets you display the slashes and such in dialogue, but you have to toggle it off after you no longer need it

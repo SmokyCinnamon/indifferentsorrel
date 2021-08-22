@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiselew Mikola</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style1.css" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
     <meta property="og:type" content="website"/>
@@ -17,65 +18,95 @@
  <div class="window">
 	 <div class="title-bar">
         <div class="title-bar-text">Kiselew Mikola</div>
+	<div class="title-bar-controls">
+		<button aria-label="Minimize"/></button>
+		<button aria-label="Maximize"/></button>
+		<button aria-label="Close"></button>
 	 </div>
-	 <ul class="tree-view">
+	 </div>
         <br>
         <button class=center><a href="https://github.com/SmokyCinnamon/indifferentsorrel/releases/">Скачать последный .nar здесь!</a></button>
+	<br>
+	<ul class="tree-view">
                 <p>Mikola is a tired janitor. They will sit around and maybe complain about things. Watch out for dirty objects...</p>
                 <p>Микола -- белорусский уборщик, который всегда устали. Они сидеть на твоём рабочем столе, и иногда пожаловаться о тот или другой. Остерегайтесь на грязные вещи...</p>
                 <br>
 	 </ul>
+	 <div class="status-bar">
+		 <p class="status-bar-field">чистое место</p>
+	 </div>
  </div>
     <div class="window">
 	    <div class="title-bar inactive">
             <div class="title-bar-text">История Версия</div>
             <div class="title-bar-controls">
+		<button aria-label="Minimize"/></button>
+		<button aria-label="Maximize"/></button>
 		<button aria-label="Close"></button>
 	    </div>
         </div>
-	    <ul class="tree-view">
-		<select>
-		<option>1.0.1</option>
-		<option>1.0.0</option>
-		</select>
-
 		<div class="version">
-            <b>=====1.0.1=====</b>
+			<button class="collapsible"><b>=====1.0.1=====</b></button>
+	    <ul class="tree-view">
             <br>
                         (12/6/21)
             <ul>
                 <li>- Нуууу я не помню, все что я делал...<br>- теперь можно поместить фотки на рабочем столе в охвативающий режим<br>- новые вещи, которые ты можешь почистить.<br>- если какие-нибудь ошибки были, они, наверное, не существуют. Я надеюсь.<br>- это все! Почему-то.</li>
             </ul>
             <br>
+	    </ul>
         </div>
         <div class="version">
-            <b>=====1.0.0=====</b>
+		<button type="button" class="collapsible"><b>=====1.0.0=====</b></button>
+		<div class="content"><ul class="tree-view">
             <br>
                         (4/25/21)
             <ul>
                 <li>Гоуст Джем закончилась, а я это выступале.</li>
-            </ul>
+		</div></ul>
             <br>
         </div>
-	    </ul>
+		</ul>
     </div>
     </div>
     <div class="window">
 	    <div class="title-bar">
 		    <div class="title-bar-text">Nav</div>
 	    </div>
-	    <div class="window-body">
-	    <button><a href="https://smokycinnamon.github.io/indifferentsorrel/index.html">Main</a></button>
-	    <button><a href="https://smokycinnamon/github/io/indifferentsorrel/korzhev/html">Коржев Жора</button> <button><a href="https://vk.com/ukagaka">Группа на Вк</a></button> <button disabled>Кіселеў Мікола</button>
-	    </div>
-    </div>
- <footer>
-        More from the Dev<br>
-        <a href="https://smokycinnamonroll.tumblr.com/">Tumblr</a> |
-        <a href="https://toyhou.se/smokycinnamonroll">Toyhouse</a>
-        <br>
-        <!--Please leave this credit as-is if you use the template as given! If you start making major changes, you can go ahead and get rid of it tbh. Everything I've done here is very basic HTML/CSS-->
-        <a href="https://zichqec.github.io/s-the-skeleton/index.html" class="credit">HTML template by Zichqec</a>
-    </footer>
+		    <p class="centertext"><button disabled>Main</a></button>
+            <button><a href="https://smokycinnamon.github.io/indifferentsorrel/korzhev.html">Коржев Жора</a></button> <button><a href="https://vk.com/ukagaka">Группа на Вк</a></button> <button><a href="https://smokycinnamon.github.io/indifferentsorrel/kiselew.html">Кіселеў Мікола</a></button></p>
+  </div>
+    <div class="window">
+	<div class="title-bar">
+    <div class="title-bar-text">More from the Dev</div> 
+	</div>
+	<div class="window-body">
+	<ul>
+		<button><a href="https://smokycinnamonroll.tumblr.com/">Tumblr</a></button> |  
+		<button><a href="https://toyhou.se/smokycinnamonroll">Toyhouse</a></button>
+		</ul>
+		</div>
+		<div class="status-bar"> <p class="status-bar-field">Credit: <a href="https://jdan.github.io/98.css/">98.css from jdan on github</a></p>
+			<p class="status-bar-field"></p>
+		</div>
+	</div>
+
+<script>
+			var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+		</script>
+
 </body>
 </html>

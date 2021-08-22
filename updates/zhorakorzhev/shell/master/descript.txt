@@ -65,3 +65,7 @@ sakura.bindgroup450.default,1
 //hoodie vest
 sakura.bindgroup200.name,Outfit,Hoodie Vest
 sakura.bindgroup200.default,1
+
+sakura.bindoption0.group,Hair,mustselect
+sakura.bindoption1.group,Hair(Back),mustselect
+sakura.bindoption2.group,Outfit,mustselect

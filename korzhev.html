@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Korzhev Jora</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style1.css" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
     <meta property="og:type" content="website"/>
@@ -18,10 +19,11 @@
 	 <div class="title-bar">
         <div class="title-bar-text">Korzhev Zhora</div>
 	 </div>
-	 <ul class="tree-view">
         <img src="img/Korzhev.png" alt="[ID] An ms-paint-esque pixel drawing of Zhora Korzhev, a blond-haired white person with blue eyes. He is sitting cross-legged and smiling. [End ID]" width="151" height="216" class="center">
         <br>
-        <button class=center><a href="https://github.com/SmokyCinnamon/indifferentsorrel/releases/">Скачать последный .nar здесь!</a></button>
+	<button class=center><a href="https://github.com/SmokyCinnamon/indifferentsorrel/releases/">Скачать последный .nar здесь!</a></button>
+	<p></p>
+	<ul class="tree-view">
                 <p>ВНИМАНИЕ! Он говорит о рпп, и иногда тоже о сэлфхарм, так что будь острожен. Берегите себя <img src="img/pheart.png" alt="[ID] Маленькое фиолетовое пиксел сердце[End ID]" width="17" height="16"></p>
                 <p>Korzhev Egor: Now on a computer near you. He is in russian and i'm afraid if i translate him suddenly i won't make much more strictly russian content. so he's only in russian. no plans for translation.</p>
                 <p>Это мой приведение Коржев Жора. Он ещё в бета. Я не русский, поэтому у него будет много ощибок. Я не думаю что это большая проблема.</p>
@@ -36,50 +38,68 @@
 		<button aria-label="Close"></button>
 	    </div>
         </div>
-	    <ul class="tree-view">
-		<select>
-		<option>1.0.1</option>
-		<option>1.0.0</option>
-		</select>
         <div class="version">
-            <b>---1.0.1---</b>
+		<button class="collapsible"><b>---1.0.1---</b></button>
+		<div class="content"><ul class="tree-view">
             <br>
                         (8/20/20)
             <ul>
                     <li>Placeholder</li>
                 <li>Ого ты думали что я ничего не писале в руссеом русском языке! Но просто посмотри на этот текст! ...я не знаю что больше писать. Пока.</li>
-            </ul>
+	    </ul></ul>
+		</div>
             <br>
         </div>
 
         <div class="version">
-            <b>=====1.0.0=====</b>
-            <br>
+		<button class="collapsible"><b>---1.0.0---</b></button>
+		<ul class="tree-view">
                         (8/1/20)
             <ul>
                 <li>Мы здесь! А это значит, что я много писал по-русский! Наверное это очень плохо.</li>
-            </ul>
+	    </ul></ul>
             <br>
         </div>
-	    </ul>
     </div>
     </div>
     <div class="window">
 	    <div class="title-bar">
 		    <div class="title-bar-text">Nav</div>
 	    </div>
-	    <div class="window-body">
-	    <button><a href="https://smokycinnamon.github.io/indifferentsorrel/index.html">Main</a></button>
-	    <button disabled>Коржев Жора</button>
-	    </div>
-    </div>
- <footer>
-        More from the Dev<br>
-        <a href="https://smokycinnamonroll.tumblr.com/">Tumblr</a> |
-        <a href="https://toyhou.se/smokycinnamonroll">Toyhouse</a>
-        <br>
-        <!--Please leave this credit as-is if you use the template as given! If you start making major changes, you can go ahead and get rid of it tbh. Everything I've done here is very basic HTML/CSS-->
-        <a href="https://zichqec.github.io/s-the-skeleton/index.html" class="credit">HTML template by Zichqec</a>
-    </footer>
+		    <p class="centertext"><button disabled>Main</a></button>
+            <button><a href="https://smokycinnamon.github.io/indifferentsorrel/korzhev.html">Коржев Жора</a></button> <button><a href="https://vk.com/ukagaka">Группа на Вк</a></button> <button><a href="https://smokycinnamon.github.io/indifferentsorrel/kiselew.html">Кіселеў Мікола</a></button></p>
+  </div>
+    <div class="window">
+	<div class="title-bar">
+    <div class="title-bar-text">More from the Dev</div> 
+	</div>
+	<div class="window-body">
+	<ul>
+		<button><a href="https://smokycinnamonroll.tumblr.com/">Tumblr</a></button> |  
+		<button><a href="https://toyhou.se/smokycinnamonroll">Toyhouse</a></button>
+		</ul>
+		</div>
+		<div class="status-bar"> <p class="status-bar-field">Credit: <a href="https://jdan.github.io/98.css/">98.css from jdan on github</a></p>
+			<p class="status-bar-field"></p>
+		</div>
+	</div>
+
+<script>
+			var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+		</script>
+
 </body>
 </html>

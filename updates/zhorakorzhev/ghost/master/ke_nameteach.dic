@@ -72,6 +72,10 @@ OnPronouns
 		нём = "нём"//предложный падеж
 		л = "л"
 		лся = "лся"
+		друг = "друг"
+		ой = "ой"
+		ий = "ий"
+		ый = "ый"
 	}
 	//nominative, genetive, dative, accusative, instrumental and prepositional
 	elseif reference0 == "fem"
@@ -86,6 +90,10 @@ OnPronouns
 		нём = "ней"//предложный падеж
 		л = "ла"
 		лся = "лась"
+		друг = "друг"
+		ой = "ая"
+		ий = "ая"
+		ый = "ая"
 	}
 	else
 	{
@@ -99,7 +107,10 @@ OnPronouns
 		нём = "них"//предложный падеж
 		л = "ли"
 		лся = "лись"
-		
+		друг = "друг"
+		ой = "ой"
+		ий = "ие"
+		ый = "ые"
 	}
 	--
 	if booting == 1 //This is the end of the firstboot dialogue

@@ -18,9 +18,9 @@ surface0
 	animation402.interval,bind
 	animation402.pattern0,add,402,0,0,0
 	animation401.interval,bind
-	animation401.pattern0,add,401,0,0,0
+	animation401.pattern0,interpolate,401,0,0,0
 	animation403.interval,bind
-	animation403.pattern0,add,403,0,0,0
+	animation403.pattern0,interpolate,403,0,0,0
 	//sunglasses
 	animation450.interval,bind
 	animation450.pattern0,add,450,0,0,0
