@@ -1,0 +1,427 @@
+OnLessonCheck {
+	_aaa = FENUM('lessons\default')
+	for _i = 0; _i < ARRAYSIZE(_aaa); _i ++ {
+	_file = "\lessons\default\%(_aaa[_i])"
+	_filename = ERASE(_aaa[_i],-4,4)
+	if ASEARCH(_filename,inbuiltlessonname) == -1 {inbuiltlessonname ,= _filename}
+	LOGGING("%(_file) %(_filename)")
+	--
+	FOPEN(_file,'r'); _buff = ""
+	FCHARSET(1)
+	LOGGING("File opened: %(_f) reference: %(reference0)")
+	for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+		LOGGING("AAAfileopenAAA")
+		if RE_SEARCH(_buff,'skill_number<(\d\d?)>') {LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(inbuiltskillnum)AAA%(inbuiltnumprog)AAA"); TOINT(RE_GETSTR[1]); inbuiltskillnum ,= RE_GETSTR[1]; inbuiltnumprog ,= 0}}
+		FCLOSE(_file)
+		LOGGING("%(inbuiltskillnum)AAA%(inbuiltnumprog)AAA")
+}}
+
+OnLessonPick {
+	"\0\s[0]\b[2]\_qHello, which lesson would you like to see?\n\n"
+	--
+	"\__q[OnAlphabet,partone]Alphabet: Notes 1\__q | \__q[OnAlphabet,parttwo]Alphabet: Notes 2\__q\n/
+	\__q[OnLessonStart,alphabet]Alphabet: skill\__q\n\n[half]"
+	--
+	if ARRAYSIZE(inbuiltlessonname) != 0 {
+		_output = ''
+		for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++ {
+			  _output += "\__q[OnLessonRead,%(inbuiltlessonname[_i]),inbuilt]%(inbuiltlessonname[_i]) (%(inbuiltnumprog[_i])/%(inbuiltskillnum[_i]))\__q "
+			}
+		_output
+	}
+	--
+	if ARRAYSIZE(lessonname) != 0 {
+		_output = ''
+		for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
+			  _output += "\__q[OnLessonRead,%(lessonname[_i])]%(lessonname[_i]) (%(numprog[_i])/%(skillnum[_i]))\__q "
+			}
+		"\n\nCUSTOM LESSONS\n\n[half]%(_output)"
+	}
+	--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnMenuRun]Main Menu\__q\_q\x\e"
+}
+
+OnAlphabet {
+	if reference0 == "partone" {
+		"\b[2]\_qFrom AlikLagodny on Duolingo:\n"
+		--
+		"\![set,autoscroll,disable]Hey what’s cracking! Good news!\nThis is our project #WeLoveBelarus where we have a strong intention to make an online Belarusian course on Duolingo.\nWhilst it is still being processed in the sandbox, we are going to provide you with a beta version of our course for those who are more than a little interested in the melodious Belarusian language! Enjoy it\x\c/
+		\b[2]Here is our introductory lesson that is the Alphabet!\nIt is going to be divided into two parts: the first one is dedicated to the vowel sounds and letters, the other one is for consonant sounds\n/
+		There are 32 letters in the contemporary Belarusian alphabet. Let us look deeper into it and its characters. You seem to be lucky if you are familiar with the Russian one, for it is Cyrillic, too. The great news is that we read the way we write! How lovely it is, isn’t it!\n\x\c/
+		The next two pages will now give you the ten vowel sounds. There are five ones for sort of ''normal'' vowels and five for “soft” vowels. Let us have a look. It is going to be super easy!\x\c/
+		\b[2]Normal vowels are; Aa, Оо, Уу, Ээ, ы.\n\n/
+			\f[bold,true]Aa\f[bold,false]\n/
+ 		pronounced as something in-between ‘u’ and ‘ar’ in the cut and cart, it is a wide sound\n/
+ 		Example words: пар (par: steam), так (tak: yes), мáма (mama: mum), тáта (tata: daddy), áрфа (arfa: harp).\n\n[half]/
+			\f[bold,true]Оо\f[bold,false]\n/
+		 (as something in the middle of ‘o’ and ‘augh’ in the words cot and caught)\n/
+		 Example words: кот (kot: cat), бор (bor: pine forest), вока (voka: eye), ода (oda: ode), тóе (toye: that).\n\n[half]/
+			\f[bold,true]Уу\f[bold,false]\n/
+		 (seems like uo and o in the you and do but much deeper)\n/
+		 Example words: кут (kut: corner), шум (shum: noise), урá (ura: hooray), тату́ (tatu: tattoo).\n\n[half]/
+			\f[bold,true]Ээ\f[bold,false]\n /
+		 (looks like e in the pet and met but wider, much wider!), see\n/
+		 Example words: бэз (bez: lilac), э́ра (era: era), бярэ́ (byare: takes).\n\n[half]/
+			\f[bold,true]ы\f[bold,false]\n/
+ 		(most say they have difficulty pronouncing it but it just reflects ur and or in fur and word but make it closer and your smile less wide), check it out\n/
+		 Example words: сыр (syr: cheese), мыш (mysh: mouse), бяры́ (byary: take!).\x\c/
+		\b[2]\![set,autoscroll,disable]“Soft” vowel sounds are Яя, Ее, Ёё, Юю, Іі. They are virtually essential to be pronounced because they take their part in differentiation between words. Let us see what I mean by “soft”. Linguistically, those vowel characters make consonants palatalized, that is the action of raising the middle back of the tongue to the upper palate. You move your tongue this way when saying ‘y’ in you, yet, play in the yard and so on. Come on, it is a piece of cake. Let us put it into practice!\n\n/
+			\f[bold,true]я\f[bold,false]\n/
+ 		(a sound, remember to put your back of the tongue up so as to produce a palatalized consonant sound!!! Place your tongue in the same position when ‘y’ but instead say a.)\n/
+		 Example words: бяда́ (byada: trouble), цяжка (tsyashka: it is hard, difficult, heavy), мяч (myach: ball), ля́ля (lyalya: baby).\n\n[half]/
+			\f[bold,true]е\f[bold,false]\n/
+		 (palatalizing sound э)\n/
+ 		Example words: цяпéр (tsyapyer: now), сéмя (syemya: seed, зéрне (zyernye: grain), не (nye: no).\n\n[half]/
+			\f[bold,true]ё\f[bold,false]\n/
+		 (palatalizing sound o)\n/
+		 Example words: лён (lyon: flax), лёс (lyos: fate), цёпла (tsyopla: warm), жыццё (zhyts:yo: life). Mind that ё is always stressed.\n\n[half]/
+			\f[bold,true]ю\f[bold,false]\n/
+		 (palatalizing u)\n/
+		 Example words: лю́стра (lyustra: mirrow), дзядзю́к (dzyadzyuk: fella).\n\n[half]/
+			\f[bold,true]і\f[bold,false]\n/
+		 (reflecting English ee, ea in the words such as bee, me, deed, meal. Note that it makes consonants fully palatalized)\n/
+		 Example words: мір (mir: peace), лíтара (litara: letter), ляцí (lyatsi: fly!)./
+		\x\c\![set,autoscroll,disable]A few extra things to note; the letters я, е, ё, ю at the very beginning of words are read another way, that is я = ya, е = ye, ё = yo, ю = yu.\n/
+		 Compare: яблы́к (yablyk: apple), елка (yelka: fir tree), ёгурт (yohurt: yogurt), Юля (Julya: name Julie).\n/
+		One more important moment is when we put sign \f[bold,true][’]\f[bold,false] within words, we pronounce those letters the same way as you can see above:\n/
+		 вар’ят (varyat: insane), аб’ява (abyava: notice, ad), ад’езд (adyezd: departure)./
+		\x\c\![set,autoscroll,disable]Right, that is it for this lesson. From the second lesson coming up soon you have to get active because there you will answer some questions and accomplish some tasks like on other present courses here, on Duolingo.\n/
+		Make a discussion how you liked it and don’t forget to leave your comments. Speak to you soon!\t\e"
+	}
+	elseif reference0 == "parttwo" {
+		"\b[2]\_qFrom AlikLagodny on Duolingo:\n"
+		--
+		"Here is our introductory lesson that is the Alphabet! It is going to be divided into two parts: the first one is dedicated to the vowel sounds and letters, the other one is for consonants.\n/
+		Alphabet. Part One | Part Two | Practice\x\c/
+		\b[2]\![set,autoscroll,disable]Here are characters of consonant sounds in Belarusian. There are 21 consonant letters (Бб, Вв, Гг, Дд, Жж, Зз, й, Кк, Лл, Мм, Нн, Пп, Рр, Сс, Тт, Ўў, Фф, Хх, Цц, Чч, Шш), 3 digraphs (Дждж, Дздз, Шчшч) and 2 signs (’, ь).\n\n/
+		    \f[bold,true]Бб\f[bold,false]\n (pronounced the same way with b in English)\n Бíблія (bibliya: the Bible), Бóбік (bobik: name Bobby), бáба (baba: inf. for woman).\n/
+		    \f[bold,true]Вв\f[bold,false]\n (said as English v)\n вавёрка (vavyorka: squirrel), вóка (voka: eye).\n/
+		    \f[bold,true]Гг\f[bold,false]\n (said as English h but far more voiced. It is similar to extremely Ukrainian and Latin h)\n Гáнна (han:a: name Hannah), гэ́та (heta: this), гэй (hey: hey).\n/
+		    \f[bold,true]Дд\f[bold,false]\n дом (dom: house), дудáр (dudar: piper).\n/
+		    \f[bold,true]Жж\f[bold,false]\n (pronounced as s in closure but way harder)\n жыд (zhyd: Jew), жыццё (zhyts:yo: life), жах (zhakh: horror).\n/
+		    \f[bold,true]Зз\f[bold,false]\n (said as English z)\n зязю́ля (zyazyulya: cuckoo), зарá (zara: dawn, morning).\n/
+		    \f[bold,true]й\f[bold,false]\n мой (moy: my), éйны (yeyny: her).\n/
+		    \f[bold,true]Кк\f[bold,false]\n кóрка (korka: crust), крок (krok: step).\n/
+		    \f[bold,true]Лл\f[bold,false]\n (similar to English l)\n лес (lyes: forest), дазвóл (dazvol: permission), ля́ля (lyalya: inf. for baby).\n/
+		    \f[bold,true]Мм\f[bold,false]\n (as English m)\n мáма (mama: mum), мім (mim: mime).\n/
+		    \f[bold,true]Нн\f[bold,false]\n (as English n)\n ня́ня (nyanya: nurse), блін (blin: pancake).\n/
+		    \f[bold,true]Пп\f[bold,false]\n (as English p but more relaxed)\n папера (papyera: paper), поп (pop: Pope).\n/
+		    \f[bold,true]Рр\f[bold,false]\n (exactly as r in thrill, it is vibrating )\n Рым (rym: Rome), разы́нкі (razynki: raisins), тапóр (tapor: axe).\n/
+		    \f[bold,true]Сс\f[bold,false]\n (as English s)\n сóска (soska: dummy, pacifier), саснá (sasna: pine tree).\n/
+		    \f[bold,true]Тт\f[bold,false]\n (as English t but more relaxed and with your tip of the tongue on your upper teeth)\n тут (tut: here), тáта (tata: daddy).\n/
+		    \f[bold,true]ў\f[bold,false]\n(as English w)\n воўк (vowk: wolf), па ўсíм свéце (pa wsim sˈvyetsye: all over the world).\n/
+		    \f[bold,true]Фф\f[bold,false]\n (as English f)\n фáйна (fayna: fine, cool), фíнік (finik: date fruit).\n/
+		    \f[bold,true]Хх\f[bold,false]\n (it seems like h but well harder, imagine you say k instead pronounce h with pressure)\n хáта (khata: home), хвáля (khvalya: wave).\n/
+		    \f[bold,true]Цц\f[bold,false]\n (as ts in wants)\n цáцка (tsatska: toy), цýкар (tsukar: sugar).\n/
+		    \f[bold,true]Чч\f[bold,false]\n (as ch in change)\n час (chas: time), кáчка (kachka: duck).\n/
+		    \f[bold,true]Шш\f[bold,false]\n (as sh in shan’t but way harder)\n шáша (shasha: motorway).\x\c/
+		\b[2]\![set,autoscroll,disable]Digraphs are pronounced as a unit, as one sound. Let us see!\n/
+		    \f[bold,true]Дждж\f[bold,false]\n (as g in change and j in jam but make it harder)\n джала (jala: sting).\n/
+		    \f[bold,true]Дздз\f[bold,false]\n (as ds in spreads)\n дзéці (dzyetsi: children), дзядзю́к (dzyadzyuk: young fella).\n/
+		    \f[bold,true]Шчшч\f[bold,false]\n (exactly as st in question)\n шчáсце (shchasˈtsye: happiness).\n\n[half]In Part One we explained how sign ’ is read. This time it is going to be ь. The sign basically makes a consonant sound palatalized or just soft (the term has been explained). This is the function! Sounds fairly easy!\nCheck it out: тóлькі (tolˈki: only), вéльмі (vyelˈmi), вóсьмы (vosˈmy: the eighth).\x\cRight, if our publication has appeared useful to you, please give a vote in favour of it!\t\e"
+	}
+	else{}
+	--
+	OnLessonPick
+}
+
+OnLessonStart {
+	foundtype = 0
+	foundmatch = 0
+	--
+	if reference0 == "alphabet" {
+		wordtw = wordwrite
+		"\_qFrom AlikLagodny on Duolingo:\n/
+		Hi there. This is our first practical lesson on Belarusian. Let us practise our alphabet skill we have learnt from the theory in the previous lesson.\nThis and following lesson will be designed the way the existing coursed are presented on Duolingo. These exercises are examplary. Some exercises of a similar kind will be put on the course.\nAlphabet. Part One | Part Two | Practice\x\c"
+		--
+		{
+			/*_wordtf = find
+			_rightword = _wordtf[1]
+			_wrongword1 = _wordtf[2]
+			_wrongword2 = _wordtf[3]
+			"\0\s[0]Find the word: %(_wordtf[0])\n%(_rightword) %(_wrongword1) %(_wrongword2)\x\c"*/
+			"\![raise,OnLesson]"
+		}
+		//--
+		//while foundtype >= 4 {
+		//	OnWordFind
+		//}
+	}
+	else {}
+}
+//based on zi's wingdings game code from dusty
+OnLesson {
+	if foundtype < 4 {
+		"\![raise,OnWordFindStart]\*"
+	}
+	elseif foundmatch < 2 {
+		"\![raise,OnWordMatchStart]\*"
+	}
+	elseif foundtype >= 4 && foundmatch >= 2 {
+		//--
+		"\0\s[0]Write %(wordtw[0]) in belarusian letters.\n\n\![open,inputbox,OnWordCheck,0]\*"
+		//"\__q[OnLesson,alphabet]again\__q\nLeave your answers in comments :) and speak out how you liked it!\e"
+	}
+	else {}
+}
+OnWordCheck {
+	if reference0 == "%(wordtw[1])" {
+		"\C \_qDing ding ding! That's right, %(username)! Great job, ня\x\c\__q[OnLessonStart,alphabet]again\__q\nLeave your answers in comments :) and speak out how you liked it!\x"}
+	else {
+		"\C \_qHm... Nope. Why don't you try again, ня?\n\n\![open,inputbox,OnWordCheck,0]"
+	}
+}
+
+OnWordFindStart {
+	//_find {"mama,мама,мамо,маці";"tsatska,цацка,цётка,маца";"dzyadz\'ka,дзядзька,дзядзя,дзік";"tsvyordy,цвёрды,цвярдыня,цвік";"tata,тата,тату,тытунь";"damiska,даміска,дар,у дамісцы";"свет,svyet,sonyeyka,svyatlo";"люстра,lyustra,lyusterka,lusta";"зязюля,zyazyulya,zamochak,zyalyuny";"замак,zamak,zamyest,zmyest"}
+	wordtf = find; rightword = wordtf[1]; wrongword1 = wordtf[2]; wrongword2 = wordtf[3]
+	finalanswer = wordtf[1]
+	redo = 0
+	--
+	OnWordFind
+}
+OnWordFind
+{
+	if redo == 0 {
+	"\_q Find the word: \f[color,purple]%(wordtf[0])\f[color,default]\n"}
+	--
+	quizanswersshuffled = IARRAY
+	toshuffle = ARRAYSIZE(wordtf)
+	shuffled = 0
+	while shuffled < toshuffle
+	{
+		shufsize = ARRAYSIZE(wordtf) //Get the size of the original array
+		shufrand = RAND(shufsize - 1) + 1 //Pick a random slot in that array
+		
+		quizanswersshuffled[shuffled] = wordtf[shufrand] //Copy that over to the new array
+		
+		wordtf[shufrand] = IARRAY //Erase the value from the original array
+		shuffled++
+	}
+	
+	
+	answernum = ARRAYSIZE(quizanswersshuffled)
+	answerprint = ""
+	_i = 0
+	while _i < answernum
+	{
+		{
+			answerprint += "\q[%(quizanswersshuffled[_i]),OnTestquizanswer,%(quizanswersshuffled[_i])] "
+		}
+		if _i == 5 || _i == 10 || _i == 15 || _i == 20 //do a SUBSTR here to get the last digit of _i and see if it's a 5 or a 0(if its greater than 1)
+		{
+			answerprint += "\n"
+		}
+		_i++
+		if _i > 30
+		{
+			break
+		}
+	}
+	--
+	"\f[color,blue]\_q%(answerprint)\f[color,default]"
+}
+
+OnTestquizanswer
+{
+	if reference0 == finalanswer
+	{
+		"\C"
+		--
+		"\_q\n\nDing ding ding! A winner is you, ня!"
+		--
+		foundtype++; redo = 0
+		"\x"
+		--
+		OnLesson
+	}
+	else
+	{
+
+		{
+			redo++
+			"\C\_q\n\n(she makes a sound like a loud buzzer.) %(reference0)? Really? There's no way that's it! Try again!"
+			--
+			OnWordFind
+		}
+	}
+}
+OnWordMatchStart {
+	match1 = match; match2 = match; match3 = match; match4 = match
+	graytime = IARRAY
+	answersleft = IARRAY
+	matchround = 0
+	shufd = 0
+	redo = 0
+	--
+	OnWordMatch
+}
+Shuffle
+{
+	_output = IARRAY
+	if GETTYPE(_argv) == 4 //If it's an array. General purpose arrays only!
+	{
+		while ARRAYSIZE(_argv) > 0
+		{
+			_rand = RAND(ARRAYSIZE(_argv))
+			_output ,= _argv[_rand]
+			_argv[_rand] = IARRAY
+		}
+	}
+	else //If it's anything else it'll be treated as a string
+	{
+		_argv = TOSTR(_argv)
+		while STRLEN(_argv) > 0
+		{
+			_rand = RAND(STRLEN(_argv))
+			_output += SUBSTR(_argv,_rand,1)
+			_argv = ERASE(_argv,_rand,1)
+		}
+	}
+	_output
+	return
+}
+Jogg {
+	if shufd == 0 {
+	LOGGING("%(_argv)")
+	_darray = SPLIT("%(_argv)",",") //argv is the argument whatever. basically reference0
+	_darray = Shuffle(_darray)
+	matchw3 = IARRAY
+	foreach _darray; _stuff {
+		matchw3 ,= "%(_stuff)"
+	}
+}}
+OnWordMatch
+{
+	//if matchround < 1 {
+	answered = ARRAYSIZE(graytime)
+	_answersleft = ARRAYSIZE(answersleft)
+	--
+	if answered == 6 && _answersleft == 5 || answered == 4 && _answersleft == 2 {
+		"\_qWell, that's not supposed to happen... here, let's just go to the next one, ok?"
+		--
+		if foundmatch > 2 {
+			foundmatch++
+		}
+		--
+		"\![raise,OnLesson]"
+	}
+		//"%(answered) %(_answersleft)"
+	//}
+	//}
+	--
+	"\_q Find the matches!\n"
+	--
+	/*quizanswersshuffled = IARRAY
+	toshuffle = ARRAYSIZE(matchw1)
+	shuffled = 0
+	while shuffled < toshuffle
+	{
+		shufsize = ARRAYSIZE(_matchw1) //Get the size of the original array
+		shufrand = RAND //Pick a random slot in that array
+		
+		quizanswersshuffled[shuffled] = matchw1[shufrand] //Copy that over to the new array
+		
+		matchw1[shufrand] = IARRAY //Erase the value from the original array
+		shuffled++
+	}*/
+	answernum = ARRAYSIZE(matchw1)
+	answerprint = ""
+	_i = 0
+	answernuma = ARRAYSIZE(matchw2)
+	answerprinta = ""
+	_a = 0
+	Jogg(matchw2)
+	while _i < answernum && _a < answernuma
+	{
+		//_numa = RAND(3)
+		//_numb = RAND(3)
+		{
+			if matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
+			else {answerprint += "\f[color,blue]\q[%(matchw1[_i]),OnMatchQuestion,%(matchw1[_i]),first]\f[color,default] "}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "}
+			else {
+			answerprinta += "%(matchw3[_a]) "}
+		}
+		if _i == 5 || _i == 10 || _i == 15 || _i == 20 //do a SUBSTR here to get the last digit of _i and see if it's a 5 or a 0(if its greater than 1)
+		{
+			answerprint += "\n"
+		}
+		_i++; _a++
+		if _i > 30
+		{
+			break
+		}
+		if _a > 30; {break}
+	}
+	--
+	"%(answerprint)\n%(answerprinta)\*"
+}
+OnMatchQuestion {
+	matchquestion = reference0
+	--
+	"\0\s[0]\_q Find the matches!\n"
+	--
+	answernum = ARRAYSIZE(matchw1)
+	answerprint = ""
+	_i = 0
+	answernuma = ARRAYSIZE(matchw2)
+	answerprinta = ""
+	_a = 0
+	while _i < answernum && _a < answernuma
+	{
+		{
+			if matchw1[_i] == reference0 {answerprint += "\f[color,purple]%(matchw1[_i])\f[color,default] "}
+			elseif matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
+			else {answerprint += "%(matchw1[_i]) "}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "; if redo == 0 {answersleft ,= reference0}}
+			else {
+			answerprinta += "\f[color,blue]\q[%(matchw3[_a]),OnMatchAnswer,%(matchw3[_a]),second]\f[color,default] "
+			}
+		}
+		_i++; _a++
+		if _i > 30 {break}; if _a > 30; {break}
+	}
+	--
+	"%(answerprint)\n%(answerprinta)\*"
+}
+
+OnMatchAnswer {
+	if matchround == 3 {
+		if matchquestion == match1[0] {
+		matchanswer = match1[1]}
+		elseif matchquestion == match2[0] {matchanswer = match2[1]}; elseif matchquestion == match3[0] {matchanswer = match3[1]}
+		else {matchanswer = match4[1]}//}
+		--
+		if reference0 == matchanswer {
+			"\C \n\n\_qGreat job, ня!\_q\x"
+			--
+			foundmatch++; shufd = 0; redo = 0
+			--
+			OnLesson
+		}
+		else {
+		"\C \n\n\_qHmm, I don't think so... Try again, ня\_q\x\c"
+		--
+		redo++; OnWordMatch
+		}
+	}
+	else {
+		//if reference1 = "first" {matchanswer = matchquestion[1]}
+		//elseif reference1 = "second" {
+		if matchquestion == match1[0] {
+		matchanswer = match1[1]}
+		elseif matchquestion == match2[0] {matchanswer = match2[1]}; elseif matchquestion == match3[0] {matchanswer = match3[1]}
+		else {matchanswer = match4[1]}//}
+		--
+		if reference0 == matchanswer {
+			//"\_qThat's right, ня! Can you get the rest?\_q\x"
+			graytime ,= "%(matchquestion)"; graytime ,= "%(matchanswer)"
+			matchround++; shufd = 1; redo = 0}
+		else {
+			redo++
+			"\C \n\n\_q Hmm, I don't think so... Try again, ня\_q\x\c"
+		}
+		--
+		OnWordMatch
+	}
+}

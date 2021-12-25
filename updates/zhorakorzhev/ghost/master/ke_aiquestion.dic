@@ -2,9 +2,19 @@
 //could use it for other dic files too, i bet.
 
 OnAiQuestion {
-if reference0 == "ешьбольше" {if Flag("сказали ешь пж") == 0; MiscFlags ,= "сказали ешь пж"; "\0Так, попробую, хорошо? Господи.\к"}
-elseif reference0 == "ешьменьше" {if Flag("сказали не нужен есть") == 0; MiscFlags ,= "сказали не нужен есть"; "\0Ты понимаешь.\к"}
-else {}}
+	case reference0 {
+		when "ешьбольше" {if Flag("сказали ешь пж") == 0; MiscFlags ,= "сказали ешь пж"; "\0Так, попробую, хорошо? Господи.\к"}
+		when "ешьменьше" {if Flag("сказали не нужен есть") == 0; MiscFlags ,= "сказали не нужен есть"; "\0Ты понимаешь.\к"}
+		when "showinmenu" {if Flag("showinmenu") == 0; MiscFlags ,= "showinmenu"}
+		when "canbrush" {if Flag("canbrush") != 1; MiscFlags ,= "canbrush"; RemoveFlag("upsetday"); RemoveFlag("brushy")}
+		when "brushy" {if Flag("brushy") == 0; MiscFlags ,= "brushy"}
+	others {}}
+	--
+	case reference1 {
+		when "upsetday" {if Flag("upsetday") == 0; MiscFlags ,= "upsetday"}
+		when "cantdrive" {if Flag("cantdrive") == 0; MiscFlags ,= "cantdrive"}
+	others {}}
+}
 
 OnItemBuy {
 	if reference1 <= деньги {
@@ -18,7 +28,35 @@ OnItemBuy {
 			when "любовь" {"\_qА! Дорог%(ой) м%(ой) %(друг), я тебя сильно люблю!\н(Как %(друг), э... если бы сначала это не совсем видно.)\_q\x"}
 			others {"\_qВот %(reference0). Надеюсь, тебе понравится?\_q\x"}}
 		}
-	else {"\_q%(reference0) стоит %(reference1)... у тебя мало денег. (%(деньги)р.)\_q\x\к"}
+	else {case reference0 {
+			when "ненависть" {"\_qА, я это не серьёзно продаю. И у тебя все-таки мало денег, так что...\_q\x"}
+			others {"\_q%(reference0) стоит %(reference1)... у тебя мало денег. (%(деньги)р.)\_q\x"}
+	}}
 	--
 	OnItemMenu
+}
+
+OnMenuQuestion {
+	"\_q"
+	--; if Flag("upsetday") == 1; "%*\q[Ты ли не зло?,aboutday] "
+	--; if Flag("brushy") == 1; "%*\q[Мне можно помочь?,brushy]"
+	--; if Flag("cantdrive") == 1; "%*\q[...Нельзя водить машину? Почему?,wreckedyay]"
+	--; "\n\n[half]\![*]\q[Назад,OnMenuRun]\x"
+}
+
+Select.aboutday {
+	"\0\i[423]Ну нет, я просто...\нМне страшно, так сказать. Если бы она заметила, то... кого еще? Может, все мои друзья уже знает?\xВ таком случае, подобно на то, что происходит с Пашой. Мы с Вале говорили, а она думает, что он попробовал сам убит. Но, он не хочет с никем поговорить, кроме Ваня. Если они все знают, что у меня рпп, что значить для меня? Никого не хочу рассказать, но... я не знаю. Просто немного расстроено.\x\![raise,OnAiQuestion,brushy]"
+	--
+	OnMenuQuestion
+}
+
+Select.brushy {
+	"\0\i[423]А... ну, если бы у тебя бы%(л) кисть, мне приласкать волосы нравится...\x\![raise,OnAiQuestion,canbrush]"
+	--
+	OnMenuQuestion
+}
+Select.wreckedyay {
+	"\0НУ это краткая история! И конечно это просто правило, который только в нашем группе. Когда это я один или с одном или две моих друзей, я водить можно. Но, назад к тему — я ездил в магазине, чтобы купить еда, а вот и кто-то [?] в машине! Я был просто в шоке... но, мы оба были в порядке. Моя машина, наоборот......\x"
+	--
+	OnMenuQuestion
 }

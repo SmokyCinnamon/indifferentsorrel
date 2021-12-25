@@ -60,7 +60,11 @@ OnMenuRun //Main menu
 		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
 	}
 	--
-	"\![*]\q[...Даже\, ничего.,Cancel]\n\n"
+	if Flag("showinmenu") == 1 {
+		"%*\q[Что-нибудь Спросить,OnMenuQuestion]\n\n"
+	}
+	--
+	"\![*]\q[...Даже\, ничего.,Cancel]\n\n[half]"
 	--
 	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)\n"
 	--
@@ -405,6 +409,8 @@ OnSomething {
 
 OnClearAll {
 	инвентарь = IARRAY
+	--
+	OnInventory
 }
 
 OnClearOne {

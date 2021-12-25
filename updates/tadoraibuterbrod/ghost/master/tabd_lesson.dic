@@ -1,0 +1,407 @@
+OnLessonRead {
+	_file = ""
+	if reference1 != "inbuilt" {_file = "lessons\%(reference0).txt"}
+	else {_file = "lessons\default\%(reference0).txt"}
+	_buff = ""
+	checkprog = "%(reference0)"
+	notes = ""
+	sentences = IARRAY
+	altsentences = IARRAY
+	findwords = IARRAY
+	matchwords = IARRAY	
+	--
+	_f = FOPEN(_file,'r')
+	LOGGING("%(_file)")
+	//if FOPEN(_file,'r') {
+	for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+	LOGGING("AAAfileopenAAA")
+	if RE_SEARCH(_buff,'lesson_notes\[([^\n]+)\]') {
+			LOGGING("AAAnotesreadAAA %(RE_GETSTR)")
+			notes = RE_GETSTR[1] //Sets
+		}
+	if RE_SEARCH(_buff,'sentence_translation\[([^\n]+)\]') {
+			LOGGING("AAAsentencesAAA %(RE_GETSTR)")
+			_aaa = SPLIT(RE_GETSTR[1],';')
+			//array_2d[_value] += ';'+_newitem?
+			for _i = 0; _i < ARRAYSIZE(_aaa); _i++ {
+				/*LOGGING("%(_aaa) AND %(match)")
+				if ARRAYSIZE(sentences) != 0 {
+					LOGGING("??????????? AAA IS NOT ZERO and %(_aaa[_i])")
+					sentences += '\;'+"%(_aaa[_i])"
+				}
+				else {*/
+					LOGGING("AAAAAAA IS ZEO and %(_aaa[_i])")
+					 sentences ,= "%(_aaa[_i])"
+				//}
+			}
+			//sentences += RE_GETSTR[1]
+			--; LOGGING("BEENSPLIT%(RE_GETSTR[1]) AND %(sentences)")
+		}
+	if RE_SEARCH(_buff,'word_searches\[([^\n]+)\]') {
+			LOGGING("WORDFIND %(RE_GETSTR)")
+			_aaa = SPLIT(RE_GETSTR[1],';')
+			for _i = 0; _i < ARRAYSIZE(_aaa); _i++ {
+					LOGGING("AAAAAAA IS ZEO and %(_aaa[_i])")
+					findwords ,= "%(_aaa[_i])"
+			}
+		}
+	if RE_SEARCH(_buff,'word_matches\[([^\n]+)\]') {
+			LOGGING("WORDMATCH %(RE_GETSTR)")
+			_aaa = SPLIT(RE_GETSTR[1],';')
+			for _i = 0; _i < ARRAYSIZE(_aaa); _i++ {
+					LOGGING("AAAAAAA IS ZEO and %(_aaa[_i])")
+					matchwords ,= "%(_aaa[_i])"
+			}
+		}
+	if RE_SEARCH(_buff,'alternate_translation\[([^\n]+)\]') {
+			LOGGING("ALTSENTENCE %(RE_GETSTR)")
+			_aaa = SPLIT(RE_GETSTR[1],';')
+			for _i = 0; _i < ARRAYSIZE(_aaa); _i++ {
+					LOGGING("AAAAAAA IS ZEO and %(_aaa[_i])")
+					altsentences ,= "%(_aaa[_i])"
+			}
+		}
+	}
+	//}
+	FCLOSE(_file)
+	--;LOGGING("AAAfileclosedAAA %(notes)%(sentences)\n%(findwords)\n%(matchwords)\n\nCOMPARISION:\n%(match[1])\n%(find)")
+	"\b[2]\_q%(notes)\n\_q\x\![raise,OnLessonTest]\e"
+}
+
+OnLessonTest {
+	foundtype = 0
+	foundmatch = 0
+	sentenceswritten = 0
+	--
+	if ARRAYSIZE(findwords) > 0 {LOGGING("hey man what the fuck"); typetofind = RAND(4)} else {LOGGING("NOTHING"); typetofind = 0}
+	--; if ARRAYSIZE(matchwords) > 0 {LOGGING("DUDE"); typetomatch = RAND(4)} else {LOGGING("NOTHING"); typetomatch = 0}
+	--; if ARRAYSIZE(sentences) > 0 {LOGGING("hey man what the fuck"); sentencestotrans = RAND(4)} else {LOGGING("NOTHING"); sentencestotrans = 0}
+	--
+	LOGGING("%ARRAYSIZE(matchwords)")
+	round = 0
+	roundend = typetofind + typetomatch + sentencestotrans
+	LOGGING("found: %(foundtype) matched: %(foundmatch) transed: %(sentenceswritten) find: %(typetofind) match: %(typetomatch) trans:%(sentencestotrans) %(round) %(roundend)")
+	--
+	OnLessonTestStart
+}
+OnLessonTestStart {
+	LOGGING("found: %(foundtype) matched: %(foundmatch) transed: %(sentenceswritten) find: %(typetofind) match: %(typetomatch) trans:%(sentencestotrans)")
+	LOGGING("%(round) %(roundend)")
+	LOGGING("%ARRAYSIZE(matchwords)")
+	if round != roundend {
+		LOGGING("if")
+	case RAND(3) {
+		LOGGING("case")
+		when 1 {
+			LOGGING("when one")
+			if foundtype < typetofind {
+				LOGGING("findtypestart")
+				OnFindTypeStart
+				}
+			else {OnLessonTestStart}
+			}
+		when 2 {
+			LOGGING("when two")
+			if foundmatch < typetomatch {
+				LOGGING("findmatchstart")
+				OnFindMatchStart
+				}
+			else {OnLessonTestStart}
+
+			}
+		others {
+			LOGGING("when others")
+			if sentenceswritten < sentencestotrans {
+				LOGGING("TRANS")
+				OnSentenceTransStart
+			}
+			else {OnLessonTestStart}
+
+		}
+	}}
+	else {
+	"yay you reached the end!\x\e"
+	_aaa = ASEARCH(checkprog,lessonname)
+	LOGGING("%(checkprog) %(_aaa) check %(numprog[_aaa]) num %(skillnum[_aaa]))")
+	if skillnum[_aaa] < numprog[_aaa] {
+		numprog[_aaa]++
+	}
+	else {}
+	_aa = ASEARCH(checkprog,inbuiltlessonname)
+	if inbuiltskillnum[_aa] < inbuiltnumprog[_aa] {
+		inbuiltnumprog[_aa]++
+	}
+	else {}
+
+}}
+
+OnSentenceTransStart {
+	round++
+	redo = 0
+	_num = RAND(ARRAYSIZE(sentences))
+	_assign = SPLIT(sentences[_num],'@')
+	finalanswer = _assign[1]
+	display = _assign[0]
+	altcheck = _num
+	--
+	"\![raise,OnSentenceTrans]"
+	
+}
+OnSentenceTrans {
+	"\0\_qTranslate the sentence: %(display)\n \_q\![open,inputbox,OnSentenceTransed,0]"
+}
+OnSentenceTransed {
+	_altiscorrect = 0; displayanswer = finalanswer //making sure the displayed answer keeps the correct punctuation
+	reference0 = TOLOWER(reference0) //changes it to lowercase
+	reference0 = REPLACE(reference0,".",""); reference0 = REPLACE(reference0,"-",""); reference0 = REPLACE(reference0,",",""); reference0 = REPLACE(reference0,"?",""); reference0 = REPLACE(reference0,"!","")
+	finalanswer = TOLOWER(finalanswer); finalanswer = REPLACE(finalanswer,".",""); finalanswer = REPLACE(finalanswer,"-",""); finalanswer = REPLACE(finalanswer,",",""); finalanswer = REPLACE(finalanswer,"?",""); finalanswer = REPLACE(finalanswer,"!","")
+	if reference0 == "" {redo++; "\C\_q Uh... maybe you should try again...?\x\![raise,OnSentenceTrans]"}
+	elseif reference0 == finalanswer {
+		sentenceswritten++
+		"\C\_q%(reference0)\n\n[half]That's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
+	}
+	elseif ARRAYSIZE(altsentence) != -1 {
+		_altanswers = SPLIT(altsentences[altcheck],'@')
+		LOGGING("%(_altanswers)")
+		for _i = 0; _i < ARRAYSIZE(_altanswers); _i++ {
+				_altanswers[_i] = TOLOWER(_altanswers[_i]); _altanswers[_i] = REPLACE(_altanswers[_i],".",""); _altanswers[_i] = REPLACE(_altanswers[_i],"-",""); _altanswers[_i] = REPLACE(_altanswers[_i],",",""); _altanswers[_i] = REPLACE(_altanswers[_i],"?",""); _altanswers[_i] = REPLACE(_altanswers[_i],"!","")
+				LOGGING("AAAAAAA IS ZEO and %(_aaa[_i])")
+				if reference0 == _altanswers[_i] {
+					_altiscorrect = 1
+				}
+		}
+		--
+		if _altiscorrect == 1 {
+			sentenceswritten++
+			"\C\_q%(reference0)\n\n[half]That's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
+		}
+		else {
+				redo++
+				"\C\_q%(reference0)\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+		}
+	}
+	else {
+		redo++
+		"\C\_q%(reference0)\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+}}
+
+OnFindTypeStart {
+	round++
+	_num = RAND(ARRAYSIZE(findwords))
+	wordtf = SPLIT(findwords[_num],'@'); rightword = wordtf[1]; wrongword1 = wordtf[2]; wrongword2 = wordtf[3]
+	finalanswer = wordtf[1]
+	redo = 0
+	--
+	OnFindType
+}
+OnFindType
+{
+	if redo == 0 {
+	"\_q Find the word: \f[color,purple]%(wordtf[0])\f[color,default]\n"}
+	--
+	quizanswersshuffled = IARRAY
+	toshuffle = ARRAYSIZE(wordtf)
+	shuffled = 0
+	while shuffled < toshuffle
+	{
+		shufsize = ARRAYSIZE(wordtf) //Get the size of the original array
+		shufrand = RAND(shufsize - 1) + 1 //Pick a random slot in that array
+		
+		quizanswersshuffled[shuffled] = wordtf[shufrand] //Copy that over to the new array
+		
+		wordtf[shufrand] = IARRAY //Erase the value from the original array
+		shuffled++
+	}
+	
+	
+	answernum = ARRAYSIZE(quizanswersshuffled)
+	answerprint = ""
+	_i = 0
+	while _i < answernum
+	{
+		{
+			answerprint += "\_q\__q[OnTestquizanswertest,%(quizanswersshuffled[_i])]%(quizanswersshuffled[_i])\__q\_q "
+		}
+		if _i == 5 || _i == 10 || _i == 15 || _i == 20 //do a SUBSTR here to get the last digit of _i and see if it's a 5 or a 0(if its greater than 1)
+		{
+			answerprint += "\n"
+		}
+		_i++
+		if _i > 30
+		{
+			break
+		}
+	}
+	--
+	"\f[color,blue]\_q%(answerprint)\f[color,default]"
+}
+
+OnTestquizanswertest
+{
+	if reference0 == finalanswer
+	{
+		"\C"
+		--
+		"\_q\n\nDing ding ding! A winner is you, ня!\_q"
+		--
+		foundtype++; redo = 0; graytime = IARRAY
+		"\x"
+		--
+		OnLessonTestStart
+	}
+	else
+	{
+
+		{
+			redo++
+			"\C\_q\n\n(she makes a sound like a loud buzzer.) %(reference0)? Really? There's no way that's it! Try again!"
+			--
+			OnFindType
+		}
+	}
+}
+OnFindMatchStart {
+	round++
+	_assign = IARRAY
+	--; _assign = matchwords
+	_match1 = ANY(_assign)
+	_assign[LSO] = IARRAY
+	_match2 = ANY(_assign)
+	_assign[LSO] = IARRAY
+	_match3 = ANY(_assign)
+	_assign[LSO] = IARRAY
+	_match4 = ANY(_assign)
+	match1 = SPLIT(_match1,'@'); match2 = SPLIT(_match2,'@'); match3 = SPLIT(_match3,'@'); match4 = SPLIT(_match4,'@')
+	graytime = IARRAY
+	answersleft = IARRAY
+	matchround = 0
+	shufd = 0
+	redo = 0
+	LOGGING("%(match1) %(match2) %(match3) %(match4)")
+	LOGGING("%ARRAYSIZE(matchwords)")
+	--; OnFindMatch
+}
+
+OnFindMatch
+{
+	LOGGING("%(graytime)")
+	//if matchround < 1 {
+	answered = ARRAYSIZE(graytime)
+	_answersleft = ARRAYSIZE(answersleft)
+	--
+	if answered == 6 && _answersleft == 5 || answered == 4 && _answersleft == 2 {
+		"\_qWell, that's not supposed to happen... here, let's just go to the next one, ok?"
+		--
+		if foundmatch > 2 {
+			foundmatch++
+		}
+		--
+		"\![raise,OnLessonTestStart]"
+	}
+		//"%(answered) %(_answersleft)"
+	//}
+	//}
+	--
+	"\_q Find the matches!\n"
+	--
+	answernum = ARRAYSIZE(matchw1)
+	answerprint = ""
+	_i = 0
+	answernuma = ARRAYSIZE(matchw2)
+	answerprinta = ""
+	_a = 0
+	Jogg(matchw2)
+	while _i < answernum && _a < answernuma
+	{
+		//_numa = RAND(3)
+		//_numb = RAND(3)
+		{
+			if matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
+			else {answerprint += "\f[color,blue]\__q[OnFindMatchQuestion,%(matchw1[_i]),first]%(matchw1[_i])\__q\f[color,default] "}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "}
+			else {
+			answerprinta += "%(matchw3[_a]) "}
+		}
+		if _i == 5 || _i == 10 || _i == 15 || _i == 20 //do a SUBSTR here to get the last digit of _i and see if it's a 5 or a 0(if its greater than 1)
+		{
+			answerprint += "\n"
+		}
+		_i++; _a++
+		if _i > 30
+		{
+			break
+		}
+		if _a > 30; {break}
+	}
+	--
+	"%(answerprint)\n%(answerprinta)\*"
+}
+OnFindMatchQuestion {
+	matchquestion = reference0
+	--
+	"\0\s[0]\_q Find the matches!\n"
+	--
+	answernum = ARRAYSIZE(matchw1)
+	answerprint = ""
+	_i = 0
+	answernuma = ARRAYSIZE(matchw2)
+	answerprinta = ""
+	_a = 0
+	while _i < answernum && _a < answernuma
+	{
+		{
+			if matchw1[_i] == reference0 {answerprint += "\f[color,purple]%(matchw1[_i])\f[color,default] "}
+			elseif matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
+			else {answerprint += "%(matchw1[_i]) "}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "; if redo == 0 {answersleft ,= reference0}}
+			else {
+			answerprinta += "\f[color,blue]\__q[OnFindMatchAnswer,%(matchw3[_a]),second]%(matchw3[_a])\__q\f[color,default] "
+			}
+		}
+		_i++; _a++
+		if _i > 30 {break}; if _a > 30; {break}
+	}
+	--
+	"%(answerprint)\n%(answerprinta)\*"
+}
+
+OnFindMatchAnswer {
+	if matchround == 3 {
+		if matchquestion == match1[0] {
+		matchanswer = match1[1]}
+		elseif matchquestion == match2[0] {matchanswer = match2[1]}; elseif matchquestion == match3[0] {matchanswer = match3[1]}
+		else {matchanswer = match4[1]}//}
+		--
+		if reference0 == matchanswer {
+			"\C \n\n\_qGreat job, ня!\_q\x"
+			--
+			foundmatch++; shufd = 0; redo = 0
+			--
+			OnLessonTestStart
+		}
+		else {
+		"\C \n\n\_qHmm, I don't think so... Try again, ня\_q\x\c"
+		--
+		redo++; OnFindMatch
+		}
+	}
+	else {
+		//if reference1 = "first" {matchanswer = matchquestion[1]}
+		//elseif reference1 = "second" {
+		if matchquestion == match1[0] {
+		matchanswer = match1[1]}
+		elseif matchquestion == match2[0] {matchanswer = match2[1]}; elseif matchquestion == match3[0] {matchanswer = match3[1]}
+		else {matchanswer = match4[1]}//}
+		--
+		if reference0 == matchanswer {
+			//"\_qThat's right, ня! Can you get the rest?\_q\x"
+			graytime ,= "%(matchquestion)"; graytime ,= "%(matchanswer)"
+			matchround++; shufd = 1; redo = 0}
+		else {
+			redo++
+			"\C \n\n\_q Hmm, I don't think so... Try again, ня\_q\x\c"
+		}
+		--
+		OnFindMatch
+	}
+}

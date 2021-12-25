@@ -718,7 +718,7 @@ RemoveFlag //Removes all instances of a flag in the array. Returns 0 if there wa
             _current = _elements[_i]
             MiscFlags[_current] = IARRAY
         }
-        1
+        if debug == 1; 1
     }
 }
 
@@ -734,3 +734,128 @@ OnKeyPress
 		when "f2" {if debug == 1 {OnTestVar}}
 	}
 }
+
+//Written by Zichqec https://zichqec.github.io/s-the-skeleton/
+
+//parallel Pool("Pool_Example","%(example == 'True')")
+//parallel Pool("Pool_Example",example == 'True')
+
+Pool
+{
+    if TOINT(_argv[1]){ EVAL("%(_argv[0])")
+}}
+
+
+
+//To start, you'll need to copy the above function into your ghost's files. Then, to create a pool, you need two things. First, you need to add a function call like this to the function you want the Pool in:
+//parallel Pool("Pool_SomePool","%(somevar == 'True')")
+//The word parallel is a built in function of YAYA, which treats all the elements of an array as individual output candidates. After that is a call to the Pool function, which you give two arguments.
+//Argument 1 is the name of the pool you want to call. I always start them with Pool_ but you don't have to. Name it anything you want, as long as it's a valid function name.
+//Argument 2 is the if check you want to activate the pool. In this case, this pool would be used if the variable somevar is equal to True.
+//You'll notice that I've put the condition for the if check into an envelope. You don't have to do that! I just do it because I think it makes the text highlighting nicer. You could also write it like this:
+//parallel Pool("Pool_SomePool",somevar == 'True')
+//Either way, you can put any kind of if check in here. So both of these are also valid:
+//parallel Pool("Pool_NobodyWillEverSeeThis",%(hour == 5 && friendship > 1000 || ARRAYSIZE(inventory) > 50 && (minute == 20 || minute == 40)))
+//parallel Pool("Pool_DaytimeDialogue",IsDaytime)
+
+//Now, you need a function that actually holds the dialogues. This is the name you put in the first argument. This has to be a function with the array modifier, like so:
+/*
+Pool_SomePool : array
+{
+	"Dialogue 1"
+	"Dialogue 2"
+	"Dialogue 3"
+}
+*/
+//You can fill this with as many dialogues as you like! Just don't forget to make it an array function. You may also want to add a comment noting what if check activates this pool, but that's up to you if you want to do it.
+
+//So, putting it all together, to add a pool to RandomTalk it would look like this:
+/*
+RandomTalk : nonoverlap
+{
+	"Some other non-pool dialogue (for example)"
+	
+	parallel Pool("Pool_SomePool","%(somevar == 'True')")
+}
+
+Pool_SomePool : array
+{
+	"Dialogue 1"
+	"Dialogue 2"
+	"Dialogue 3"
+}
+*/
+
+
+
+//===========Technical details:===========
+//Let's talk probabilities. Oh boy, I have lots to say about probabilities! Here is the issue that the Pool function solves.
+//Let's use RandomTalk as an example. Most ghosts have good bit of dialogue in RandomTalk, and some of that dialogue may be behind if checks. Not only that, but by default in all the template ghosts I've seen, RandomTalk has the nonoverlap modifier on it.
+//Quick aside about nonoverlap: what nonoverlap does is make sure every output candidate is picked at least once before it repeats itself. Great! So why does almost every ghost you see not do that? Well, if the number of output candidates changes, nonoverlap resets. There's not really much you can do about that if you have a lot of if checks, especially if they're dependant on time, but you can mitigate that a little bit by removing if checks that are based on randomness. But, surely that doesn't account for all of it, right?
+//Well, it's like this. If you have a set of brackets with some output candidates in them, whether there's an if check or not, the *entire set of brackets* is treated as a single output candidate. YAYA picks randomly from the output candidates inside the brackets each time it runs that function, and that is the output candidate it will use if it happens to pick that set of brackets. Let me illustrate what that means.
+/*
+RandomTalk : nonoverlap
+{
+	"Dialogue 1"
+	"Dialogue 2"
+	"Dialogue 3"
+	if hour > 12
+	{
+		"After noon dialogue 1"
+		"After noon dialogue 2"
+		"After noon dialogue 3"
+	}
+}
+*/
+//What you would hope when writing this is that, if it's before noon, there are 3 dialogues, and each one has a 1/3 chance of being picked. And they do! So, when it's after noon, there should be 6 dialogues each with a 1/6 chance of being picked, right? Nope! The whole set of brackets is treated as a single output candidate, which means that the 3 dialogues outside of the brackets get a 1/4 chance of being picked, and each of the dialogues inside the brackets has a 1/12 chance of being picked. Ouch! And this problem gets way worse when you have more sets of brackets and lots of dialogues in those brackets.
+//So! Now you understand the probability problem, what do you do about it? You can try to help alleviate the issues by also putting the non-if dialogues in a set of brackets (you can make a set of brackets without an if check being associated with them), but then you run into the issue of nonoverlap not really working with that. Let me illustrate again.
+/*
+RandomTalk : nonoverlap
+{
+	{
+		"Dialogue 1"
+		"Dialogue 2"
+		"Dialogue 3"
+	}
+	
+	if hour > 12
+	{
+		"After noon dialogue 1"
+		"After noon dialogue 2"
+		"After noon dialogue 3"
+	}
+}
+*/
+//As you can see, the first 3 dialogues do not have an if check, but they're still bundled together in a set of brackets. That means each set of brackets has a 1/2 chance of being picked, so overall each of these 6 dialogues has a 1/6 of being picked. Success! Except, nonoverlap sees this as 2 dialogue candidates. So, lets say it picks the top set of brackets first, and chooses Dialogue 2. Then, next time RandomTalk happens, the only other candidate is the bottom set of brackets, so it picks those, and chooses After noon dialogue 3. What happens when it runs next time? Well, it already picked both sets of brackets, so it just starts over. There is a chance, albeit small, that it picks Dialogue 2 again. It starts to get really obvious when you have a lot of dialogue and you keep seeing the same few lines over and over, though!
+//Alright, so how does a pool fix this? It relies on a couple things: YAYA's parallel function, EVAL, and array functions.
+//First of all, we need to create an array of dialogues. This is easy and fairly natural to do with an array function like this:
+/*
+Pool_AfterNoonDialogue : array
+{
+	"After noon dialogue 1"
+	"After noon dialogue 2"
+	"After noon dialogue 3"
+}
+*/
+//You have to write : array after the function name, and that means that it will create an array of the output candidates inside. Now, what do we do with that array? The Pool function is pretty simple. It checks that the condition you put is true, and if it is, it gets the contents of the array you specified with EVAL and returns that.
+//Alright, so now you've got an array in your RandomTalk. How is that helpful? It'd be kind of awkward if your ghost just output an array. Well, that's where parallel comes in. It's a weird little function of YAYA that takes the elements of an array and uses them as individual dialogue candidates. Perfect! So, if the condition for your pool is true, all of the dialogues inside the pool are put into the RandomTalk and are not bound by brackets!
+//So, putting this all together...
+/*
+RandomTalk : nonoverlap
+{
+	"Dialogue 1"
+	"Dialogue 2"
+	"Dialogue 3"
+	
+	parallel Pool("Pool_AfterNoonDialogue","%(hour > 12)")
+}
+
+Pool_AfterNoonDialogue : array
+{
+	"After noon dialogue 1"
+	"After noon dialogue 2"
+	"After noon dialogue 3"
+}
+*/
+//When set up like this, if the hour is 12 or less, there will be 3 dialogues available with a 1/3 chance of being picked each. And when the hour is greater than 12, there will be 6 dialogues available with a 1/6 chance of being picked each. Not only that, but nonoverlap will apply to each dialogue individually! Success! 
+//One more note as well. You can put Pool functions inside of any function you want, including other pools! Nest them as deep as you want, every dialogue in a pool function will be given equal probability and will be seen correctly by nonoverlap. Have fun writing lots of dynamic dialogues!

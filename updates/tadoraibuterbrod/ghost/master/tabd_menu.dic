@@ -1,0 +1,472 @@
+OpenSakuraMenu
+{
+	if AutoUpdates[1] == 2 //If an update is available, the user will be notified when they try to open the menu
+	{
+		"\0\s[0]An update is available!\w8\w8 Do you want to download it?"
+		--
+		//Note: the download it now option will go straight into updating without directing to another function. You can do this with some things using 'script:' in the function name, but it's finicky. If this gives you issues feel free to replace it.
+		"\_q\n\n\![*]\q[Download it now,script:\![updatebymyself\]]\n/
+		\![*]\q[Maybe later,UpdateLater]\n\n/
+		\![*]\q[Turn off auto updates,UpdateOff]\e"
+	}
+	else //Normal menu opening
+	{
+		"\0\b2\s[0]Hi there!"
+		"\0\b2\s[0]Hello!"
+		--
+		OnMenuRun
+	}
+}
+
+Select.UpdateLater //If the user decides to update later
+{
+	AutoUpdates[1] = 1
+	
+	"\0\s[0]Alright,\w4 I'll remind you once a day!\e"
+}
+
+Select.UpdateOff //If the user no longer wants to be notified about updates
+{
+	AutoUpdates[0] = "Off"
+	AutoUpdates[1] = 1
+	
+	"\0\s[0]Auto Update checks turned off,\w4 you can turn them on again in the Config menu!\e"
+}
+
+OnMenuRun //Main menu
+{
+	"\b2\n\n\_q"
+	--
+	if lastTalk != ""
+	{
+		"\![*]\q[Repeat last dialogue,OnLastTalk]"
+	}
+	--
+	"\n/
+	//\![*]\q[Say something,OnAiTalk]\n/
+	\![*]\q[Talk to another ghost,OnStartTalking]\n\n/
+	%*\__q[OnConfigMenu]User Config\__q \![*]\q[Functions,OnFunctionMenu]\n/
+	\![*]\q[Lesson,OnLessonPick]\n" //%*\q[Dictionary,OnDictionary]\n
+	--
+	if debug == 1 //%(debug = 1) in script input to show the debug options
+	{
+		"\n\![*]\q[Test Variable,OnTestVar]\n/
+		 \![*]\q[Check Template Version,OnTemplateUpdate]\n\n"
+		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
+	}
+	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q\n"}
+	--; "\![*]\q[Nevermind,Cancel]\n\n"
+	--
+	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)"
+	--
+	"\nRuntime: %(runtime[0]):%(runmin)            Version %(ghostver)\e"
+}
+
+OnLastTalk //Repeats the last thing the ghost said
+{
+	"%(lastTalk)\e"
+}
+
+//----------Function Menu----------
+OnFunctionMenu
+{
+	"\0\_q\b2\s[0]Sure, what do you want me to do?"
+	--
+	"\n\n/
+	\![*]\q[Open Calendar,OpenCalendar]\n/
+	\![*]\q[Check Email,CheckEmail]\n/
+	\![*]\q[Open SSP Preferences,SSPPrefs]\n/
+	\![*]\q[Empty Recycle Bin,RecycleBin]\n/
+	\![*]\q[Show System Information,SystemInfo]\n/
+	\![*]\q[Report a bug,BugReport]\n/
+	\![*]\q[Check for updates,UpdateCheck]\n\n/
+	\![*]\q[Back to main menu,OnMenuRun]\e"
+}
+
+Select.OpenCalendar
+{
+	"\0\s[0]Sure,\w4 here's the calendar!"
+	--
+	"\![open,calendar]\e"
+}
+
+Select.CheckEmail //The dialogue about checking emails will happen in the biff function, no need to add dialogue here
+{
+	"\![biff]\e"
+}
+
+Select.SSPPrefs
+{
+	"\0\s[0]Sure,\w4 here it is!"
+	--
+	"\![open,configurationdialog]\e"
+}
+
+Select.RecycleBin
+{
+	_gomicheck = FUNCTIONEX("gomi.dll", "-n") //Gets the number of items in the recycle bin
+	
+	"Ok,\w4 I'll go empty the recycle bin!\w8\w8\s[-1]\w8\w8\w8\w8\n\n"
+	--
+	if _gomicheck > 0 //If there was something to empty
+	{
+		_gomi = FUNCTIONEX("gomi.dll", "-f") //Calling the Saori to empty the recycle bin
+		_s = ""; if _gomicheck != 1; _s = "s" //Plural check
+		
+		"\s[0]Done!\w8\w8 %(_gomicheck) item%(_s) cleared."
+	}
+	else //If it's empty
+	{
+		"\s[0]It was empty."
+	}
+	--
+	"\n\n\![*]\q[Back to functions menu,OnFunctionMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+}
+
+Select.SystemInfo //Partially copied from the GT template, but I tweaked a few things
+{
+	os_name = FUNCTIONEX("saori_cpuid.dll","os.name")
+	os_version = FUNCTIONEX("saori_cpuid.dll","os.version")
+	cpu_name = FUNCTIONEX("saori_cpuid.dll","cpu.name")
+	cpu_clockex = FUNCTIONEX("saori_cpuid.dll","cpu.clockex")
+	"/
+	\0\b[2]\_q/
+	OS: %(os_name) %(os_version)\n/
+	Memory Load: %(memoryload)%\n/
+	Physical Memory: %(memoryavailphys) KB\n/
+	CPU: %(cpu_name) %(cpu_clockex)MHz\n/
+	Uptime: %(systemuphour):%(systemupminute):%(systemupsecond)\n\n/
+	Ukagaka: %property[baseware.version]\n\n/
+	\![*]\q[Back to functions,OnFunctionMenu]\n/
+	\![*]\q[Done,cancelnodialogue]\e"
+}
+
+Select.BugReport
+{
+	"\0\s[0]Bugs can be reported to Smoky on \_a[https://www.smokycinnamonroll.tumblr.com]tumblr\_a."
+	--
+	"\n\n\![*]\q[Back to functions,OnFunctionMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+}
+
+Select.UpdateCheck //Starts an update check
+{
+	"\![updatebymyself]\e"
+}
+
+
+
+//----------Config Menu----------
+OnConfigMenu //I moved changing name/pronouns/birthday over to Nameteach, because they're info about the user
+{
+	//This is here in case the variables get erased. The buttons will be set to default so the user has something to click. This has happened to my users before and resetting them is a painful process. Do not remove these.
+	if username == ""; username = "User"
+	if they == ""; {they = "they"; them = "them"; their = "their"; theyre = "they're"}
+	if birthday[0] == ""; birthday[0] = "???"
+	if hemisphere == ""; hemisphere = "Northern"
+	if talkrate == ""; {talkrate = "every 5 minutes"; aitalkinterval = 300}
+	if deleteshitai == ""; deleteshitai = "Off"
+	if AutoUpdates[0] == ""; AutoUpdates[0] = "On"
+	if betaTester == ""; betaTester = "Off"
+	if lescreator == ""; lescreator = "Off"
+	--
+	//the \_l[97] is telling it to put the ---Config--- at x 97, the middle of the balloon I use. Adjust as needed for your balloon, or remove it if you want
+	if reference0 == "cancelled name change"; "\![close,inputbox,OnNameTeach]" //If the user cancels changing their name, it will send them back to the config menu, and run this extra bit of code to close the inputbox. Same deal with the others below, but for the birthday
+	elseif reference0 == "cancelled birthday month"; "\![close,inputbox,OnUserBornMonth]"
+	elseif reference0 == "cancelled birthday day"; "\![close,inputbox,OnUserBornDay]"
+	if "cancelled birthday" _in_ reference0; {birthday = oldbirthday; ERASEVAR("oldbirthday")} //resets the birthday to the old values, erases the temp variable
+	--
+	"\_q\b2\_l[97]---Config---\n\n/
+	Your name: \q[%(username),OnChangeName]\n/
+	Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n/
+	Your birthday: \q[%(birthday[0]),OnChangeBirthday]\n\n/
+	Your hemisphere: \q[%(hemisphere),ToggleHemisphere]\n/
+	Talk rate: \q[%(talkrate),ChangeTalk]\n/
+	\__q[ToggleLescreate]Lesson Creator: %(lescreator)\__q\n/ 
+	\![*]Enable Auto Update checks?\n(Currently: \q[%(AutoUpdates[0]),ToggleUpdate])\n/
+	//\![*]Opt in to beta updates? (Currently: \q[%(betaTester),ToggleBeta])\n\n/
+	\![*]Enable Uninstall? (Currently: \q[%(deleteshitai),ToggleUninstall])\n\n/
+	\![*]\q[Back to the menu,OnMenuRun]\e"
+}
+Select.ToggleLescreate {
+	if lescreator != "On" {lescreator = "On"}; else {lescreator = "Off"}
+	--
+	OnConfigMenu
+}
+Select.ToggleHemisphere
+{
+	if hemisphere != "Northern"
+	{
+		hemisphere = "Northern"
+	}
+	else
+	{
+		hemisphere = "Southern"
+	}
+	--
+	OnConfigMenu
+}
+
+Select.ChangeTalk
+{
+	"\0\s[0]How often should I talk?\w8 Right now it's %(talkrate)\n\n/
+	\![*]\q[Every 30 seconds,OnTalkRate,Thirty]\n/
+	\![*]\q[Every minute,OnTalkRate,Minute]\n/
+	\![*]\q[Every 3 minutes,OnTalkRate,ThreeMin]\n/
+	\![*]\q[Every 5 minutes,OnTalkRate,FiveMin]\n/
+	\![*]\q[Don't speak,OnTalkRate,None]\n\n/
+	\![*]\q[Nevermind,OnConfigMenu]\e"
+}
+
+OnTalkRate
+{
+	if reference0 == "Thirty"
+	{
+		talkrate = "every 30 seconds" //this displays the talk rate in the menu
+		aitalkinterval = 30 //this changes the talk rate, in seconds
+		
+		"\0\s[0]Ok,\w4 every 30 seconds it is!"
+	}
+	elseif reference0 == "Minute"
+	{
+		talkrate = "every minute"
+		aitalkinterval = 60
+		
+		"\0\s[0]Ok,\w4 every minute it is!"
+	}
+	elseif reference0 == "ThreeMin"
+	{
+		talkrate = "every 3 minutes"
+		aitalkinterval = 180
+		
+		"\0\s[0]Ok,\w4 every 3 minutes!"
+	}
+	elseif reference0 == "FiveMin"
+	{
+		talkrate = "every 5 minutes"
+		aitalkinterval = 300
+		
+		"\0\s[0]Ok,\w4 every 5 minutes!"
+	}
+	else
+	{
+		talkrate = "never"
+		aitalkinterval = 0
+		
+		"\0\s[0]Ok, I won't talk at all."
+	}
+	--
+	"\n\n\![*]\q[Back to config,OnConfigMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+}
+
+Select.ToggleUpdate
+{
+	if AutoUpdates[0] != "On"
+	{
+		AutoUpdates[0] = "On"
+	}
+	else
+	{
+		AutoUpdates[0] = "Off"
+	}
+	--
+	OnConfigMenu
+}
+
+Select.ToggleBeta
+{
+	if betaTester != "On" //If you don't want a message about opting into beta updates, replace this whole bit with betaTester = "On"
+	{
+		"\0\s[0]\b2If you want a message about risks of running beta versions,\w4 put it here!\w8\w8 Remember to back up your save files just in case!"
+		--
+		"\n\n\![*]\q[Accept the risk and opt in,OptInBeta]\n\![*]\q[No thanks,toconfig]\e"
+	}
+	else
+	{
+		betaTester = "Off"
+	}
+	--
+	OnConfigMenu
+}
+
+Select.OptInBeta
+{
+	betaTester = "On"
+	--
+	OnConfigMenu
+}
+
+Select.ToggleUninstall
+{
+	if deleteshitai != "On"
+	{
+		deleteshitai = "On"
+	}
+	else
+	{
+		deleteshitai = "Off"
+	}
+	--
+	OnConfigMenu
+}
+
+//----------Misc Functions----------
+
+OnChoiceTimeout //Menu has timed out
+{
+	"\0\s[0]Are you still there?\e"
+}
+
+Select.Cancel //If the main menu has been cancelled
+{
+	//"\0\s[0]Ok,\w4 let me know if you need something!\e"
+}
+
+OnTestVar
+{
+	"Testing!\e"
+	
+	LOGGING("This is a debug function! This text will show up in Tama, or in the SHIORI log! You can also output variables and such with this function. This is super handy for debugging without having to output data to your ghost's balloon! Especially for things like loops, where you need to see certain variables at every step of the loop. Make good use of it!")
+}
+
+OnEditLesson {
+	"\0\b[2]\_q"; --
+	if ARRAYSIZE(lessonname) != 0 {
+		_output = ''
+		for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
+			  _output += "%*%(lessonname[_i]) "
+			}
+		"%(_output)"
+	}
+	--; "\n\n%*\__q[OnOpenLesson]Edit\__q %*\__q[OnLessonCreateName]Add Lesson\__q %*\__q[OnRenameStart]Rename\__q %*\__q[OnClearOne]Delete\__q\n/
+	%*\__q[OnSkillNumStart]Correct Lesson Numbers\__q"
+	--; "\n\n\n%*\__q[OnMenuRun]Main Menu\__q\_q\*\e"
+}
+OnSkillNumStart {
+	_display = ""
+	for _i = 0; _i < ARRAYSIZE(lessonname); _i++
+	{
+		_display += "%*\__q[OnSkillNum,%(lessonname[_i]),%(_i)]%(lessonname[_i])\__q "
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to correct:\n\n[half]%(_display)\n\n\n[half]/
+	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+OnSkillNum {
+	LOGGING("%(reference0)")
+	_file = "lessons\%(reference0).txt"; _buff = ""
+	FOPEN(_file,'r')
+	--; for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+		LOGGING("AAAfileopenAAA")
+		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
+			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
+			TOINT(RE_GETSTR[1]); skillnum[reference1] = RE_GETSTR[1]}}
+	--; FCLOSE(_file)
+	LOGGING("%(_file) %(skillnum[reference1]) %(reference1)")
+	--; OnSkillNumStart
+}
+OnOpenLesson {
+	_display = ""
+	for _i = 0; _i < ARRAYSIZE(lessonname); _i++
+	{
+		_display += "%*\__q[OnOpenLessonEdit,%(lessonname[_i]),%(_i)]%(lessonname[_i])\__q "
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to edit:\n\n[half]%(_display)\n\n\n[half]/
+	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+OnOpenLessonEdit {
+	LOGGING("%(reference0)")
+	_file = "lessons\%(reference0).txt"; _buff = ""
+	--; "\![open,file,%(_file)]"
+	--; OnOpenLesson
+}
+OnLessonCreateName {
+	"\0\b[2]\_qPlease enter the name of your lesson:\![open,inputbox,OnLessonCreate,0]\*"
+}
+OnLessonCreate{
+	_name = reference0
+	_file = "/lessons/%(reference0).txt"
+	if ASEARCH(_name,lessonname) == -1 {lessonname ,= _name}
+	--
+	FCHARSET(1) //characterset??
+	FOPEN(_file,'w'); _buff = "" //opening the file?? I think??
+	LOGGING("File opened: %(_f) reference: %(reference0) file: %(_file)")
+	FWRITE(_file,"skill_number[0]")
+	FWRITE(_file,"lesson_notes[]")
+	FWRITE(_file,"sentence_translation[]")
+	FWRITE(_file,"alternate_translation[]")
+	FWRITE(_file,"word_searches[]")
+	FWRITE(_file,"word_matches[]")
+	FCLOSE(_file)
+	FOPEN(_file,'r')
+	--; for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+		LOGGING("AAAfileopenAAA")
+		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
+			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
+			TOINT(RE_GETSTR[1]); skillnum ,= RE_GETSTR[1]; numprog ,= 0}}
+	--; FCLOSE(_file)
+	--; "\![raise,OnLessonCreated,%(_name)]"
+}
+OnLessonCreated {
+	_file = "lessons\%(reference0).txt"
+	LOGGING("HI DO YOU WORK %(reference0)")
+	--; "\![open,file,%(_file)]"
+	--; OnEditLesson
+}
+OnRenameStart {
+	_display = ""
+	for _i = 0; _i < ARRAYSIZE(lessonname); _i++
+	{
+		_display += "%*\__q[OnRenameName,%(lessonname[_i]),%(_i)]%(lessonname[_i])\__q "
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to rename:\n\n[half]%(_display)\n\n\n[half]/
+	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+OnRenameName {
+	"\_qPlease enter the new name: \![open,inputbox,OnRename,0,--reference=%(reference0),--reference=%(reference1)]\_q\*\e"
+}
+OnRename {
+	_file = "lessons\%(reference2).txt"
+	_filer = "lessons\%(reference0).txt"
+	lessonname[reference3] = "%(reference0)"
+	--
+	LOGGING("%(reference0) %(reference1) %(reference2) %(lessonname[reference3])")
+	LOGGING("%(_file) %(_filer)")
+	FRENAME(_file,_filer)
+	--
+	OnRenameStart
+}
+OnClearOne {
+	_display = "" //Initialize a local variable to hold the display
+
+	for _i = 0; _i < ARRAYSIZE(lessonname); _i++ //Loop through every element of the array
+	{
+		_display += "%*\__q[OnClear,%(_i),%(lessonname[_i])]%(lessonname[_i])\__q " //Add the current element to a string, with a linebreak afterwards
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to delete (make sure you don't want to keep it -- you won't be able to get it back!):\n\n[half%(_display)\n\n\n[half]/
+	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+
+OnClear {
+	lessonname[reference0] = IARRAY
+	numprog[reference0] = IARRAY
+	skillnum[reference0] = IARRAY
+	--
+	_file = "lessons\%(reference1).txt"
+	FDEL(_file)
+	--
+	OnClearOne
+}
+
+//============Kero Menu============
+
+OpenKeroMenu
+{
+	"\1\s[10]mrraow"
+	"\1\s[10]mao"
+	--
+	OnKeroMenu
+}
+
+OnKeroMenu
+{
+	//Fill in as you like
+}

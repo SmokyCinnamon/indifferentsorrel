@@ -1,0 +1,167 @@
+AiTalk
+{
+	if RAND(100) < communicateratio
+ 	{
+ 		StartCommunicate
+	}
+ 	else
+	{
+ 		if ARRAYSIZE(offscreen) == 0
+		{
+			if CHAIN.IDName == ""
+			{
+ 				lastTalk = RandomTalk
+			}
+			else
+			{
+				lastTalk = ChainTalk
+			}
+			lastTalk
+		}
+ 		else
+		{ 
+			OffscreenTalk
+ 		}
+	}
+}
+
+//nonoverlap means that all possible dialogue candidates will be chosen at least once before any dialogues are repeated. Note that anything within brackets counts as a single dialogue candidate! This causes the probability issues mentioned in the YAYA tips file. I included an example of a dialogue pool here, if you set those up they'll work properly with nonoverlap. Also note, though: if you set up something like different modes, you should give each one it's own function for dialogue! If you have all your dialogues in one big if, nonoverlap won't have any effect.
+RandomTalk : nonoverlap
+{
+	//This will call the example pool I've set up below. The second argument, %(username != ''), means that this pool will be available so long as the username is not blank. You can put any if check in there! For example: %(month == 2) would make a pool only available in February, while %(nowmode == 'Ultimate Form') would make a pool only available while the nowmode variable is set to "Ultimate Form".
+	//parallel Pool("Pool_Example","%(username != '')")
+	//---Noticing and commenting on other ghosts---
+	//Remember that you have to check for the sakura name of another ghost, not the ghost name.
+	//if "Girl" _in_ ghostexlist
+	//{
+		//"\0\s[0]Another template ghost!\w8\w8 Hi Girl!\e"
+	//}
+}
+
+
+//-----------Pools-----------
+
+//Example of a pool. You can name pools whatever you like. I always start them with Pool_ so that it's clear what they are. They MUST have : array after the function name, or they won't work. I also recommend putting a comment with what if check activates this pool, so it's easy to remember later.
+Pool_Example : array //username != ""
+{
+	"\0\s[0]This is the first dialogue from the pool!\w8\w8 Your username isn't blank,\w4 so all these dialogues are available with equal probability!\e"
+	"\0\s[0]This is the second dialogue from the pool!\w8\w8 You wouldn't see these nearly so often if they were just in a plain if check.\e"
+	"\0\s[0]This is the third dialogue from the pool!\w8\w8 Putting dialogues in a pool like this means that nonoverlap can affect them properly, so long as nothing else interferes!\e"
+	"\0\s[0]This is the fourth dialogue from the pool!\w8\w8 You could nest another pool inside this pool,\w4 and all the dialogues in there would also display with equal probabilities!\e"
+	"\0\s[0]This is the fifth dialogue from the pool!\w8\w8 Pools can be placed anywhere,\w4 not just RandomTalk!\e"
+}
+
+//-----------Chains-----------
+
+//Example of a chain. The dialogues will play in order each time the ghost talks until it reaches chain=end.
+achain
+{{CHAIN
+	"\0\s[0]Here's another part of the chain!\e"
+	"\0\s[0]Here's a third part of the chain!\e"
+	"\0\s[0]Here's a fourth part of the chain!\e"
+	"\0\s[0]Here's the end of a chain!\e:chain=end"
+}}CHAIN
+
+
+//-----------Timekeeping systems and related dialogue-----------
+
+OnMinuteChange
+{
+	if minute == 0 //Top of the hour notifications
+	{
+		if hour == 0
+		{
+			AutoUpdates[1] = 0
+			if day == 1 && month == 1
+			{
+				"\0\s[0]Z novym hodam!\e"
+			}
+			else
+			{
+				"\0\s[0]Midnight... you gonna call a few friends? Since this is when all the ghosts come out, yknow.\e"
+			}
+		}
+		elseif hour == 12
+		{
+			"\0\s[0]It's noon! Pretty cool, huh?\e"
+		}
+		else
+		{
+			"\0\s[0]It's %(hour)... Have anything that needs done soon?\e"
+		}
+	}
+	elseif ARRAYSIZE(offscreen) > 0 //If the ghost is off the screen, it will run the off screen dialogue every minute
+ 	{
+ 		OffscreenTalk
+	}
+	--
+	if AutoUpdates[0] == "On" && AutoUpdates[1] == 0 //Once a day the ghost will check for updates if the user has auto updates on
+	{
+		AutoUpdates[1] = 1
+		"\![updatebymyself,checkonly]"
+	}
+	
+}
+
+OnSecondChange
+{
+	if runtime[2] >= 59
+	{
+		runtime[2] = 0
+		runtime[1]++
+		if runtime[1] >= 59
+		{
+			runtime[1] = 0
+			runtime[0]++
+			totalhours++
+		}
+	}
+	else
+	{
+		runtime[2]++
+	}
+	if reference2 == 1 //This is for if your Sakura and Kero are overlapping. \4 will move the speaking character away from the other character.
+	{
+		//"\0\s[0]Aw, hi Buterbrod!\e"
+	}
+	elseif ARRAYSIZE(waitingcommuS) > 0 && second % 5 == 0 //Every 5 seconds, check if the balloon is closed and a communication is waiting, and if so trigger a response
+	{
+		_b = BalloonCheck
+		if _b == 0; WaitingCommu
+	}
+}
+
+OnOffscreen
+{
+	offscreen = IARRAY //Makes offscreen IARRAY if there's no value
+	_lastvalue = IARRAY
+	if reference0 != ""; offscreen = SPLIT(reference0,",") //An array of the IDs of characters currently off screen. 0 is Sakura, 1 is Kero, etc
+	if reference1 != ""; _lastvalue = SPLIT(reference1,",")
+	//If a character is currently off the screen, their ID will be in the offscreen array, and you can find it with ASEARCH.
+	//reference1 has the values of reference0 from the last time this function ran, so you can use it to tell if a character has been moved back on screen.
+	//I've only set this up for the Sakura, but you can copy this format for other characters too. Just change the number in the ASEARCH.
+	
+	if ASEARCH("0",offscreen) != -1 //Checks if the sakura was moved off screen
+	{
+		OffscreenTalk
+	}
+	elseif ASEARCH("0",_lastvalue) != -1 //Checks if the sakura is no longer off screen
+	{
+		EndOffscreenTalk
+	}
+}
+
+OffscreenTalk //Off the screen dialogue. Ctrl Shift F12 will bring characters back onto the screen
+{
+	"\0\s[0]Oooh, hey, there's something written back here! I think it says... hmm, bit dark but... ctrl+shift+f12?\e"
+}
+
+EndOffscreenTalk //Being brought back on the screen.
+{
+	"\0\s[0]Hello again!\e"
+}
+
+OnSurfaceRestore //OnSurfaceRestore happens around 30 seconds after the ghost's last dialogue. reference0 here stores the number of the previous surface, so you can have them comment when they change back if you like.
+{
+	"\1\s[10]\0\s[0]\e"
+}

@@ -66,7 +66,6 @@ RandomTalk : nonoverlap
 	"Если у тебя время, хочешь мне звонить моих друзей? Думаю что ты их нравишься.\к"
 	"Мне можно пойти домой? ...Девушка скучаюсь.\к"
 	"Видели ночь...\к"
-	"Мне нельзя водить машину... Был один раз! Один!\к"
 	"Ты слишишь группа Сети? Их албюм Небо на земле - один из моих любимых\к"
 	"...Вторник ноября\к"
 	"Ну, как ты? Я устал, но это потому что... э, ну, потому что я часто не сплю. Это все.\к"
@@ -77,8 +76,7 @@ RandomTalk : nonoverlap
 		"Зима всегда так холодно...\к"
 		"\0Жизни нам приследует зима...\к"
 	}
-	
-	
+	parallel Pool(Pool_questions,"%(имя != '')")
 	//---Noticing and commenting on other ghosts. You MUST have an option for 'others' in the case/when, or the ghost will eventually stop talking at all!
 	if ghostexcount > 0 //Based on code from Zarla's Gaster
 	{
@@ -89,9 +87,9 @@ RandomTalk : nonoverlap
 		--
 		case _randghost
 		{
-			when "Girl"
+			when "Pasha"
 			{
-				//"\0\s[0]Another template ghost!\w8\w8 Hi Girl!\e"
+				"\0\s[0]Эй, привет, ребят! Як справы?\e"
 			}
 			others //Don't get rid of this. You can replace the dialogue if you want.
 			{
@@ -119,6 +117,11 @@ achain
 	"У меня внутри...\к:chain=end"
 }}CHAIN
 
+//pools
+Pool_questions : array {
+	if Flag("canbrush") != 1; "\i[143]У меня был такой плохой день... Лина спросила о как я ем в последнее время. Перед тем, что ты тоже спросишь - как норм!\ж5 Все как норм. Но она этого не верила - /скажи как этот норм/, она просила. Почемц у нее такая проблема с моего ответа?\x\![raise,OnAiQuestion,showinmenu,upsetday]\к"
+	if Flag("cantdrive") != 1; "Мне нельзя водить машину... Был один раз! Один!\к\![raise,OnAiQuestion,showinmenu,cantdrive]"
+}
 
 //-----------Timekeeping systems and related dialogue-----------
 

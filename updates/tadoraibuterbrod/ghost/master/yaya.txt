@@ -1,0 +1,24 @@
+charset, UTF-8
+charset.dic, UTF-8
+charset.output, UTF-8
+charset.file, UTF-8
+charset.save, UTF-8
+charset.extension, UTF-8
+
+include, system_config.txt
+dic, tabd_aitalk.dic
+dic, tabd_anchor.dic
+dic, tabd_bootend.dic
+dic, tabd_commu.dic
+dic, tabd_etc.dic
+dic, tabd_menu.dic
+dic, tabd_mouse.dic
+dic, tabd_nameteach.dic
+dic, tabd_string.dic
+dic, tabd_word.dic
+dic, lessons_enby.dic
+//dic, dictionary_enby.dic
+dic,tabd_lesson.dic
+
+//log, ayame.log
+msglang,english

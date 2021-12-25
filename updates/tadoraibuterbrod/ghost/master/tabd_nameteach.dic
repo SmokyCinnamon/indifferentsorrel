@@ -1,0 +1,227 @@
+//I put anything related to who the user is in here. Name, pronouns, birthday.
+
+OnChangeName
+{
+	"\0\s[0]Ah! How are you called again?"
+	--
+	"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled name change]\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]\e"
+}
+
+OnNameTeach
+{
+	_tempname = reference0 //this stores the original name in _tempname
+	reference0 = TOLOWER(reference0) //changes it to lowercase
+	reference0 = REPLACE(reference0," ","") //removes spaces
+	reference0 = REPLACE(reference0,".","") //removes periods
+	reference0 = REPLACE(reference0,"-","") //removes dashes
+	
+	if _tempname == username && booting != 1 //If the user gives the exact same name as before. The booting check has to be there in case they put in 'user'
+	{
+		"\0\s[0]Ok, same as before!"
+	}
+	elseif "Tadora" _in_ reference0
+	{
+		"\0\s[0]Name buddies! That's really cool!"
+	}
+	elseif reference0 == "" //If the user doesn't put in anything
+	{
+		username = "User"
+		
+		"\0\s[0]Just User for now."
+	}
+	else //if it's none of these above names, we can use it. You can add names that just have comments and can still be used, just don't add a \e at the end.
+	{
+		username = _tempname
+		"\0\s[0]%(username), got it! Such a nice name, too!"
+	}
+	--
+	if booting == 0 //If the user was changing their name through the config menu
+	{
+		"\n\n\![*]\q[Back to config,OnConfigMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+	}
+	else //This is continuing from FirstBoot
+	{
+		"\w8 Ok! I'm really excited that we can get to know each other! Oh, next... Pronouns, if I may ask?\n\n"
+		--
+		"%*\__q[OnPronouns,none]None\__q %*\__q[OnCustomPronouns]Custom\__q\n/
+		\![*]\q[He/Him,OnPronouns,masc] \![*]\q[She/Her,OnPronouns,fem]\n/	
+		\![*]\q[They/Them,OnPronouns,undef]\e"
+	}
+}
+
+OnChangePronoun //Envelope names are the same as the GT template, since I figured most people will be used to them.
+{
+	"\0\s[0]Your pronouns...?"
+	--
+	"\n\n\_q/
+	%*\__q[OnPronouns,none]None\__q %*\__q[OnCustomPronouns]Custom\__q\n/
+	\![*]\q[He/Him,OnPronouns,masc] \![*]\q[She/Her,OnPronouns,fem]\n/	
+	\![*]\q[They/Them,OnPronouns,undef]\e"
+}
+
+
+OnPronouns
+{
+	if reference0 == "masc"
+	{
+		they = "he"
+		them = "him"
+		their = "his"
+		theyre = "he's"
+	}
+	elseif reference0 == "fem"
+	{
+		they = "she"
+		them = "her"
+		their = "her"
+		theyre = "she's"
+	}
+	elseif reference0 == "undef"
+	{
+		they = "they"
+		them = "them"
+		their = "their"
+		theyre = "they're"
+		
+	}
+	elseif reference0 == "none" {
+		they = "%(username)"; them = "%(username)"; their = "%(username)'s"; theyre = "%(username)'s"
+	}
+	else {
+		_pronouns = SPLIT(reference0,"/")
+		they = _pronouns[0]; them =  _pronouns[1]; their = _pronouns[2]; theyre = _pronouns[3]
+		if _pronouns[4] != ""; plural = 1
+
+	}
+	--
+	if booting == 1 //This is the end of the firstboot dialogue
+	{
+		booting = 0
+		"Got it! Remember this; to add custom lessons, all you need is a properly formatted .txt file!\![leave,passivemode]\e"
+	}
+	else //This is if the user is changing their pronouns through the menu
+	{
+		"\0\s[0]Ok! Your pronouns are %(they)/%(them). I think."
+		--
+		"\n\n\![*]\q[Back to config,OnConfigMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+	}
+}
+OnCustomPronouns {
+	"Alright! Could you please input them like the example on the next line?\nthey/them/their/they're/1\nThe extra one can be omitted if they're not grammatically plural.\x\![open,inputbox,OnPronouns,-1]\x\e"
+}
+//Pronoun examples for my own sake:
+//"%(heshe) left that there."
+//"%(hisher) work is really cool."
+//"I'll ask %(himher) later."
+//"%(hesshes) really good at it."
+
+OnChangeBirthday //Pulled a lot of this from the GT template, but I also modified it a lot
+{
+	oldbirthday = birthday
+	
+	"\0\s[0]Sure!\w8\w8 What month were you born in?\w8\w8 Name or number."
+	--
+	"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled birthday month]\![open,inputbox,OnUserBornMonth,-1]\![set,balloontimeout,-1]\e"
+}
+
+//birthday[0] - word birthday
+//birthday[1] - number birthday
+//birthday[2] - word month
+//birthday[3] - word day
+//birthday[4] - number month
+//birthday[5] - number day
+//Use birthday[0] to display the user's birthday, and birthday[1] to do checks with the numbers
+
+OnUserBornMonth
+{
+	_tempmonth = reference0 //this stores what the user put in as a variable called _tempmonth
+	_tempmonth = TOLOWER(_tempmonth) //changes it to lowercase
+	
+	if _tempmonth == "january" || _tempmonth == "1" {birthday[4] = 1; birthday[2] = "January"}
+	elseif _tempmonth == "february" || _tempmonth == "2" {birthday[4] = 2; birthday[2] = "February"}
+	elseif _tempmonth == "march" || _tempmonth == "3" {birthday[4] = 3; birthday[2] = "March"}
+	elseif _tempmonth == "april" || _tempmonth == "4" {birthday[4] = 4; birthday[2] = "April"}
+	elseif _tempmonth == "may" || _tempmonth == "5" {birthday[4] = 5; birthday[2] = "May"}
+	elseif _tempmonth == "june" || _tempmonth == "6" {birthday[4] = 6; birthday[2] = "June"}
+	elseif _tempmonth == "july" || _tempmonth == "7" {birthday[4] = 7; birthday[2] = "July"}
+	elseif _tempmonth == "august" || _tempmonth == "8" {birthday[4] = 8; birthday[2] = "August"}
+	elseif _tempmonth == "september" || _tempmonth == "9" {birthday[4] = 9; birthday[2] = "September"}
+	elseif _tempmonth == "october" || _tempmonth == "10" {birthday[4] = 10; birthday[2] = "October"}
+	elseif _tempmonth == "november" || _tempmonth == "11" {birthday[4] = 11; birthday[2] = "November"}
+	elseif _tempmonth == "december" || _tempmonth == "12" {birthday[4] = 12; birthday[2] = "December"}
+	else //if the month isn't a valid month, like 32 or something.
+	{
+		"\0\s[0]%(_tempmonth) isn't a valid month,\w4 try again."
+		--
+		"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled birthday month]\![open,inputbox,OnUserBornMonth,-1]\![set,balloontimeout,-1]\e"
+	}
+	--
+	//If it's a valid month
+	"%(birthday[2]) huh?\w8\w8 Ok,\w4 what day?"
+	--
+	"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled birthday day]\![open,inputbox,OnUserBornDay,-1]\![set,balloontimeout,-1]\e"
+}
+
+OnUserBornDay
+{
+	
+	_tempday = reference0 //storing the input in _tempday
+	_tempday = TOLOWER(_tempday) //changes it to lowercase
+	_tempday = REPLACE(_tempday,"st","") //if the user types something like 2nd, 3rd, etc, this will make it just the number. It'll just add the suffix back later on the one that actually shows.
+	_tempday = REPLACE(_tempday,"nd","")
+	_tempday = REPLACE(_tempday,"rd","")
+	_tempday = REPLACE(_tempday,"th","")
+	_tempday = TOINT(_tempday) //Converts it to an integer
+	_month = birthday[4] //Just for readability
+	
+	if ((_month == 1 || _month == 3 || _month == 5 || _month == 7 || _month == 8 || _month == 10 || _month == 12) && _tempday >= 1 && _tempday <= 31) || (_month == 2 && _tempday >= 1 && _tempday <= 29) || ((_month == 4 || _month == 6 || _month == 9 || _month == 11) && _tempday >= 1 && _tempday <= 30) //This ugly function checks if the day falls into a valid range.
+	{
+		birthday[5] = _tempday
+		birthday[3] = Printday
+		birthday[1] = "%(birthday[4])/%(birthday[5])" //If you want to write dates as DD/MM, feel free to swap this around
+		birthday[0] = "%(birthday[2]) %(birthday[3])"
+		ERASEVAR("oldbirthday")
+		
+		if birthday[1] == "%(month)/%(day)" //if today is the user's birthday. Don't forget to switch this if you change the format to DD/MM
+		{
+			"\0\s[0]Happy birthday,\w4 %(username)!"
+		}
+		elseif birthday[1] == "12/25" //If it's on christmas. Put any date you'd like here. If you change the format to DD/MM, make sure you change any dates like this that might be in bootend.
+		{
+			"\0\s[0]Oh,\w4 you were born on Christmas?\w8\w8 Cool!"
+		}
+		else //if the birthday is not listed above.
+		{
+			"\0\s[0]Ok, your birthday is %(birthday[0]).\w8\w8 I'll remember."
+		}
+		--
+		"\n\n\![*]\q[Back to config,OnConfigMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+	}
+	else //If it isn't a valid day, we open the input box again and have a \e so the dialogue below doesn't play.
+	{
+		"\0\s[0]That isn't a valid day.\w8\w8 Try again."
+		--
+		"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled birthday day]\![open,inputbox,OnUserBornDay,-1]\e"
+	}
+	
+}
+
+Printday //Sets the appropriate suffix
+{
+	if birthday[5] == 1 || birthday[5] == 21 || birthday[5] == 31
+	{
+		"%(birthday[5])st"
+	}
+	elseif birthday[5] == 2 || birthday[5] == 22
+	{
+		"%(birthday[5])nd"
+	}
+	elseif birthday[5] == 3 || birthday[5] == 23
+	{
+		"%(birthday[5])rd"
+	}
+	else
+	{
+		"%(birthday[5])th"
+	}
+}	

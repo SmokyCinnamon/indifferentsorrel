@@ -1,0 +1,723 @@
+//----Drag and Drop----
+
+//When you drop a file on the ghost that isn't something it can install
+//reference0 is the file path, which is split up amongst the local variables below
+OnFileDrop2
+{
+	_filepath = SPLITPATH(reference0)
+	_filename = _filepath[2]
+	_fileext = TOLOWER(_filepath[3])
+	case _fileext
+	{
+		when ".jpg", ".jpeg", ".bmp", ".png" //These are pictures that they can set to wallpapers. Png works for me, but if it doesn't work for you let us know please, I'm curious about this.
+		{
+			if "]" _in_ reference0 //If the file name contains a character that would break the wallpaper command
+			{
+				"\0\s[0]This is %(_filename)%(_fileext)!\w8\w8 I could set it as your wallpaper,\w4 but you need to remove any ] characters from the title first,\w4 sorry!\e"
+			}
+			else
+			{
+				"\0\s[0]This is %(_filename)%(_fileext)!\w8\w8 I can set it as your wallpaper,\w4 how do you want it?\n\n"
+				--
+				"\![*]\q[Centered,OnWallpaper,Center,%(reference0)]\n/
+				\![*]\q[Tiled,OnWallpaper,Tile,%(reference0)]\n/
+				\![*]\q[Stretched,OnWallpaper,Stretch,%(reference0)]"
+				--
+				if "Windows 10" _in_ NotifyOS //NotifyOS is set just below. The Span option is only available if you're on Win 10, so this means it won't display unless you're on Win 10
+				{
+					"\n\![*]\q[Spanned,OnWallpaper,Span,%(reference0)]"
+				}
+				--
+				"\n\n\![*]\q[No thanks,WallpaperCancel]\e"
+			}
+		}
+		when ".mid", ".wav", ".mp3", ".wma", ".au", ".ogg", ".flac"
+		{
+			"\0\s[0]This is music!\e"
+		}
+		when ".txt" {
+			if ASEARCH(_filename,lessonname) == -1 {lessonname ,= _filename}
+			--
+			FOPEN(reference0,'r'); _buff = ""
+			FCHARSET(1)
+			LOGGING("File opened: %(_f) reference: %(reference0)")
+			for _buff = FREAD(reference0); _buff != -1; _buff = FREAD(reference0) {
+				LOGGING("AAAfileopenAAA")
+				if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA"); TOINT(RE_GETSTR[1]); skillnum ,= RE_GETSTR[1]; numprog ,= 0}}
+			FCLOSE(reference0)
+			--
+			FMOVE(reference0,'lessons\')
+		}
+		others
+		{
+			if _fileext == "" //If it's a folder. Using \_? lets you display the slashes and such in dialogue, but you have to toggle it off after you no longer need it
+			{
+				"\0\s[0]This is \_?%(_filepath[1])\_?!\e"
+			}
+			else //If it's a file
+			{
+				"\0\s[0]This is %(_filename)%(_fileext)!\e"
+			}
+		}
+	}		
+}
+
+//You can get other information about the OS here, it's in the other references. Reference0 includes the OS system, version, and display name
+OnNotifyOSInfo
+{
+	NotifyOS = reference0
+}
+
+OnWallpaper
+{
+	if reference0 == "Center"
+	{
+		"\![set,wallpaper,%(reference1),center]"
+		--
+		"\0\s[0]It's centered!\e"
+	}
+	elseif reference0 == "Tile"
+	{
+		"\![set,wallpaper,%(reference1),tile]"
+		--
+		"\0\s[0]It's tiled!\e"
+	}
+	elseif reference0 == "Stretch"
+	{
+		"\![set,wallpaper,%(reference1),stretch]"
+		--
+		"\0\s[0]It's stretched!\e"
+	}
+	elseif reference0 == "Span"
+	{
+		"\![set,wallpaper,%(reference1),span]"
+		--
+		"\0\s[0]It's spanned!\e"
+	}
+	//--
+	//If you want you can add a single line of dialogue for setting wallpapers down here instead of unique lines for each type. Just leave the commands that actually set the wallpaper in place.
+}
+
+Select.WallpaperCancel
+{
+	"\0\s[0]Ok,\w4 let me know if you change your mind!\e"
+}
+
+OnInstallBegin
+{
+	"\0\s[0]Installing something!\e"
+}
+
+//Finished installing something ghost related. You can remove any of the ifs here if you like, and just have it go to the else.
+//reference0 is the type of installed item, reference1 is the name.
+OnInstallComplete
+{
+	if reference0 == "ghost"
+	{
+		"\0\s[0]I've installed %(reference1)!\w8\w8 Do you want to bring them here?\n\n"
+		--
+		"\![*]\q[Call %(reference1),CallGhost]\n/
+		\![*]\q[Change to %(reference1),ChangeToGhost]\n\n/
+		\![*]\q[No thanks,cancelnodialogue]\e"
+	}
+	elseif reference0 == "shell"
+	{
+		"\0\s[0]I've installed the %(reference1) shell!\e"
+	}
+	elseif reference0 == "balloon"
+	{
+		"\0\s[0]I've installed the %(reference1) balloon!\e"
+	}
+	elseif reference0 == "plugin"
+	{
+		"\0\s[0]I've installed the %(reference1) plugin!\e"
+	}
+	elseif reference0 == "calendar skin"
+	{
+		"\0\s[0]I've installed the %(reference1) calendar!\e"
+	}
+	elseif reference0 == "headline" //The wiki claims this is a possible outcome, but in my testing I've only been able to get it to show 'rss'
+	{
+		"\0\s[0]I've set up the headline for %(reference1)!\e"
+	}
+	elseif reference0 == "rss"
+	{
+		"\0\s[0]I've set up the RSS feed for %(reference1)!\e"
+	}
+	else //Even if you get rid of some of the ifs above, you should keep this else as a catch-all.
+	{
+		"\0\s[0]I've installed %(reference1)!\e"
+	}
+}
+
+//Calling the ghost that was just installed. Add dialogues to these if you like.
+Select.CallGhost
+{
+	"\![call,ghost,lastinstalled]\e"
+}
+
+//Opening the ghost that was just installed.
+Select.ChangeToGhost
+{
+	"\![change,ghost,lastinstalled]\e"
+}
+
+//reference0 is the reason the install failed
+OnInstallFailure //If the install fails
+{
+	if reference0 == "artificial" //If the user cancels by double clicking the balloon
+	{
+		"\0\s[0]Oh,\w4 did you change your mind?\e"
+	}
+	else
+	{
+		"\0\s[0]Sorry,\w4 the install failed.\w8\w8\n\n"
+		--
+		if reference0 == "unsupported" //File is not supported
+		{
+			"The file isn't supported.\e"
+		}
+		elseif reference0 == "extraction" //Couldn't extract
+		{
+			"I couldn't extract it properly.\e"
+		}
+		elseif reference0 == "invalid type" //install.txt isn't set up properly
+		{
+			"Something is wrong in the install.txt.\e"
+		}
+		else
+		{
+			"I got this error: '%(reference0)'.\e"
+		}
+	}
+}
+
+//reference0 is the Sakura name of the ghost the item was meant for, reference1 (since SSP 2.4.85) is the type of item you tried to install
+OnInstallRefuse
+{
+	"\0\s[0]I can't install this %(reference1).\w8\w8 Seems like it's meant for %(reference0) instead.\e"
+}
+
+OnUpdatedataCreating //Creating an updates2.dau
+{
+	"\0\s[0]Creating an updates2.dau file!\e"
+}
+
+OnUpdatedataCreated //Finished creating
+{
+	"\0\s[0]Finished making the updates2.dau!\e"
+}
+
+//reference0 is the name of what you're making a nar for, reference2 is what you're making (balloon/ghost/etc)
+OnNarCreating //Creating a .nar
+{
+	"\0\s[0]Creating a .nar for your %(reference2), '%(reference0)'!\w8\e"
+}
+
+//reference0 is the name of what you're making a nar for, reference2 is what you're making (balloon/ghost/etc)
+OnNarCreated //Finished creating
+{
+	"\0\s[0]Finished making a .nar for your %(reference2)!\w8 You can see it \_a[OnNarLocation,%(reference1)]here.\_a\e"
+}
+
+//When you click on the anchor in the OnNarCreated dialogue, this function will open the folder you created the .nar in
+OnNarLocation
+{
+	_path = SPLITPATH(reference0)[0] + SPLITPATH(reference0)[1]
+	
+	"\C\![open,file,%(_path)]"
+}
+
+//----Uninstalling----
+
+//Bringing up the uninstall option
+OnVanishSelecting
+{
+	"\0\s[0]Oh,\w4 do you want to uninstall?\e"
+}
+
+//Deciding to uninstall
+OnVanishSelected
+{
+	"\0\s[0]Alright,\w4 take care %(username)!\w8\w8\e"
+}
+
+//Changing your mind
+OnVanishCancel 
+{
+	"\0\s[0]Alright,\w4 I'll stick around for a while longer.\e"
+}
+
+//Canceling uninstallation by double clicking the balloon
+OnVanishButtonHold
+{
+	"\0\s[0]Changed your mind?\e"
+}
+
+//When another ghost has been uninstalled and it switches to this ghost - Also happens if this ghost is open when another is uninstalled
+//reference0 is the name of the uninstalled ghost
+OnVanished
+{
+	"\0\s[0]You uninstalled %(reference0).\e"
+}
+
+//----Mail checking----
+
+//reference2 is the email address it's checking? Wiki says mail server.
+OnBIFFBegin
+{
+	"\0\s[0]Ok,\w4 I'll check for emails!\e"
+}
+
+//reference0 is the number of emails found
+OnBIFFComplete
+{
+	if reference0 == 0 //No new emails
+	{
+		"\0\s[0]Nope,\w4 nothing new.\e"
+	}
+	elseif reference0 < 100 //less than 100 new emails
+	{
+		
+		if reference7 != "" //Reference7 is the headers. If it's empty(if the user has headers off), no need to run this loop. I STRONGLY ENCOURAGE YOU not to run this loop for more than 100 headers, as it may cause severe amounts of lag/freezing. Also, that's a lot to scroll through.
+		{
+			_buff = reference7
+			_len = ARRAYSIZE(_buff)
+			headers = ""
+			_i = 0
+			while _i < _len //Runs through all the elements of the array
+			{
+				if "<" _in_ _buff[_i] && "@" _in_ _buff[_i] && "." _in_ _buff[_i] && ">" _in_ _buff[_i] //If it has an email address
+				{
+					if _i != 0; headers += "\n\n[half]" //Add line breaks
+					headers += "\![*]%(_buff[_i])" //Add a menu option and the header text
+				}
+				else //If it does not have an email address, it must be a particle
+				{
+					headers += ",%(_buff[_i])" //Add the text
+				}	
+				_i++
+			}
+		}
+		--
+		_s = ""; if reference0 != 1; _s = "s" //Plural check, adds an s if the number of emails is not 1
+		"\0\s[0]You've got %(reference0) new email%(_s)."
+		--
+		if reference7 != "" //Same as above, no need to ask if there are no headers
+		{
+			"\w8\w8 Do you want to see the header%(_s)?"
+			--
+			"\n\n\![*]\q[Yes,OnSeeHeaders]\n\*\![*]\q[No,cancelnodialogue]"
+		}
+		--
+		"\e"
+	}
+	else //more than 100 new emails
+	{
+		"\0\s[0]You've got %(reference0) new emails."
+	}
+}
+
+//Displaying the headers. No need to touch this other than changing the surface, or if you want to make the buttons different or something. Reference0 is the list of headers
+OnSeeHeaders
+{
+	"\0\s[0]\b2\_q%(headers)\*\n\n\![*]\q[Done,cancelnodialogue]"
+	--
+	headers = NULL //This erases the variable so you're not storing all those headers and bloating your save. Also, privacy reasons.
+}
+
+//Email checking failed
+//reference0 is the error returned
+OnBIFFFailure
+{
+	if reference0 == "timeout" //If the connection times out
+	{
+		"\0\s[0]The connection timed out.\e"
+	}
+	elseif reference0 == "kick" //if the ghost can't get into the account. Gmail requires an app specific password to get in
+	{
+		"\0\s[0]I can't get into the account.\e"
+	}
+	elseif reference0 == "defect" //If info in the POP menu is wrong
+	{
+		"\0\s[0]The POP settings are wrong,\w4 please double check them."
+		--
+		"\![open,configurationdialog,biff]\e"
+	}
+	elseif reference0 == "artificial" //As far as I can tell, artificial is if the user double clicks on the balloon to stop it
+	{
+		"\0\s[0]Oh,\w4 changed your mind?\e"
+	}
+	else //Some other kind of error.
+	{
+		"\0\s[0]I can't get in.\w8\w8 The error is '%(reference0)'.\e"
+	}
+}
+
+//----Network update---
+
+//When the ghost finishes checking for updates
+//reference0 is 'none' if there are no new files, and 'changed' if there are new files. reference1 is a list of the changed files, separated by commas
+OnUpdateCheckComplete 
+{
+	if reference0 == "none" //If there are no new files
+	{
+		if AutoUpdates[1] == 1 //Sets it so it won't check again until at least midnight
+	}
+	else
+	{
+		AutoUpdates[1] = 2 //This makes it so the ghost will tell the user there's a new update next time they open their menu
+	}
+}
+
+//Starting to actually update
+OnUpdateBegin
+{
+	"\0\s[0]Ok,\w4 I'll update!\w8\w8\e"
+}
+
+//reference0 is the number of new files, starting from 0
+OnUpdateReady
+{
+	reference0++ //Number of files starts from 0, so this displays the correct amount
+	_s = ""; _is = "is"; if reference0 != 1; _s = "s"; _is = "are" //plural checks, adds an s and changes is to are if there's more than 1 file
+	
+	"\0\s[0]There %(_is) %(reference0) new file%(_s)!\w8\w8\e"
+}
+
+//When the update finishes. Don't forget to initialize any new variables you've created, more on that in Bootend.
+//reference0 is 'none' if there were no new files to update with, reference1 is a list of new file names, separated by commas
+OnUpdateComplete
+{
+	UpdateVars
+	AutoUpdates[1] = 0
+	if reference0 == "none"
+	{
+		"\0\s[0]There are no new files.\e"
+	}
+	else
+	{
+		UpdateVars //Sets new variables upon a successful update. See the end of Bootend for an explanation on this.
+		
+		"\0\s[0]Update complete!\w8\w8 Do you want to see the changelog?"
+		--
+		"\n\n\![*]\q[Yes,OnChangeLog]\n\![*]\q[No,NoChangelog]\e"
+	}
+}
+
+//I've put this here so it's easier to remember to update the version number while you're updating the changelog. This will display on the ghost's menu. I made it an envelope so you can have it be the same across multiple menus for multiple modes, if you want.
+ghostver
+{
+	"1.0.0"
+}
+
+//the autoscroll tag here means the user will see the changelog starting from the top. I recommend putting the new versions on top, and old versions under that.
+OnChangeLog
+{
+	"\![set,autoscroll,disable]\_q\b2\_l[90]-Version 1.0.0-\n\n/
+	-Initial release\n\n\n"
+	--
+	if reference0 == "FromMenu" //Checks to see if the user came here from the functions menu
+	{
+		"\![*]\q[Back to functions,OnFunctionMenu]\n"
+	}
+	--
+	"\![*]\q[Done,cancelnodialogue]\e"
+}
+
+Select.NoChangelog
+{
+	"\0\s[0]Ok,\w4 you can see it in the functions menu later if you want!\e"
+}
+
+//Taken from the GT template because I see no reason to redo this and probably break it
+//reference0 is the file currently being downloaded
+OnUpdate.OnDownloadBegin
+{
+	"\0\s[0]\b2\_qDownloading %(reference0)...\n\n"
+	--
+	_Update_Progress = TOINT(reference1) + 1
+	_Update_Total = TOINT(reference2) + 1
+	Update_Remaining = _Update_Total - _Update_Progress
+
+	//defining starting points
+	_PointA = 1
+	_PointB = 1
+
+	//defining text buffers beforehand, otherwise they don't display right
+	_txt = ""
+
+	//loop calculates how many check boxes to display based on the variables above
+
+	while _PointA <= _Update_Progress
+	{
+		_txt += ">"
+		_PointA++
+	}
+	//see above except for blank boxes
+	while _PointB <= Update_Remaining
+	{
+		_txt += "<"
+		_PointB++
+	}
+	--
+	//using the text buffers to display the correct number of boxes
+	"%(_txt)\n\n%(_Update_Progress) of %(_Update_Total)"
+	--
+	//flavortext
+
+	/*if "aitalk" _in_ reference0 //this is checking to see what kind of files are being downloaded. In this case, it's looking for files called aitalk in the download queue. I prefer to leave these out because they can be a bit jarring.
+	{
+ 		"\n\nNew random dialogue!\w8"
+ 	}
+	elseif "mouse" _in_ reference0
+	{
+		"\n\nNew petting dialogue!\w8"
+	}
+	else //for files not specified above
+	{
+		""
+	}*/
+	--
+	"\e"
+} 
+
+//_remaining should be the number of the file that's giving the error, in the order they're being downloaded. currentfile will be the file path.
+OnUpdate.OnMD5CompareFailure
+{
+	_remaining = Update_Remaining + 1
+	_currentfile = SPLITPATH(reference0)[2] + SPLITPATH(reference0)[3] //This gets the name and extension of the offending file
+	"\0\s[0]The MD5 values don't match on file %(_remaining) - '%(_currentfile)'.\w8\w8\e"
+}
+
+//reference0 is the reason the update failed
+OnUpdateFailure //If the update fails
+{
+	if reference0 == "timeout" //If it timed out
+	{
+		"\0\s[0]Sorry,\w4 the connection timed out.\e"
+	}
+	elseif reference0 == "md5 miss" //If the update files have not been uploaded correctly and don't match the updates2.dau
+	{
+		_currentfile = SPLITPATH(reference1)[2] + SPLITPATH(reference1)[3] //This gets the name and extension of the offending file
+		"\0\s[0]The MD5 values don't match.\w8\w8 You should contact the ghost author and let them know that '%(_currentfile)' is giving an MD5 error.\e"
+	}
+	elseif reference0 == "artificial" //If the user cancels the update by double clicking the balloon
+	{
+		"\0\s[0]Oh,\w4 did you change your mind?\e"
+	}
+	else //Any other errors
+	{
+		"\0\s[0]Sorry,\w4 I got an error:\w4 '%(reference0)'.\e"
+	}
+}
+
+//Similar to above, but for if the ghost was just checking and not actually updating
+//reference0 is the reason the check failed
+OnUpdateCheckFailure
+{
+	if AutoUpdates[1] == 1; "\e" //Stops the dialogue from showing if it's an auto check
+	--
+	if reference0 == "timeout" //If it timed out
+	{
+		"\0\s[0]Sorry,\w4 the connection timed out.\e"
+	}
+	else
+	{
+		"\0\s[0]Sorry,\w4 I got an error:\w4 '%(reference0)'.\e"
+	}
+}
+
+//reference0 is the name of the site, reference1 is the url
+OnHeadlinesenseBegin
+{
+	"\0\s[0]Ok,\w4 I'll open %(reference0)!\e"
+}
+
+//Taken from Zarla's GT template. Slightly modified because the top part was redundant as far as I could tell..?
+//reference0 is the site name, reference1 is the url, reference3 is the headlines
+OnHeadlinesense.OnFind
+{
+	_display = REPLACE(reference3,"\_a[","\![*]\_a[")
+ 	//---- Headlines
+	"\0\b2%(reference0):\n\n%(_display)\n"
+ 	--
+	//---- Pages
+ 	if reference2 == "First" || reference2 == "Next"
+	{
+ 		//---- Bottom buttons
+		"\![*]\q[Next,] - \![*]\q[Stop,Headline_Cancel]\e"
+ 	}
+	else
+ 	{
+		//---- Bottom buttons
+ 		"\![*]\q[Stop,Headline_Cancel]\e"
+ 	}
+}
+
+Select.Headline_Cancel
+{
+	"\0\s[0]Ok,\w4 done with RSS!\e"
+}
+
+//Looks like this happens if you view a headline and nothing has changed. I can only get RSS to work, so... I'll leave it here just in case.
+OnHeadlinesenseComplete 
+{
+	"\0\s[0]There's no update.\e"
+}
+
+//reference0 is the reason it failed
+OnHeadlinesenseFailure
+{
+	"\0\s[0]I can't update the feed.\w8\w8 "
+	--
+	if reference0 == "can't download"
+	{
+		"I can't download it.\e"
+	}
+	elseif reference0 == "can't analyze"
+	{
+		"I can't analyze it.\e"
+	}
+	else
+	{
+		"I'm not sure why,\w4 it says '%(reference0)'.\e"
+	}
+}
+
+//----Misc----
+
+//reference0 is the name of the server it's connecting to
+OnSNTPBegin
+{
+	"\0\s[0]Sure,\w4 I'll check your time against %(reference0).\w8\w8\e"
+}
+
+//Grabbed this from the GT template, don't see a reason to redo this
+//**** 미카 (http://homepage2.nifty.com/ko-ki/)의 사전을 참고했습니다．감사＞こ 나무 성
+//Above comment from the person who originally coded these functions
+//reference0 is the name of the server it's connecting to, reference1 is the server's time, reference2 is the computer's time, reference3 is the difference (in seconds)
+OnSNTPCompare
+{
+ 	"Retrieved Time: %reference1[1]/%reference1[2]/%reference1[0] %reference1[3]:%reference1[4]:%reference1[5]\w2\n/
+	Your Time: %reference2[1]/%reference2[2]/%reference2[0] %reference2[3]:%reference2[4]:%reference2[5]\w2\n\n"
+	--
+ 	if reference3 == 0 //if your clock is already accurate.
+	{
+		"\s[0]Your clock is accurate.\e"
+	}
+ 	else //if your clock doesn't match
+	{
+		"\0\s[0]Your clock doesn't match.\w8\nShould I fix it?"
+		--
+		"\n\n[half]/
+		\![*]\q[Fix it,OnSNTPExecute]\n/
+		\![*]\q[Leave it alone,OnSNTPCancel]\e" 
+	}
+}
+
+//The \6 is what actually changes the clock
+OnSNTPExecute
+{
+	"\6"
+	--
+	"\0\s[0]Alright,\w4 should be all good now!\e"
+}
+
+OnSNTPCancel
+{
+	"\0\s[0]Ok,\w4 let me know if you change your mind!\e"
+}
+
+//reference0 is the name of the SNTP server - Note that this may happen before any other STNP dialogue is said! Keep in mind when writing your dialogue that the user will not necessarily have clicked the yes button.
+OnSNTPFailure
+{
+	"\0\s[0]Sorry,\w4 something went wrong.\e"
+}
+
+OnDisplayChange
+{
+	displaybpp = reference0
+ 	displaywidth = reference1
+	displayheight = reference2
+}
+
+//I've never gotten this to work but you can add it if you like
+OnScreenSaverEnd
+{
+	"\0\s[0]The screensaver is gone.\e"
+}
+
+//Usually at 20% battery or less
+//reference0 should be the exact percentage left
+OnBatteryLow
+{
+	"\0\s[0]Your battery is getting low!\e"
+}
+
+//Usually at 5% battery or less
+//reference0 should be the exact percentage left
+OnBatteryCritical
+{
+	"\0\s[0]Your battery is SUPER low.\e"
+}
+
+//reference0 is the new size, reference1 is the previous size. Sadly, you can't check for the Y scale.
+OnShellScaling
+{
+	nowscale = reference0
+	if reference0 == 100
+	{
+		"\0\s[0]I'm back to normal size.\e"
+	}
+	elseif reference0 < 0 //If it's backwards
+	{
+		"\0\s[0]Backwards!\w8\w8 And upside down if you didn't unlink the scaling.\e"
+	}
+	elseif reference0 > reference1
+	{
+		"Getting bigger!\e"
+	}
+	elseif reference0 < reference1
+	{
+		"Getting smaller!\e"
+	}
+}
+
+//Hotkeys. reference0 is the name of the key as displayed on the keycap. reference4, for SSP only, will have things like ctrl and alt, separated by commas.
+OnKeyPress
+{
+	case reference0
+	{
+		when "t"
+		{
+			OnAiTalk
+		}
+		when "r"
+		{
+			OnLastTalk
+		}
+		when "y" //Starts a commu dialogue with a random ghost
+		{
+			"\![raise,OnStartTalking]"
+		}
+		when "f1"
+		{
+			"\![open,readme]"
+		}
+		when "v"
+		{
+			if debug == 1
+			{
+				OnTestVar
+			}
+		}
+		when "c"
+		{
+			if debug == 1
+			{
+				OnCommuPingMenu
+			}
+		}
+	}
+}

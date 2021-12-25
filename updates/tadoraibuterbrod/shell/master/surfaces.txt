@@ -1,0 +1,69 @@
+//IMPORTANT NOTE ABOUT SERIKO! You CANNOT have mid-line comments! SERIKO errors don't prevent you from loading your ghost, but it will still give annoying errors and cause unexpected behaviors! Put ALL COMMENTS ON THEIR OWN LINES. This will save you a lot of headache, trust me!
+
+version,1
+//This is using the new seriko definition. If you want to use the old one, change the version to 0
+
+//Sakura surfaces
+
+surface0
+{
+	element0,overlay,surface0.png,0,0
+	animation1.interval,runonce
+	animation1.pattern0,overlay,100,0,0,0
+	//As a note, you can put your images in subfolders! I'd be careful doing it, but it could be very helpful! It would look something like this
+	//element0,overlay,yourfolder/surface0.png,0,0
+	//Any images in subfolders HAVE to be defined in a surface before you can use them in animations, though.
+	
+	//Collisions
+	collision0,46,42,117,74,Head
+	collision1,46,75,124,100,Face
+	
+	//Blink
+	animation0.interval,random,3
+	animation0.pattern0,overlay,100,50,0,0
+	animation0.pattern1,stop,1
+	animation0.pattern2,overlay,101,100,0,0
+	animation0.pattern3,overlay,101,90,0,0
+	animation0.pattern4,overlay,-1
+	animation0.pattern5,start,1
+
+	animation102.interval,bind
+	animation102.pattern0,add,102,0,0,0
+	
+	
+}
+
+//surface.append0-99
+//{
+	//Anything you want to be applied to multiple surfaces (like collisions, blink frames, etc) goes in a range like this. You can exclude a surface from the range by adding something like ,!95 to the end, which would exclude surface95. You can include multiple ranges by separating them with commas.
+	//This is just here for my own reference, I always forget the syntax for append
+//}
+
+//Also here for reference. If you want your blink/talk frames in subfolders, you must define them first. This is where you can put the subfolder. You should be able to hide them from surface test again by putting that option into your surfacetable.
+//surface100
+//{
+	//element0,overlay,ExampleFolder/surface100.png,0,0
+//}
+
+//Kero surfaces - If you want a kero, uncomment the line below and create an image for surface10
+
+surface10
+{
+	element0,overlay,surface10.png,0,0
+	animation1.interval,runonce
+	animation1.pattern0,overlay,200,0,0,0
+
+	
+	//Collisions
+	collision0,43,162,88,198,Head
+	
+	//Blink
+	animation0.interval,random,6
+	animation0.pattern0,overlay,200,50,0,0
+	animation0.pattern1,stop,1
+	animation0.pattern2,overlay,201,100,0,0
+	animation0.pattern3,overlay,201,90,0,0
+	animation0.pattern4,overlay,-1
+	animation0.pattern5,start,1
+
+}

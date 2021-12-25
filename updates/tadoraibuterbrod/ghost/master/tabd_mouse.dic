@@ -26,8 +26,7 @@ MouseMoveSakura
 				stroke[2]++
 				totalpets++
 				
-				"\0\s[0]Твои руки никогда не устали...\w8\w8 Ты приласка%(л) мне %(stroke[2]) раз в ряд.\e"
-				"А вот и %(он)! Твоё повышение - %(stroke[2]).\e"
+				"\0\s[0]%(stroke[2]) pet streak!\e"
 			}
 		}
 		elseif stroke[0] >= 40
@@ -36,14 +35,7 @@ MouseMoveSakura
 			stroke[2]++
 			totalpets++
 			
-			"\0\s[0]Мур...\e"
-			"\0\п(№0№)Ой что, ты думаешь что я - кот?\к"
-			"\0\п(№0№)Мур-р-р...\к"
-			"\0\п(№0№)Чуть-чуть странно, но...\к"
-			"\0\п(№0№)Ну... Спасибо?\к"
-			"\0\п(№0№)У меня есть друзья что это не будет нравится. Но они не я.\к"
-			"\0\п(№0№)Привет!\к"
-			"\0\п(№0№)А почему приласкаешь меня?\к"
+			"\0\s[0]Aww, thanks, haha!\e"
 		}
 	}
 	elseif reference4 == "Face"
@@ -53,20 +45,47 @@ MouseMoveSakura
 		if stroke[0] >= 40
 		{
 			stroke[0] = 0
-			"\0\s[0]А ну ка що?\e"
+			"\0\s[0]Face in belarusian is твар!\e"
+		}
+	}
+}
+MouseMoveKero {
+	if reference4 == "Head"
+	{
+		stroke[0]++ //Stroke value only goes up when over the appropriate areas
+		stroke[1]++
+		
+		if stroke[1] >= 160 //this would happen starting at 4 pets
+		{
+			if stroke[0] >= 160 //Stroke count is longer so that you have time to read the dialogue here. Adjust as you like.
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				
+				"\1\s[10]* (%(stroke[2]) pet streak!)\e"
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0 //Stroke value is reset
+			stroke[2]++
+			totalpets++
+			
+			"\1\s[10]* (Buterbrod purrs.)\e"
 		}
 	}
 }
 
 OnMouseLeaveAll //When the mouse is no longer on a hitbox. You can change to OnMouseLeave if you want it to happen when you leave any hitbox for another one
 {
-	if stroke[1] >= 160 && stroke[1] >= pethighscore[0] //Checks if you're in continuous petting, and if you are, if you got a high score.
+	if stroke[1] > 160 && stroke[1] > pethighscore[0] //Checks if you're in continuous petting, and if you are, if you got a high score.
 	{
 		pethighscore[0] = stroke[1]
 		_b = BalloonCheck
 		if _b == 1 //Checks to see if the balloon is open, and if it is, \C means this will be added onto the previous dialogue.
 		{
-			"\C\n\n(Новое повышение! %(pethighscore[0])!)\e"
+			"\C\n\n(New high score! %(pethighscore[0])!)\e"
 		}
 	}
 	--
@@ -98,29 +117,9 @@ OnMouseDoubleClick
 
 MouseDoubleClickSakura
 {
-	if reference4 == "Face" //Punching dialogue
+	if reference4 == "Head" || reference4 == "face" //Punching dialogue
 	{
-		"\0\п(№0№)Я ни кот, ни собака. Но ещё...\к"
-		"Здарова!\к"
-		"Нееет, не мои щеки...\к"
-		"Думаю что чуть-чуть странно, не так ли? Мы друг-друга едва знаем...\к"
-		"Да это моя щека."
-		"Поздравляю, ты сжима%(л) мои щеки.\ж4 Это не так плохо...\к"
-		"Ух ты...\к"
-		"Добро пожаловать в место, где находиться щеки.\к"
-		"Буп.\к"
-		"Кое-что нужно?\к"
-		/*if totalpunches < 1 //If the user has not punched the ghost yet
-		{
-			"\0(Are you sure you want to punch her in the face?)"
-			--
-			"\n\n\_q\![*]\q[Yes,FirstPunch] \![*]\q[No!,cancelnodialogue]"
-		}
-		else //If they've already punched the ghost at least once
-		{
-			"\0\s[0]Ow!\e"
-			totalpunches++
-		}*/
+		"\0\s[0]I've been pat!\e"
 	}
 	else //If you're not punching, you must want the menu
 	{
@@ -132,24 +131,4 @@ Select.FirstPunch //The first time the ghost is punched
 {
 	"\0\s[0]Ow!\e"
 	totalpunches++
-}
-
-OnMouseWheel {
-	//"%(reference0) %(reference1) %(reference2) %(reference3) %(reference4) %(reference5) %(reference6)\w8\w8\e"
-	//--
-	if reference3 == 0 //&& booting != 1
-		{MouseWheelSakura}
-	else
-		{}
-}
-
-MouseWheelSakura {
-	if reference4 == "Head" || reference0 == "Face" {
-		if Flag("canbrush") == 1 && Flag("hasbrush") == 1 {
-			"beeeeeeeeeeep\e"
-			"put your indent on\e"
-			"teeeeeeeesting!\e"
-		}
-		else {}
-	}
 }

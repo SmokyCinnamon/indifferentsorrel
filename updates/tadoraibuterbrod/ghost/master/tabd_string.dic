@@ -1,0 +1,272 @@
+//Network Update URL. I recommend using Github Pages to set up a site and store their files! It's free and reliable. I've written up a guide on how to do this here https://zichqec.github.io/s-the-skeleton/github.html
+On_homeurl
+{
+	if betaTester == "On" //You don't need to include beta testing if you don't want to. If you want to get rid of it, replace this whole bit with a single homeurl link.
+	{
+		"https://YourBetaDirectoryHere.com/YourGhost/"
+	}
+	else
+	{
+		"https://YourGhostDirectoryHere.com/YourGhost/"
+	}
+}
+
+On_recommendrootbutton.caption //Change [Your Username] to your username, or change the whole caption to whatever you want. This is the top list of websites in the right click menu.
+{
+	"Other Resources"
+}
+
+On_sakura.recommendsites
+{
+	FormatLinks(recommendsites_sakura)
+}
+
+//These are the websites linked in the top option of the right click menu. Add your websites here! Follow the format carefully here, on the left is the name you want to display, on the right is the url you want it to link to, and between them should be a | with at least one space on either side. You can add as many spaces as you like, but there always has to be at least one. The links will be given the proper formatting by the FormatLinks function below.
+recommendsites_sakura : array
+{
+	"Belarusian Lacinka (EN)                  | https://belarusianlacinka.com/lacinka/2020/05/26/Lacinka-Alphabet/"
+	"Textbooks (BY)                           | https://knihi.com/padrucniki.html"
+	"Babadada (visual dictionary) (EN)        | https://babadada.com/topic/school/en-US/bel"
+	"Lingohut (EN)                            | https://www.lingohut.com/en/l112/learn-belarusian"
+	"Mova Nanova (BY)                         | https://uroki.movananova.by/classes/vitanni-i-zvaroty-akanne/"
+	"Asvetnik (BY)                            | http://asvetnik.by/"
+	"Вывучаем Беларускую (BY/RU/UK/PL)        | http://by.lang-study.com/RU/category/asnovy/"
+	"Internet Polyglot (EN)                   | https://www.internetpolyglot.com/lessons-en-be"
+	"Duolingo post requesting the course (EN) | https://forum.duolingo.com/comment/10008744"
+	"Duolingo post with a few lessons (RU)    | https://forum.duolingo.com/comment/9966059"
+	"Правільна (BY)                           | https://pravilna.by/"
+	"Memrise (EN)                             | https://app.memrise.com/courses/english-us/belarusian/"
+	"Memrise (BY)                             | https://app.memrise.com/courses/belarusian/"
+	"Memrise (RU)                             | https://app.memrise.com/courses/russian/belarusian/"
+	"Memrise (NL)                             | https://app.memrise.com/courses/belarusian/dutch/"
+	//https://tuzinfm.by/
+}
+ 
+On_portalrootbutton.caption //Caption for the second list of websites
+{
+	"From the Dev"
+}
+
+//You can make these anything you like. I've set them to link to my template, Zarla's template, and anything else helpful for making ghosts.
+On_sakura.portalsites 
+{
+	FormatLinks(portalsites_sakura)
+}
+
+//Same deal as above with the formatting. //I'd appreciate it if you left the X. Template link in your ghost so that other people can find the source <3
+portalsites_sakura : array
+{
+	"Site | https://smokycinnamon.github.io/indifferentsorrel/index.html"
+	"Tumblr | https://smokycinnamonroll.tumblr.com/"
+	"Youtube | https://www.youtube.com/channel/UCghSAyPM9dG4vDW99PwSo4w/videos"
+	"Candytuft Affection | https://candytuftaffection.github.io/index.html"
+
+}
+ 
+On_kero.recommendbuttoncaption //Caption for the Kero's website list
+{
+	"Reference Sites"
+}
+
+On_kero.recommendsites
+{
+	FormatLinks(recommendsites_kero)
+}
+
+recommendsites_kero : array //Put any websites you want here, I just included some stuff that was helpful to me when making my website.
+{
+	"Built on X. Template YAYA - v.1.0.7 (sorry zi lol) | https://zichqec.github.io/s-the-skeleton/xtemplate.html"
+	"Zarla's Ghost Template Walkthrough                 | http://www.ashido.com/ukagaka/walkthrough.html"
+	"How to set up updates with Github                  | https://zichqec.github.io/s-the-skeleton/github.html"
+	"Ukagaka Dream Team Discord                         | https://ukagakadreamteam.tumblr.com/discord"
+	"SSP (J)                                            | http://ssp.shillest.net/"
+	"Ukadoc (J)                                         | http://ssp.shillest.net/ukadoc/manual/list_shiori_event.html"
+	"YAYA Wiki (J)                                      | http://emily.shillest.net/ayaya/index.php?"
+	"Crow + SSP Reference (J)                           | http://crow.aqrs.jp/reference/all/index.html"
+	"Ghost Documentation (J)                            | http://usada.sakura.vg/contents/specification.html"
+}
+
+//This is the function that formats the links above! This is based on a function in Konno Yayame that serves a similar purpose. You can see that one here: http://emily.shillest.net/ayaya/index.php?Tips/%E3%81%8A%E6%B0%97%E3%81%AB%E5%85%A5%E3%82%8A%E3%82%92%E6%9B%B8%E3%81%8D%E3%82%84%E3%81%99%E3%81%8F%E3%81%99%E3%82%8B
+//Mine is a bit simpler, but it requires you to leave a space before and after the |. So long as you do that, it'll add the rest of the formatting for you! CUTSPACE is a built in function that gets rid of whitespace characters on the left and right of text.
+FormatLinks
+{
+	_output = ""
+	foreach _argv; _element
+	{
+		_name = CUTSPACE(_element[0,' | '])
+		_link = CUTSPACE(_element[1,' | '])
+		_output += _name + "%ASC(1)" + _link + "%ASC(2)"
+	}
+	_output
+}
+
+On_updatebutton.caption //Caption for the update button
+{
+	"Check for updates"
+}
+
+On_dressuprootbutton.caption //Caption for the dressup button
+{
+	"Accessories"
+}
+
+On_headlinesenserootbutton.caption //Caption for the RSS/Headlines button
+{
+	"Headlines and RSS"
+}
+
+On_readmebutton.caption //Caption for the Readme button
+{
+	"Readme"
+}
+
+On_vanishbutton.caption //Caption for the uninstall button
+{
+	"Uninstall"
+}
+
+On_shellrootbutton.caption //Caption for the change shell button
+{
+	"Change Shell"
+}
+
+On_ghostrootbutton.caption //Caption for the change ghost button
+{
+	"Change Ghost"
+}
+
+On_callghostrootbutton.caption //Caption for the call ghost button
+{
+	"Call Ghost"
+}
+
+On_hidebutton.caption //Caption for the minimize/iconify button
+{
+	"Minimize"
+}
+
+On_quitbutton.caption //Caption for the quit button
+{
+	"Quit"
+}
+
+On_calendarbutton.caption //The default right click menu has this typoed as 'Calender'
+{
+	"Calendar"
+}
+
+
+
+
+//-----Don't touch these-----
+//This stuff is, I believe, written by Umeici. I added a couple things of my own, but you really don't need to worry about them.
+//What you need to know is this: ghostexlist is a list of the names of ghosts that are currently open, going by the name of the sakura. ghostexcount is the number of opened ghosts. installedlist is a list of all the ghosts the user has installed, by the name that shows in the right click menu. balloonlist is the same as installedlist, but with balloons.
+
+//---- 소멸 지시 버튼 표시 교체 -------------------------------------------------------
+On_vanishbutton.visible
+ {
+ 	if deleteshitai == "On"
+ 	{
+		"1"
+	}
+	else
+	{
+		"0"
+	}
+}
+
+//---- 딳벍뭷궻뫜궻긕?긚긣뼹롦벦 -------------------------------------------------------
+On_otherghostname
+{
+	ghostexlist = ""
+	_i = 0
+	while _i >= 0
+	{
+		_ghostname = NAMETOVALUE("reference%_i")
+		if _ghostname != ""
+		{
+			if _i > 0; ghostexlist += ","
+			ghostexlist += _ghostname[0]
+			_i++
+		}
+		else; _i = -1
+	}
+	ghostexcount = ARRAYSIZE(ghostexlist)
+}
+
+OnCheckInstalledGhosts //This means you can see what ghosts the user has installed with installedlist
+{
+	installedlist = ""
+	_i = 0
+	while _i >= 0
+	{
+		_ghostname = NAMETOVALUE("reference%_i")
+		if _ghostname != ""
+		{
+			if _i > 0; installedlist += ","
+			installedlist += _ghostname[0]
+			_i++
+		}
+		else; _i = -1
+	}
+	installedcount = ARRAYSIZE(installedlist)
+}
+
+On_installedballoonname
+{
+	balloonlist = ""
+	_i = 0
+	while _i >= 0
+	{
+		_ghostname = NAMETOVALUE("reference%_i")
+		if _ghostname != ""
+		{
+			if _i > 0; balloonlist += ","
+			balloonlist += _ghostname[0]
+			_i++
+		}
+		else; _i = -1
+	}
+	ballooncount = ARRAYSIZE(balloonlist)
+}
+
+//---- SHIORI 関連情報 ------------------------------------------------------------------
+On_version
+{
+	GETSETTING(AYAINFO_VERSION)
+}
+
+On_craftman
+{
+	"umeici"
+}
+
+On_craftmanw
+{
+	"梅市"
+}
+
+On_name
+{
+	"AYA"
+}
+
+//---- Owned SSTP 用 uniqueid 取得 ------------------------------------------------------
+On_uniqueid
+{
+	uniqueid = reference0
+}
+
+//---- hwnd 取得 ------------------------------------------------------------------------
+On_hwnd
+{
+	sakurahwnd    = reference0[0]
+	kerohwnd      = reference0[1]
+	sakurablnhwnd = reference1[0]
+	keroblnhwnd   = reference1[1]
+}
+
+On_username
+{
+	username
+}

@@ -1,0 +1,15 @@
+OnDictionary {
+	_display = "" //Initialize a local variable to hold the display
+
+	for _i = 0; _i < ARRAYSIZE(dic_by); _i++ //Loop through every element of the array
+	{
+		_display += "%(dic_by[_i]) |" //Add the current element to a string, with a linebreak afterwards
+		_display += " %(dic_en[_i])\n"
+	}
+	"\b[2]\![set,autoscroll,disable]\_q"
+	--
+	"\f[bold,1]By | En\nSorted by lesson\f[bold,0]\n\n[half]"
+	--
+	"%(_display)\n\n\n[half]/
+	\![*]\q[К меню,OnMenuRun]\_q\x\e"
+}

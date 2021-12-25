@@ -1,0 +1,98 @@
+OnTranslate
+{
+	_talk = reference0
+	
+	//---Anchors---
+	_talk = REPLACE(_talk, "Example Anchor", "\_a[exampleanchor]Example Anchor\_a")
+	_talk = REPLACE(_talk, "Example word swap", "You don't have to make anchors into links, you can put images and stuff too")
+	_talk = REPLACE(_talk, "Example Anchor with OnFunction", "\_a[OnSomeAnchor]Since this links to OnSomeAnchor, you could create a function called OnSomeAnchor that would be called directly by clicking this\_a")
+	
+	
+	//---Important other stuff, written by Ponapalt---
+	if reference1 == "" && reference2 == ""
+	{ //send input box : no event (ref2) , no special flag (ref1)
+		EVAL('"' + REPLACE(_talk,'"','" + CHR(0x22) + "') + '"')
+	}
+    else
+	{ //event result from ghost
+		TOSTR(_talk)
+	}
+}
+
+OnAnchorSelect
+{
+	if "http://" _in_ reference0 || "https://" _in_ reference0 //checking to see if the link is a web address
+	{
+		"\j[%(reference0)]\e"
+	}
+	else
+	{
+		case reference0
+		{
+			when "exampleanchor"
+			{
+				"\0\s[0]You clicked the example!\e"
+			}
+		}
+	}
+}
+
+
+
+//As the name implies, this checks if the balloon is currently open or not. This was written by Levidre!
+//To use it I would do this, so you don't have to copy this whole chunk of code:
+//_b = BalloonCheck
+//if _b == 0 //_b will be 0 if the balloon is not open, or 1 if it is open
+BalloonCheck
+{
+	if ASEARCH("Status",var.req.key) != -1
+    {
+        _currentstatus = var.req.value[ASEARCH("Status",var.req.key)]
+        if "balloon" _in_ _currentstatus
+        {
+            1
+        }
+        else
+        {
+            0
+        }
+    }
+}
+
+//This function allows you to add a line break, but only for the balloon you intend your ghost to use! So if a bit of text wraps awkwardly, but you don't want to add a \n because it may look super weird in other balloons, you can put a %(br) instead! It'll be a \n in your balloon, and a single space in any other balloon. Make sure you add the name of your balloon here!
+//Example: "This dialogue would cut awkwardly in a hypothetical default%(br)balloon,\w4 so a manual linebreak is added for only that balloon.\w8\w8 In any other balloon this would be a%(br)continuous line,\w4 and use SSP's default word wrap.\e"
+br
+{
+	if SHIORI3FW.BalloonName == "Your Balloon Name Here"; "\n"
+	else; " "
+}
+
+//This function exists to help make pools of dialogue have not-ridiculous probabilities! Please take a look at the pools in aitalk to get an idea how this works. If you need help with it, there's a full explanation on my website: https://zichqec.github.io/s-the-skeleton/functions.html
+Pool
+{
+    _output = IARRAY
+	_amt = 1; if _argv[2] != ""; _amt = TOINT(_argv[2])
+    if TOINT(_argv[1])
+    {
+		_targetarray = IARRAY
+        EVAL("_targetarray = %(_argv[0])")
+        foreach _targetarray; _dialogue
+        {
+			for _i = 0; _i < _amt; _i++; {_output ,= _dialogue}
+        }
+    }
+    _output
+}
+
+//Setting variables in random dialogue
+//In the YAYA tips, I go into detail about setting single variables in random dialogue. This function will allow you to set more than one, or anything else you might want to do. Call it with \![raise,OnDialogueVars,yourValue], replacing yourValue with whatever you want reference0 to be.
+OnDialogueVars
+{
+	case reference0
+	{
+		when "example"
+		{
+			_example += 1
+		}
+	}
+}

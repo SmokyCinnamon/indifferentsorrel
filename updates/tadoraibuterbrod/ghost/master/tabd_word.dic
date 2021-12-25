@@ -1,0 +1,211 @@
+//-----Envelopes-----
+
+exampleenvelope
+{
+	"result 1"
+	"result 2"
+	"result 3"
+}
+
+wordwrite {"dzyatsyel,дзяцел"}
+//wordwrite {"dzyatsyel,дзяцел";"zamak,замак"}
+findrand {"%(find[1]) %(find[2]) %(find[3])";"%(find[3]) %(find[2]) %(find[1])";"%(find[1]) %(find[3]) %(find[2])";"%(find[2]) %(find[3]) %(find[1])";"%(find[3]) %(find[1]) %(find[2])"}
+//matchw {_match1 = match; _match2 = match; _match3 = match; _match4 = match; "%(_match1[0]) %(_match3[0]) %(_match4[0]) %(_match2[0])\n %(_match4[1]) %(_match2[1]) %(_match1[1]) %(_match3[1])"}
+match : nonoverlap {"dom,дом";"bez,бэз";"damy,дамы";"dudar,дудар";"byez,без";"tsmok,цмок";"supyer,супер";"voka,вока";"dzyetsi,дзеці";"potym,потым";"zdzyek,здзек";"karma,карма";"data,дата";"mara,мара";"dzyadok,дзядок";"zyazyulya,зязюля";"znik,знік";"lyalya,ляля";"kvyetka,кветка";"lyustka,люстка"}
+find {"mama,мама,мамо,маці";"tsatska,цацка,цётка,маца";"dzyadz\'ka,дзядзька,дзядзя,дзік";"tsvyordy,цвёрды,цвярдыня,цвік";"tata,тата,тату,тытунь";"damiska,даміска,дар,у дамісцы";"свет,svyet,sonyeyka,svyatlo";"люстра,lyustra,lyusterka,lusta";"зязюля,zyazyulya,zamochak,zyalyuny";"замак,zamak,zamyest,zmyest"}
+matchw1 {"%(match1[0]),%(match2[0]),%(match3[0]),%(match4[0])";"%(match1[0]),%(match2[0]),%(match3[0]),%(match4[0])";"%(match1[0]),%(match2[0]),%(match3[0]),%(match4[0])";"%(match1[0]),%(match2[0]),%(match3[0]),%(match4[0])"}
+matchw2 {"%(match1[1])","%(match2[1])","%(match3[1])","%(match4[1])"}
+alphabetdic_one : array {"пар,steam";"так,yes";"мама,mom";"тата,dad";"арфа,harp";"кот,cat";"бор,pine forest";"вока,eye";"ода,ode";"тое,that"
+	"кут,corner";"шум,noise";"ура,hooray";"тату,tattoo";"бэз,lilac";"эра,era";"бярэ,takes";"сыр,cheese";"мыш,mouse";"бяры,take!"
+	"бяда,trouble";"цяжка,it is hard \,difficult \,heavy";"мяч,ball";"ляля,baby";"цяпер,now";"семя,seed";"зерне,grain";"не,no"
+	"лён,flax";"лёс,fate";"цёпла,warm";"жыццё,life";"люстра,mirror";"дзядзюк,fella";"мір,peace";"літара,letter";"ляці,fly!"
+	"яблык,apple";"ёлка,fir tree";"ёгурт,yogurt";"вар’ят,insanse";"аб’ява,notice \, ad";"ад’езд,departure"
+}
+dic_by {"пар,так,мама,тата,арфа,кот,бор,вока,ода,тое,кут,шум,ура,тату,бэз,эра,бярэ,сыр,мыш,бяры,бяда,цяжка,мяч,ляля,цяпер,семя,зерне,не,лён,лёс,цёпла,жыццё,люстра,дзядзюк,мір,літара,ляці,яблык,ёлка,ёгурт,вар’ят,аб’ява,ад’езд,біблія,баба,вавёрка,гэта,гэй,дом,дудар,жыд,жах,зязюля,зара,мой,ейны,корка,крок,лес,дазвол,мім,няня,блін,папера,поп,Рым,разынкі,тапор,соска,сасна,тут,воўк,па,ўсё,свет,файна,фінік,хата,хваля,цацка,цукар,час,качка,шаша,джала,дзеці,шчасце,толькі,вельмі,восьмы"}
+dic_en {"steam,yes,mom,dad,harp,cat,pine forest,eye,ode,that,corner,noise,hoory,tattoo,lilac,era,takes,cheese,mouse,take!,trouble,it is hard/ difficult/heavy,ball,baby,now,seed,grain,no,flax,fate,warm,life,mirror,fella,peace,letter,fly!,apple,fir tree,yogurt,insane,notice/ad,departure,(the) bible,woman (old),squirrel,this,hey,house,piper,(a) Jew,horror,cuckoo,dawn/morning,my,her(s),crust,step,forest,permission,mime,nurse,pancake,paper,pope,Rome,raisins,axe,pacifier,pine tree,here,wolf,around,all,world/earth,fine/cool,date fruit,home,wave,toy,sugar,time,duck,highway,sting,children,happiness,only,very much/a lot,eighth"}
+
+usersfolder
+{
+	"start bar"
+	"Documents folder"
+	"Pictures folder"
+	"Music folder"
+	"Games folder"
+}
+
+filetype
+{
+	".txt"
+	".dic"
+	".png"
+	".jpg"
+	".jpeg"
+	".mp3"
+	".exe"
+	".bat"
+	".cfg"
+	".wav"
+	".pdf"
+	".dat"
+	".gif"
+	".tiff"
+	".dll"
+	".pna"
+	".ico"
+	".dau"
+	".zip"
+	".nar"
+	".html"
+	".psd"
+	".mp4"
+	".ttf"
+}
+
+//If you write all your envelopes as lowercase, you can send them through this function whenever you need the first letter capitalized! It'd look something like this: "%(Capitalize(exampleenvelope))"
+Capitalize
+{
+	_word = _argv[0] //Sets _word to the word the user sent
+	_buffer = SUBSTR(_word,0,1) //Storing the first character in _buffer
+	_word = ERASE(_word,0,1) //Erasing the first character from _word
+	_word = INSERT(_word,0,TOUPPER(_buffer)) //Making the character in _buffer uppercase and inserting it back into _word
+	_word //Returns the capitalized word
+}
+
+//-----Menu stuff-----
+season //Current season
+{
+	if hemisphere == "Southern"
+	{
+		if month > 2 && month < 6; "Autumn"
+		elseif month > 5 && month < 9; "Winter"
+		elseif month > 8 && month < 12; "Spring"
+		else; "Summer"
+	}
+	else
+	{
+		if month > 2 && month < 6; "Spring"
+		elseif month > 5 && month < 9; "Summer"
+		elseif month > 8 && month < 12; "Autumn"
+		else; "Winter"
+	}
+}
+
+nowhour //hour12 displays the hour like a 12 hour clock, except for 12 which is displayed as 0
+{
+	if hour12 == 0; "12"
+	else; "%(hour12)"
+}
+
+nowmin //Adding a 0 to the minute if it's under 10
+{
+	if minute < 10; "0%(minute)"
+	else; "%(minute)"
+}
+
+runmin //Same as above but with the runtime minutes
+{
+	if runtime[1] < 10; "0%(runtime[1])"
+	else; "%(runtime[1])"
+}
+
+ap //AM or PM - ampm is 0 during am, and 1 during pm
+{
+ 	if ampm == 0; "AM"
+ 	else; "PM"
+}
+
+wd //Abbreviated week day
+{
+	if weekday == 0; "Sun"
+	elseif weekday == 1; "Mon"
+	elseif weekday == 2; "Tue"
+	elseif weekday == 3; "Wed"
+	elseif weekday == 4; "Thu"
+	elseif weekday == 5; "Fri"
+	else; "Sat"
+}
+
+nowday //Full week day
+{
+	_weekday = weekday
+	if _argv[0] == "next"
+	{
+		_weekday++
+		if _weekday > 6; _weekday = 0
+	}
+	if _argv[0] == "last"
+	{
+		_weekday--
+		if _weekday < 0; _weekday = 6
+	}
+	
+	if GETTYPE(_argv[0]) == 1 //If it's an integer
+	{
+		while _argv[0] > 6; {_argv[0] -= 7}
+		while _argv[0] < 0; {_argv[0] += 7}
+		_weekday = _argv[0]
+	}
+	
+	if _weekday == 0; "Sunday"
+	elseif _weekday == 1; "Monday"
+	elseif _weekday == 2; "Tuesday"
+	elseif _weekday == 3; "Wednesday"
+	elseif _weekday == 4; "Thursday"
+	elseif _weekday == 5; "Friday"
+	else; "Saturday"
+}
+
+nowmonth //The current month name
+{
+	_month = month
+	
+	if _argv[0] == "next"
+	{
+		_month++
+		if _month > 12; _month = 1
+	}
+	if _argv[0] == "last"
+	{
+		_month--
+		if _month < 1; _month = 12
+	}
+	
+	if GETTYPE(_argv[0]) == 1 //If it's an integer
+	{
+		while _argv[0] > 12; {_argv[0] -= 12}
+		while _argv[0] < 1; {_argv[0] += 12}
+		_month = _argv[0]
+	}
+	
+	if _month == 1; "January"
+	elseif _month == 2; "February"
+	elseif _month == 3; "March"
+	elseif _month == 4; "April"
+	elseif _month == 5; "May"
+	elseif _month == 6; "June"
+	elseif _month == 7; "July"
+	elseif _month == 8; "August"
+	elseif _month == 9; "September"
+	elseif _month == 10; "October"
+	elseif _month == 11; "November"
+	else; "December"
+}
+
+leapyear //Checks if this is a leap year
+{
+	if year % 4 != 0; 0
+	elseif year % 100 != 0; 1
+	elseif year % 400 != 0; 0
+	else; 1
+}
+
+timeslot //From the GT template. Breaking down the day into a few distinct chunks so you dont have to add checks for every hour.
+{
+	if hour >= 5 && hour <= 8; "earlymorning" //5-8am
+	elseif hour >= 9 && hour <= 11; "morning" //9-11am
+	elseif hour >= 12 && hour <= 14; "lunch" //12-2pm
+	elseif hour >= 15 && hour <= 17; "afternoon" //3-5pm
+	elseif hour >= 18 && hour <= 20; "evening" //6-8pm
+	elseif hour >= 21 && hour <= 24; "latenight" //9pm-12am
+	else; "midnight" //1-4am
+}
