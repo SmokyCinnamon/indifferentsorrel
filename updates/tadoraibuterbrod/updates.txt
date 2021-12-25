@@ -24,7 +24,7 @@ file,ghost/master/tabd_lesson.dic9fbf26fb9db7d9c000e18fe78531bdd6size=12533da
 file,ghost/master/tabd_menu.dic1ad571b1aaaf46bd54edf190208d8d0esize=14410date=2021-12-25T09:19:01
 file,ghost/master/tabd_mouse.dicaf96854b6473439946312d65ad417309size=3451date=2021-12-23T21:23:19
 file,ghost/master/tabd_nameteach.dica09a0fdb683f951701aa5d320d594708size=8503date=2021-12-24T02:18:41
-file,ghost/master/tabd_string.dicd63d700321175eb36b7962ea7ee7bbb8size=8966date=2021-12-16T22:41:06
+file,ghost/master/tabd_string.dicdd6873886f3fca217371483ebb285179size=8996date=2021-12-25T09:40:08
 file,ghost/master/tabd_word.dic42c700efdb85866b67c64e0a180661d4size=7951date=2021-12-14T16:54:17
 file,ghost/master/time_check.dll07b7dabf0de6b5ea0a23178efc4d1c4fsize=105472date=2003-10-02T16:53:32
 file,ghost/master/x_template.ico.kraa2d3478f7ae2a771fdb38449325da8c1size=155986date=2021-12-25T08:31:56
