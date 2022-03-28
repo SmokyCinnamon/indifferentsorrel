@@ -1,0 +1,7 @@
+tree_lang[English@Russian]
+skill_number[1]
+lesson_notes[hi tumblr (specifically langblr) this is me showing off tadora bc this is really cool in my opinion\n\n[half]Also I sort of took this straight from duolingo because I am not a language teacher LOL]
+sentence_translation[The horses are eating.@Лошади едят;My notebook@Моя тетрадь;Our notebooks@Наши тетради;My horses@Мои лошади;Where are my notebooks?@Где мои тетради?;Here is my notebook@Вот моя тетрадь;These are my notebooks@Это мои тетради;No, this is not a notebook@Нет, это не тетрадь;Here are my horses@Вот мои лошади;What are the horses eating?@Что едят лошади?;Our horses do not eat bread@Наши лошади не едят хлеб]
+alternate_translation[]
+word_searches[]
+word_matches[my@мой;notebook@тетрадь;horse@лошадь;where@где;not@не;bread@хлеб;to eat@есть;what@что;this@это;no@нет;here is@вот]

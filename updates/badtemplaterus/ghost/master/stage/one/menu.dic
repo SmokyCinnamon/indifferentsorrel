@@ -1,0 +1,22 @@
+SakuraMenuOne : all {
+	"\_q%(menugreetone)\n"
+	"привет ничего не здесь"
+	"\n\n[half]%*\__q[cancel]Пока\__q\n%(ghostver)\_q"
+}
+menugreetone {
+	"привет"
+}
+
+
+/*ConfigMenuOne : all {
+	"\_q\b2Конфигурация\n\n"
+	"\__q[OnChangeName]Твоя имя: %(имя)\__q\n"
+	"\__q[OnChangePronoun]Твои местоимение: %(он)/%(его)\__q\n"
+	"\__q[OnChangeBirthday]Твой день рожедния: %(birthday[0])\__q\n\n"
+	"\__q[ToggleHemisphere]Твоё полушарие: %(hemisphere)\__q\n"
+	"\__q[ToggleNotifhour]Уведомление Часов: %(notifhour)\__q\n"
+	"\__q[ChangeTalk]Вмеря Разговор: %(talkrate)\__q\n\n"
+	"\__q[ToggleUpdate]Авто-обновление: %(AutoUpdates[0])\__q\n"
+	"\__q[ToggleUninstall]Удаление: %(deleteshitai)\__q\n\n"
+	"%(tomenu)\e"
+}*/

@@ -16,7 +16,6 @@ dic, kmmouse.dic
 dic, kmnameteach.dic
 dic, kmstring.dic
 dic, kmword.dic
-dic, zzz_todo.dic
 dic, kmbuttons.dic
 
 

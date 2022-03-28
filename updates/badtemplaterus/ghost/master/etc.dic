@@ -1,0 +1,160 @@
+//hell. do not want. goodbye.
+
+//uninstall shit
+OnVanishSelecting {
+	if nowmode == "creepymode" {CreepyVanishSelecting} else {
+		case stage {
+			when 1 {VanishSelectingOne}
+			others {
+				case nowmode {
+					when "hell" {}
+					others {
+						"\0\s[0]...Хочешь мне удалить?\e"
+					}
+				}
+			}
+		}
+	}
+}
+OnVanishSelected {
+	if nowmode == "creepymode" {CreepyVanishSelected} else {
+		case stage {
+			when 1 {VanishSelectedOne}
+			others {
+				case nowmode {
+					when "hell" {}
+					others {
+						"\0\s[0]Прощай, %(имя)! Я хочу бы встретить ты когда-то в будушем...\w8\w8\e"
+}}}}}}
+//yea you know that uninstall stuff? nevermind lol
+OnVanishCancel {
+	if nowmode == "creepymode" {CreepyVanishCancel} else {
+		case stage {
+			when 1 {VanishCancelOne}
+			others {
+				case nowmode {
+					when "hell" {}
+					others {
+						"\0\s[0]Нет? ...Спасибо.\e"
+}}}}}}
+
+//pop balloon
+OnVanishButtonHold {
+	if nowmode == "creepymode" {CreepyVanishHold} else {
+		case stage {
+			when 1 {VanishButtHoldOne}
+			others {
+				case nowmode {
+					when "hell" {}
+					others {
+						"\0\s[0]Ну что?\e"
+}}}}}}
+
+//When another ghost has been uninstalled and it switches to this ghost - Also happens if this ghost is open when another is uninstalled
+//reference0 is the name of the uninstalled ghost
+OnVanished {
+	if nowmode == "creepymode" {CreepyVanished} else {
+		case stage {
+			when 1 {VanishedOne}
+			others {
+				case nowmode {
+					when "hell" {}
+					others {
+						"\0\s[0]Прощай, %(reference0).\e"
+}}}}}}
+
+
+//----Network update---
+OnUpdateCheckComplete {
+	if reference0 == "none" //If there are no new files
+	{
+		if AutoUpdates[1] == 1 //Sets it so it won't check again until at least midnight
+	}
+	else
+	{
+		AutoUpdates[1] = 2 //This makes it so the ghost will tell the user there's a new update next time they open their menu
+	}
+}
+//Starting to actually update
+OnUpdateBegin {
+	"%(narrator)Обнивление начинает\w6\e"
+}
+//reference0 is the number of new files, starting from 0
+OnUpdateReady {
+	reference0++ //Number of files starts from 0, so this displays the correct amount
+	//_s = ""; _is = "is"; if reference0 != 1; _s = "s"; _is = "are" //plural checks, adds an s and changes is to are if there's more than 1 file
+	if reference0 == 0 || reference0 == 1 {"%(narrator)* (Есть %(reference0) новый файл.)\x\e"} else {"%(narrator)* (Есть %(reference0) новые файли.)\x\e"}
+}
+//Written by Zichqec https://zichqec.github.io/s-the-skeleton/
+//Inspired by the update progress bar on the Ashido ghost walkthrough http://ashido.com/ukagaka/slightcoding2.html#updates
+OnUpdate.OnDownloadBegin
+{
+  _progress = TOINT(reference1) + 1
+  _total = TOINT(reference2) + 1
+
+  "%(narrator)\_qЗагрузает %(reference0)...\n\n"
+  --
+  _display = ""
+  _display += "\f[name,courier new]"
+  for _i = 0; _i < _total; _i++
+  {
+    //Loading bar display - customize with text or images or whatever
+    if _i < _progress; _display += "■" //Files that have already been downloaded
+    else; _display += "□" //Files that have not been downloaded yet
+  }
+  --
+  "%(_display)\n\n%(_progress)/%(_total)\e"
+}
+OnUpdateComplete {
+	UpdateVars
+	AutoUpdates[1] = 0
+	if reference0 == "none" {
+		"%(narrator)Нет ничего нового.\e"
+	}
+	else {
+		UpdateVars //Sets new variables upon a successful update. See the end of Bootend for an explanation on this.
+		
+		"%(narrator)* (Всё теперь готово. Ты хочешь увидеть историей изменений?)"
+		--; "\n\n\![*]\q[Да,OnChangeLog] \![*]\q[Нет,NoChangelog]\e"
+	}
+}
+OnChangeLog {
+	"\C \![open,file,changelog.txt]\e"
+}
+Select.NoChangelog {
+	"%(narrator)* (Всегда можешь найти его в менб.)\e"
+}
+
+
+//i dont get it
+Flag //Checks to see if a flag exists. Returns 1 if yes, returns 0 if no
+{
+    if ASEARCH(_argv[0],MiscFlags) != -1; 1
+    else; 0
+}
+
+RemoveFlag //Removes all instances of a flag in the array. Returns 0 if there was no flag to erase, and 1 upon successfully erasing all flags
+{
+    _elements = ASEARCHEX(_argv[0],MiscFlags)
+    if ARRAYSIZE(_elements) == 0; 0 //If there was no flag to erase
+    else
+    {
+        for _i = ARRAYSIZE(_elements) - 1; _i >= 0; _i-- //Goes from the end of the list to the start, so the elements stay in the same positions while we erase
+        {
+            _current = _elements[_i]
+            MiscFlags[_current] = IARRAY
+        }
+        1
+    }
+}
+
+//Hotkeys. reference0 is the name of the key as displayed on the keycap. reference4, for SSP only, will have things like ctrl and alt, separated by commas.
+//they dont need to be spaced out, especially if you're not doing anything complicated. saves some line space.
+OnKeyPress {
+	case reference0 {
+		when "t" {OnAiTalk}
+		when "r" {OnLastTalk}
+		when "f1" {"\![open,readme]"}
+		when "f2" {if debug == 1 {OnTestVar}}
+	}
+}

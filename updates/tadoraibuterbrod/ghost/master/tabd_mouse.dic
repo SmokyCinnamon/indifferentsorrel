@@ -48,6 +48,15 @@ MouseMoveSakura
 			"\0\s[0]Face in belarusian is твар!\e"
 		}
 	}
+	elseif reference4 == "Obsidian" //If your collision is named Obsidian
+	{
+		stroke[0]++
+		if stroke[0] >= 40 {
+			stroke[0] = 0
+			res_reference0 = "Dusty"
+			"\e TadoraObsiPets"
+		}
+	}
 }
 MouseMoveKero {
 	if reference4 == "Head"
@@ -117,7 +126,8 @@ OnMouseDoubleClick
 
 MouseDoubleClickSakura
 {
-	if reference4 == "Head" || reference4 == "face" //Punching dialogue
+	if holdingObsidian == 1 && reference4 == "Obsidian" {"\![get,property,OnObsidianJumpDown,currentghost.scope(0).rect]\e"}
+	elseif reference4 == "Head" || reference4 == "face" //Punching dialogue
 	{
 		"\0\s[0]I've been pat!\e"
 	}

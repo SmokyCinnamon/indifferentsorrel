@@ -1,0 +1,44 @@
+version,1
+//new definition. 0 is for old definition but this will force you to use new definition so
+
+surface0
+{
+	element0,overlay,surface0.png,0,0
+	//subfolders can be used, any images have to be defined
+	//i actualy wonder if you could have a surfacse.txt in one? and have it set up sort of how using yaya.txt works...
+	//element0,overlay,yourfolder/surface0.png,0,0
+	
+	//Collisions
+	collision0,43,47,82,82,tvar
+	
+	//Blink
+	//animation0.interval,random,4
+	//animation0.pattern0,overlay,-1,100,0,0
+	//animation0.pattern1,overlay,100,50,0,0
+	//animation0.pattern2,overlay,101,100,0,0
+	//animation0.pattern3,overlay,-1,30,0,0
+	
+}
+
+//surface.append0-99
+//{
+	//append
+//}
+
+//sakura.surface.alias
+//{
+	//700,[700,701]
+//}
+
+//sakura.tooltips 
+//{ 
+	//tvar,твар - это лицо 
+//}
+
+//sakura.cursor 
+//{ 
+//mouseup0,Head,system:hand 
+//mousedown0,Head,system:finger 
+//mouseup1,Face,system:hand 
+//mousedown1,Face,system:grip 
+//}

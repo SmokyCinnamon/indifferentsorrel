@@ -1,0 +1,35 @@
+BootOne {
+	BootVarsOne; --
+	"Добрый день."
+	--; "\x\e"
+}
+
+CloseOne {
+	"\0\s[0]До встречи."
+	--; "\x\-"
+}
+
+WinStateRestoreOne {
+	"\0\s[0]Привет."
+	--; "\x\e"
+}
+
+GhostChangedOne {
+	if reference0 == sakuraname {"\0\s[0]\1\s[10]\e"} //reloaded 
+	else {
+		BootVarsOne; --
+		"\0\s[0]Здарова."
+		--; "\x\e"
+	}
+}
+
+BootVarsOne {
+	lastTalk = ""
+	runtime[0] = 0
+	runtime[1] = 0
+	runtime[2] = 0
+	AutoUpdates[1] = 0
+	booting = 0
+	waitingcommuS = IARRAY
+	waitingcommuM = IARRAY
+}

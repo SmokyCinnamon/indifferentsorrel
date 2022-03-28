@@ -10,6 +10,7 @@ OnLessonRead {
 	findwords = IARRAY
 	matchwords = IARRAY	
 	--
+	FCHARSET(1)
 	_f = FOPEN(_file,'r')
 	LOGGING("%(_file)")
 	//if FOPEN(_file,'r') {
@@ -72,10 +73,11 @@ OnLessonTest {
 	foundtype = 0
 	foundmatch = 0
 	sentenceswritten = 0
+	typetofind = 1; typetomatch = 1; sentencestotrans = 1
 	--
-	if ARRAYSIZE(findwords) > 0 {LOGGING("hey man what the fuck"); typetofind = RAND(4)} else {LOGGING("NOTHING"); typetofind = 0}
-	--; if ARRAYSIZE(matchwords) > 0 {LOGGING("DUDE"); typetomatch = RAND(4)} else {LOGGING("NOTHING"); typetomatch = 0}
-	--; if ARRAYSIZE(sentences) > 0 {LOGGING("hey man what the fuck"); sentencestotrans = RAND(4)} else {LOGGING("NOTHING"); sentencestotrans = 0}
+	if ARRAYSIZE(findwords) > 0 {LOGGING("hey man what the fuck"); typetofind += RAND(4)} else {LOGGING("NOTHING"); typetofind = 0}
+	--; if ARRAYSIZE(matchwords) > 0 {LOGGING("DUDE"); typetomatch += RAND(4)} else {LOGGING("NOTHING"); typetomatch = 0}
+	--; if ARRAYSIZE(sentences) > 0 {LOGGING("hey man what the fuck"); sentencestotrans += RAND(4)} else {LOGGING("NOTHING"); sentencestotrans = 0}
 	--
 	LOGGING("%ARRAYSIZE(matchwords)")
 	round = 0
@@ -120,51 +122,117 @@ OnLessonTestStart {
 		}
 	}}
 	else {
-	"yay you reached the end!\x\e"
+	"yay you reached the end!\n\n%*\q[To lessons,OnLessonPick] %*\q[Main menu,OnMenuRun] %*\q[Close menu,byelol]\e"
 	_aaa = ASEARCH(checkprog,lessonname)
-	LOGGING("%(checkprog) %(_aaa) check %(numprog[_aaa]) num %(skillnum[_aaa]))")
-	if skillnum[_aaa] < numprog[_aaa] {
+	LOGGING("checking %(checkprog) temp %(_aaa) check %(numprog[_aaa]) num %(skillnum[_aaa]))")
+	LOGGING("%(lessonname) %(numprog) %(skillnum)")
+	if skillnum[_aaa] > numprog[_aaa] {
 		numprog[_aaa]++
+		LOGGING("%(numprog[_aaa]) and %(numprog)")
 	}
 	else {}
 	_aa = ASEARCH(checkprog,inbuiltlessonname)
-	if inbuiltskillnum[_aa] < inbuiltnumprog[_aa] {
+	if inbuiltskillnum[_aa] > inbuiltnumprog[_aa] {
 		inbuiltnumprog[_aa]++
 	}
 	else {}
 
 }}
 
+JoggTwo {
+	LOGGING("%(_argv)")
+	_darray = SPLIT("%(_argv)"," ") //argv is the argument whatever. basically reference0
+	_darray = Shuffle(_darray)
+	_display = ""
+	foreach _darray; _stuff {
+		_display += "%*\f[color,purple]\__q[OnBubbleClick,%(_stuff)]%(_stuff)\__q\f[color,default] "
+	}
+
+	"%(_display)"
+}
+OnBubbleClick {
+	bubbleanswer += "%(reference0) "
+	--; OnSentenceTrans
+}
+
 OnSentenceTransStart {
 	round++
 	redo = 0
-	_num = RAND(ARRAYSIZE(sentences))
-	_assign = SPLIT(sentences[_num],'@')
-	finalanswer = _assign[1]
-	display = _assign[0]
-	altcheck = _num
+	_num = RAND(ARRAYSIZE(sentences)) //picking a random number from the list of sentences
+	_assign = SPLIT(sentences[_num],'@') //turning that sentence into a usable array
+	finalanswer = _assign[1] //setting the second item in that array to the answer needed
+	display = _assign[0] //settting the first item in the array to the sentence you're translating
+	altcheck = _num //assigning the number it picked to a variable in case there's alternate answers to check
+	bubbles = _assign[1]
+	bubbleanswer = ""
 	--
 	"\![raise,OnSentenceTrans]"
-	
 }
 OnSentenceTrans {
-	"\0\_qTranslate the sentence: %(display)\n \_q\![open,inputbox,OnSentenceTransed,0]"
+	if input == "keeb" {
+		"\0\_qTranslate the sentence: %(display)\n\n%*\__q[OnInputSwitch]Switch input method\__q \_q\![open,inputbox,OnSentenceTransed,0]\*"
+	}
+	else {
+		"\0\_qTranslate the sentence: %(display)\n\n %*\__q[OnInputSwitch]Switch input method\__q\_q\*"; --
+		"\1\s[10]\_q%(bubbleanswer)\n\n[half]%JoggTwo(bubbles)\n\n%*\__q[OnSentenceTransed,%(bubbleanswer)]Submit\__q\_q"
+	}
+}
+OnInputSwitch {
+	if input == "keeb" {
+		input = "bubble"
+		"\![close,inputbox,OnSentenceTransed]\![raise,OnSentenceTrans]"; --
+	}
+	else {
+		//input == bubble
+		input = "keeb"
+		"\1\s[10]\c\![raise,OnSentenceTrans]"
+	}
+
 }
 OnSentenceTransed {
 	_altiscorrect = 0; displayanswer = finalanswer //making sure the displayed answer keeps the correct punctuation
-	reference0 = TOLOWER(reference0) //changes it to lowercase
+	displayref = reference0
+	if reference0 == bubbleanswer {reference0 = ERASE(bubbleanswer,-1,1)}
+	//yaya can't seem to handle non-english characters for things like tolower & toupper. i don't want to have to make a bug report about it though >m<
+	--;
 	reference0 = REPLACE(reference0,".",""); reference0 = REPLACE(reference0,"-",""); reference0 = REPLACE(reference0,",",""); reference0 = REPLACE(reference0,"?",""); reference0 = REPLACE(reference0,"!","")
-	finalanswer = TOLOWER(finalanswer); finalanswer = REPLACE(finalanswer,".",""); finalanswer = REPLACE(finalanswer,"-",""); finalanswer = REPLACE(finalanswer,",",""); finalanswer = REPLACE(finalanswer,"?",""); finalanswer = REPLACE(finalanswer,"!","")
-	if reference0 == "" {redo++; "\C\_q Uh... maybe you should try again...?\x\![raise,OnSentenceTrans]"}
+	finalanswer = REPLACE(finalanswer,".",""); finalanswer = REPLACE(finalanswer,"-",""); finalanswer = REPLACE(finalanswer,",",""); finalanswer = REPLACE(finalanswer,"?",""); finalanswer = REPLACE(finalanswer,"!","")//removing punctuation
+	--;
+	_lower = IARRAY
+	_lower = ("af-ZA","am-ET","ar-AE","ar-BH","ar-DZ","ar-EG","ar-IQ","ar-JO","ar-KW","ar-LB","ar-LY","ar-MA","arn-CL","ar-OM","ar-QA","ar-SA","ar-SY","ar-TN",/
+"ar-YE","as-IN","az-Cyrl-AZ","az-Latn-AZ","ba-RU","be-BY","bg-BG","bn-BD","bn-IN","bo-CN","br-FR","bs-Cyrl-BA","bs-Latn-BA","ca-ES","co-FR","cs-CZ",/
+"cy-GB","da-DK","de-AT","de-CH","de-DE","de-LI","de-LU","dsb-DE","dv-MV","el-GR","en-029","en-AU","en-BZ","en-CA","en-GB","en-IE","en-IN","en-JM","en-MY",/
+"en-NZ","en-PH","en-SG","en-TT","en-US","en-ZA","en-ZW","es-AR","es-BO","es-CL","es-CO","es-CR","es-DO","es-EC","es-ES","es-GT","es-HN","es-MX","es-NI",/
+"es-PA","es-PE","es-PR","es-PY","es-SV","es-US","es-UY","es-VE","et-EE","eu-ES","fa-IR","fi-FI","fil-PH","fo-FO","fr-BE","fr-CA","fr-CH","fr-FR","fr-LU",/
+"fr-MC","fy-NL","ga-IE","gd-GB","gl-ES","gsw-FR","gu-IN","ha-Latn-NG","he-IL","hi-IN","hr-BA","hr-HR","hsb-DE","hu-HU","hy-AM","id-ID","ig-NG","ii-CN",/
+"is-IS","it-CH","it-IT","iu-Cans-CA","iu-Latn-CA","ja-JP","ka-GE","kk-KZ","kl-GL","km-KH","kn-IN","kok-IN","ko-KR","ky-KG","lb-LU","lo-LA","lt-LT","lv-LV",/
+"mi-NZ","mk-MK","ml-IN","mn-MN","mn-Mong-CN","moh-CA","mr-IN","ms-BN","ms-MY","mt-MT","nb-NO","ne-NP","nl-BE","nl-NL","nn-NO","nso-ZA","oc-FR","or-IN",/
+"pa-IN","pl-PL","prs-AF","ps-AF","pt-BR","pt-PT","qut-GT","quz-BO","quz-EC","quz-PE","rm-CH","ro-RO","ru-RU","rw-RW","sah-RU","sa-IN","se-FI","se-NO",/
+"se-SE","si-LK","sk-SK","sl-SI","sma-NO","sma-SE","smj-NO","smj-SE","smn-FI","sms-FI","sq-AL","sr-Cyrl-BA","sr-Cyrl-CS","sr-Cyrl-ME","sr-Cyrl-RS",/
+"sr-Latn-BA","sr-Latn-CS","sr-Latn-ME","sr-Latn-RS","sv-FI","sv-SE","sw-KE","syr-SY","ta-IN","te-IN","tg-Cyrl-TJ","th-TH","tk-TM","tn-ZA","tr-TR",/
+"tt-RU","tzm-Latn-DZ","ug-CN","uk-UA","ur-PK","uz-Cyrl-UZ","uz-Latn-UZ","vi-VN","wo-SN","xh-ZA","yo-NG","zh-CN","zh-HK","zh-MO","zh-SG","zh-TW","zu-ZA")
+	for _i = 0; _i < ARRAYSIZE(_lower); _i++ {
+		reference0 = TOLOWER(reference0,"%(_lower[_i])")
+		finalanswer = TOLOWER(finalanswer,"%(_lower[_i])")
+		LOGGING("%(_lower[_i]) ref %(reference0) ans %(finalanswer) AAA")
+	}
+
+
+	-- //the below is for checking that the above does as it says.
+	//"\_q\b[2]reference: %(reference0)\nans: %(finalanswer)\_q\x"; --
+	if reference0 == "" {redo++; bubbleanswer = ""; "\C\_q Uh... maybe you should try again...?\x\![raise,OnSentenceTrans]"}
 	elseif reference0 == finalanswer {
 		sentenceswritten++
-		"\C\_q%(reference0)\n\n[half]That's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
+		"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]%(displayref)\n\nThat's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
 	}
 	elseif ARRAYSIZE(altsentence) != -1 {
 		_altanswers = SPLIT(altsentences[altcheck],'@')
 		LOGGING("%(_altanswers)")
 		for _i = 0; _i < ARRAYSIZE(_altanswers); _i++ {
-				_altanswers[_i] = TOLOWER(_altanswers[_i]); _altanswers[_i] = REPLACE(_altanswers[_i],".",""); _altanswers[_i] = REPLACE(_altanswers[_i],"-",""); _altanswers[_i] = REPLACE(_altanswers[_i],",",""); _altanswers[_i] = REPLACE(_altanswers[_i],"?",""); _altanswers[_i] = REPLACE(_altanswers[_i],"!","")
+				_altanswers[_i] = REPLACE(_altanswers[_i],".",""); _altanswers[_i] = REPLACE(_altanswers[_i],"-",""); _altanswers[_i] = REPLACE(_altanswers[_i],",",""); _altanswers[_i] = REPLACE(_altanswers[_i],"?",""); _altanswers[_i] = REPLACE(_altanswers[_i],"!","")
+					for _a = 0; _a >= ARRAYSIZE(_lower); _a++ {
+						_altanswers[_i] = TOLOWER(altanswers[_i],_lower[_a])
+					}
 				LOGGING("AAAAAAA IS ZEO and %(_aaa[_i])")
 				if reference0 == _altanswers[_i] {
 					_altiscorrect = 1
@@ -173,16 +241,16 @@ OnSentenceTransed {
 		--
 		if _altiscorrect == 1 {
 			sentenceswritten++
-			"\C\_q%(reference0)\n\n[half]That's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
+			"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]%(displayref)\n\nThat's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
 		}
 		else {
-				redo++
-				"\C\_q%(reference0)\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+				redo++; bubbleanswer = ""
+				"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
 		}
 	}
 	else {
-		redo++
-		"\C\_q%(reference0)\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+		redo++; bubbleanswer = ""
+		"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
 }}
 
 OnFindTypeStart {
@@ -271,6 +339,7 @@ OnFindMatchStart {
 	_match3 = ANY(_assign)
 	_assign[LSO] = IARRAY
 	_match4 = ANY(_assign)
+	//i dont remember what the above does but its something with not repeating the same word twice i think
 	match1 = SPLIT(_match1,'@'); match2 = SPLIT(_match2,'@'); match3 = SPLIT(_match3,'@'); match4 = SPLIT(_match4,'@')
 	graytime = IARRAY
 	answersleft = IARRAY
@@ -405,3 +474,5 @@ OnFindMatchAnswer {
 		OnFindMatch
 	}
 }
+
+

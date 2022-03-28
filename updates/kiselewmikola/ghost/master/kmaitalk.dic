@@ -88,7 +88,7 @@ RandomTalk : nonoverlap
 	}
 	if "RYS-0825" _in_ ghostexlist
 	{
-		"A, heta ty. Pryvitanne, S.\e"
+		"A, S tut. Pryvitanne."
 	}
 }
 
@@ -175,7 +175,7 @@ Pool_timeslot_evening : array //timeslot == 'evening' (6pm - 8pm)
 
 Pool_timeslot_latenight : array //timeslot == 'latenight' (9pm - 12am)
 {
-	"\п(№0№)Да-да-дам-да-да-дам...\к"
+	"\п(№0№)Да-да-дам-да-да-дам...\к" //серебро?
 }
 
 Pool_timeslot_midnight : array //timeslot == 'midnight' (1am - 4am)
@@ -340,6 +340,7 @@ achain
 
 OnMinuteChange
 {
+	знакомство += RAND(7)
 	if RAND(100) <= 5 {keromode = "грязный!!!"; "\1\s[random]\i[1]\к"}
 	if minute == 0 //Top of the hour notifications
 	{

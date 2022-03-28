@@ -146,9 +146,10 @@ OnMouseWheel {
 MouseWheelSakura {
 	if reference4 == "Head" || reference0 == "Face" {
 		if Flag("canbrush") == 1 && Flag("hasbrush") == 1 {
-			"beeeeeeeeeeep\e"
-			"put your indent on\e"
-			"teeeeeeeesting!\e"
+			//"beeeeeeeeeeep\e"
+			//"put your indent on\e"
+			//"teeeeeeeesting!\e"
+			"\1\s[-1]* (Он выглядет счастлиый.)"
 		}
 		else {}
 	}

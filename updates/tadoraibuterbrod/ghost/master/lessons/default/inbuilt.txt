@@ -1,0 +1,5 @@
+skill_number<4>
+lesson_notes<Hello! This is not a proper lesson in that I am not a proper teacher, nor do I know belarusian to a high enough level to be qualified for this.\nNevertheless, this is my project, and I would like to have at least something in the way of an official 'tree', as it were. So you have this!\n\n[half]You will have to type in belarusian for this. Checking the translation of words/having word bubbles is a bit more difficult to code - maybe they'll be added in a future update? But for now, as a reference:\nI am a person = Я -- чалавек\nYou are a cat = Ты - кот\nWhere are you? = Дзе ты?\n\n[half]It's important to note that in the present tense, 'to be' ('быць') is usually omitted. in writing, you can convey the same meaning with '-'.\n(быць - буду - будзеш - будзеце - будзе / to be, I will be, you'll be, you all will be, he/she/it/they will be)>
+sentence_translation<I am a person@Я -- чалавек;You are a cat@Ты - кот;Where are you?@Дзе ты?>
+word_searches<person@чалавек@чырвоны@адчуваць>
+word_matches<I@я;person@чалавек;you@ты;cat@кот;where@дзе>

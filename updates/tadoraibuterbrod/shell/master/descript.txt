@@ -54,3 +54,6 @@ menu.sidebar.bitmap.filename,menu_sidebar.png
 sakura.bindgroup102.name,jacket,-
 sakura.bindgroup102.default,0
 sakura.menuitem0,102
+sakura.bindgroup103.name,obsidian,-
+sakura.bindgroup103.default,0
+//sakura.menuitem1,103

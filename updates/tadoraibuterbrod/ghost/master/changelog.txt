@@ -1,0 +1,14 @@
+1.0.1
+> added options to click on when you finish a lesson! yey
+> updated yaya to Tc-569-5
+> added belarusian wordle to her list of other resources!
+	> its fun trust me
+> added in that menu option for asking about custom lessons
+	> also a new menu option for lesson creators because that's important too
+> fixed a bug where she was able to start a lesson and immediately end it!
+	> maybe updating yaya fixed the numbers assigning weird who knows
+> she can now pick up obsidian from Zicheq's ghost Dusty and Obsidian! Cuteness++!
+> fixed un-minimizing making buterbrod vanish for a bit
+> she can now filter lessons based on language! You'll probably have to re-download any previous lessons but seeing as im not that many people really *have* her this shouldn't be anything ghost-breaking
+	> if you're a lesson creator you can check out the updated documentation for what you need to add
+	> or just create a new lesson and grab the needed parameter from that idk im not your boss

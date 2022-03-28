@@ -63,8 +63,11 @@ NormalBoot
 OnClose
 {
 	lastclosed = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)") //This tracks the last time the ghost was closed.
-	
-	if runtime[1] >= 5 || runtime[0] > 0 //If the ghost has been open longer than 5 minutes.
+	if holdingObsidian == 1 {
+		holdingObsidian = 0
+		"\0\s[0]Ну вось твая кошка, я не буду ёю украсць..."
+	}
+	elseif runtime[1] >= 5 || runtime[0] > 0 //If the ghost has been open longer than 5 minutes.
 	{
 		"\0\s[0]Pakul! I hope you'll come back soon, then!"
 	}
@@ -78,7 +81,7 @@ OnClose
 
 OnWindowStateRestore //When you bring the ghost back up after minimizing it.
 {
-	"\0\s[0]Huh, kinda cramped down there, don't you think?\e"
+	"\1\s[10]\0\s[0]Huh, kinda cramped down there, don't you think?\e"
 }
 
 OnGhostChanging //Changing to another ghost.
@@ -92,8 +95,13 @@ OnGhostChanging //Changing to another ghost.
 	else
 	{
 		lastclosed = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)") //Same as above, tracks when they were last closed.
-		
+		if holdingObsidian == 1 {
+			holdingObsidian = 0
+			"\0\s[0]Ну вось твая кошка, я не буду ёю украсць..."
+		}
+		else {
 		"\0\s[0]Make sure to tell %(reference0) what you learned today!"
+		}
 		--
 		"\w8\w8\e"
 	}
@@ -120,6 +128,24 @@ OnGhostChanged //After switching.
 		else
 		{
 			"Oh, bye %(reference0)! I hope we can meet someday!\e"
+		}
+	}
+}
+
+OnOtherGhostChanged {
+	if holdingObsidian == 1 {
+		if reference0 == "Dusty" {
+			holdingObsidian = 0
+			"\0Эй, пачакайце! Твая кошка яшче тут!\s[-1]\![bind,obsidian,-,0]\w8\w8\w8\w8\s[0] Эх... гэта лёгка магчыма быць хуже. Я не вор котіков!\e"
+		}
+	}
+}
+
+OnOtherGhostClosed {
+	if holdingObsidian == 1 {
+		if reference0 == "Dusty" {
+			holdingObsidian = 0
+			"\0Эй, пачакайце! Твая кошка яшче тут!\s[-1]\![bind,obsidian,-,0]\w8\w8\w8\w8\s[0] Эх... гэта лёгка магчыма быць хуже. Я не вор котіков!\e"
 		}
 	}
 }
@@ -162,6 +188,16 @@ OnShellChanged //After the shell has changed
 	}
 }
 
+OnWindowStateMinimize
+{
+    if holdingObsidian == 1
+    {
+        res_reference0 = "Dusty"
+        holdingObsidian = 0
+        "\0\s[-1]\![bind,obsidian,-,0]\e TadoraObsiMinimize"
+    }
+}
+
 OnGetCoords //This gets the x and y coordinates when changing shells
 {
 	shellchange[0] = reference0[0]
@@ -179,6 +215,7 @@ BootVars
 	booting = 0
 	waitingcommuS = IARRAY
 	waitingcommuM = IARRAY
+	OnTreeLoop
 }
 
 //These are new variables to initialize after an update. By checking if the variable doesn't exist before initializing it, we prevent variables already in use from being overwritten. This is VERY IMPORTANT, or you risk resetting the user's progress on your new variables every time they update.
@@ -228,4 +265,9 @@ FirstBootVars
 	inbuiltlessonname = IARRAY
 	inbuiltskillnum = IARRAY
 	inbuiltnumprog = IARRAY
+	currentlang = "English@Belarusian"
+	currentsort = IARRAY
+	treelang = IARRAY; treelang ,= "English@Belarusian"
+	--
+	OnTreeLoop
 }

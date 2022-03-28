@@ -11,13 +11,66 @@ OnLessonCheck {
 	LOGGING("File opened: %(_f) reference: %(reference0)")
 	for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
 		LOGGING("AAAfileopenAAA")
-		if RE_SEARCH(_buff,'skill_number<(\d\d?)>') {LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(inbuiltskillnum)AAA%(inbuiltnumprog)AAA"); TOINT(RE_GETSTR[1]); inbuiltskillnum ,= RE_GETSTR[1]; inbuiltnumprog ,= 0}}
+		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(inbuiltskillnum)AAA%(inbuiltnumprog)AAA"); TOINT(RE_GETSTR[1]); inbuiltskillnum ,= RE_GETSTR[1]; inbuiltnumprog ,= 0}
+		}
 		FCLOSE(_file)
 		LOGGING("%(inbuiltskillnum)AAA%(inbuiltnumprog)AAA")
 }}
 
+OnLangSelect {
+	_display = ''
+	treelang = ASORT(string,treelang)
+	"\0\s[0]\b[2]\_qChoose which course you'd like to see:\n(Currently: %(displang))\n\n[half]"; --
+	foreach treelang; _lang {
+		_disarray = SPLIT(_lang,'@')
+		_displaylang = "%(_disarray[1]) from %(_disarray[0])"
+		_display += "%*\__q[OnChangeLang,%(_lang)]%(_displaylang)\__q\n"
+	}
+	"%(_display)\n\n\n[half]%*\__q[OnLessonPick]Back\__q %*\__q[OnMenuRun]Main Menu\__q\_q\*"
+}
+OnChangeLang {
+	currentsort = IARRAY
+	currentlang = "%(reference0)"
+	_disarray = SPLIT(reference0,'@')
+	displang = "%(_disarray[1]) from %(_disarray[0])"
+	
+	OnTreeLoop; --
+	OnLangSelect
+}
+
+OnTreeLoop {
+	if ARRAYSIZE(lessonname) != 0 {
+		for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
+				TreeCheck(lessonname[_i])
+				LOGGING("lessonname: %(lessonname[_i]) sort: %(currentsort)")
+		}
+	}
+	return
+}
+
+TreeCheck {
+	LOGGING("chek treeeeeee")
+	_file = "\lessons\%(_argv[0]).txt"
+	//_file = ERASE(_argv[0],-1,1)
+	LOGGING("%(_argv[0])AAA %(_file)AAA")
+	--
+	FOPEN(_file,'r'); _buff = ""
+	FCHARSET(1)
+	LOGGING("File opened: %(_file) reference: %(_argv[0])")
+	for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+		LOGGING("file open")
+		if RE_SEARCH(_buff,'tree_lang\[([^\n]+@[^\n]+)\]') {LOGGING("HELLO AAA %(RE_GETSTR)"); if RE_GETSTR[1] == currentlang {currentsort ,= _argv[0]}}
+		}
+		FCLOSE(_file)
+		LOGGING("ref: %(_argv[0]) sort: %(currentsort)")
+		return
+}
+
 OnLessonPick {
-	"\0\s[0]\b[2]\_qHello, which lesson would you like to see?\n\n"
+	//if currentlang == "English@Belarusian"
+	//currentlang = "English@Belarusian"
+	if currentlang == "English@Belarusian" {
+	"\0\s[0]\b[2]\![set,autoscroll,disable]\_qHello, which lesson would you like to see?\n\n"
 	--
 	"\__q[OnAlphabet,partone]Alphabet: Notes 1\__q | \__q[OnAlphabet,parttwo]Alphabet: Notes 2\__q\n/
 	\__q[OnLessonStart,alphabet]Alphabet: skill\__q\n\n[half]"
@@ -27,17 +80,43 @@ OnLessonPick {
 		for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++ {
 			  _output += "\__q[OnLessonRead,%(inbuiltlessonname[_i]),inbuilt]%(inbuiltlessonname[_i]) (%(inbuiltnumprog[_i])/%(inbuiltskillnum[_i]))\__q "
 			}
-		_output
+		if _output == ''; {"\c\![raise,OnLessonPick]"; LOGGING("MENU RESTART")} else {_output}
 	}
-	--
+	--;
+	"\n\nCUSTOM LESSONS\n\n[half]"; --
 	if ARRAYSIZE(lessonname) != 0 {
 		_output = ''
 		for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
-			  _output += "\__q[OnLessonRead,%(lessonname[_i])]%(lessonname[_i]) (%(numprog[_i])/%(skillnum[_i]))\__q "
+			//TreeCheck(lessonname[_i])
+			LOGGING("lessonname: %(lessonname[_i]) sort: %(currentsort)")
+			--; if ASEARCH(lessonname[_i],currentsort) != -1 {
+					LOGGING("hihihihi %(currentsort)")
+		  			_output += "\__q[OnLessonRead,%(lessonname[_i])]%(lessonname[_i]) (%(numprog[_i])/%(skillnum[_i]))\__q "
 			}
-		"\n\nCUSTOM LESSONS\n\n[half]%(_output)"
+			else {_output += ""}
+			--; if _output == "" {"\c\![raise,OnLessonPick]"; LOGGING("restarting menu")} else {
+			"%(_output)"
+	}}}
+	--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnLangSelect]Change Course\__q %*\__q[OnMenuRun]Main Menu\__q\n\_q\x\e"
 	}
-	--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnMenuRun]Main Menu\__q\_q\x\e"
+	else {
+		"\0\s[0]\b[2]\![set,autoscroll,disable]\_qHello, which lesson would you like to see?\n\n"
+		--
+		if ARRAYSIZE(lessonname) != 0 {
+			_output = ''
+			for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
+					//TreeCheck(lessonname[_i])
+					LOGGING("lessonname: %(lessonname[_i]) sort: %(currentsort)")
+					--; if ASEARCH(lessonname[_i],currentsort) != -1 {
+						LOGGING("hihihihi %(currentsort)")
+			  			_output += "\__q[OnLessonRead,%(lessonname[_i])]%(lessonname[_i]) (%(numprog[_i])/%(skillnum[_i]))\__q "
+					}
+					else {_output += ""}
+				--; if _output == "" {"\c\![raise,OnLessonPick]"; LOGGING("restarting menu")} else {
+					"%(displang):\n\n[half]%(_output)"; LOGGING("please you shouldnt be emoty")
+			}}
+			--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnLangSelect]Change Course\__q %*\__q[OnMenuRun]Main Menu\__q\n\_q\x\e"
+	}}
 }
 
 OnAlphabet {
@@ -117,7 +196,7 @@ OnAlphabet {
 		\b[2]\![set,autoscroll,disable]Digraphs are pronounced as a unit, as one sound. Let us see!\n/
 		    \f[bold,true]Дждж\f[bold,false]\n (as g in change and j in jam but make it harder)\n джала (jala: sting).\n/
 		    \f[bold,true]Дздз\f[bold,false]\n (as ds in spreads)\n дзéці (dzyetsi: children), дзядзю́к (dzyadzyuk: young fella).\n/
-		    \f[bold,true]Шчшч\f[bold,false]\n (exactly as st in question)\n шчáсце (shchasˈtsye: happiness).\n\n[half]In Part One we explained how sign ’ is read. This time it is going to be ь. The sign basically makes a consonant sound palatalized or just soft (the term has been explained). This is the function! Sounds fairly easy!\nCheck it out: тóлькі (tolˈki: only), вéльмі (vyelˈmi), вóсьмы (vosˈmy: the eighth).\x\cRight, if our publication has appeared useful to you, please give a vote in favour of it!\t\e"
+		    \f[bold,true]Шчшч\f[bold,false]\n (exactly as st in question)\n шчáсце (shchasˈtsye: happiness).\n\n[half]In Part One we explained how sign ’ is read. This time it is going to be ь. The sign basically makes a consonant sound palatalized or just soft (the term has been explained). This is the function! Sounds fairly easy!\nCheck it out: тóлькі (tolˈki: only), вéльмі (vyelˈmi), вóсьмы (vosˈmy: the eighth).\x\cRight, if our publication has appeared useful to you, please give a vote in favour of it!\t\e" //"
 	}
 	else{}
 	--

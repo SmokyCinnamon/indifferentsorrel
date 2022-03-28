@@ -46,15 +46,15 @@ OnMenuRun //Main menu
 	//\![*]\q[Say something,OnAiTalk]\n/
 	\![*]\q[Talk to another ghost,OnStartTalking]\n\n/
 	%*\__q[OnConfigMenu]User Config\__q \![*]\q[Functions,OnFunctionMenu]\n/
-	\![*]\q[Lesson,OnLessonPick]\n" //%*\q[Dictionary,OnDictionary]\n
+	\![*]\q[Lesson,OnLessonPick]\n" //%*\q[Dictionary,OnDictionary]\n"
+	--; "%*\__q[CustomExplain]Custom lessons?\__q\n"
 	--
 	if debug == 1 //%(debug = 1) in script input to show the debug options
 	{
-		"\n\![*]\q[Test Variable,OnTestVar]\n/
-		 \![*]\q[Check Template Version,OnTemplateUpdate]\n\n"
+		"\n\![*]\q[Test Variable,OnTestVar] %*\__q[OnEditInbuilt]Inbuilt Lessons\__q\n%*\__q[OnLessonCheck]Re-check default folder\__q\n"
 		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
 	}
-	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q\n"}
+	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q %*\__q[OnOpenDocs]Documentation\__q\n"}
 	--; "\![*]\q[Nevermind,Cancel]\n\n"
 	--
 	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)"
@@ -65,6 +65,13 @@ OnMenuRun //Main menu
 OnLastTalk //Repeats the last thing the ghost said
 {
 	"%(lastTalk)\e"
+}
+
+Select.CustomExplain {
+	"\0\s[0]\b[2]\![set,autoscroll,disable]\_qBasically if you drag and drop a .txt file on me, I'll set it up as a lesson for you!\nIf you'd like to make one yourself, you can head over to the %*\__q[OnConfigMenu]User Config menu\__q and click on the lesson creator option to turn it on. Then, once you head back to the main menu, you should have an option labeled 'Lesson Configuration'! Once you're in there, the menu's pretty straightforwards. Remember that you have to click on the buttons below the lesson list to use them!\n\n[half]Anyways, if you're looking for documentation for how the lessons work, you can find it \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]here\_a, under the documentation tab. Hopefully that's all you need!\n\n%*\__q[OnMenuRun]Back to menu\__q %*\__q[cancelnodialogue]Ok bye\__q\_q"
+}
+OnOpenDocs {
+	"Documentation can be found under the aptly labeled documentation tab, \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]right here\_a\n\n%*\__q[OnMenuRun]Back to menu\__q %*\__q[cancelnodialogue]Ok bye\__q"
 }
 
 //----------Function Menu----------
@@ -338,7 +345,7 @@ OnEditLesson {
 		"%(_output)"
 	}
 	--; "\n\n%*\__q[OnOpenLesson]Edit\__q %*\__q[OnLessonCreateName]Add Lesson\__q %*\__q[OnRenameStart]Rename\__q %*\__q[OnClearOne]Delete\__q\n/
-	%*\__q[OnSkillNumStart]Correct Lesson Numbers\__q"
+	%*\__q[OnSkillNumStart]Correct Lesson Data\__q"
 	--; "\n\n\n%*\__q[OnMenuRun]Main Menu\__q\_q\*\e"
 }
 OnSkillNumStart {
@@ -352,13 +359,16 @@ OnSkillNumStart {
 }
 OnSkillNum {
 	LOGGING("%(reference0)")
+	FCHARSET(1)
 	_file = "lessons\%(reference0).txt"; _buff = ""
 	FOPEN(_file,'r')
 	--; for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
 		LOGGING("AAAfileopenAAA")
 		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
 			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
-			TOINT(RE_GETSTR[1]); skillnum[reference1] = RE_GETSTR[1]}}
+			TOINT(RE_GETSTR[1]); skillnum[reference1] = RE_GETSTR[1]}
+		if RE_SEARCH(_buff,'tree_lang\[([^\n]+@[^\n]+)\]') {if ASEARCH(RE_GETSTR[1],treelang) == -1; {treelang ,= RE_GETSTR[1]}}
+	}
 	--; FCLOSE(_file)
 	LOGGING("%(_file) %(skillnum[reference1]) %(reference1)")
 	--; OnSkillNumStart
@@ -374,6 +384,7 @@ OnOpenLesson {
 }
 OnOpenLessonEdit {
 	LOGGING("%(reference0)")
+	FCHARSET(1)
 	_file = "lessons\%(reference0).txt"; _buff = ""
 	--; "\![open,file,%(_file)]"
 	--; OnOpenLesson
@@ -389,6 +400,7 @@ OnLessonCreate{
 	FCHARSET(1) //characterset??
 	FOPEN(_file,'w'); _buff = "" //opening the file?? I think??
 	LOGGING("File opened: %(_f) reference: %(reference0) file: %(_file)")
+	FWRITE(_file,"tree_lang[@]")
 	FWRITE(_file,"skill_number[0]")
 	FWRITE(_file,"lesson_notes[]")
 	FWRITE(_file,"sentence_translation[]")
@@ -469,4 +481,134 @@ OpenKeroMenu
 OnKeroMenu
 {
 	//Fill in as you like
+}
+
+OnEditInbuilt {
+	"\0\b[2]\_q"; --
+	if ARRAYSIZE(inbuiltlessonname) != 0 {
+		_output = ''
+		for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++ {
+			  _output += "%*%(inbuiltlessonname[_i]) "
+			}
+		"%(_output)"
+	}
+	--; "\n\n%*\__q[OnOpenLessonIn]Edit\__q %*\__q[OnLessonCreateNameIn]Add Lesson\__q %*\__q[OnRenameStartIn]Rename\__q %*\__q[OnClearOneIn]Delete\__q\n/
+	%*\__q[OnSkillNumStartIn]Correct Lesson Numbers\__q"
+	--; "\n\n\n%*\__q[OnMenuRunIn]Main Menu\__q\_q\*\e"
+}
+OnSkillNumStartIn {
+	_display = ""
+	for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++
+	{
+		_display += "%*\__q[OnSkillNumIn,%(inbuiltlessonname[_i]),%(_i)]%(inbuiltlessonname[_i])\__q "
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to correct:\n\n[half]%(_display)\n\n\n[half]/
+	%*\__q[OnEditInbuilt]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+OnSkillNumIn {
+	LOGGING("%(reference0)")
+	FCHARSET(1)
+	_file = "lessons\default\%(reference0).txt"; _buff = ""
+	FOPEN(_file,'r')
+	--; for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+		LOGGING("AAAfileopenAAA")
+		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
+			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
+			TOINT(RE_GETSTR[1]); inbuiltskillnum[reference1] = RE_GETSTR[1]}}
+	--; FCLOSE(_file)
+	LOGGING("%(_file) %(skillnum[reference1]) %(reference1)")
+	--; OnSkillNumStartIn
+}
+OnOpenLessonIn {
+	_display = ""
+	for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++
+	{
+		_display += "%*\__q[OnOpenLessonEditIn,%(inbuiltlessonname[_i]),%(_i)]%(inbuiltlessonname[_i])\__q "
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to edit:\n\n[half]%(_display)\n\n\n[half]/
+	%*\__q[OnEditInbuilt]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+OnOpenLessonEditIn {
+	LOGGING("%(reference0)")
+	FCHARSET(1)
+	_file = "lessons\default\%(reference0).txt"; _buff = ""
+	--; "\![open,file,%(_file)]"
+	--; OnOpenLessonIn
+}
+OnLessonCreateNameIn {
+	"\0\b[2]\_qPlease enter the name of your lesson:\![open,inputbox,OnLessonCreateIn,0]\*"
+}
+OnLessonCreateIn {
+	_name = reference0
+	_file = "/lessons/default/%(reference0).txt"
+	if ASEARCH(_name,inbuiltlessonname) == -1 {inbuiltlessonname ,= _name}
+	--
+	FCHARSET(1) //characterset??
+	FOPEN(_file,'w'); _buff = "" //opening the file?? I think??
+	LOGGING("File opened: %(_f) reference: %(reference0) file: %(_file)")
+	FWRITE(_file,"skill_number[0]")
+	FWRITE(_file,"lesson_notes[]")
+	FWRITE(_file,"sentence_translation[]")
+	FWRITE(_file,"alternate_translation[]")
+	FWRITE(_file,"word_searches[]")
+	FWRITE(_file,"word_matches[]")
+	FCLOSE(_file)
+	FOPEN(_file,'r')
+	--; for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+		LOGGING("AAAfileopenAAA")
+		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
+			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
+			TOINT(RE_GETSTR[1]); inbuiltskillnum ,= RE_GETSTR[1]; inbuiltnumprog ,= 0}}
+	--; FCLOSE(_file)
+	--; "\![raise,OnLessonCreatedIn,%(_name)]"
+}
+OnLessonCreatedIn {
+	_file = "lessons\default\%(reference0).txt"
+	LOGGING("HI DO YOU WORK %(reference0)")
+	--; "\![open,file,%(_file)]"
+	--; OnEditLessonIn
+}
+OnRenameStartIn {
+	_display = ""
+	for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++
+	{
+		_display += "%*\__q[OnRenameNameIn,%(inbuiltlessonname[_i]),%(_i)]%(inbuiltlessonname[_i])\__q "
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to rename:\n\n[half]%(_display)\n\n\n[half]/
+	%*\__q[OnEditInbuilt]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+OnRenameNameIn {
+	"\_qPlease enter the new name: \![open,inputbox,OnRenameIn,0,--reference=%(reference0),--reference=%(reference1)]\_q\*\e"
+}
+OnRenameIn {
+	_file = "lessons\default\%(reference2).txt"
+	_filer = "lessons\default\%(reference0).txt"
+	inbuiltlessonname[reference3] = "%(reference0)"
+	--
+	LOGGING("%(reference0) %(reference1) %(reference2) %(lessonname[reference3])")
+	LOGGING("%(_file) %(_filer)")
+	FRENAME(_file,_filer)
+	--
+	OnRenameStartIn
+}
+OnClearOneIn {
+	_display = "" //Initialize a local variable to hold the display
+
+	for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++ //Loop through every element of the array
+	{
+		_display += "%*\__q[OnClearIn,%(_i),%(inbuiltlessonname[_i])]%(inbuiltlessonname[_i])\__q " //Add the current element to a string, with a linebreak afterwards
+	}
+	"\0\s[0]\b[2]\_qSelect the lesson to delete (make sure you don't want to keep it -- you won't be able to get it back!):\n\n[half%(_display)\n\n\n[half]/
+	%*\__q[OnEditInbuilt]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
+}
+
+OnClearIn {
+	inbuiltlessonname[reference0] = IARRAY
+	inbuiltnumprog[reference0] = IARRAY
+	inbuiltskillnum[reference0] = IARRAY
+	--
+	_file = "lessons\default\%(reference1).txt"
+	FDEL(_file)
+	--
+	OnClearOneIn
 }

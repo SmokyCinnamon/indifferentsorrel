@@ -43,7 +43,13 @@ OnFileDrop2
 			LOGGING("File opened: %(_f) reference: %(reference0)")
 			for _buff = FREAD(reference0); _buff != -1; _buff = FREAD(reference0) {
 				LOGGING("AAAfileopenAAA")
-				if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA"); TOINT(RE_GETSTR[1]); skillnum ,= RE_GETSTR[1]; numprog ,= 0}}
+				if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
+					LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA"); TOINT(RE_GETSTR[1]); skillnum ,= RE_GETSTR[1]; numprog ,= 0}
+			}
+				if RE_SEARCH(_buff,'tree_lang\[([^\n]+@[^\n]+)\]') {
+					
+					if ASEARCH(RE_GETSTR[1],treelang) == -1; {treelang ,= RE_GETSTR[1]}}
+				//if RE_SEARCH(_buff,tree_sort\[\d\d?\]) {if ASEARCH(RE_GETSTR[1],treesort) == -1; {treesort ,= RE_GETSTR[1]}}
 			FCLOSE(reference0)
 			--
 			FMOVE(reference0,'lessons\')
@@ -408,7 +414,7 @@ OnUpdateComplete
 //I've put this here so it's easier to remember to update the version number while you're updating the changelog. This will display on the ghost's menu. I made it an envelope so you can have it be the same across multiple menus for multiple modes, if you want.
 ghostver
 {
-	"1.0.0"
+	"1.0.1"
 }
 
 //the autoscroll tag here means the user will see the changelog starting from the top. I recommend putting the new versions on top, and old versions under that.

@@ -1,0 +1,34 @@
+AdMoveKero {
+	if reference4 == "tvar"
+	{
+		stroke[0]++
+		stroke[1]++
+		
+		if stroke[1] >= 160 
+		{
+			if stroke[0] >= 160 
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				
+				"%(narrator)* (%(stroke[2]) в ряд!)\e"
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0 
+			stroke[2]++
+			totalpets++
+			
+			"\1\s[10]мур...\e"
+		}
+	}
+}
+
+AdDoubleClickKero {
+	if reference4 == "tvar" {
+		"\1\s[10]твар"
+	}
+	else {AdKeroMenu}
+}

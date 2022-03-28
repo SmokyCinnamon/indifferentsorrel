@@ -44,7 +44,7 @@ OnMenuRun //Main menu
 	\![*]\q[Говорить,OnAiTalk]\n/
 	\![*]\q[Говорить с приведение,OnStartTalking]\n\n/
 	%*\__q[spawn]Я хочу кое-что зачистить\__в\н/
-	\![*]\q[Функции,OnFunctionMenu]\n\n/"
+	%*\q[Функции,OnFunctionMenu]\n\n"
 	//\![*]\q[Мне грустно,OnSadMenu]\n\н"
 	--
 	if debug == 1 //%(debug = 1) in script input to show the debug options
@@ -55,7 +55,7 @@ OnMenuRun //Main menu
 		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
 	}
 	--
-	"\![*]\q[...Даже\, ничего,Cancel]\n\n"
+	"%*\q[...Даже\, ничего,Cancel]\n\n"
 	--
 	"%(wd) %(hour):%(nowmin), %(day)/%(month)/%(year) - %(season)"
 	--

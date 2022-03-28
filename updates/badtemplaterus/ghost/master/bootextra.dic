@@ -1,0 +1,13 @@
+AdBoot {
+	"\0\s[0]\1\s[10]ад"
+	--; "\x\e"
+
+}
+AdClose {
+	if totalrun[3] >= 480 && Flag("eventover") == 1 {nowmode = ""}
+	"\0\s[0]\1\s[10]ад"
+	--; "\x\e"
+}
+AdStateRestore {
+	"\0\s[0]\1\s[10]"
+}

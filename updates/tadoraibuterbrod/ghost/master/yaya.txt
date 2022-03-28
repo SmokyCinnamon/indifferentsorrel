@@ -19,6 +19,7 @@ dic, tabd_word.dic
 dic, lessons_enby.dic
 //dic, dictionary_enby.dic
 dic,tabd_lesson.dic
+dic, tabd_dictionary.dic
 
 //log, ayame.log
-msglang,english
+messagetxt,system/messagetxt/english.txt

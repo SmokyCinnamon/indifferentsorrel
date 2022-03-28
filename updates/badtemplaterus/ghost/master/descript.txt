@@ -1,0 +1,17 @@
+charset,UTF-8
+
+name,Плохой Русский Образец 1.0.0
+type,ghost
+
+sakura.name,Лина
+kero.name,Жора
+
+craftman,Smoky
+craftmanw,Смоукы
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+sstp.allowunspecifiedsend,0
+shiori,yaya.dll
+
+icon,icon.ico
+//balloon,X. Template Balloon

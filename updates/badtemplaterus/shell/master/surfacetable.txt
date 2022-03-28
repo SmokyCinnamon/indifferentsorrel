@@ -1,0 +1,22 @@
+charset,UTF-8
+version,1
+option,DisableNoDefineSurfaces
+
+//if its defined as __disabled it wont be in surface test and will save you scrolling
+//...but youre not planning on using this, are you?
+//group,__disabled
+//{
+	//100,__parts
+//}
+
+
+group,X.
+{
+	scope,0
+	//character.
+	
+	0,Default
+	//surface number,name
+}
+
+//the sky is the limit

@@ -62,6 +62,7 @@ OnStartTalking
 			when "RYS-0825" //what is your thing
 			{
 				"\0\s[0]Pryvitanne, ...S? Jak spravy?\w4\e"
+				"A, heta ty. Pryvitanne, S.\e"
 			}
 			others //Ghosts there is no specific response to.
 			{

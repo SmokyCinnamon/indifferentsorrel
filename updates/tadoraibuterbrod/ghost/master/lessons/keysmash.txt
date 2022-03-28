@@ -1,0 +1,12 @@
+skill_number[1]
+lesson_notes[help]
+sentence_translation[æðþæðmfjgso@MÆGÐDNSÆ;ψβγξροςοα@ΗΦΦΞΡΟΣΟΑΒ;english@ENGLSIFH;ловаті@ВОАІТВА;роиамварим@ВОАРВОПРПРЛЫ]
+alternate_translation[]
+word_searches[]
+word_matchesAAA[æðþæðmfjgsoMÆGÐDNSÆ@ψβγξροςοαΗΦΦΞΡΟΣΟΑΒ;english@ENGLSIFH;ловаті@ВОАІТВА;роиамварим@ВОАРВОПРПРЛЫ]
+non-standard english characters are unaffected by TOLOWER and TOUPPER
+Trying to use tolower on a string that contains letters that are not standard in the english alphabet (such as those present in icelandic, for example) only returns the uppercase version of those letters, instead of the lowercase version. The cyrillic and greek alphabets have the same issue, but to a more noticeable degree, as none of the letters are shared with the latin alphabet, as far as computers are concerned. (toupper has the same kind of result but it's not the one I'm using in my code)
+I'm not sure if it has something to do with the charset. I've told it at every opportunity to use UTF-8 -- so maybe that's affecting it somehow?
+I've attached a picture to maybe show what i mean better - none of them are actual words as I know neither icelandic nor greek.
+
+yaya is Tc-569-4, although it's been a problem since at least tc-548-1 (and possibly even before then)

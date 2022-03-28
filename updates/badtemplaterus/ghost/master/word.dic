@@ -1,0 +1,18 @@
+//envelope
+tomenu {
+//idk. if your button needs to be different and you dont want to write out the code.
+	if nowmode == "creepymode" {} else {
+		case stage {
+			when 1 {}
+			others {
+				case nowmode {
+					when "hell" {}
+					others {"%*\__q[OnMenuRun]Главный Меню\__q\e"}
+				}
+			}
+		}
+	}
+}
+narrator {
+	"\p[2]\s[-1]\b[2]"
+}

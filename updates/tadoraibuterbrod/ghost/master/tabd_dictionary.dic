@@ -1,0 +1,16 @@
+OnDictionary {
+	"show me your langyages\n\n[half]"; --
+	"%*\q[Belarusian - English,OnDicShow,byen]\n\n"; --
+	"CUSTOM:\n\n[half]"
+}
+
+OnDicShow {
+	case reference0 {
+		when "byen" {
+			"loop stuff idk"
+		}
+		others {
+			"hey... idk what im doing checking for something. apparently"
+		}
+	}
+}

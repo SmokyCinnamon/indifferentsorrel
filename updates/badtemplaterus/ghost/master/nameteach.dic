@@ -1,0 +1,221 @@
+//copy.pasted (mostly) from my original copy. nothing in here needs redirected i dont think?? so long as the extra config menus handle it ok
+
+OnChangeName {
+	"%(narrator)Пж введите своё имя:" //invisible character unless you want more than two in which case ???
+	--; "\n\n\![*]\q[Cancel,OnConfigMenu,cancelled name change]\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]\e"
+}
+
+OnNameTeach {
+	_tempname = reference0 //this stores the original name in _tempname
+	reference0 = TOLOWER(reference0) //changes it to lowercase
+	reference0 = REPLACE(reference0," ","") //removes spaces
+	reference0 = REPLACE(reference0,".","") //removes periods
+	reference0 = REPLACE(reference0,"-","") //removes dashes
+	
+	if _tempname == имя && booting != 1 //If the user gives the exact same name as before. The booting check has to be there in case they put in 'user'
+	{
+		"%(narrator)* (так же как и раньше.)"
+	}
+	elseif reference0 == "" //If the user doesn't put in anything
+	{
+		имя = "Пользователь"
+		
+		"%(narrator)* (ну ты пока будешь %(имя).)"
+	}
+	else //if it's none of these above names, we can use it. You can add names that just have comments and can still be used, just don't add a \e at the end.
+	{
+		имя = _tempname
+		"%(narrator)* (Теперь твоя имя %(имя).)"
+	}
+	--
+	if booting == 0 //If the user was changing their name through the config menu
+	{
+		"\n\n\![*]\q[Назад,OnConfigMenu]\n\![*]\q[Всё,cancelnodialogue]\e"
+	}
+	else //This is continuing from FirstBoot
+	{
+		"\w6Доро познакомниться!\w4И... местоимение?\n\n"
+		--; "\_q\![*]\q[Он/Его,OnPronouns,on] \![*]\q[Она/Её,OnPronouns,ona]\n/
+		\![*]\q[Они/Их,OnPronouns,oni] %*\__q[OnPronouns,custom]Свои\__q\e"
+	}
+}
+
+OnChangePronoun {
+	"%(narrator)* (твои местоимение?)"
+	--; "\n\n\_q/
+	\![*]\q[Он/Его,OnPronouns,on] \![*]\q[Она/Её,OnPronouns,ona]\n/
+	\![*]\q[Они/Их,OnPronouns,oni] %*\__q[OnPronouns,custom]Свои\__q\e"
+}
+
+OnPronouns
+{
+	if reference0 == "on"
+	{
+		он = "он" //именительный падеж
+		его = "его" //родительный падеж
+		него = "него"
+		ему = "ему" //дательный падеж
+		//его = "его" //винительный падеж
+		им = "им" //творительный падеж
+		ним = "ним"
+		нём = "нём"//предложный падеж
+		л = "л"
+		лся = "лся"
+		ой = "ой"
+		ий = "ий"
+		ый = "ый"
+	}
+	//nominative, genetive, dative, accusative, instrumental and prepositional. they can be written around if you really feel like it but... eh.
+	//you're definitely going to find random edge cases where a new envelope is needed... if you could let me know about them i'd be happy to add them into the template, but otherwise i reccomend temporary envelopes to deal with it because you may be willing to actually do that, unlikely hypothetical user
+	// @ me compile the edge cases pls
+	elseif reference0 == "ona"
+	{
+		он = "она"; его = "её"; него = "неё"; ему = "ей"
+		им = "ей"; ним = "ней"; нём = "ней"
+		л = "ла"; лся = "лась"
+		ой = "ая"; ий = "ая"; ый = "ая"
+	}
+	elseif reference0 == "oni"
+	{
+		он = "они"; его = "их"; него = "них"; ему = "им"
+		им = "ими"; ним = "ними"; нём = "них"
+		л = "ли"; лся = "лись"
+		ой = "ой"; ий = "ие"; ый = "ые"
+	}
+	//id be interested in actually filling this out but i dont have an instinctive knowledge of what goes where...
+	//if anyone else knows, could you get in touch? thanks <3
+	/*elseif reference0 == "mur"
+	{
+		он = "мур"; его = "мях"; него = "них"; ему = "им"
+		им = "ими"; ним = "ними"; нём = "них"
+		л = "лур"; лся = "лись"
+		ой = "ау"; ий = "ие"; ый = "ые"
+	}
+	elseif reference0 == "one" {
+		он = "оне"; его = "ех"; него = "них"; ему = "им"
+		им = "ими"; ним = "ними"; нём = "них"
+		л = "ле"; лся = "лись"
+		ой = "ой"; ий = "ие"; ый = "ые"
+	}*/
+	elseif reference2 == "custominput" {
+		_pronouns = SPLIT(reference0,"/")
+		он = _pronouns[0]; его =  _pronouns[1]; него = _pronouns[2]
+		ему = _pronouns[3]; им = _pronouns[4]; ним = pronouns[5]
+		нём = _pronouns[6]
+		"%(narrator)А теперь надо концы слова... введите как л/лся/ой/ий/ый, пожалуйста.\nл и лся - делал, случился\nой, ий, ый - слепой, роыаропваы, коричневый\nПонимаешь?\![open,inputbox,OnPronouns,-1,--reference=custominput2]"
+	}
+	elseif reference2 == "custominput2" {
+		_pronouns = SPLIT(reference0,"/")
+		л = _pronouns[0]; лся = _pronouns[1]
+		ой = _pronouns[2]; ий = _pronouns[3]; ый = _pronouns[4]
+	}
+	else {
+		//custom but good god do i not want to do that
+		"%(narrator)\_qЭто будет много текст... ну вот, надо написать твои местоимение и.т.д как это:\nон/его/него/ему/им/ним/нём\![open,inputbox,OnPronouns,-1,--reference=custominput]\_q\e"
+	}
+	--
+	if booting == 1 //This is the end of the firstboot dialogue
+	{
+		booting = 0
+		"Хорошо, я не забуду.\w6\![leave,passivemode]\e"
+	}
+	elseif reference2 == "custominput" {}
+	else //This is if the user is changing their pronouns through the menu
+	{
+		"%(narrator)Всё должно быть в порядке.\нвыглядет как\n%(он) гуляет | %(он) гуля%(л) | %(он) умн%(ый) | с %(ним) весело | это %(его) дом... правильно?"
+		--
+		"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"
+	}
+}
+
+OnUserBornMonth
+{
+	_tempmonth = reference0 //this stores what the user put in as a variable called _tempmonth
+	_tempmonth = TOLOWER(_tempmonth) //changes it to lowercase
+	
+	if _tempmonth == "январь" || _tempmonth == "1" {birthday[4] = 1; birthday[2] = "Январья"}
+	elseif _tempmonth == "февраль" || _tempmonth == "2" {birthday[4] = 2; birthday[2] = "Февраля"}
+	elseif _tempmonth == "март" || _tempmonth == "3" {birthday[4] = 3; birthday[2] = "Марта"}
+	elseif _tempmonth == "апрель" || _tempmonth == "4" {birthday[4] = 4; birthday[2] = "Апреля"}
+	elseif _tempmonth == "май" || _tempmonth == "5" {birthday[4] = 5; birthday[2] = "Май"}
+	elseif _tempmonth == "июнь" || _tempmonth == "6" {birthday[4] = 6; birthday[2] = "Июня"}
+	elseif _tempmonth == "июль" || _tempmonth == "7" {birthday[4] = 7; birthday[2] = "Июля"}
+	elseif _tempmonth == "августь" || _tempmonth == "8" {birthday[4] = 8; birthday[2] = "Августь"}
+	elseif _tempmonth == "сентябрь" || _tempmonth == "9" {birthday[4] = 9; birthday[2] = "Сентября"}
+	elseif _tempmonth == "октябрь" || _tempmonth == "10" {birthday[4] = 10; birthday[2] = "Октября"}
+	elseif _tempmonth == "ноябрь" || _tempmonth == "11" {birthday[4] = 11; birthday[2] = "Ноября"}
+	elseif _tempmonth == "декабрь" || _tempmonth == "12" {birthday[4] = 12; birthday[2] = "Декабря"}
+	else //if the month isn't a valid month, like 32 or something.
+	{
+		"%(narrator)* (А %(_tempmonth), это что за месяць?\w4 Имя или номер.)"
+		--
+		"\![open,inputbox,OnUserBornMonth,-1]\![set,balloontimeout,-1]\e"
+	}
+	--
+	//If it's a valid month
+	"%(narrator)%(birthday[2])\w6 а день? Напиши просто номер, пожалуйста. (Например: 19)"
+	--
+	"\![open,inputbox,OnUserBornDay,-1]\![set,balloontimeout,-1]\e"
+}
+
+OnUserBornDay
+{
+	_tempday = reference0 //storing the input in _tempday
+	_tempday = TOLOWER(_tempday) //changes it to lowercase
+	_tempday = REPLACE(_tempday,"st","") //if the user types something like 2nd, 3rd, etc, this will make it just the number. It'll just add the suffix back later on the one that actually shows.
+	_tempday = REPLACE(_tempday,"nd","")
+	_tempday = REPLACE(_tempday,"rd","")
+	_tempday = REPLACE(_tempday,"th","")
+	_tempday = TOINT(_tempday) //Converts it to an integer
+	_month = birthday[4] //Just for readability
+	
+	if ((_month == 1 || _month == 3 || _month == 5 || _month == 7 || _month == 8 || _month == 10 || _month == 12) && _tempday >= 1 && _tempday <= 31) || (_month == 2 && _tempday >= 1 && _tempday <= 29) || ((_month == 4 || _month == 6 || _month == 9 || _month == 11) && _tempday >= 1 && _tempday <= 30) //This ugly function checks if the day falls into a valid range. If it does, we set some variables and continue down.
+	{
+		birthday[5] = _tempday
+		birthday[3] = Printday
+		birthday[1] = "%(birthday[5])/%(birthday[4])" //If you want to write dates as DD/MM, feel free to swap this around
+		birthday[0] = "%(birthday[3]) %(birthday[2])"
+	}
+	else //If it isn't a valid day, we open the input box again and have a \e so the dialogue below doesn't play.
+	{
+		"%(narrator)...Ну я не думаю что это прав.\w6 Снова?"
+		--
+		"\![open,inputbox,OnUserBornDay,-1]\e"
+	}
+	-- 
+	//All of these only happen if it's a valid birthday
+	if birthday[1] == "%(day)/%(month)" //if today is the user's birthday. Don't forget to switch this if you change the format to DD/MM
+	{
+		"\0\s[0]Ой, с днём рождения\w4 %(username)! Почему мне не рассказа%(л) раньше?"
+	}
+	/*elseif birthday[1] == "12/25" //If it's on christmas. Put any date you'd like here. If you change the format to DD/MM, make sure you change any dates like this that might be in bootend.
+	{
+		"\0\s[0]Oh,\w4 you were born on Christmas?\w8\w8 Cool!"
+	}*/
+	else //if the birthday is not listed above.
+	{
+		"\0\s[0]Отлично! %(birthday[0])... Я просто не могу ждать!!"
+	}
+	--
+	"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"
+}
+
+Printday //Sets the appropriate suffix
+{
+	/*if birthday[5] == 1 || birthday[5] == 21 || birthday[5] == 31
+	{
+		"%(birthday[5])st"
+	}
+	elseif birthday[5] == 2 || birthday[5] == 22
+	{
+		"%(birthday[5])nd"
+	}
+	elseif birthday[5] == 3 || birthday[5] == 23
+	{
+		"%(birthday[5])rd"
+	}
+	else
+	{
+		"%(birthday[5])th"
+	}*/
+}	

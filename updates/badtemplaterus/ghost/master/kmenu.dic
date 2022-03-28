@@ -1,0 +1,16 @@
+OpenKeroMenu : all {
+	"\1\b[2]\_q%(kmenugreet)\n"
+	"%*\__q[OnQuestionKero]есть какие-нибудь тайни\__q"
+	"\n\n[half]%*\__q[KeroCANCEL]мне скучно пока\__q\_q"
+}
+kmenugreet {
+	"прывітанне"
+}
+
+
+OnQuestionKero : all {
+	"\1\b[2]\_qне знаю о чем ты говоришь"
+	"\n\n[half]%*\__q[OpenKeroMenu]верни мне в меню\__q %*\__q[keroCANCEL]ты скучный человек\__q\_q"
+}
+
+Select.OpenKeroMenu {OpenKeroMenu}

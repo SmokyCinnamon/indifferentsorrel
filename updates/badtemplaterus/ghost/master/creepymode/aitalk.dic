@@ -1,0 +1,7 @@
+CreepyTalk : nonoverlap_pool {
+	"\0привет я что-то"
+}
+
+OffscreenCreepyTalk : nonoverlap_pool {
+	"\0в темноте"
+}

@@ -1,0 +1,21 @@
+CreepyVanishSelecting {
+	"\0\s[0]что"
+	--; "\x\e"
+}
+CreepyVanishSelected {
+	"\0\s[0]прошай"
+	--; "\x\e"
+}
+CreepyVanishCancel {
+	"\0\s[0]ну что ты?"
+	--; "\x\e"
+}
+CreepyVanishHold {
+	"\0\s[0]хм."
+	--; "\x\e"
+}
+CreepyVanished {
+	//other ghost
+	"\0\s[0]прошайте"
+	--; "\x\e"
+}

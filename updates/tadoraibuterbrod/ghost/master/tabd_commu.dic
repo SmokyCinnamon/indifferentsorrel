@@ -1,5 +1,12 @@
-OnCommunicate
-{
+OnObsidianJumpDown {
+    res_reference0 = "Dusty"
+    _XCoord = TOINT(reference0[0])
+    _YCoord = TOINT(reference0[3])
+    "\0\s[0]\![bind,obsidian,-,0]\i[104]\e TadoraObsiJumpDown02,%(_XCoord),%(_YCoord)\e"
+    //"\0\s[0]\![bind,obsidian,-,0]\i[104]\e TadoraObsiJumpDown02,%(_XCoord),%(_YCoord)Right\e"
+}
+
+OnCommunicate {
 	if reference0 == "user" || reference0 == "User"
  	{
 		//Answering the user - I've removed the function that goes along with this because it doesn't link to anything.
@@ -92,6 +99,39 @@ ReplyToGhost //This is your ghost receiving a communication.
 			--
 			"::%(_Speech)" //Reflects back what the other ghost said, only put it here if you're talking to a ghost that uses the same system or things may break
 		}
+			when "Dusty" {
+				if "CanYouHoldObsidian? 0" _in_ reference1 //Respond to Dusty's ping
+				{
+					res_reference0 = "Dusty"
+					"\e ICanHoldObsidian,0"
+				}
+				elseif "TadoraPickupObsidian02" _in_ reference1 //Actually picking her up
+				{
+					res_reference0 = "Dusty"
+					holdingObsidian = 1
+					"\0\s[0]\![bind,obsidian,-,1]Прівітанне, Обсідіан! як ты міло!\e TadoraPickupObsidian03"
+				}
+				elseif "TadoraPickupObsidian04" _in_ reference1 //Response to Dusty's comment
+				{
+					res_reference0 = ""
+					"\0\s[0]Ага, цяпер у мяне ёсць шляпу!\e"
+				}
+				elseif "TadoraObsiJumpDown03" _in_ reference1 //Commenting on Obsidian leaving
+				{
+					res_reference0 = ""
+					holdingObsidian = 0
+					"\0\s[0]А, пакуль...\e"
+				}
+				elseif "DustyMinimizedYadora 0" _in_ reference1 //Dusty was minimized
+				{
+					res_reference0 = ""
+					holdingObsidian = 0
+					"\0\s[0]\![bind,obsidian,-,0]* (Obsidian disappears into the taskbar with Dusty.)\w8\w8\n\nА шляпу знік... шкада тое.\e"
+				}
+				elseif "Tadora,0ObsiJumpDown01" _in_ reference1 {
+					"\0\s[0]\![get,property,OnObsidianJumpDown,currentghost.scope(0).rect]"
+				}
+			}
 		others //Responses to unknown ghosts. AlreadyResponded keeps them from getting stuck in a loop.
 		{
 			if "\![commu-%(reference0)]" !_in_ SHIORI3FW.LastTalk //This checks for that commu tag up above! So, if the last dialogue was NOT a response to the ghost that just pinged us, give a normal response

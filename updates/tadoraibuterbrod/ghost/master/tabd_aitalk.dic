@@ -36,6 +36,7 @@ RandomTalk : nonoverlap
 	//{
 		//"\0\s[0]Another template ghost!\w8\w8 Hi Girl!\e"
 	//}
+	//"this files in utf-8 áèäõåòï÷åõîâäêóëêîäêóëóéäèâäóèêçâéåòõèòèéåèòõéõåè ä,ö,ü\n\n%*\q[menu option ä ö ü Ä Ö Ü ß,NOTHING]"
 }
 
 

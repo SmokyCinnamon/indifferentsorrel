@@ -1,3 +1,4 @@
+tree_lang[English@Belarusian]
 skill_number[10]
 lesson_notes[tes test test ksdjnvjvbdvbdgb]
 sentence_translation[i am a sentence!@i am a translation;sentence two@translation two;three@try]

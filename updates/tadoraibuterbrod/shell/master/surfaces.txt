@@ -29,7 +29,20 @@ surface0
 
 	animation102.interval,bind
 	animation102.pattern0,add,102,0,0,0
-	
+	//obsidian
+	animation103.interval,bind
+	animation103.pattern0,add,103,0,0,0
+	animation103.collision0,42,11,117,66,Obsidian
+	animation104.interval,never
+	animation104.pattern0,stop,103
+	animation104.pattern1,overlay,20,100,10,25
+	animation104.pattern2,overlay,20,100,-20,110
+	animation104.pattern3,overlay,-1,150,0,0
+	animation105.interval,never
+	animation105.pattern0,stop,103
+	animation105.pattern1,overlay,21,100,100,25
+	animation105.pattern2,overlay,21,100,130,110
+	animation105.pattern3,overlay,-1,150,0,0
 	
 }
 
@@ -38,6 +51,13 @@ surface0
 	//Anything you want to be applied to multiple surfaces (like collisions, blink frames, etc) goes in a range like this. You can exclude a surface from the range by adding something like ,!95 to the end, which would exclude surface95. You can include multiple ranges by separating them with commas.
 	//This is just here for my own reference, I always forget the syntax for append
 //}
+
+sakura.tooltips
+{
+	Obsidian,Obsidian
+	Head,A face
+	Face,A face
+}
 
 //Also here for reference. If you want your blink/talk frames in subfolders, you must define them first. This is where you can put the subfolder. You should be able to hide them from surface test again by putting that option into your surfacetable.
 //surface100

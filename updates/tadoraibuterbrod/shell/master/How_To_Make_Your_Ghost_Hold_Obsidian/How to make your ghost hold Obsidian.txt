@@ -1,0 +1,327 @@
+//Written by Zichqec - https://zichqec.github.io/s-the-skeleton/index.html
+//v1.0.1
+//Do you want YOUR GHOST to hold Dusty's cat, Obsidian? Great! I'm super excited about it; seriously you have no idea how happy this makes me.
+//I've included generic dialogue for Dusty that I THINK should work to make this possible. All you have to do is fill in your side! If you want Dusty to have dialogue specifically for your ghost, please do get in contact and we can see about setting it up! I love this stuff so please don't hesitate.
+
+//Now, I'm going to warn you right off the bat that this requires a lot of work on your part. You know etc.dic? Yeah, unless you don't care about Obsidian disappearing when the user uses etc functions, you're going to have to add a new mode to alllll of that. That's the big downside. But the upside is that your ghost gets to hold a cat and it's super cute!
+
+//You need to have a basic understanding of how commu dialogue works to make this happen. Also, it'll be much easier on you if you already know how to set up a ghost to have multiple modes.
+
+//There are 3 main sections to this, which I'll outline here, and then go over in more detail below.
+
+//The main loop (You need this)
+//-Your ghost picking up Obsidian
+//-Your ghost letting Obsidian jump down
+//-New surfaces
+
+//Edge cases (You need these too, or things will break)
+//Closing/changing away from Dusty while Obsidian is being held
+//Closing/changing away from your ghost while Obsidian is being held
+//Minimizing Dusty while Obsidian is being held
+//Minimizing your ghost while Obsidian is being held
+
+//Dialogue pools (You could skip these but she'll disappear when your ghost talks)
+//-RandomTalk
+//-OnSurfaceRestore
+//-Top of the hour notifications
+//-Petting Obsidian
+//-Petting your ghost
+//-Adding in holdingObsidian mode to everything in etc.dic
+
+
+//Some of this is flexible and you can do what you like, and some of it you might need to talk with me if you want to change it.
+
+
+//First of all, you need to create at least 1 surface of your character holding Obsidian, and you'll need an animation of her jumping down. You'll have to draw the one of her being held in your own style. For jumping down I feel it works best if she stays in my style during that animation, so I've included the image of her jumping down and an example of how I applied it over one of S's surfaces. This is the timing you'll need to use for that animation.
+
+surface(number)
+{
+	element0,overlay,surface(number of the first frame).png,0,0
+	0interval,runonce
+	0pattern0,(number of the second frame),10,replace,0,0
+	0pattern1,(surface number you want them on once Obsidian has left),10,replace,0,0
+}
+
+//OPTIONALLY, if you would like Obsidian to have the same tail twitch animations that S and Dusty do when holding her, here is the timing for it. You can skip this part!
+//You'll have to adjust the coordinates appropriately for your ghost, but you should be able to do that by using find & replace on "95,86"
+//900 is the tail all the way to the right
+//901 is midway between the right and center
+//902 is straight down the center
+//903 is midway between the left and center
+//904 is all the way to the left
+//Feel free to change the numbers, I have included an example of what S's frames look like for this in the zip file
+
+//Tail twitch
+5interval,always //Initial frame
+5pattern0,900,1,overlay,95,86
+
+6interval,random,3 //This decides which animation to play so they dont overlap
+6pattern0,0,0,alternativestart,[7.8.9.10]
+
+//Fast
+7interval,never
+7pattern0,901,10,replace,95,86
+7pattern1,902,6,replace,95,86
+7pattern2,903,3,replace,95,86
+7pattern3,904,6,replace,95,86
+7pattern4,903,10,replace,95,86
+7pattern5,902,6,replace,95,86
+7pattern6,901,3,replace,95,86
+7pattern7,-1,6,replace,95,86
+
+//Slower
+8interval,never
+8pattern0,901,30,replace,95,86
+8pattern1,902,8,replace,95,86
+8pattern2,903,3,replace,95,86
+8pattern3,904,8,replace,95,86
+8pattern4,903,30,replace,95,86
+8pattern5,902,8,replace,95,86
+8pattern6,901,3,replace,95,86
+8pattern7,-1,8,replace,95,86
+
+//Drop
+9interval,never
+9pattern0,901,30,replace,95,86
+9pattern1,902,8,replace,95,86
+9pattern2,903,10,replace,95,86
+9pattern3,902,10,replace,95,86
+9pattern4,901,10,replace,95,86
+9pattern5,902,20,replace,95,86
+9pattern6,901,200,replace,95,86
+9pattern7,902,20,replace,95,86
+9pattern8,903,10,replace,95,86
+9pattern9,904,10,replace,95,86
+9pattern10,903,10,replace,95,86
+9pattern11,902,10,replace,95,86
+9pattern12,901,10,replace,95,86
+9pattern13,-1,10,replace,95,86
+
+//Hang
+10interval,never
+10pattern0,901,10,replace,95,86
+10pattern1,902,10,replace,95,86
+10pattern2,901,300,replace,95,86
+10pattern3,-1,10,replace,95,86
+
+//Once you have your surfaces made, the first thing you need to set up is the main loop. First things first, we want your ghost to be able to pick up and put down Obsidian. So here's how it works: when two ghosts overlap, Dusty will watch to see if one of them overlapped with Obsidian. If someone overlaps with Obsidian, he will send this message over the commu functions to whatever ghost overlapped: "\e CanYouHoldObsidian? %(_num) %(_ghost)"
+//%(_num) is the number of the character that overlapped with Obsidian, 0 being the sakura, 1 being the kero, 2 being the first extra character, etc. Please note that if you have an invisible Kero, Obsidian may overlap with them! I recommend setting your Kero to \s[-1] during OnSurfaceRestore if you're not using them.
+//%(_ghost) is the name of the sakura, and that's the same name you'll have to use in all their back and forth. Using all this together, you should be able to tell when Obsidian overlaps the character you want to pick her up, so you can send a response!
+//As a note, here, if you want to debug this stuff and see what exactly Dusty is sending, you can open the script log (ctrl L) and it'll show the hidden messages.
+
+//Now, what should you do with this message your ghost is receiving? First things first, your ghost needs to send a ping back to Dusty and let him know that your ghost can hold Obsidian, so that he can make her disappear before any dialogue happens. This is EXACTLY the message you must send back: "\e ICanHoldObsidian,0"
+//If you want your Kero or an extra character to hold Obsidian, change the 0 to their number. For the purposes of this tutorial, we'll assume it's a Sakura.
+
+//Now, when Dusty receives that message, he'll assume that your ghost can properly hold Obsidian, and he'll do a few things. First, he will make Obsidian disappear. Second, he sets a variable of his own, 'SomeoneHoldingObsidian', to the name of your ghost (the sakura name, which is the same one that he puts in res_reference0 to send messages to your ghost). If you ever need to get him out of the mode where he thinks someone is holding Obsidian, put %(SomeoneHoldingObsidian = '') into his script input.
+//Third, he sends a message back to your ghost. The tag on the conversation will be "(The name of your ghost)PickupObsidian02" When your ghost receives this message, you'll know that Dusty has successfully seen them pick up his cat. You can now set the variable 'holdingObsidian' to 1, and write a line of dialogue with your ghost using the surface of them holding her.
+//At the end of that line of dialogue, make the conversation tag "(The name of your ghost)PickupObsidian03" and send it back over to Dusty. He'll comment about Obsidian taking a liking to your ghost, then send back "(The name of your ghost)PickupObsidian04" in case you would like to have them reply. If you don't want them to, just make it a silent response. The conversation ends there.
+//Here's an example of what that might look like on your end.
+//Note that you should replace any instance of '(The name of your ghost)' with the sakura name of your ghost. Do not include the parenthesis! So if your ghost's Sakura was called Hawkeye, you'd put HawkeyePickupObsidian02, not (Hawkeye)PickupObsidian02.
+
+when "Dusty"
+{
+	if "CanYouHoldObsidian? 0" _in_ reference1 //Respond to Dusty's ping
+	{
+		res_reference0 = "Dusty"
+		
+		"\e ICanHoldObsidian,0"
+	}
+	elseif "(The name of your ghost)PickupObsidian02" _in_ reference1 //Actually picking her up
+	{
+		res_reference0 = "Dusty"
+		holdingObsidian = 1
+		
+		"\0\s[500]Aw, hello Obsidian.\w8\w8\e (The name of your ghost)PickupObsidian03"
+	}
+	elseif "(The name of your ghost)PickupObsidian04" _in_ reference1 //Response to Dusty's comment
+	{
+		res_reference0 = ""
+		
+		"\0\s[500]She's so cute, I don't mind.\e"
+	}
+}
+
+
+//Right! So if you've managed to do all that, your ghost can now pick up Obsidian! It's not _hard,_ really, it's just a lot of back and forth to ensure nothing goes wrong. Now then, what about getting Obsidian down?
+//There are two different ways Obsidian will attempt to jump down. She will do it randomly when she feels like it, and she will also do it if you try to open the other ghost's menu. For now, we'll focus on doing it when the menu opens, so that you can test this loop as much as you need.
+
+//So, over in MouseDoubleClickSakura (or whatever you need for the character you're setting this up with), you'll want to add this.
+
+MouseDoubleClickSakura
+{
+	if holdingObsidian == 1
+	{
+		"\![get,property,OnObsidianJumpDown,currentghost.scope(0).rect]\e"
+	}
+	else
+	{
+		//Your other mouse stuff here
+	}
+}
+
+//That is a property command, and what it's going to do is get the coordinates of your ghost so Obsidian knows where to reappear. It sends that info to the function OnObsidianJumpDown. Here is that function, you'll need to put it in one of your dic files. It doesn't really matter where, but I'd put it in Commu personally.
+
+OnObsidianJumpDown
+{
+    res_reference0 = "Dusty"
+    _XCoord = TOINT(reference0[0])
+    _YCoord = TOINT(reference0[3])
+    "\0\s[501]\e (The name of your ghost)ObsiJumpDown02,%(_XCoord),%(_YCoord)\e"
+}
+
+//Now, I've put \s[501] there as an example, but you should set that to whatever surface is the jump down animation for you. (Side note, sometimes when Obsidian jumps down, she isn't far enough off to the side and will overlap your ghost again and get picked up. If that's the case, add a line like this before the dialogue: '_XCoord -= 20' and keep subtracting numbers until it works fine! The lower the _XCoord is, the further left she will appear.
+//Another note, if you would like Obsidian to jump down on the right instead, you can do that! Just include the word 'Right' after the X and Y coord. Make sure the R is capital. You may need to adjust the X coord a bit to make this look right!
+//You could even include both as an option, just have two different messages, one with Right and one without, each with the appropriate jumping down surface. You'll have to be mindful of the coordinates you send, though.
+//When Dusty receives this message, he'll do some math to figure out where Obsidian should move to, and then will make her reappear moving left. Once that is done, he'll send back this message: "(The name of your ghost)ObsiJumpDown03"
+//When your ghost receives this, you can have them comment about her leaving, if you would like. You should also set holdingObsidian back to 0! You DO NOT need the animation in this since it already will have played!
+
+elseif "(The name of your ghost)ObsiJumpDown03" _in_ reference1 //Commenting on Obsidian leaving
+{
+	res_reference0 = ""
+	
+	"\0\s[0]Aw, bye Obsidian.\e"
+}
+
+//Once you've done that, the basic loop is complete! You should be able to make your ghost pick up and put down Obsidian with no issue. Congrats if you've made it this far!
+
+//There's still a good bit of work to do, though.
+
+
+//Now, probably the next thing you'll want to do is change OnSurfaceRestore so that your ghost doesn't suddenly go back to their normal surface. Just put a check for if holdingObsidian == 1, and put surfaces of them holding Obsidian into it, and your normal surfaces into an else. If you've ever set up an alternate mode for a ghost, this stuff will be a breeze for you.
+//Next, you may want to do the same thing with RandomTalk, and put a few lines of dialogue about holding Obsidian in there, just so that she doesn't suddenly disappear. Same deal with the top of the hour notifications.
+
+//With that taken care of, next we should cover the edge cases. So, what's the deal with the edge cases? Well, put simply, if you were to close your ghost while it's holding Obsidian and Dusty isn't watching for that, bad things would happen because he'd never go out of that mode. Same if you were to close Dusty while your ghost is holding Obsidian, you wouldn't be able to get your ghost out of holding Obsidian mode properly.
+//So! We need to cover 4 things. First, we'll cover closing/changing away from Dusty while your ghost is holding Obsidian.
+
+OnOtherGhostChanged
+{
+	if holdingObsidian == 1
+	{
+		if reference0 == "Dusty"
+		{
+			holdingObsidian = 0
+			"\0\s[500]Oh, just a moment Dusty!\s[-1]\w8\w8\w8\w8\s[0] Can't just leave Obsidian here.\e"
+		}
+	}
+}
+
+OnOtherGhostClosed
+{
+	if holdingObsidian == 1
+	{
+		if reference0 == "Dusty"
+		{
+			holdingObsidian = 0
+			"\0\s[500]Oh, just a moment Dusty!\s[-1]\w8\w8\w8\w8\s[0] Can't just leave Obsidian here.\e"
+		}
+	}
+}
+
+//You'll need to add those two functions, all you need to do is change the dialogue to whatever you deem appropriate. You DO NOT need to use Obsidian's jump down animation for this! It wouldn't show up properly. Instead, just have them disappear for a few moments, as though they're going to give the cat back to him before he's gone. Or if you wanted you could just have her mysteriously disappear, whatever works lol.
+
+//That wasn't so bad, right? Now, we'll do it the other way around. When you close/change away from your ghost and holdingObsidian == 1, they need to have some dialogue about it. They DO NOT need to run any functions, or display the animation of Obsidian jumping down. Just have them disappear with her, Dusty will see when they leave, and Obsidian will reappear afterwards. Something like this, though yours will probably already have a lot of dialogue in them.
+
+OnClose
+{
+	if holdingObsidian == 1
+	{
+		holdingObsidian = 0
+		
+		"\0\s[500]Alright then, guess I have to give Obsidian back. See you around!\w8\w8\-\e"
+	}
+	else
+	{
+		//Normal closing dialogue in here
+	}
+}
+
+OnGhostChanging
+{
+	if reference0 == "(The name of your ghost)" //reloading
+	{
+		if holdingObsidian == 1
+		{
+			"\0\s[500]Reloading.\e"
+		}
+		else
+		{
+			"\0\s[0]Reloading.\e"
+		}
+	}
+	else
+	{
+		if holdingObsidian == 1
+		{
+			holdingObsidian = 0
+			
+			"\0\s[500]Alright then, guess I have to give Obsidian back. See you around!\w8\w8\e"
+		}
+		else
+		{
+			"\0\s[0]Alright, switching to %(reference0)!\w8\w8\e"
+		}
+	}
+}
+
+//That wasn't so bad either, right? You don't even need to add any commu stuff!
+//Now, we have to take care of them being minimized, because that could cause issues too. The way we'll handle this is that if you minimize Dusty, Obsidian will be minimized with him. If you minimize your ghost, Obsidian will reappear to stand by Dusty. First, we'll do if your ghost is minimized, because it's very simple.
+
+OnWindowStateMinimize
+{
+    if holdingObsidian == 1
+    {
+        res_reference0 = "Dusty"
+        holdingObsidian = 0
+        "\e (The name of your ghost)ObsiMinimize"
+    }
+}
+
+//All you need to do is replace (The name of your ghost) with the name of your ghost! Dusty will handle the rest.
+//Now, the other way around is a little more complicated. When Dusty is minimized, he will send the message "DustyMinimized(The name of your ghost)". Your ghost will need to receive this in Commu, and have Obsidian instantly disappear, probably with a comment about Obsidian disappearing into the taskbar with Dusty. You can have your ghost comment if you like, but do not pass the commu back to Dusty. It'll look like this. (Note, the 0 will be a 1 for the Kero, etc for other chars...)
+
+elseif "DustyMinimized(The name of your ghost) 0" _in_ reference1 //Dusty was minimized
+{
+	res_reference0 = ""
+	holdingObsidian = 0
+	
+	"\0\s[0]* (Obsidian disappears into the taskbar with Dusty.)\w8\w8\n\nAw...\e"
+}
+
+//And that's the last edge case! Now, unless you do something real weird that I haven't thought of, our ghosts shouldn't fall out of sync with each other!
+
+//Well, ok, I lied, there is one more thing we do need to get. As mentioned before, Dusty will randomly ping your ghost to try and make Obsidian jump down. You need to put in a check for that message. Thankfully, this is also simple! You need to add another check in commu, this time for this message: "(The name of your ghost),(Sakura or Kero number)ObsiJumpDown01". Then, you'll just put in the same property command from before. So for example...
+
+elseif "(The name of your ghost),0ObsiJumpDown01" _in_ reference1
+{
+	"\0\s[501]\![get,property,OnObsidianJumpDown,currentghost.scope(0).rect]"
+}
+
+//This will direct to the same function as before! You don't need to do anything else here, just make sure the animation of Obsidian jumping down is in the surface there.
+
+//And there you go! That wasn't so bad right? Now, with all those pieces into place, it's up to you to polish out everything while Obsidian is being held.
+
+//So, as mentioned before you'll want to add in new dialogues to RandomTalk, so that she doesn't disappear. You'll also need to do this to EVERYTHING in etc, so that if people decide they want to check their email or something, Obsidian doesn't appear to vanish. You don't HAVE to do this if you REALLY don't want to, it won't mess up their modes or anything, but it will be annoying lol.
+
+//About opening the ghost's menu, I recommend that you just don't let the user open the ghost's menu while they're holding Obsidian, so you don't have to add a bunch of checks to that. You can add some dialogues of them saying they're busy when the user tries to open their menu, if you want, though it means the user might have to try a few times before Obsidian jumps down.
+
+//Don't forget to add in a check for petting your ghost while they're holding Obsidian, as well. Don't want her to disappear if the user decides to pet your ghost.
+
+//Speaking of petting your ghost, you can add in a collision for petting Obsidian, too! Just make sure to set it up so that if the user pets Obsidian, it directs over to Dusty again, like this:
+
+elseif reference4 == "Obsidian" //If your collision is named Obsidian
+{
+	stroke++
+	if stroke >= 40
+	{
+		stroke = 0
+		res_reference0 = "Dusty"
+
+		"\e (The name of your ghost)ObsiPets"
+	}
+}
+
+//When Dusty receives that, Obsidian will make meowing noises in her own balloon (and Dusty may also comment), AND the user's pet stats for Obsidian will go up! Dusty will not send a response to this.
+
+//And that's all! If you've managed to complete all this, congratulations! Please, PLEASE let me know about it! I am so super excited to see other ghosts holding Obsidian. Again, if you'd like your ghost and Dusty to have some conversations together, please get in touch with me and we can work on it!
+//PLEASE NOTE: Sometimes holding Obsidian can be a little buggy! Sometimes ghosts don't respond when Obsidian overlaps them. You can usually fix this by completely reloading your ghost, or restarting SSP!
+//If you're confused by anything in this tutorial, feel free to ask me anything about it and I'll do my best to help! You can find my socials at the bottom of my website here https://zichqec.github.io/s-the-skeleton/index.html or you can find me on the Ukagaka Dream Team Discord Server here! https://ukagakadreamteam.tumblr.com/discord
