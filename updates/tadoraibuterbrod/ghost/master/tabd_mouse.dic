@@ -142,3 +142,7 @@ Select.FirstPunch //The first time the ghost is punched
 	"\0\s[0]Ow!\e"
 	totalpunches++
 }
+
+MouseDoubleClickKero {
+	OpenKeroMenu
+}

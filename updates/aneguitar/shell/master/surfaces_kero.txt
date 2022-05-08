@@ -1,0 +1,34 @@
+version,1
+
+surface10
+{
+	element0,overlay,surface10.png,0,0
+	animation10.interval,bind
+	animation10.pattern0,overlay,200,0,0,0
+
+	//Collisions
+	collision0,42,31,81,66,tvar
+}
+
+//surface.append0-99
+//{
+	//append
+//}
+
+//kero.surface.alias
+//{
+	//700,[700,701]
+//}
+
+//kero.tooltips 
+//{ 
+	//tvar,твар - это лицо 
+//}
+
+//kero.cursor 
+//{ 
+//mouseup0,Head,system:hand 
+//mousedown0,Head,system:finger 
+//mouseup1,Face,system:hand 
+//mousedown1,Face,system:grip 
+//}

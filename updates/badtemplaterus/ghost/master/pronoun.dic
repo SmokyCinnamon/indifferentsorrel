@@ -1,0 +1,21 @@
+[Function]
+custom pronouns:tm: for all your custom pronouns:tm: needs
+assuming you have it set up as it is with x. template i'm 75% sure you will have no confusion setting it up. gt template may require a slightly different process that i am unaware of because i forgot
+
+//this goes where you other options for pronouns are located. You can replace 'OnPronouns' with the name of your pronoun function if it's different
+//%*\__q[OnPronouns,custom]Custom\__q
+
+//this goes in OnPronouns or wherever your pronouns are housed
+	//[...assumed other code]
+	elseif reference2 == "custominput" {
+		//the extra reference from the input box is sent as reference2
+		_pronouns = SPLIT(reference0,"/") //taking the user input and making it into a temporary array, with / as the delimiter
+		himher = _pronouns[0]; heshe = _pronouns[1]; hisher = _pronouns[2]
+	}
+	elseif reference0 == "custom" {
+		//depending on your setup, this can also just go in the else
+		"\0\s[0]Please enter your pronouns like 'they/them/their', without the quotes.\![open,inputbox,OnPronouns,-1,--reference=custominput]\_q\e"
+	}
+	//[assumed other code]
+
+

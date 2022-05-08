@@ -1,0 +1,32 @@
+MouseMoveKeroOne {
+	if reference4 == "tvar"
+	{
+		stroke[0]++
+		stroke[1]++
+		
+		if stroke[1] >= 160 //how does it work that its 4
+		{
+			if stroke[0] >= 160
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				//[2] is the streak you're on apparently
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0
+			stroke[2]++
+			totalpets++
+			
+			"\1\s[10]Мур...\e"
+		}
+	}
+}
+DoubleClickKeroOne {
+	if reference4 == "tvar" {
+		"Лицо"
+	}
+	else {KeroMenuOne}
+}

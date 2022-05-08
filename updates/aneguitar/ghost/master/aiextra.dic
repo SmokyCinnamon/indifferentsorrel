@@ -1,0 +1,7 @@
+AdTalk : nonoverlap_pool {
+	"Ад"
+}
+
+OffscreenAdTalk : nonoverlap_pool {
+	"мы не на экране.\ж7  Ад"
+}

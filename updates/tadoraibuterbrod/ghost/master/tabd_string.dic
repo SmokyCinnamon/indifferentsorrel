@@ -24,23 +24,25 @@ On_sakura.recommendsites
 //These are the websites linked in the top option of the right click menu. Add your websites here! Follow the format carefully here, on the left is the name you want to display, on the right is the url you want it to link to, and between them should be a | with at least one space on either side. You can add as many spaces as you like, but there always has to be at least one. The links will be given the proper formatting by the FormatLinks function below.
 recommendsites_sakura : array
 {
-	"Belarusian Lacinka (EN)                  | https://belarusianlacinka.com/lacinka/2020/05/26/Lacinka-Alphabet/"
-	"Textbooks (BY)                           | https://knihi.com/padrucniki.html"
-	"Babadada (visual dictionary) (EN)        | https://babadada.com/topic/school/en-US/bel"
-	"Lingohut (EN)                            | https://www.lingohut.com/en/l112/learn-belarusian"
-	"Mova Nanova (BY)                         | https://uroki.movananova.by/classes/vitanni-i-zvaroty-akanne/"
-	"Asvetnik (BY)                            | http://asvetnik.by/"
-	"Вывучаем Беларускую (BY/RU/UK/PL)        | http://by.lang-study.com/RU/category/asnovy/"
-	"Internet Polyglot (EN)                   | https://www.internetpolyglot.com/lessons-en-be"
-	"Duolingo post requesting the course (EN) | https://forum.duolingo.com/comment/10008744"
-	"Duolingo post with a few lessons (RU)    | https://forum.duolingo.com/comment/9966059"
-	"Правільна (BY)                           | https://pravilna.by/"
-	"Memrise (EN)                             | https://app.memrise.com/courses/english-us/belarusian/"
-	"Memrise (BY)                             | https://app.memrise.com/courses/belarusian/"
-	"Memrise (RU)                             | https://app.memrise.com/courses/russian/belarusian/"
-	"Memrise (NL)                             | https://app.memrise.com/courses/belarusian/dutch/"
-	"Ўордлі (BY)                              | https://ololophilolo.github.io/wordle-by/"
+	"Belarusian Lacinka (EN)                        | https://belarusianlacinka.com/lacinka/2020/05/26/Lacinka-Alphabet/"
+	"Textbooks (BY)                                 | https://knihi.com/padrucniki.html"
+	"Babadada (visual dictionary) (EN)              | https://babadada.com/topic/school/en-US/bel"
+	"Lingohut (EN)                                  | https://www.lingohut.com/en/l112/learn-belarusian"
+	"Mova Nanova (BY)                               | https://uroki.movananova.by/classes/vitanni-i-zvaroty-akanne/"
+	"Asvetnik (BY)                                  | http://asvetnik.by/"
+	"Вывучаем Беларускую (BY/RU/UK/PL)              | http://by.lang-study.com/RU/category/asnovy/"
+	"Internet Polyglot (EN)                         | https://www.internetpolyglot.com/lessons-en-be"
+	"Duolingo post requesting the course (EN)       | https://forum.duolingo.com/comment/10008744"
+	"Duolingo post with a few lessons (RU)          | https://forum.duolingo.com/comment/9966059"
+	"Правільна (BY)                                 | https://pravilna.by/"
+	"Memrise (EN)                                   | https://app.memrise.com/courses/english-us/belarusian/"
+	"Memrise (BY)                                   | https://app.memrise.com/courses/belarusian/"
+	"Memrise (RU)                                   | https://app.memrise.com/courses/russian/belarusian/"
+	"Memrise (NL)                                   | https://app.memrise.com/courses/belarusian/dutch/"
+	"Ўордлі (BY)                                    | https://ololophilolo.github.io/wordle-by/"
 	//https://tuzinfm.by/
+	"Learn Belarusian (Discord)                     | https://discord.gg/PctMyu2cD4"
+	"Ukagaka JP Pioneers (Discord, for other langs) | https://discord.gg/J5kwqqFH7M"
 }
  
 On_portalrootbutton.caption //Caption for the second list of websites

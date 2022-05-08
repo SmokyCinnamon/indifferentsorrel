@@ -1,0 +1,17 @@
+AdMenuSakura : all {
+	"\0\b[2]\_q%(adsmenugreet)\n"
+	"%*\__q[OnQuestionAdkura]есть какие-нибудь тайни\__q"
+	"\n\n[half]%*\__q[cancelnodialogue]мне скучно пока\__q\_q"
+	"\n%(totalrun[2])д %(totalrun[1])ч %(totalrun[0])м"
+}
+adsmenugreet {
+	"прывітанне"
+}
+
+
+OnQuestionAdkura : all {
+	"\0\b[2]\_qне знаю о чем ты говоришь"
+	"\n\n[half]%*\__q[AdMenuSakura]верни мне в меню\__q %*\__q[cancelnodialogue]ты скучный человек\__q\_q"
+}
+
+Select.AdMenuSakura {AdMenuSakura}

@@ -12,3 +12,6 @@
 > she can now filter lessons based on language! You'll probably have to re-download any previous lessons but seeing as im not that many people really *have* her this shouldn't be anything ghost-breaking
 	> if you're a lesson creator you can check out the updated documentation for what you need to add
 	> or just create a new lesson and grab the needed parameter from that idk im not your boss
+> added a link to the discord server "Learn Belarusian"!
+> added a link to the discord server "Ukagaka JP Pioneers"! despite the name there *are* other languages involved, like spanish and german and stuff
+> Buterbrod will sticky to Tadora when dragged over her! you can remove buterbrod from buterbrod's menu

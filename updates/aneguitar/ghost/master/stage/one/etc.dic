@@ -1,0 +1,28 @@
+//narrator handles other such things
+
+VanishSelectingOne {
+	//uninstall
+	"\1\s[10]гм..."
+	--; "\x\e"
+}
+VanishSelectedOne {
+	//actuslly selected??
+	"\0\s[0]Тады прощай"
+	--; "\x\e"
+
+}
+VanishCancelOne {
+	//cancel
+	"\0\s[0]А, хорошо."
+	--; "\x\e"
+}
+VanishButtHoldOne {
+	//pop balloon
+	"\0\s[0]Ну?"
+	--; "\x\e"
+}
+VanishedOne {
+	//someone else
+	"\0\s[0]Вот и всё для %(reference0)."
+	--; "\x\e"
+}

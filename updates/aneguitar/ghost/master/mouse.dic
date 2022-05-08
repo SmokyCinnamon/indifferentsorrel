@@ -1,0 +1,119 @@
+//hell
+//...
+//handles other modes too. p&m seem to not like it but this is yaya so who knows. also pls remember that creepymode is the only one where the modifier comes before the function name idk why but it is
+//upd i contradicted myself with the hell thing but thats a PLACEHOLDER so idi nachuj
+
+OnMouseMove {
+	if reference3 == 0 {
+		if nowmode == "creepymode" {CreepyMoveSakura}; else {
+			case stage {
+				when 1 {MouseMoveSakuraOne}
+				others {
+					case nowmode {
+						when "hell" {AdMoveSakura}
+						others {MouseMoveSakura}
+					}
+				}
+			}
+		}
+	}
+	else {
+		if nowmode == "creepymode" {CreepyMoveKero}; else {
+			case stage {
+				when 1 {MouseMoveKeroOne}
+				others {
+					case nowmode {
+						when "hell" {AdMoveKero}
+						others {MouseMoveKero}
+					}
+				}
+			}
+		}
+	}
+}
+
+OnMouseDoubleClick {
+	//remember menu handling is in the else in the respective modes
+	if reference3 == 0 {
+		if nowmode == "creepymode" {CreepyDoubleClickSakura}; else {
+			case stage {
+				when 1 {DoubleClickSakuraOne}
+				others {
+					case nowmode {
+						when "hell" {AdDoubleClickSakura}
+						others {MouseDoubleClickSakura}
+					}
+				}
+			}
+		}
+	}
+	else {
+		if nowmode == "creepymode" {CreepyDoubleClickKero}; else {
+			case stage {
+				when 1 {DoubleClickKeroOne}
+				others {
+					case nowmode {
+						when "hell" {AdDoubleClickKero}
+						others {MouseDoubleClickKero}
+					}
+				}
+			}
+		}
+	}
+}
+
+//now for the actual functions idk man
+//kero is in, different file. i hope. hmmmm.
+MouseMoveSakura {
+	if reference4 == "tvar"
+	{
+		stroke[0]++ //number go up
+		stroke[1]++
+		
+		if stroke[1] >= 160 //4 pets, supposedly
+		{
+			if stroke[0] >= 160 //stroke count set a bit longer
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				
+				"\0\s[1]\i[1]%(narrator)* (Ты на полоса гладание %(stroke[2])!)\e"
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0 //stroke reset
+			stroke[2]++
+			totalpets++
+			
+			"\0\s[1]О-ой, ну, ты мне гладить не обязан, окей?\e"
+		}
+	}
+}
+
+OnMouseLeaveAll {
+	if stroke[1] > 160 && stroke[1] > pethighscore[0] //continous or not; high score
+	{
+		pethighscore[0] = stroke[1]
+		_b = BalloonCheck
+		if _b == 1 //if balloon's open
+		{
+			"\C\n\n(Новое поышение! %(pethighscore[0])!)\e"
+		}
+	}
+	--
+	if stroke[2] > pethighscore[1] //counting successgul pets
+	{
+		pethighscore[1] = stroke[2]
+	}
+	--
+	stroke[0] = 0; stroke[1] = 0; stroke[2] = 0
+}
+
+MouseDoubleClickSakura {
+	if reference4 == "tvar" {
+		"\0\s[1]Э-э?! %(имя), ты что такое делаешь?"
+	}
+	else {OpenSakuraMenu}
+}

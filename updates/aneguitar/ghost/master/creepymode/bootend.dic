@@ -1,0 +1,20 @@
+CreepyBoot {
+	CreepyBootVars; --
+	"\0\s[30]\b[4]...\w6%(narrator)(Кажется, она с тобой не будет говорить.)"
+	--; "\x\e"
+}
+
+CreepyClose {
+	nowmode = ""
+	"%(narrator)(...Она не изменает.)"
+	--; "\x\-"
+}
+
+CreepyStateRestore {
+	"\0\s[30]"
+	--; "\x\e"
+}
+
+CreepyBootVars {
+	nowmode = "creepymode"
+}

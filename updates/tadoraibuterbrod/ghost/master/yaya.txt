@@ -20,6 +20,7 @@ dic, lessons_enby.dic
 //dic, dictionary_enby.dic
 dic,tabd_lesson.dic
 dic, tabd_dictionary.dic
+dic, tabd_games.dic
 
 //log, ayame.log
 messagetxt,system/messagetxt/english.txt

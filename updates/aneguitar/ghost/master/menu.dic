@@ -1,0 +1,138 @@
+OnTestVar {
+	//its at the top because fuck you
+	//also easy to mess with here no scrolling
+}
+
+OpenSakuraMenu {
+	"\0\b[2]"; --
+	"привет"
+	--; OnMenuRun
+}
+
+OnMenuRun : all {
+	"\0\b[2]\_q\n"
+	"%*\__q[OnLastTalk]скажи это опять пж?\__q\n"
+	"%*\__q[OnConfigMenu]мне нужно настройки пж\__q\n"
+	"%*\__q[OnBugReport]мне надо сообщить о ошибке пж\__q\n"
+	"%*\__q[OnChangeLog]я хочу посмотреть лог изменение пж\__q"
+	"\n\n[half]%*\__q[Cancel]пока\__q"
+	"\n%(ghostver) | %(stage) | %(totalrun[2])д, %(totalrun[1])ч %(totalrun[0])м\_q"
+}
+
+OnLastTalk {"%(lastTalk)"}
+
+OnConfigMenu : all {
+//you don't technically need the case/when here but if you want special dialogue you can uncomment it.
+	//if nowmode == "creepymode" {}; else {
+		//case stage {
+			//when 1 {ConfigMenuOne}
+			//others {
+				//case nowmode {
+					//creepyconfig does not exist unless you want it to. this is more like... if you want stages in you- OH MY GOD FYCK I FORGOT ABOUT THAT
+					//HELL
+					//anyways if u want stages in your ghost do like case stage and the others is normal or last or whatever the fuck you wabt ut to be WHY DID I FORGET now i have to go back and edit the other files :(
+					//when "hell" {}
+					//others {
+						//just in case variables disappear for some reason, probably not a good idea to remove anything here
+						if имя == ""; имя = "Пользователь"
+						if birthday[0] == ""; birthday[0] = "???"
+						if hemisphere == ""; hemisphere = "Северном"
+						if talkrate == ""; talkrate = "Каждый 5 минут"; aitalkinterval = 300
+						if deleteshitai == ""; deleteshitai = "Выкл"
+						if AutoUpdates[0] == ""; AutoUpdates[0] = "Вкл"
+						--
+						"%(narrator)"
+						"\_q\Конфигурация\n\n"
+						"\__q[OnChangeName]Твоя имя: %(имя)\__q\n"
+						"\__q[OnChangePronoun]Твои местоимение: %(он)/%(его)\__q\n"
+						"\__q[OnChangeBirthday]Твой день рожедния: %(birthday[0])\__q\n\n"
+						"\__q[ToggleHemisphere]Твоё полушарие: %(hemisphere)\__q\n"
+						"\__q[ToggleNotifhour]Уведомление Часов: %(notifhour)\__q\n"
+						"\__q[ChangeTalk]Вмеря Разговор: %(talkrate)\__q\n\n"
+						"\__q[ToggleUpdate]Авто-обновление: %(AutoUpdates[0])\__q\n"
+						"\__q[ToggleUninstall]Удаление: %(deleteshitai)\__q\n\n"
+						"%(tomenu)\e"
+					//}
+				//}
+			//}
+}//}}
+
+//zi i love you but i love condensed code more /p
+Select.ToggleNotifhour {
+	if notifhour != "Выкл" {notifhour = "Выкл"}
+	else {notifhour = "Вкл"}
+	--; OnConfigMenu
+}
+Select.ToggleHemisphere {
+	if hemisphere != "Северном" {hemisphere = "Северном"}
+	else {hemisphere = "Южном"}
+	--; OnConfigMenu
+}
+
+Select.ChangeTalk {
+	"%(narrator)Как часто говорить?\w8 Сейчас это %(talkrate)\n\n"; --
+	//\![*]\q[Каждого 30 секундов,OnTalkRate,Thirty]\n/
+	//\![*]\q[Каждая минута,OnTalkRate,Minute]\n/
+	//\![*]\q[Каждые 3 минуты,OnTalkRate,ThreeMin]\n/
+	"\![*]\q[Каждый 5 минут,OnTalkRate,FiveMin]\n/
+	\![*]\q[Никогда,OnTalkRate,None]\n\n/
+	\![*]\q[Назад,OnConfigMenu]\e"
+}
+
+OnTalkRate {
+	//wasnt written with the narrator in mind but as ive decided not to add special dialogue for other modes and such; narrator it is. you could always change it back
+	if reference0 == "Thirty" {
+		talkrate = "каждые 30 секундов" //menu display
+		aitalkinterval = 30 //seconds. changing the talk rate
+		
+		"%(narrator)Как ты желаешь."
+	}
+	elseif reference0 == "Minute" {
+		talkrate = "каждая минута"
+		aitalkinterval = 60
+		
+		"%(narrator)Как ты желаешь."
+	}
+	elseif reference0 == "ThreeMin" {
+		talkrate = "Каждые 3 минуты"
+		aitalkinterval = 180
+		
+		"%(narrator)Как ты желаешь."
+	}
+	elseif reference0 == "FiveMin" {
+		talkrate = "Каждый 5 минут"
+		aitalkinterval = 300
+		
+		"%(narrator)Как ты желаешь."
+	}
+	else {
+		talkrate = "никогда"
+		aitalkinterval = 0
+		
+		"%(narrator)Как ты желаешь."
+	}
+	--
+	"\n\n\![*]\q[К конфигурация,OnConfigMenu]\n\![*]\q[Всё что я хоте%(л),cancelnodialogue]\e"
+}
+
+Select.ToggleUpdate {
+	if AutoUpdates[0] != "Вкл" {AutoUpdates[0] = "Вкл"}
+	else {AutoUpdates[0] = "Выкл"}
+	--; OnConfigMenu
+}
+
+Select.ToggleUninstall {
+	if deleteshitai != "Вкл" {deleteshitai = "Вкл"}
+	else {deleteshitai = "Выкл"}
+	--; OnConfigMenu
+}
+
+OnBugReport : all {
+	"%(narrator)\_q"
+	"%*Установлен на: %(installdate[2])/%(installdate[1])/%(installdate[0]), %(installdate[3]):%(installdate[4]):%(installdate[5])\n"
+	"%*Версия: %(ghostver)\n"
+	"%*Оригинальная Версия: %(installdate[6])\n"
+	"%*Время на твой пк: %(totalrun[2]) | %(totalrun[1]):%(totalrun[0])"
+	"\n\n[half]Сообщить автор \_a[https://github.com/SmokyCinnamon/indifferentsorrel/issues]здесь\_a" //в квадратние скобки вставить сайт, где пользователи может вам сообщить
+	"\n\n%(tomenu)\_q"
+}

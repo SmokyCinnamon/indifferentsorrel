@@ -1,0 +1,10 @@
+CreepyTalk : nonoverlap_pool {
+	"%(narrator)(... Так тихо...)"
+	"%(narrator)(Она для тебя щас действительно не будет играть на гитаре.\ж6\нНо, она на это конечно ж не так как мастер.)"
+}
+
+OffscreenCreepyTalk : nonoverlap_pool {
+	"%(narrator)(Может здесь, она тебя не видит...)"
+	"\b[4]..."
+	"%(CreepyTalk)"
+}

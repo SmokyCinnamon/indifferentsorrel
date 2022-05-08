@@ -1,0 +1,9 @@
+CreepySakuraMenu : all {
+	"\b[4]...\n\n"
+	"\__q[Cancelnodialogue]Ничего для тебя не тут.\__q"
+	"\x"
+}
+
+/*CreepyConfig {
+
+}*/

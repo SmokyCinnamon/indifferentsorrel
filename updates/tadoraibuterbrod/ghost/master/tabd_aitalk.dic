@@ -123,7 +123,11 @@ OnSecondChange
 	}
 	if reference2 == 1 //This is for if your Sakura and Kero are overlapping. \4 will move the speaking character away from the other character.
 	{
-		//"\0\s[0]Aw, hi Buterbrod!\e"
+		if stickybuter == 0 {
+			stickybuter = 1
+			"\1\![set,sticky-window,0,1]\0\s[0]Aw, hi Buterbrod!\e"
+		}
+		else {}
 	}
 	elseif ARRAYSIZE(waitingcommuS) > 0 && second % 5 == 0 //Every 5 seconds, check if the balloon is closed and a communication is waiting, and if so trigger a response
 	{

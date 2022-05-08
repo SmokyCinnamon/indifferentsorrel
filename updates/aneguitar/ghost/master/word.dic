@@ -1,0 +1,115 @@
+//envelope
+tomenu {
+//idk. if your button needs to be different and you dont want to write out the code.
+	if nowmode == "creepymode" {} else {
+		case stage {
+			when 1 {}
+			others {
+				case nowmode {
+					when "hell" {}
+					others {"%*\__q[OnMenuRun]Главный Меню\__q\e"}
+				}
+			}
+		}
+	}
+}
+narrator {
+	"\p[2]\s[-1]\b[2]"
+}
+A {"\i[300]"}
+Am {"\i[301]"}
+D {"\i[302]"}
+G {"\i[303]"}
+F {"\i[304]"}
+Hb {"\i[305]"}
+Hbm {"\i[306]"}
+C {"\i[307]"}
+E {"\i[308]"}
+Em {"\i[309]"}
+Dm {"\i[310]"}
+Mute {"\i[311]"}
+H7 {"\i[312]"}
+Fm {"\i[313]"}
+E7 {"\i[314]"}
+chords {
+	"%(A)";"%(D)";"%(G)";"%(Fm)";"%(Bb)";"%(Bbm)";"%(C)";"%(E)";"%(Em);%(Dm);%(Mute);%(H7);%(Fm);%(E7)"
+}
+
+nomerodin {"\i[23]...\i[24]...\i[22]...\i[21]...\i[20]...\i[22]..."}
+nomerodinotkryty {"\i[23]...\i[24]...\i[22]...\i[21]...\i[24]...\i[22]..."}
+nomerdva {"\i[23]...\i[24]...\i[22]...\i[21]...\i[24]...\i[20]...\i[22]...\i[20]...\i[22]...\i[23]...\i[24]...\i[20]...\i[22]..."}
+nomerdvaotkryty {"\i[23]...\i[24]...\i[22]...\i[24]...\i[20]...\i[22]...\i[20]...\i[22]...\i[24]...\i[20]...\i[22]..."}
+nomertry {"\i[23]...\i[21]...\i[23]...\i[21]...\i[23]...\i[20]...\i[22]...\i[24]...\i[22]..."}
+nomertryotkryty {"\i[23]...\i[21]...\i[23]...\i[21]...\i[23]...\i[24]...\i[22]...\i[24]...\i[22]..."}
+nomerchetyre {"\i[23]...\i[24]...\i[21]...\i[24]...\i[20]...\i[22]...\i[21]...\i[24]...\i[21]...\i[22]...\i[23]...\i[24]...\i[20]...\i[22]..."}
+nomerchetyrezakryty {"\i[23]...\i[24]...\i[21]...\i[20]....\i[22]...\i[21]...\i[24]...\i[21]...\i[22]...\i[23]...\i[20]....\i[22]..."}
+test {"%(chords)%(nomerchetyrezakryty)"}
+
+zvezdapoimenisolnce{"%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(C)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(G)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(C)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(G)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(C)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(G)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(C)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(G)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(C)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(G)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(C)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(G)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/
+	%(Dm)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)%(Am)%(nomerodin)%(nomerodin)%(nomerodin)%(nomerodin)/"}
+
+chtotakoeosen {"%(Em)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(nomerdva)%(E7)%(nomerdva)%(nomerdva)%(Am)%(nomerdva)%(nomerdva)/
+	%(Am)%(nomerdva)%(D)%(nomerdva)%(G)%(nomerdva)%(C)%(nomerdva)%(Am)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(E7)%(nomerdva)/
+	%(Am)%(nomerdva)%(D)%(nomerdva)%(G)%(nomerdva)%(C)%(nomerdva)%(Am)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(nomerdva)/
+%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Am)%(nomerdvaotkryty)%(D)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(nomerdvaotkryty)/
+%(Em)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(nomerdva)%(E7)%(nomerdva)%(nomerdva)%(Am)%(nomerdva)%(nomerdva)/
+	%(Am)%(nomerdva)%(D)%(nomerdva)%(G)%(nomerdva)%(C)%(nomerdva)%(Am)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(E7)%(nomerdva)/
+	%(Am)%(nomerdva)%(D)%(nomerdva)%(G)%(nomerdva)%(C)%(nomerdva)%(Am)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(nomerdva)/
+%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Am)%(nomerdvaotkryty)%(D)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(nomerdvaotkryty)/
+%(Em)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(nomerdva)%(E7)%(nomerdva)%(nomerdva)%(Am)%(nomerdva)%(nomerdva)/
+	%(Am)%(nomerdva)%(D)%(nomerdva)%(G)%(nomerdva)%(C)%(nomerdva)%(Am)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(E7)%(nomerdva)/
+	%(Am)%(nomerdva)%(D)%(nomerdva)%(G)%(nomerdva)%(C)%(nomerdva)%(Am)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(nomerdva)/
+%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Am)%(nomerdvaotkryty)%(D)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(nomerdvaotkryty)/
+%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Am)%(nomerdvaotkryty)%(D)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(nomerdvaotkryty)/
+%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(Em)%(nomerdvaotkryty)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Am)%(nomerdvaotkryty)%(D)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(Am)%(nomerdvaotkryty)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)%(nomerdvaotkryty)/"}
+
+prosvistela {"%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)%(Em)%(nomerdva)%(C)%(nomerdva)%(G)%(nomerdva)%(H7)%(nomerdva)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)/
+	%(Em)%(nomerdvaotkryty)%(C)%(nomerdvaotkryty)%(G)%(nomerdvaotkryty)%(H7)%(nomerdvaotkryty)"}

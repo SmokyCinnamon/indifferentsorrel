@@ -1,0 +1,171 @@
+version,1
+//new definition. 0 is for old definition but this will force you to use new definition so
+
+surface0
+{
+	element0,overlay,surface0.png,0,0
+	//subfolders can be used, any images have to be defined
+	//i actualy wonder if you could have a surfacse.txt in one? and have it set up sort of how using yaya.txt works...
+	//element0,overlay,yourfolder/surface0.png,0,0
+	
+	//Blink
+	animation0.interval,random,4
+	animation0.pattern0,overlay,-1,100,0,0
+	animation0.pattern1,overlay,100,50,0,0
+	animation0.pattern2,overlay,101,100,0,0
+	animation0.pattern3,overlay,-1,30,0,0
+	
+}
+surface1 //embarrased
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface102.png,0,0
+}
+surface2 //surprised
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface103.png,0,0
+}
+surface3 //anxious
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface105.png,0,0
+}
+surface4 //discouraged
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface106.png,0,0
+}
+surface5 //smile
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface107.png,0,0
+}
+surface6 //eyes closed
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface101.png,0,0
+}
+surface7 //angry
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface109.png,0,0
+}
+surface8 //bored
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface110.png,0,0
+}
+surface9 //confused
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,surface111.png,0,0
+}
+
+surface.append0-9
+{
+	collision0,73,13,131,59,tvar
+
+	animation1.interval,never
+	animation1.pattern0,overlay,102,0,0
+
+	animation10.interval,bind
+	animation10.pattern0,overlay,400,0,0,0
+}
+
+surface11
+{
+	element0,overlay,surface11.png,0,0
+	animation10.interval,bind
+	animation10.pattern0,overlay,401,0,0,0
+
+	//left
+	animation20.interval,runonce
+	animation20.pattern0,parallelstop,(21,22,23,24)
+	animation20.pattern1,overlay,200,0,0,0
+	animation21.interval,never
+	animation21.pattern0,parallelstop,(20,22,23,24)
+	animation21.pattern1,overlay,201,0,0,0
+	animation22.interval,never
+	animation22.pattern0,parallelstop,(20,21,23,24)
+	animation22.pattern1,overlay,202,0,0,0
+	animation23.interval,never
+	animation23.pattern0,parallelstop,(20,21,22,24)
+	animation23.pattern1,overlay,203,0,0,0
+	animation24.interval,never
+	animation24.pattern0,parallelstop,(20,21,22,23)
+	animation24.pattern1,overlay,204,0,0,0
+
+	//right
+	animation300.interval,runonce
+	animation300.pattern0,parallelstop,(301,302,303,304,305,306,307,308,309,310,311,312,313,314)
+	animation300.pattern1,overlay,300,0,0,0
+	animation301.interval,never
+	animation301.pattern0,parallelstop,(300,302,303,304,305,306,307,308,309,310,311,312,313,314)
+	animation301.pattern1,overlay,301,0,0,0
+	animation302.interval,never
+	animation302.pattern0,parallelstop,(300,301,303,304,305,306,307,308,309,310,311,312,313,314)
+	animation302.pattern1,overlay,302,0,0,0
+	animation303.interval,never
+	animation303.pattern0,parallelstop,(300,301,302,304,305,306,307,308,309,310,311,312,313,314)
+	animation303.pattern1,overlay,303,0,0,0
+	animation304.interval,never
+	animation304.pattern0,parallelstop,(300,301,302,303,305,306,307,308,309,310,311,312,313,314)
+	animation304.pattern1,overlay,304,0,0,0
+	animation305.interval,never
+	animation305.pattern0,parallelstop,(300,301,302,303,304,306,307,308,309,310,311,312,313,314)
+	animation305.pattern1,overlay,305,0,0,0
+	animation306.interval,never
+	animation306.pattern0,parallelstop,(300,301,302,303,304,305,307,308,309,310,311,312,313,314)
+	animation306.pattern1,overlay,306,0,0,0
+	animation307.interval,never
+	animation307.pattern0,parallelstop,(300,301,302,303,304,305,306,308,309,310,311,312,313,314)
+	animation307.pattern1,overlay,307,0,0,0
+	animation308.interval,never
+	animation308.pattern0,parallelstop,(300,301,302,303,304,305,306,307,309,310,311,312,313,314)
+	animation308.pattern1,overlay,308,0,0,0
+	animation309.interval,never
+	animation309.pattern0,parallelstop,(300,301,302,303,304,305,306,307,308,310,311,312,313,314)
+	animation309.pattern1,overlay,309,0,0,0
+	animation310.interval,never
+	animation310.pattern0,parallelstop,(300,301,302,303,304,305,306,307,308,309,311,312,313,314)
+	animation310.pattern1,overlay,310,0,0,0
+	animation311.interval,never
+	animation311.pattern0,parallelstop,(300,301,302,303,304,305,306,307,308,309,310,312,313,314)
+	animation311.pattern1,overlay,311,0,0,0
+	animation312.interval,never
+	animation312.pattern0,parallelstop,(300,301,302,303,304,305,306,307,308,309,310,311,313,314)
+	animation312.pattern1,overlay,313,0,0,0
+	animation313.interval,never
+	animation313.pattern0,parallelstop,(300,301,302,303,304,305,306,307,308,309,310,311,312,314)
+	animation313.pattern1,overlay,313,0,0,0
+	animation314.interval,never
+	animation314.pattern0,parallelstop,(300,301,302,303,304,305,306,307,308,309,310,311,312,313)
+	animation314.pattern1,overlay,314,0,0,0
+
+	collision0,74,11,132,57,tvar
+}
+
+surface30
+{
+	element0,overlay,surface30.png,0,0
+	collision0,92,102,150,148,tvar
+}
+
+//sakura.surface.alias
+//{
+	//700,[700,701]
+//}
+
+sakura.tooltips 
+{ 
+	tvar,лицо 
+}
+
+//sakura.cursor 
+//{ 
+//mouseup0,Head,system:hand 
+//mousedown0,Head,system:finger 
+//mouseup1,Face,system:hand 
+//mousedown1,Face,system:grip 
+//}

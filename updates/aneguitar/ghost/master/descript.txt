@@ -1,0 +1,17 @@
+charset,UTF-8
+
+name,Анемони
+type,ghost
+
+sakura.name,Анемони
+kero.name,зачем ты смотришь здесь
+
+craftman,Smoky
+craftmanw,Смоукы
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+sstp.allowunspecifiedsend,0
+shiori,yaya.dll
+
+icon,icon.ico
+balloon,Анемони

@@ -1,0 +1,149 @@
+ghostver {"1.0.0"}
+
+OnFirstBoot {
+	FirstBootVars
+	--; if reference0 == 0 {
+		"\0\s[0]\1\s[10]"; --
+		"\0А-! Откуда ты, так неожиданно?\нВот, где мои манеры... Меня зовут Анемоне, а ты?\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]"
+		--; NameTeach
+		//ссылка к X. template тольео для этого образец, можешь удалить его в свое привидение
+	}
+	else {
+		//reinstalling. ref0 apparently tracks the numders if you wanna do that for some reason
+		//if you call it from the menu it'll redirect here unless you send reference0 as,, 0. if you have them different it's probably worth keeping in mind
+		"\0\s[0]\1\s[10]"; --
+		"\0А-! Откуда ты, так неожиданно? Почему...\нНу вот, где мои манеры... Меня зовут Анемоне, а ты?\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]"
+	}
+}
+
+OnBoot {
+	CommonBootVars
+	//idk about this if check
+	if RAND(100) + 1 <= 1 {
+			CreepyBoot //sends it over to that function (files in respective folders)
+		}; else {
+		case stage {
+			when 1 {BootOne}
+			others {
+				case nowmode {
+					when "hell" {AdBoot}
+					others {
+						if totalrun[2] >= 475 {
+							//that's a lot of days tp have had them running
+							//meant so that this won't show up randomly. basically how events work.
+							//the case/whens are everywhere for this specific reason goodbye
+							nowmode = "hell"
+							"\0\s[0]\1\s[10]"; --
+							"событые происходит! кажется"
+							--; "\x\e"
+						}
+						else {
+							BootVars; "\0\s[0]\1\s[10]"; --
+							"Приятно тебе видеть, %(имя). Ничего особенно плохо не случилось с нашим прошлом встрече до сегодняшний день?"
+							--; "\x\e"
+						}
+					}
+}}}}}
+
+OnClose {
+	if nowmode == "creepymode" {CreepyClose}; else {
+		case stage {
+			when 1 {CloseOne}
+			others {
+				case nowmode {
+					when "hell" {AdClose}
+					others {
+						"\0\s[0]\1\s[10]Тогда хорошего дня."
+						--; "\x\-"
+					}
+}}}}}
+
+OnWindowsStateRestore {
+	if nowmode == "creepymode" {CreepyStateRestore}; else {
+		case stage {
+			when 1 {WinStateRestoreOne}
+			others {
+				case nowmode {
+					when "hell" {AdStateRestore}
+						others {
+							"\0\s[0]\1\s[10]"; --
+							"ой, привет."
+							--; "\e"
+						}
+}}}}}
+OnGhostChanged {
+	CommonBootVars
+	case stage {
+		when 1 {GhostChangedOne}
+		others {
+			if reference0 == sakuraname {BootVars; "\0\s[0]\1\s[10]\e"} //reloaded 
+			else {
+				BootVars; "\0\s[0]\1\s[10]"; --
+				"Увидемся похже, %(reference0)."
+				--; "\x\e"
+			}
+		}
+	}
+}
+
+UpdateVars {
+	//if ISVAR("examplevariable") == 0; examplevariable = 0
+	//yea hi zi im stealing half your code
+}
+
+FirstBootVars {
+	//anything that needs to be set on the first boot. if you're keeping track of relationship variables those go here too, just make sure they're initialized *somewhere* before actually trying to use them. you'll get a bunch of 1's and it'll be weird
+
+	lastTalk = ""
+	runtime[0] = 0		//часы
+	runtime[1] = 0		//минуты
+	runtime[2] = 0		//секунди
+	totalrun = (0,0,0) //minute, hour, day. increments in minutechange; used for checking events.
+	nowshell = "Вид По Умолчанию" //внешний вид
+	имя = "Пользователь"
+	birthday[0] = "???"	//день рождения пользоаптеля в словам
+	birthday[1] = "???"	//день рождения пользователся в формате DD/MM (день/тесяць)
+	talkrate = "каждый 5 минут"
+	aitalkinterval = 300
+	totalpunches = 0
+
+	stroke[0] = 0		//resetting pet value
+	stroke[1] = 0		//unresetting pet value
+	stroke[2] = 0		//current pet streak
+	pethighscore[0] = 0	//stroke value high score
+	pethighscore[1] = 0	//number of pet high score
+	totalpets = 0		//total of pet
+
+	deleteshitai = "Выкл"
+	AutoUpdates = ("Вкл",0)
+	nowmode = ""
+	installdate = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)","%(ghostver)") //idk if zi's gonna get on my case for stealing x. template code and leaving the comments in come ghost jam so hi hello you can delete this if you want hypothetical user. also this is when the user installed and the version theu installed because that information is needed sometimes
+	booting = 1 //на первая загркзка. нужно, чтобы немного функции работает, и после этого всегда будет 0.
+	waitingcommuS = IARRAY //commu stuff. stores arrays when your ghost is busy talking? something about a non-interrupt commu system. who knows this is my comment now
+	waitingcommuM = IARRAY
+	MiscFlags = IARRAY
+	stage = 0 //you could repurpose this for a relationship system i guess
+
+	он = "они"; его = "их"; него = "них"; ему = "им"
+	им = "ими"; ним = "ними"; нём = "них"
+	л = "ли"; лся = "лись"
+	ой = "ой"; ий = "ие"; ый = "ые"
+}
+
+CommonBootVars {
+	//stuff that always resets no matter what mode they're in; unless you don't want it to for some reason...
+	lastTalk = ""
+	runtime[0] = 0
+	runtime[1] = 0
+	runtime[2] = 0
+	AutoUpdates[1] = 0
+	booting = 0
+	waitingcommuS = IARRAY
+	waitingcommuM = IARRAY
+}
+
+BootVars {
+	//things that reset every time you boot them. seperate for creepymode & events & stages, although you could have it be an if/else
+	nowmode = ""
+
+}

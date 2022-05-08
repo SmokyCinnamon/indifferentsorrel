@@ -1,0 +1,34 @@
+AdMoveSakura {
+	if reference4 == "tvar"
+	{
+		stroke[0]++
+		stroke[1]++
+		
+		if stroke[1] >= 160 
+		{
+			if stroke[0] >= 160 
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				
+				"%(narrator)* (%(stroke[2]) в ряд!)\e"
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0 
+			stroke[2]++
+			totalpets++
+			
+			"\0\s[0]...\e"
+		}
+	}
+}
+
+AdDoubleClickSakura {
+	if reference4 == "tvar" {
+		"\0\s[0]твар"
+	}
+	else {AdMenuSakura}
+}

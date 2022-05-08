@@ -45,6 +45,7 @@ OnMenuRun //Main menu
 	"\n/
 	//\![*]\q[Say something,OnAiTalk]\n/
 	\![*]\q[Talk to another ghost,OnStartTalking]\n\n/
+	\__q[OnGameMenu]Games\__q\n/
 	%*\__q[OnConfigMenu]User Config\__q \![*]\q[Functions,OnFunctionMenu]\n/
 	\![*]\q[Lesson,OnLessonPick]\n" //%*\q[Dictionary,OnDictionary]\n"
 	--; "%*\__q[CustomExplain]Custom lessons?\__q\n"
@@ -474,13 +475,24 @@ OpenKeroMenu
 {
 	"\1\s[10]mrraow"
 	"\1\s[10]mao"
-	--
+	"\1\s[10]mrrp?"
+	--; "\n\n"; --
 	OnKeroMenu
 }
 
-OnKeroMenu
+OnKeroMenu : all
 {
-	//Fill in as you like
+	"%*\__q[OnUnsticky]Un-sticky\__q\n"
+	"%*\__q[Cancelnodialogue]Bye Buterbrod\__q"
+}
+
+OnUnsticky {
+	LOGGING("before %(stickybuter)")
+	stickybuter = 0
+	--
+	LOGGING("after %(stickybuter)")
+	stickybuter = 0
+	"\1\4\![reset,stickywindow]"
 }
 
 OnEditInbuilt {
