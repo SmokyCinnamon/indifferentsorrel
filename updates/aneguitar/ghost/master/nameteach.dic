@@ -134,6 +134,10 @@ OnPronouns
 	}
 }
 
+OnChangeBirthday {
+	"%(narrator)\b[0](Введите свой месяц рождения как номер или назва)\w6\![open,inputbox,OnUserBornMonth]"
+}
+
 OnUserBornMonth
 {
 	_tempmonth = reference0 //this stores what the user put in as a variable called _tempmonth
@@ -200,7 +204,7 @@ OnUserBornDay
 	}*/
 	else //if the birthday is not listed above.
 	{
-		"\0\s[0]Отлично! %(birthday[0])... Я просто не могу ждать!!"
+		"\0\s[0]%(birthday[0])... Я буду это помнить."
 	}
 	--
 	"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"

@@ -100,7 +100,7 @@ OnPronouns
 	elseif reference2 == "custominput" {
 		_pronouns = SPLIT(reference0,"/")
 		он = _pronouns[0]; его =  _pronouns[1]; него = _pronouns[2]
-		ему = _pronouns[3]; им = _pronouns[4]; ним = pronouns[5]
+		ему = _pronouns[3]; им = _pronouns[4]; ним = _pronouns[5]
 		нём = _pronouns[6]
 		"%(narrator)А теперь надо концы слова... введите как л/лся/ой/ий/ый, пожалуйста.\nл и лся - делал, случился\nой, ий, ый - слепой, роыаропваы, коричневый\nПонимаешь?\![open,inputbox,OnPronouns,-1,--reference=custominput2]"
 	}
@@ -128,6 +128,10 @@ OnPronouns
 	}
 }
 
+OnChangeBirthday {
+	"%(narrator)\b[0]* (введите месяц своего рождения как номер или назва)"
+}
+
 OnUserBornMonth
 {
 	_tempmonth = reference0 //this stores what the user put in as a variable called _tempmonth
@@ -153,7 +157,7 @@ OnUserBornMonth
 	}
 	--
 	//If it's a valid month
-	"%(narrator)%(birthday[2])\w6 а день? Напиши просто номер, пожалуйста. (Например: 19)"
+	"%(narrator)%(birthday[2])\w6\n* (а день? Напиши просто номер, пожалуйста. (Например: 19) )"
 	--
 	"\![open,inputbox,OnUserBornDay,-1]\![set,balloontimeout,-1]\e"
 }
@@ -186,7 +190,7 @@ OnUserBornDay
 	//All of these only happen if it's a valid birthday
 	if birthday[1] == "%(day)/%(month)" //if today is the user's birthday. Don't forget to switch this if you change the format to DD/MM
 	{
-		"\0\s[0]Ой, с днём рождения\w4 %(username)! Почему мне не рассказа%(л) раньше?"
+		"%(narrator)\b[0]* (С днем рождения, %(имя).)"
 	}
 	/*elseif birthday[1] == "12/25" //If it's on christmas. Put any date you'd like here. If you change the format to DD/MM, make sure you change any dates like this that might be in bootend.
 	{
@@ -194,7 +198,7 @@ OnUserBornDay
 	}*/
 	else //if the birthday is not listed above.
 	{
-		"\0\s[0]Отлично! %(birthday[0])... Я просто не могу ждать!!"
+		"%(narrator)\b[0]* (Вот. Сохранен как %(birthday[1]).)"
 	}
 	--
 	"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"

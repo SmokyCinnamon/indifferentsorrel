@@ -34,7 +34,7 @@ OnNameTeach {
 	}
 	else //This is continuing from FirstBoot
 	{
-		"\w6Доро познакомниться!\w4И... местоимение?\n\n"
+		"\w6Эй, добро познкоиться %(имя)!\w4 Вот-вот, извини на вопрос, но у тебя есть местоименение?\n\n"
 		--; "\_q\![*]\q[Он/Его,OnPronouns,on] \![*]\q[Она/Её,OnPronouns,ona]\n/
 		\![*]\q[Они/Их,OnPronouns,oni] %*\__q[OnPronouns,custom]Свои\__q\e"
 	}
@@ -117,7 +117,7 @@ OnPronouns
 	if booting == 1 //This is the end of the firstboot dialogue
 	{
 		booting = 0
-		"Хорошо, я не забуду.\w6\![leave,passivemode]\e"
+		"Спасибо! Пологаю, мы стоим... где мы щас стоим! И я буду тут, если что-нибудь хочешь - не спроси ничего Павле, он тебя не ответит.\w6\![leave,passivemode]\e"
 	}
 	elseif reference2 == "custominput" {}
 	else //This is if the user is changing their pronouns through the menu
@@ -126,6 +126,10 @@ OnPronouns
 		--
 		"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"
 	}
+}
+
+OnChangeBirthday {
+	"%(narrator)\b[0] (пж, введите номер или назва месяц рождния.)\![open,inputbox,OnUserBornMonth]"
 }
 
 OnUserBornMonth

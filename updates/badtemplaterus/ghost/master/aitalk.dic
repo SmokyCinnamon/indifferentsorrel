@@ -28,22 +28,25 @@ OnAiTalk
 				lastTalk = ChainTalk
 				//doesnt need case bc of how chains are handled yey
 			}
-			lastTalk
 		}
  		else
 		{
-			if nowmode == "creepymode" {OffscreenCreepyTalk}; else {
-				case stage {
-					when 1 {OffscreenTalkOne}
-					others {
-						case nowmode {
-						when "hell" {OffScreenAdTalk}
-						others {OffscreenTalk}
+			if CHAIN.IDName != 0 {lastTalk = ChainTalk}
+			else {
+				if nowmode == "creepymode" {lastTalk = OffscreenCreepyTalk}; else {
+					case stage {
+						when 1 {lastTalk = OffscreenTalkOne}
+						others {
+							case nowmode {
+							when "hell" {lastTalk = OffScreenAdTalk}
+							others {lastTalk = OffscreenTalk}
+							}
 						}
 					}
 				}
 			}
  		}
+		lastTalk
 	}
 }
 

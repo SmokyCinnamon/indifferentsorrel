@@ -148,6 +148,15 @@ RemoveFlag //Removes all instances of a flag in the array. Returns 0 if there wa
     }
 }
 
+//by smoky if it matters to u
+//for zi's flag system. to use just do AddFlag("urflag") and this will handle it
+AddFlag {
+	if Flag(_argv[0]) == 0; MiscFlags ,= _argv[0]
+	else; ""
+	//_argv[0] is the string passed to it (so "urflag"). all it's doing is checking if the flag exists, and if it doesnt, adding it
+	//...idk if the else is needed
+}
+
 //Hotkeys. reference0 is the name of the key as displayed on the keycap. reference4, for SSP only, will have things like ctrl and alt, separated by commas.
 //they dont need to be spaced out, especially if you're not doing anything complicated. saves some line space.
 OnKeyPress {

@@ -35,7 +35,7 @@ OnConfigMenu : all {
 					//others {
 						//just in case variables disappear for some reason, probably not a good idea to remove anything here
 						if имя == ""; имя = "Пользователь"
-						if birthday[0] == ""; birthday[0] = "???"
+						if birthday[1] == ""; birthday[1] = "???"
 						if hemisphere == ""; hemisphere = "Северном"
 						if talkrate == ""; talkrate = "Каждый 5 минут"; aitalkinterval = 300
 						if deleteshitai == ""; deleteshitai = "Выкл"
@@ -45,7 +45,7 @@ OnConfigMenu : all {
 						"\_q\Конфигурация\n\n"
 						"\__q[OnChangeName]Твоя имя: %(имя)\__q\n"
 						"\__q[OnChangePronoun]Твои местоимение: %(он)/%(его)\__q\n"
-						"\__q[OnChangeBirthday]Твой день рожедния: %(birthday[0])\__q\n\n"
+						"\__q[OnChangeBirthday]Твой день рожедния: %(birthday[1])\__q\n\n"
 						"\__q[ToggleHemisphere]Твоё полушарие: %(hemisphere)\__q\n"
 						"\__q[ToggleNotifhour]Уведомление Часов: %(notifhour)\__q\n"
 						"\__q[ChangeTalk]Вмеря Разговор: %(talkrate)\__q\n\n"

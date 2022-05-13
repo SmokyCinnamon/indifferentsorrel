@@ -4,7 +4,7 @@ surface10
 {
 	element0,overlay,surface10.png,0,0
 	animation1.interval,talk,1
-	animation1.pattern0,overlay,200,0,0
+	animation1.pattern0,base,200,0,0
 
 	//Collisions
 	collision0,72,15,152,89,tvar

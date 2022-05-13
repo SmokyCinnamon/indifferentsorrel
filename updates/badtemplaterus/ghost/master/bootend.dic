@@ -19,7 +19,7 @@ OnFirstBoot {
 OnBoot {
 	CommonBootVars
 	//idk about this if check
-	if RAND(100) + 1 <= 75 {
+	if RAND(100) + 1 <= 12 {
 			CreepyBoot //sends it over to that function (files in respective folders)
 		}; else {
 		case stage {
@@ -58,7 +58,7 @@ OnClose {
 					}
 }}}}}
 
-OnWindowsStateRestore {
+OnWindowStateRestore {
 	if nowmode == "creepymode" {CreepyStateRestore}; else {
 		case stage {
 			when 1 {WinStateRestoreOne}

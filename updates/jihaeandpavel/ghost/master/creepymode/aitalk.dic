@@ -3,7 +3,7 @@ CreepyTalk : nonoverlap_pool {
 	"\0%(имя)"
 	"\0%(он)%(лся)"
 	"\0это не конец линия\1Это же конец линия"
-	"\1я знаю кто ты, что ты - так, чаму забил? Ты так знакомы."
+	if ASEARCH('Pasha & Misha',installedghostlist) != -1; "\1я знаю кто ты, что ты - так, чаму забил? Ты так знакомы."
 }
 
 OffscreenCreepyTalk : nonoverlap_pool {

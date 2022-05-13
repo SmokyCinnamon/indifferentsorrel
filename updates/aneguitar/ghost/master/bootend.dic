@@ -1,4 +1,4 @@
-ghostver {"1.0.0"}
+ghostver {"1.0.1"}
 
 OnFirstBoot {
 	FirstBootVars

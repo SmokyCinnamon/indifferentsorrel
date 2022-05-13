@@ -45,7 +45,7 @@ OnConfigMenu : all {
 						"%(narrator)\_q\b2Конфигурация\n\n"
 						"\__q[OnChangeName]Имя: %(имя)\__q\n"
 						"\__q[OnChangePronoun]Местоимение: %(он)/%(его)\__q\n"
-						"\__q[OnChangeBirthday]День рожедния: %(birthday[0])\__q\n\n"
+						"\__q[OnChangeBirthday]День рожедния: %(birthday[1])\__q\n\n"
 						"\__q[ToggleHemisphere]Полушарие: %(hemisphere)\__q\n"
 						"\__q[ToggleNotifhour]Уведомление Часов: %(notifhour)\__q\n"
 						"\__q[ChangeTalk]Вмеря Разговоров: %(talkrate)\__q\n\n"
