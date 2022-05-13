@@ -1,0 +1,44 @@
+OnSakuraQuestion : all {
+	//"%*\__q[OnSakuraAdkaz,]\__q\n"
+
+	"\0\s[5]\b[2]Ага? Что у тебя в голове?\_q\n\n[half]"
+	"%*\__q[OnSakuraAdkaz,musichate]Музыкальные способности?\__q\n"
+	"\n\n\n[half]%*\__q[OpenSakuraMenu]даже, ничего\__q\n%*\__q[cancelnodialogue]пока\__q\_q"
+}
+
+OnSakuraAdkaz {
+	"\0\b[2]"; --
+	case reference0 {
+		when "musichate" {
+			"\s[9]Да, что-то в этом роде.\nТы поёшь что-нибудь и БАМ! Что-то случиться!\w4 Обычно, это разрушит все всюду.\w6\n\s[8]Или... я думаю, что это то, что они делают.\w4\n\n[half]Щас только знаю про двух: один вызвает что-то вроде огромную опасную собаку, а другой - делает все в каком-то радиус в тишине.\w4\n\s[3]Друг с другом... ну. Это не приятная комбинация."
+		}
+		others {
+			"Э? Что ты питаешься спросить?"
+		}
+	}
+	--
+	"\_q\n\n\n[half]%*\__q[OnSakuraQuestion]Еще вопрос\__q\n%*\__q[OnMenuRun]меню\__q %*\__q[cancelnodialogue]пока\__q\_q"
+}
+
+
+AdMenuSakura : all {
+	"\0\b[2]\_q%(adsmenugreet)\n"
+	"%*\__q[OnQuestionAdkura]Почему он исчез?\__q\n"
+	"%*\__q[OnLastTalk]Что ты сказала?\__q\n"
+	"%*\__q[OnConfigMenu]настройки\__q\n"
+	"%*\__q[OnBugReport]Информация\__q\n"
+	"%*\__q[OnChangeLog]Лог Изменение\__q"
+	"\n\n[half]%*\__q[cancelnodialogue]пока\__q\_q"
+	"\n%(totalrun[2])д %(totalrun[1])ч %(totalrun[0])м"
+}
+adsmenugreet {
+	"привет"
+}
+
+
+OnQuestionAdkura : all {
+	"\0\b[2]\_qЯ не знаю. Он просто так и делает, иногда. Всегда вернутся домой раненным..."
+	"\n\n[half]%*\__q[AdMenuSakura]Назад\__q %*\__q[cancelnodialogue]Все\__q\_q"
+}
+
+Select.AdMenuSakura {AdMenuSakura}

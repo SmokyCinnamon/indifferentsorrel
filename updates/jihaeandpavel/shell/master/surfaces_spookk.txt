@@ -1,0 +1,21 @@
+version,1
+surface30
+{
+	element0,overlay,surface30.png,0,0
+	animation0.interval,random,4
+	animation0.pattern0,overlay,-1,400,0,0
+	animation0.pattern1,overlay,400,50,0,0
+	animation0.pattern2,overlay,401,100,0,0
+	animation0.pattern3,overlay,-1,30,0,0
+}
+
+surface.append30
+{
+	//Collisions
+	collision0,76,27,165,107,tvar
+}
+
+//kero.surface.alias
+//{
+	//700,[700,701]
+//}

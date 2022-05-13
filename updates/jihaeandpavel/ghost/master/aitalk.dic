@@ -1,0 +1,125 @@
+OnAiTalk
+{
+	if RAND(100) < communicateratio
+ 	{
+ 		StartCommunicate
+	}
+ 	else
+	{
+ 		if ARRAYSIZE(offscreen) == 0
+		{
+			if CHAIN.IDName == ""
+			{
+				if nowmode == "creepymode" {lastTalk = CreepyTalk}; else {
+					case stage {
+						when 1 {lastTalk = OneTalk}
+						others {
+							case nowmode {
+							//the one plase where putting the modifier in front makes more sense. creepymode is just. like that idk
+							when "hell" {lastTalk = AdTalk}
+							others {lastTalk = RandomTalk}
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				lastTalk = ChainTalk
+				//doesnt need case bc of how chains are handled yey
+			}
+			lastTalk
+		}
+ 		else
+		{
+			if nowmode == "creepymode" {lastTalk = OffscreenCreepyTalk}; else {
+				case stage {
+					when 1 {lastTalk = OffscreenTalkOne}
+					others {
+						case nowmode {
+						when "hell" {lastTalk = OffScreenAdTalk}
+						others {lastTalk = OffscreenTalk}
+						}
+					}
+				}
+			}
+			lastTalk
+ 		}
+	}
+}
+
+//apparently pool exists as an inbuilt thing but I like the organization i get without it... rip old pool modifier </3
+RandomTalk : nonoverlap_pool {
+	"\0\s[0]Так, %(имя), ты неужели слуша%(л) про волшебственные спомобности? Они как-то связано с музыкой, но насколько еще не известно. Я их ненавижу."
+	"\0Ты неужели не знаешь людей, которые могут использовать вольщебства? Надеюсь, что твой ответ - нет. Они, как правило, неприятные."
+	"\1мне голодно\ж6\0Ну это не моя вина. Спроси %(имя) если ты так голоден."
+	"\0Так вот, никогда не думала что *это* было бы то, что будет видно если внутри компьютере... Но, мне как-то кажется, что это довольно старый компьютер, не так ли? Почему это такой старый, %(имя)? Ностальгия для старых? Ты бессмертн%(ый)?"
+	"\0Твой компютер... он такой старый, %(имя). Почему? Новие работает таким ж бымтрее, знаешь."
+	"\0Жизнь внутри компьютер... думаю что это было бы лучшее, если бы Павел не было здесь.\ж6\1уши свои работает.\ж6\0Да, да, я знаю. Просто пошутила, а все. Ты что, не знаешь что такое шутка?\ж4\1..."
+	"\1тебе тут не нравится, не так ли?\ж6\0Э? А почему так говоришь?\ж8\1\н\нЧто-то тут просто... не так." //he doesn't remember, but... maybe he does.
+	"\1Маленькие чмели летят туда-сюда / туда-сюда / а ели пчели туда сюда / туда сюда пчели ели ва-ре-ни-ки...\ж6\0...?"
+}
+OnOffscreen //do i need this
+{
+	offscreen = IARRAY //Makes offscreen IARRAY if there's no value
+	_lastvalue = IARRAY
+	if reference0 != ""; offscreen = SPLIT(reference0,",") //An array of the IDs of characters currently off screen. 0 is Sakura, 1 is Kero, etc
+	if reference1 != ""; _lastvalue = SPLIT(reference1,",")
+	//If a character is currently off the screen, their ID will be in the offscreen array, and you can find it with ASEARCH.
+	//reference1 has the values of reference0 from the last time this function ran, so you can use it to tell if a character has been moved back on screen.
+	//I've only set this up for the Sakura, but you can copy this format for other characters too. Just change the number in the ASEARCH.
+	
+	if ASEARCH("0",offscreen) != -1 //Checks if the sakura was moved off screen
+	{
+		OffscreenTalk
+	}
+	elseif ASEARCH("0",_lastvalue) != -1 //Checks if the sakura is no longer off screen
+	{
+		EndOffscreenTalk
+	}
+}
+OffscreenTalk : nonoverlap_pool {
+	"%(RandomTalk)"
+}
+OnMinuteChange {
+	if totalrun[0] == 60 {
+		totalrun[0] = 0
+		if totalrun[1] == 24 {totalrun[1] = 0; totalrun[2]++} //day
+		else {totalrun[1]++} //hour
+	} else {totalrun[0]++} //minute
+}
+OnHourTimeSignal {
+	if notifhour == "Вкл" {
+		if nowmode == "creepymode" {}; else {
+			case stage {
+				when 1 {}
+				others {
+					case nowmode {
+						when "hell" {
+							}
+						others {
+							"Это %(hour)"
+						}
+					}
+				}
+			}
+		}
+	}
+	else {}
+}
+OnSurfaceRestore {
+	if nowmode == "creepymode" {"\0\s[20]\1\s[30]"}; else {
+		case stage {
+			when 1 {}
+			others {
+				case nowmode {
+					when "hell" {
+					}
+					others {
+						"\1\s[10]\0\s[0]\e"
+					}
+				}
+			}
+		}
+	}
+}

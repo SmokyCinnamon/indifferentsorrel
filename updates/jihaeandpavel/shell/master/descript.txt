@@ -1,0 +1,54 @@
+seriko.alignmenttodesktop,free
+//you have like top and uhhh whatever else. might be able to get rid of it if you want them to be free lol
+seriko.use_self_alpha,1
+//useful if you want transparency and all that. not useful if you have a bright colored background
+
+charset,UTF-8
+type,shell
+
+name,Default
+craftman,DragonPanther888
+craftmanurl,https://dragonpanther888.github.io/TurtlecatUkagaka/index.html
+//if youre not me change the craftman to you
+
+sakura.balloon.offsetx,0
+sakura.balloon.offsety,0
+kero.balloon.offsetx,0
+kero.balloon.offsety,0
+sakura.balloon.alignment,none
+kero.balloon.alignment,none
+
+shiori.logo.filename,resources\niseshiori.png
+shiori.logo.x,16
+shiori.logo.y,256
+
+
+//Menu stuff
+
+//default text
+menu.background.font.color.r,0
+menu.background.font.color.g,0
+menu.background.font.color.b,0
+
+//hover
+menu.foreground.font.color.r,255
+menu.foreground.font.color.g,255
+menu.foreground.font.color.b,255
+
+//disabled
+menu.disable.font.color.r,222
+menu.disable.font.color.g,222
+menu.disable.font.color.b,222
+
+//seperator bars
+menu.separator.color.r,240
+menu.separator.color.g,240
+menu.separator.color.b,240
+
+menu.background.alignment,righttop+repeat-x+repeat-y
+menu.foreground.alignment,righttop+repeat-x+repeat-y
+menu.sidebar.alignment,bottom
+
+menu.background.bitmap.filename,menu_background.png
+menu.foreground.bitmap.filename,menu_foreground.png
+menu.sidebar.bitmap.filename,menu_sidebar.png

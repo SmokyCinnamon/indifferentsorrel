@@ -1,0 +1,44 @@
+version,1
+
+surface10
+{
+	element0,overlay,surface10.png,0,0
+	animation1.interval,talk,1
+	animation1.pattern0,overlay,200,0,0
+
+	//Collisions
+	collision0,72,15,152,89,tvar
+	animation0.interval,random,4
+	animation0.pattern0,overlay,-1,201,0,0
+	animation0.pattern1,overlay,201,50,0,0
+	animation0.pattern2,overlay,202,100,0,0
+	animation0.pattern3,overlay,-1,30,0,0
+}
+surface200
+{
+	element0,overlay,surface200.png,0,0
+	collision0,72,15,152,89,tvar
+}
+
+//surface.append0-99
+//{
+	//append
+//}
+
+//kero.surface.alias
+//{
+	//700,[700,701]
+//}
+
+//kero.tooltips 
+//{ 
+	//tvar,твар - это лицо 
+//}
+
+//kero.cursor 
+//{ 
+//mouseup0,Head,system:hand 
+//mousedown0,Head,system:finger 
+//mouseup1,Face,system:hand 
+//mousedown1,Face,system:grip 
+//}

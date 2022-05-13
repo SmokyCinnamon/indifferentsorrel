@@ -1,0 +1,16 @@
+/*AdKeroMenu : all {
+	"\1\b[2]\_q%(adkmenugreet)\n"
+	"%*\__q[OnQuestionAdkero]есть какие-нибудь тайни\__q"
+	"\n\n[half]%*\__q[cancelnodialogue]мне скучно пока\__q\_q"
+}
+adkmenugreet {
+	"прывітанне"
+}
+
+
+OnQuestionAdkero : all {
+	"\1\b[2]\_qне знаю о чем ты говоришь"
+	"\n\n[half]%*\__q[AdKeroMenu]верни мне в меню\__q %*\__q[cancelnodialogue]ты скучный человек\__q\_q"
+}
+
+Select.AdKeroMenu {AdKeroMenu}*/

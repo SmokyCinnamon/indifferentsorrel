@@ -1,0 +1,6 @@
+﻿charset,UTF-8
+type,ghost
+name,Джи-Хэй Хва
+directory,jihaeandpavel
+
+//balloon.directory,jnp_64

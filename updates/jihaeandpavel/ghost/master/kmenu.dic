@@ -1,0 +1,47 @@
+OpenKeroMenu : all {
+	"\1\b[2]%(kmenugreet)\_q\n"
+	"%*\__q[OnQuestionKero]У меня вопрос\__q"
+	"\n\n[half]%*\__q[KeroCANCEL]мне скучно пока\__q\_q"
+}
+kmenugreet {
+	"прывітанне."
+}
+
+
+OnQuestionKero : all {
+	//"%*\__q[OnKeroAdkaz,]\__q\n"
+
+	"\1\s[19]\b[2]\_q"
+	"%*\__q[OnKeroAdkaz,doulikej]Тебе нравится Джихэй\__q\n"
+	"%*\__q[OnKeroAdkaz,whoami]Ты знаешь, кто я?\__q\n"
+	"%*\__q[OnKeroAdkaz,whereyou]Откуда ты?\__q\n"
+	"\n\n\n[half]%*\__q[OpenKeroMenu]даже у меня вопросов нет\__q\n%*\__q[keroCANCEL]пока\__q\_q"
+}
+
+Select.OpenKeroMenu {OpenKeroMenu}
+
+OnKeroAdkaz {
+	"\1\b[2]"; --
+	case reference0 {
+		when "doulikej" {
+			"Да что такое ты хочешь сказать?"
+		}
+		when "whoami" {
+			"\s[18]\w6\w6\w6\w6"; --
+			if ASEARCH('Pasha & Misha',installedghostlist) != -1 {
+				"...Нет, ты просто %(имя).\ж6\нНо ты почему-то мне знакомы."
+			}
+			else {
+				"Ты - %(имя). Хоте%(л) другой ответ?"
+			}
+		}
+		when "whereyou" {
+			"Далеко. Не здесь, конечно."
+		}
+		others {
+			"Не понимаю."
+		}
+	}
+	--
+	"\w9\s[10]\_q\n\n\n[half]%*\__q[OnQuestionKero]Еще вопрос\__q %*\__q[OpenKeroMenu]меню\__q %*\__q[keroCANCEL]пока\__q\_q"
+}

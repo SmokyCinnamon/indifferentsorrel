@@ -1,0 +1,40 @@
+version,1
+
+surface20
+{
+	element0,overlay,surface20.png,0,0
+	animation0.interval,random,4
+	animation0.pattern0,overlay,-1,300,0,0
+	animation0.pattern1,overlay,300,50,0,0
+	animation0.pattern2,overlay,301,100,0,0
+	animation0.pattern3,overlay,-1,30,0,0
+
+
+}
+
+surface21 {
+	element0,overlay,surface20.png,0,0
+	element1,overlay,surface303.png,0,0
+	animation0.interval,random,4
+	animation0.pattern0,overlay,-1,300,0,0
+	animation0.pattern1,overlay,300,50,0,0
+	animation0.pattern2,overlay,304,100,0,0
+	animation0.pattern3,overlay,-1,30,0,0
+
+}
+
+surface.append20
+{
+
+	animation1.interval,random,6
+	animation1.pattern0,overlay,302,0,0
+	animation4.interval,random,12
+	animation4.pattern0,stop,1
+	//Collisions
+	collision0,78,26,172,102,tvar
+}
+
+sakura.surface.alias
+{
+	20,[20,21]
+}

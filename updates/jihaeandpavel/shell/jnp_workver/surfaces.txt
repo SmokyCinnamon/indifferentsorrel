@@ -1,0 +1,78 @@
+version,1
+//new definition. 0 is for old definition but this will force you to use new definition so
+
+surface0
+{
+	element0,overlay,surface0.png,0,0
+	//subfolders can be used, any images have to be defined
+	//i actualy wonder if you could have a surfacse.txt in one? and have it set up sort of how using yaya.txt works...
+	//element0,overlay,yourfolder/surface0.png,0,0
+	collision0,38,4,125,73,tvar
+}
+surface1
+{
+	element0,overlay,surface1.png,0,0
+	collision0,34,15,132,93,tvar
+}
+surface2
+{
+	element0,overlay,surface2.png,0,0
+	collision0,49,14,127,90,tvar
+}
+surface3
+{
+	element0,overlay,surface3.png,0,0
+	collision0,39,9,129,81,tvar
+}
+surface4
+{
+	element0,overlay,surface4.png,0,0
+	collision0,40,19,127,89,tvar
+}
+surface5
+{
+	element0,overlay,surface5.png,0,0
+	collision0,31,4,132,91,tvar
+}
+surface6
+{
+	element0,overlay,surface6.png,0,0
+	collision0,36,16,127,88,tvar
+}
+surface7
+{
+	element0,overlay,surface7.png,0,0
+	collision0,37,7,128,79,tvar
+}
+surface8
+{
+	element0,overlay,surface8.png,0,0
+	collision0,33,14,124,86,tvar
+}
+surface9
+{
+	element0,overlay,surface9.png,0,0
+	collision0,43,7,122,78,tvar
+}
+
+surface.append0-9
+{
+}
+
+//sakura.surface.alias
+//{
+	//700,[700,701]
+//}
+
+//sakura.tooltips 
+//{ 
+	//tvar,твар - это лицо 
+//}
+
+//sakura.cursor 
+//{ 
+//mouseup0,Head,system:hand 
+//mousedown0,Head,system:finger 
+//mouseup1,Face,system:hand 
+//mousedown1,Face,system:grip 
+//}

@@ -1,0 +1,15 @@
+surface20
+{
+	element0,overlay,surface20.png,0,0
+}
+
+surface.append20
+{
+	//Collisions
+	collision0,26,35,94,108,tvar
+}
+
+//sakura.surface.alias
+//{
+	//700,[700,701]
+//}

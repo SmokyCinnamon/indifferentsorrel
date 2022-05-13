@@ -1,0 +1,15 @@
+surface30
+{
+	element0,overlay,surface30.png,0,0
+}
+
+surface.append30
+{
+	//Collisions
+	collision0,49,17,131,78,tvar
+}
+
+//kero.surface.alias
+//{
+	//700,[700,701]
+//}

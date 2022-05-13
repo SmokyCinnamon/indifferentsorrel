@@ -1,0 +1,17 @@
+charset,UTF-8
+
+name,Джи-Хэй Хва
+type,ghost
+
+sakura.name,Джихэй
+kero.name,Павел
+
+craftman,Smoky
+craftmanw,Смоукы
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+sstp.allowunspecifiedsend,0
+shiori,yaya.dll
+
+icon,icon.ico
+balloon,jnp_64

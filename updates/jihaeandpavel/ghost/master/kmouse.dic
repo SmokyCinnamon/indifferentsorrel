@@ -1,0 +1,35 @@
+MouseMoveKero {
+	if reference4 == "tvar"
+	{
+		stroke[0]++
+		stroke[1]++
+		
+		if stroke[1] >= 160 
+		{
+			if stroke[0] >= 160 
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				
+				"\1\s[14]%(narrator)\b[0]* (%(stroke[2]) в ряд, но... смотря на его лицо...)\e"
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0 
+			stroke[2]++
+			totalpets++
+			
+			"\1\s[10]%(narrator)\b[0](Он ничего не делает.)\e"
+			"\1\s[14]%(narrator)\b[0](Что-то с ним не так?)"
+		}
+	}
+}
+
+MouseDoubleClickKero {
+	if reference4 == "tvar" {
+		"\1\s[14]\w9\w9.\w6.\w6.\w6эй ты. Перестань.\ж6 ...пожалуйста."
+	}
+	else {OpenKeroMenu}
+}

@@ -1,0 +1,36 @@
+AdMoveSakura {
+	if reference4 == "tvar"
+	{
+		stroke[0]++
+		stroke[1]++
+		
+		if stroke[1] >= 160 
+		{
+			if stroke[0] >= 160 
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+				
+				"%(narrator)* (%(stroke[2]) в ряд!)\e"
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0 
+			stroke[2]++
+			totalpets++
+			
+			"\0\s[0]Хм? А, спасибо...\e"
+			"%(narrator)\b[0](Она улыбается на тебя.)"
+		}
+	}
+}
+
+AdDoubleClickSakura {
+	if reference4 == "tvar" {
+		"%(narrator)\b[0](хлоп-хлоп)"
+		"%(narrator)\b[0](буп)"
+	}
+	else {AdMenuSakura}
+}

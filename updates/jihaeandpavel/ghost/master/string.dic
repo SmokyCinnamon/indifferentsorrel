@@ -1,0 +1,135 @@
+On_homeurl {
+	//you have options. choose wisely.
+	//"https://raw.githubusercontent.com/SomeUser/hell/master" //lonely directory. isolated. no friends
+	"https://smokycinnamon.github.io/indifferentsorrel/updates/jihaeandpavel/" //pages site
+	//"https://site.com/hell" //youre cooler than the rest of us
+}
+
+On_sakura.recommendsites {
+	FormatLinks(recomendlinks)
+}
+
+On_sakura.portalsites {
+	FormatLinks(portallinks)
+
+}
+recomendlinks : array {
+	"авторский сайт"; "https://smokycinnamon.github.io/indifferentsorrel/"
+	"Candytuft Affection"; "https://candytuftaffection.github.io/"
+	"Project HOPE"; "https://smokycinnaroll-art.tumblr.com/ph_index"
+}
+portallinks : array {
+	"настроено с Плохой Русский Образец 1.0.0"; "https://smokycinnamon.github.io/indifferentsorrel/templates.html"
+	""; ""
+	"Дискорд Ukagaka Dream Team"; "https://ukagakadreamteam.tumblr.com/discord"
+	"Вики Ukagaka Dream Team"; "https://ukagakadreamteam.com/"
+}
+
+On_kero.recommendsites {
+	FormatLinks(kerosites)
+}
+kerosites : array {
+	//"aaa"; "https://aaa.com/"
+}
+
+
+//Written by Zichqec https://zichqec.github.io/s-the-skeleton/
+//Takes an array of alternating names and urls, and formats them for use with the right click menu
+FormatLinks
+{
+  _display = ""
+  for _i = 0; _i < ARRAYSIZE(_argv); _i++
+  {
+     _display += _argv[_i] //Add the link/title
+    //Alternate between adding %ASC(1) or %ASC(2)
+    if _i % 2 == 1; _display += "%ASC(2)"
+    else; _display += "%ASC(1)"
+  }
+  _display
+}
+//-----Don't touch these-----
+//This stuff is, I believe, written by Umeici. I added a couple things of my own, but you really don't need to worry about them.
+//What you need to know is this: ghostexlist is a list of the names of ghosts that are currently open, going by the name of the sakura. ghostexcount is the number of opened ghosts. installedlist is a list of all the ghosts the user has installed, by the name that shows in the right click menu. balloonlist is the same as installedlist, but with balloons.
+
+//---- 소멸 지시 버튼 표시 교체 -------------------------------------------------------
+On_vanishbutton.visible {
+ 	if deleteshitai == "On" {"1"}
+	else {"0"}
+}
+
+//---- 딳벍뭷궻뫜궻긕?긚긣뼹롦벦 -------------------------------------------------------
+On_otherghostname
+{
+	ghostexlist = ""
+	_i = 0
+	while _i >= 0
+	{
+		_ghostname = NAMETOVALUE("reference%_i")
+		if _ghostname != ""
+		{
+			if _i > 0; ghostexlist += ","
+			ghostexlist += _ghostname[0]
+			_i++
+		}
+		else; _i = -1
+	}
+	ghostexcount = ARRAYSIZE(ghostexlist)
+}
+
+OnCheckInstalledGhosts //This means you can see what ghosts the user has installed with installedlist
+{
+	installedlist = ""
+	_i = 0
+	while _i >= 0
+	{
+		_ghostname = NAMETOVALUE("reference%_i")
+		if _ghostname != ""
+		{
+			if _i > 0; installedlist += ","
+			installedlist += _ghostname[0]
+			_i++
+		}
+		else; _i = -1
+	}
+	installedcount = ARRAYSIZE(installedlist)
+}
+
+On_installedballoonname
+{
+	balloonlist = ""
+	_i = 0
+	while _i >= 0
+	{
+		_ghostname = NAMETOVALUE("reference%_i")
+		if _ghostname != ""
+		{
+			if _i > 0; balloonlist += ","
+			balloonlist += _ghostname[0]
+			_i++
+		}
+		else; _i = -1
+	}
+	ballooncount = ARRAYSIZE(balloonlist)
+}
+
+//---- SHIORI 関連情報 ------------------------------------------------------------------
+On_version {GETSETTING(AYAINFO_VERSION)}
+
+On_craftman {"umeici"}
+
+On_craftmanw {"梅市"}
+
+On_name {"AYA"}
+
+//---- Owned SSTP 用 uniqueid 取得 ------------------------------------------------------
+On_uniqueid {uniqueid = reference0}
+
+//---- hwnd 取得 ------------------------------------------------------------------------
+On_hwnd {
+	sakurahwnd    = reference0[0]
+	kerohwnd      = reference0[1]
+	sakurablnhwnd = reference1[0]
+	keroblnhwnd   = reference1[1]
+}
+
+On_username {username}

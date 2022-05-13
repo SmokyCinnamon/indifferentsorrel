@@ -1,0 +1,32 @@
+CreepyMoveSakura {
+	if reference4 == "tvar"
+	{
+		stroke[0]++
+		stroke[1]++
+		
+		if stroke[1] >= 160
+		{
+			if stroke[0] >= 160
+			{
+				stroke[0] = 0
+				stroke[2]++
+				totalpets++
+			}
+		}
+		elseif stroke[0] >= 40
+		{
+			stroke[0] = 0
+			stroke[2]++
+			totalpets++
+			
+			"\0\s[20]А что это исправить?\e"
+		}
+	}
+}
+
+CreepyDoubleClickSakura {
+	if reference4 == "tvar" {
+		"Ты понимаешь, что происходит? Это не шутка. Это конец, что ждет все и каждому. Так что зачем все это?"
+	}
+	else {CreepySakuraMenu}
+}

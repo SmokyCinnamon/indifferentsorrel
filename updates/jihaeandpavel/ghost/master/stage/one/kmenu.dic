@@ -1,0 +1,7 @@
+KeroMenuOne : all {
+	"%\_q(kmenugreetone)\n"
+	"\n\n%*\__q[keroCANCEL]пока\__q"
+}
+kmenugreetone {
+	"Прывітанне"
+}
