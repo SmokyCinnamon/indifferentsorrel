@@ -6,8 +6,8 @@ let links = [
 	{ path: 'index', title: 'Main' },
 	{ title: 'Ghosts', sublinks: [
 		{ title: 'Ghosty ghosts' },
-		{ path: 'kiselew', title: 'Tadora i Buterbrod' },
-		{ path: 'tadora', title: 'Киселев Микола' },
+		{ path: 'kiselew', title: 'Киселев Микола' },
+		{ path: 'tadora', title: 'Tadora i Buterbrod' },
 		{ path: 'templates', title: 'Образы' },
 		{ title: 'Ghost Jam' },
 		{ path: 'anemone', title: 'Анемони' },
