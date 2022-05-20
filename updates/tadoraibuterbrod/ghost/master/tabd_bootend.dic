@@ -223,6 +223,7 @@ BootVars
 UpdateVars
 {
 	//if ISVAR("examplevariable") == 0; examplevariable = 0
+	if diclang == IARRAY; diclang = ("English@Belarusian|cat@кот|")
 }
 
 //These are all the variables that need to be initialized when the user first installs the ghost.
@@ -268,6 +269,7 @@ FirstBootVars
 	currentlang = "English@Belarusian"
 	currentsort = IARRAY
 	treelang = IARRAY; treelang ,= "English@Belarusian"
+	diclang = ("English@Belarusian|cat@кот|")
 	--
 	OnTreeLoop
 }

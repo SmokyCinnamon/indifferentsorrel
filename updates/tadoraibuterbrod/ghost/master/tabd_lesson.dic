@@ -73,7 +73,7 @@ OnLessonTest {
 	foundtype = 0
 	foundmatch = 0
 	sentenceswritten = 0
-	typetofind = 1; typetomatch = 1; sentencestotrans = 1
+	typetofind = 1; typetomatch = 1; sentencestotrans = 3
 	--
 	if ARRAYSIZE(findwords) > 0 {LOGGING("hey man what the fuck"); typetofind += RAND(4)} else {LOGGING("NOTHING"); typetofind = 0}
 	--; if ARRAYSIZE(matchwords) > 0 {LOGGING("DUDE"); typetomatch += RAND(4)} else {LOGGING("NOTHING"); typetomatch = 0}
@@ -145,7 +145,7 @@ JoggTwo {
 	_darray = Shuffle(_darray)
 	_display = ""
 	foreach _darray; _stuff {
-		_display += "%*\f[color,purple]\__q[OnBubbleClick,%(_stuff)]%(_stuff)\__q\f[color,default] "
+		_display += "%*\f[height,+4]\f[color,default.anchor]\__q[OnBubbleClick,%(_stuff)]%(_stuff)\__q\f[default] "
 	}
 
 	"%(_display)"
@@ -174,7 +174,7 @@ OnSentenceTrans {
 	}
 	else {
 		"\0\_qTranslate the sentence: %(display)\n\n %*\__q[OnInputSwitch]Switch input method\__q\_q\*"; --
-		"\1\s[10]\_q%(bubbleanswer)\n\n[half]%JoggTwo(bubbles)\n\n%*\__q[OnSentenceTransed,%(bubbleanswer)]Submit\__q\_q"
+		"\1\s[10]\_q%(bubbleanswer)\n\n[half]%JoggTwo(bubbles)\n\n%*\__q[OnSentenceTransed,%(bubbleanswer),BUBBLES]Submit\__q\_q"
 	}
 }
 OnInputSwitch {
@@ -195,8 +195,8 @@ OnSentenceTransed {
 	if reference0 == bubbleanswer {reference0 = ERASE(bubbleanswer,-1,1)}
 	//yaya can't seem to handle non-english characters for things like tolower & toupper. i don't want to have to make a bug report about it though >m<
 	--;
-	reference0 = REPLACE(reference0,".",""); reference0 = REPLACE(reference0,"-",""); reference0 = REPLACE(reference0,",",""); reference0 = REPLACE(reference0,"?",""); reference0 = REPLACE(reference0,"!","")
-	finalanswer = REPLACE(finalanswer,".",""); finalanswer = REPLACE(finalanswer,"-",""); finalanswer = REPLACE(finalanswer,",",""); finalanswer = REPLACE(finalanswer,"?",""); finalanswer = REPLACE(finalanswer,"!","")//removing punctuation
+	reference0 = REPLACE(reference0,".",""); reference0 = REPLACE(reference0,"-",""); reference0 = REPLACE(reference0,",",""); reference0 = REPLACE(reference0,"?",""); reference0 = REPLACE(reference0,"!",""); reference0 = REPLACE(reference0,"  "," ")
+	finalanswer = REPLACE(finalanswer,".",""); finalanswer = REPLACE(finalanswer,"-",""); finalanswer = REPLACE(finalanswer,",",""); finalanswer = REPLACE(finalanswer,"?",""); finalanswer = REPLACE(finalanswer,"!",""); finalanswer = REPLACE(finalanswer,"  "," ")//removing punctuation
 	--;
 	_lower = IARRAY
 	_lower = ("af-ZA","am-ET","ar-AE","ar-BH","ar-DZ","ar-EG","ar-IQ","ar-JO","ar-KW","ar-LB","ar-LY","ar-MA","arn-CL","ar-OM","ar-QA","ar-SA","ar-SY","ar-TN",/
@@ -219,7 +219,7 @@ OnSentenceTransed {
 
 
 	-- //the below is for checking that the above does as it says.
-	//"\_q\b[2]reference: %(reference0)\nans: %(finalanswer)\_q\x"; --
+	//"\_q\b[2]reference: %(reference0)\nans: %(finalanswer) bubbles: %(bubbleanswer)\_q\x"; --
 	if reference0 == "" {redo++; bubbleanswer = ""; "\C\_q Uh... maybe you should try again...?\x\![raise,OnSentenceTrans]"}
 	elseif reference0 == finalanswer {
 		sentenceswritten++
@@ -245,12 +245,12 @@ OnSentenceTransed {
 		}
 		else {
 				redo++; bubbleanswer = ""
-				"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+				"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct answer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
 		}
 	}
 	else {
 		redo++; bubbleanswer = ""
-		"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct annswer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+		"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct answer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
 }}
 
 OnFindTypeStart {
@@ -265,7 +265,7 @@ OnFindTypeStart {
 OnFindType
 {
 	if redo == 0 {
-	"\_q Find the word: \f[color,purple]%(wordtf[0])\f[color,default]\n"}
+	"\_q Find the word: \f[height,+1]\f[color,default.anchor]%(wordtf[0])\f[default]\n\n"}
 	--
 	quizanswersshuffled = IARRAY
 	toshuffle = ARRAYSIZE(wordtf)
@@ -301,7 +301,7 @@ OnFindType
 		}
 	}
 	--
-	"\f[color,blue]\_q%(answerprint)\f[color,default]"
+	"\f[height,+1]\f[color,default.anchornotselect]\_q%(answerprint)\f[default]"
 }
 
 OnTestquizanswertest
@@ -385,9 +385,9 @@ OnFindMatch
 		//_numa = RAND(3)
 		//_numb = RAND(3)
 		{
-			if matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
-			else {answerprint += "\f[color,blue]\__q[OnFindMatchQuestion,%(matchw1[_i]),first]%(matchw1[_i])\__q\f[color,default] "}
-			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "}
+			if matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,disable]%(matchw1[_i])\f[color,default] "}
+			else {answerprint += "\f[height,+1]\f[color,default.anchornotselect]\__q[OnFindMatchQuestion,%(matchw1[_i]),first]%(matchw1[_i])\__q\f[default] "}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,disable]%(matchw3[_a])\f[color,default] "}
 			else {
 			answerprinta += "%(matchw3[_a]) "}
 		}
@@ -419,12 +419,12 @@ OnFindMatchQuestion {
 	while _i < answernum && _a < answernuma
 	{
 		{
-			if matchw1[_i] == reference0 {answerprint += "\f[color,purple]%(matchw1[_i])\f[color,default] "}
-			elseif matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
+			if matchw1[_i] == reference0 {answerprint += "\f[height,+1]\f[color,default.anchornotselect]%(matchw1[_i])\f[default] "}
+			elseif matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,disable]%(matchw1[_i])\f[color,default] "}
 			else {answerprint += "%(matchw1[_i]) "}
-			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "; if redo == 0 {answersleft ,= reference0}}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,disable]%(matchw3[_a])\f[color,default] "; if redo == 0 {answersleft ,= reference0}}
 			else {
-			answerprinta += "\f[color,blue]\__q[OnFindMatchAnswer,%(matchw3[_a]),second]%(matchw3[_a])\__q\f[color,default] "
+			answerprinta += "\f[height,+1]\f[color,default.anchornotselect]\__q[OnFindMatchAnswer,%(matchw3[_a]),second]%(matchw3[_a])\__q\f[default] "
 			}
 		}
 		_i++; _a++

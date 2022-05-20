@@ -61,10 +61,13 @@ OnStartTalking
 		{
 			when "Жора" //Known ghosts, add as many whens as needed.
 			{
-				res_reference0 = "Girl"
+				//res_reference0 = "Girl"
 				
-				"\0\s[0]Hello Girl!\w8\w8 Hello Triangle!\w8\w8\e GirlTriangleHello01"
-				"\0\s[0]Hi Girl!\w8\w8 How are you,\w4 Triangle?\w8\w8\e GirlTriangleHello03"
+				//"\0\s[0]Hello Girl!\w8\w8 Hello Triangle!\w8\w8\e GirlTriangleHello01"
+				//"\0\s[0]Hi Girl!\w8\w8 How are you,\w4 Triangle?\w8\w8\e GirlTriangleHello03"
+			}
+			when "Fuminori" {
+				"\0\s[0]Прывітанне, вы! Як вывучанне ідзе?"
 			}
 			others //Ghosts there is no specific response to.
 			{

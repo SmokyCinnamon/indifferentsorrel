@@ -4,7 +4,7 @@ OnTestVar {
 }
 
 OpenSakuraMenu {
-	"\0\b[2]"; --
+	"\0\s[0]\b[2]"; --
 	"привет!"
 	--; OnMenuRun
 }

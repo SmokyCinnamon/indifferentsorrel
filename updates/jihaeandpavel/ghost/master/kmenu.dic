@@ -1,7 +1,7 @@
 OpenKeroMenu : all {
 	"\1\b[2]%(kmenugreet)\_q\n"
 	"%*\__q[OnQuestionKero]У меня вопрос\__q"
-	"\n\n[half]%*\__q[KeroCANCEL]мне скучно пока\__q\_q"
+	"\n\n[half]%*\__q[KeroCANCEL]мне скучно пока\__q\_q\1\s[10]"
 }
 kmenugreet {
 	"прывітанне."

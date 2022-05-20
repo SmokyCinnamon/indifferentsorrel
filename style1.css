@@ -134,3 +134,59 @@ a
   padding: 2px 3px;
   margin: 0;
 }
+
+/* Navbar container */
+.navbar
+{
+  overflow: hidden;
+  background-color: #beb8ff;
+}
+
+/* The dropdown container */
+.dropdown
+{
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.window .dropbtn
+{
+  font-size: 15px;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  font-color: inherit;
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content
+{
+  display: none;
+  position: absolute;
+  background-color: #beb8ff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content
+{
+  display: block;
+}
+
+.navdivider
+{
+	padding-left: 10px;
+	padding-right: 17px;
+	margin-top: 8px;
+	margin-bottom: 4px;
+	text-align: center;
+	font-size: 12px;
+	height: 12px;
+}

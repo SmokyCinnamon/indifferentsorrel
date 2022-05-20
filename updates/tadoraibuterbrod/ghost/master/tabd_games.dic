@@ -314,7 +314,7 @@ WordSearchDialogue
 	{
 		"%(_argv[1]) was the last word,\w4 good job!"
 		--
-		"\_q\n\![*]\q[Play again,OnStartWordSearch]  \![*]\q[Play something else,OnGamesMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+		"\_q\n\![*]\q[Play again,OnStartWordSearch]  \![*]\q[Play something else,OnGameMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
 		
 		ERASEVAR("WordSearch")
 		ERASEVAR("WordList")
@@ -984,7 +984,7 @@ OnJuniorJumble
 			"Oh, not really... %(reference0), right?\w4 It was actually %(JumbleWord) - or %(JumbleTrans), if you didn't know that already."
 		}
 		--
-		"\_q\n\n\![*]\q[Another word,OnJuniorJumble,,new]\n\![*]\q[I'm done,cancelnodialogue]\e"
+		"\_q\n\n\![*]\q[Another word,OnJuniorJumble,,new]%*\__q[OnGameMenu]Different game\__q\n\![*]\q[I'm done,cancelnodialogue]\e"
 		--
 		ERASEVAR("JumbleWord")
 	}
@@ -996,7 +996,7 @@ OnJuniorJumbleQuit
 	--
 	"Oh, ok... It was %(JumbleWord), which means %(JumbleTrans). But maybe you already knew that?"
 	--
-	"\_q\n\n\![*]\q[Another word,OnJuniorJumble,,new]\n\![*]\q[I'm done,cancelnodialogue]\e"
+	"\_q\n\n\![*]\q[Another word,OnJuniorJumble,,new] %*\__q[OnGameMenu]Different game\__q\n\![*]\q[I'm done,cancelnodialogue]\e"
 	--
 	ERASEVAR("JumbleWord")
 }

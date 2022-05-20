@@ -1,16 +1,156 @@
-OnDictionary {
-	"show me your langyages\n\n[half]"; --
-	"%*\q[Belarusian - English,OnDicShow,byen]\n\n"; --
-	"CUSTOM:\n\n[half]"
+OnDictionary : all {
+	_display = ''
+	"\b[2]\_qshow me your langyages\n\n[half]"
+	//"%*\q[Belarusian - English,OnDicShow,byen]\n\n[half]"
+	//"CUSTOM:\n\n[half]"; --
+	{
+		foreach diclang; _lang {
+			_disarray = SPLIT(_lang,'|')
+			_langifier = SPLIT(_disarray[0],'@')
+			_displaylang = "%(_langifier[1]) - %(_langifier[0])"
+			_display += "%*\__q[OnDicShow,%(_lang)]%(_displaylang)\__q\n"
+	}}
+	--; "%(_display)"
+	"\n\n\n[half]%*\__q[OnDicEdit,addlang]Add language\__q %*\__q[OnDicEdit,addword]Add word\n"
+	"%*\__q[OnDicEdit,delang]Remove Language\__q %*\__q[OnDicEdit,delword]Remove word\__q"
+	"\n\n[half]%*\__q[OnMenuRun]Back to menu\__q\*\e"
 }
 
 OnDicShow {
+	_num = ASEARCH(reference0,diclang)
+	LOGGING("%(_num) and %(reference0)")
+	_display = ''
+	_delimiting = diclang[_num]
+	LOGGING("%(_delimiting)")
+	_sending = _delimiting
+	_delimiting = SPLIT(_delimiting,'|')
+	_delimiting = ASORT(string,_delimiting)
+	LOGGING("%(_delimiting)")
+	foreach _delimiting; _word {
+		LOGGING("%(_word)")
+		_wordarray = SPLIT(_word,'@')
+		LOGGING("%(_wordarray)")
+		if sort == "fluent"; _display += "%(_wordarray[0]) | %(_wordarray[1])\n"
+		if sort == "learning"; _display += "%(_wordarray[1]) | %(_wordarray[0])\n"
+	}
+	"\_q\0\b[2]\![set,autoscroll,disable]\_q%(_display)\_q"; --
+	"\1\C \_q%*\__q[ChangeSort,%(reference0)]Sort by: %(sort) first\__q %*\__q[OnSearchDic,startsearch,%(_sending),%(reference0)]Search for...\__q\n\n[half] %*\__q[OnMenuRun]Main Menu\__q %*\__q[OnDictionary]Dictionary List\__q %*\__q[cancelnodialogue]Bye\__q\_q\*\e"
+}
+
+ChangeSort {
+	if sort == "fluent"; sort = "learning"
+	if sort == "learning"; sort = "fluent"
+	"\![raise,OnDicShow,%(reference0)]"
+}
+
+OnSearchDic {
+	_display = ''
+	if reference0 == "startsearch"; "\C \![open,inputbox,OnSearchDic,-1,--reference=%(reference1),--reference=%(reference2)]\*"
+	else {
+		reference2 = SPLIT(reference2,'|')
+		foreach reference2; _words {
+			_wordarray = SPLIT(_words,'@')
+			if _wordarray[0] == reference0; _display = "%(_wordarray[0]) - %(_wordarray[1])"
+			if _wordarray[1] == reference0; _display = "%(_wordarray[1]) - %(_wordarray[0])"
+			LOGGING("%(_wordarray[0]) vs %(reference0)")
+			LOGGING("%(_wordarray[1]) vs %(reference0)")
+			LOGGING("wordarray %(_wordarray)")
+			LOGGING("words %(_words)")
+			LOGGING("display %(_display)")
+		}
+		if _display == ''; "\0\_qNo entry exists for %(reference0). Would you like to add one?\n\n%*\__q[OnDicEdit,addword,%(reference3)]Yes\__q %*\__q[OnDicShow,%(reference3)]No\_q\*"
+		else; "\_qSearch: %(reference0)\n\nResult: %(_display)\_q\x\![raise,OnDicShow,%(reference3)]"
+	}
+	LOGGING("%(reference) SHOW THIS TO ME")
+}
+
+OnDicEdit {
+	_display = ''
 	case reference0 {
-		when "byen" {
-			"loop stuff idk"
+		when "addlang" {
+			if reference1 != "" {
+				diclang ,= "%(reference1)"
+				"\![raise,OnDicEdit,addword,%(reference1)]"
+			}
+			else {
+				treelang = ASORT(string,treelang)
+				"\0\s[0]\b[2]\_qSure! Which language would you like to add a dictionary for?\n\n[half]"; --
+				foreach treelang; _lang {
+					_disarray = SPLIT(_lang,'@')
+					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
+					_display += "%*\__q[OnDicEdit,addlang,%(_lang)]%(_displaylang)\__q\n"
+				}
+				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+			}
+		}
+		when "addword" {
+			if reference1 != "" {
+				_num = ASEARCH(reference1,diclang)
+				LOGGING("%(reference) and %(_num)")
+				"\_qPlease input your word -- it has to be formatted as 'native language@learning language', otherwise displaying it might get all weird!\nAlso, remember that you can't yet delete a word you've added. So make sure everything's spelled correctly!\_q\![open,inputbox,OnDicWord,-1,--reference=%(_num)]\*\t"
+			}
+			else {
+				treelang = ASORT(string,treelang)
+				"\0\s[0]\b[2]\_qAlrighty! First you gotta select a language...\n\n[half]"; --
+				foreach treelang; _lang {
+					_disarray = SPLIT(_lang,'@')
+					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
+					_display += "%*\__q[OnDicEdit,addword,%(_lang)]%(_displaylang)\__q\n"
+				}
+				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+			}
+		}
+		when "delang" {
+			if reference1 != "" {
+				_num = ASEARCH(reference1,diclang)
+				diclang[_num] = IARRAY
+			}
+				diclang = ASORT(string,diclang)
+				"\0\s[0]\b[2]\_qAlright, which one do you want to remove?\n\n[half]"; --
+				foreach diclang; _lang {
+					_disarray = SPLIT(_lang[0,'|'],'@')
+					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
+					_display += "%*\__q[OnDicEdit,delang,%(_lang)]%(_displaylang)\__q\n"
+				}
+				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+		}
+		when "delword" {
+			if reference1 != "" {
+				_num = ASEARCH(reference1,diclang)
+				_deleting = diclang[_num]
+				_deleting = SPLIT(_deleting,'|')
+				foreach _deleting; _word {
+					display += "%*\__q[OnDicEdit,delword,andstayout,%(_word)]%(_word)\__q\n"
+				}
+				if reference1 == "andstayout" {
+					/*_2darray = ("Red,0","Blue,1","Green,2")
+					_to_edit = SPLIT(_2darray[0])
+					_to_edit[0] = "Purple"
+					_2darray[0] = "%(_to_edit)"*/ //this'll be a string by doing it this way, I think
+					//sorry zi i did this weird & i dont get it
+				}
+				else {
+					"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+				}
+			}
+			else {
+				treelang = ASORT(string,treelang)
+				"\0\s[0]\b[2]\_qOk, I need you to select a language first.\n\n[half]"; --
+				foreach treelang; _lang {
+					_disarray = SPLIT(_lang,'@')
+					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
+					_display += "%*\__q[OnDicEdit,delword,%(_lang)]%(_displaylang)\__q\n"
+				}
+				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+			}
 		}
 		others {
-			"hey... idk what im doing checking for something. apparently"
+			"...hey, how did you even get here?"
 		}
 	}
+}
+
+OnDicWord {
+	diclang[reference2] += "|%(reference0)"
+	--; OnDictionary
 }
