@@ -125,7 +125,7 @@ OnSecondChange
 	{
 		if stickybuter == 0 {
 			stickybuter = 1
-			"\1\![set,sticky-window,0,1]\0\s[0]Aw, hi Buterbrod!\e"
+			"\1\![set,sticky-window,1,0]\0\s[0]Aw, hi Buterbrod!\e"
 		}
 		else {}
 	}

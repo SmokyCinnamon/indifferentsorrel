@@ -109,7 +109,7 @@ OnGhostChanging //Changing to another ghost.
 
 OnGhostChanged //After switching.
 {
-	"\1\s[-1]\0\s[0]"
+	"\1\s[10]\0\s[0]"
 	--
 	if reference0 == sakuraname //Finished reloading.
 	{
@@ -216,6 +216,8 @@ BootVars
 	waitingcommuS = IARRAY
 	waitingcommuM = IARRAY
 	OnTreeLoop
+	if stickybuter == 1; stickybuter = 0
+	
 }
 
 //These are new variables to initialize after an update. By checking if the variable doesn't exist before initializing it, we prevent variables already in use from being overwritten. This is VERY IMPORTANT, or you risk resetting the user's progress on your new variables every time they update.

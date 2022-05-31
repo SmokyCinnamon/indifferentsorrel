@@ -142,10 +142,13 @@ OnLessonTestStart {
 JoggTwo {
 	LOGGING("%(_argv)")
 	_darray = SPLIT("%(_argv)"," ") //argv is the argument whatever. basically reference0
-	_darray = Shuffle(_darray)
+	LOGGING("%(_darray)")
+	if GETTYPE(_darray) == 4; _darray = Shuffle(_darray)
+	_log = GETTYPE(_darray)
+	LOGGING("%(_darray) and %(_log) is type")
 	_display = ""
 	foreach _darray; _stuff {
-		_display += "%*\f[height,+4]\f[color,default.anchor]\__q[OnBubbleClick,%(_stuff)]%(_stuff)\__q\f[default] "
+		_display += "%*\f[height,+4]\f[color,default.anchorvisited]\__q[OnBubbleClick,%(_stuff)]%(_stuff)\__q\f[default] "
 	}
 
 	"%(_display)"
@@ -163,7 +166,7 @@ OnSentenceTransStart {
 	finalanswer = _assign[1] //setting the second item in that array to the answer needed
 	display = _assign[0] //settting the first item in the array to the sentence you're translating
 	altcheck = _num //assigning the number it picked to a variable in case there's alternate answers to check
-	bubbles = _assign[1]
+	bubbles = JoggTwo(_assign[1])
 	bubbleanswer = ""
 	--
 	"\![raise,OnSentenceTrans]"
@@ -174,7 +177,7 @@ OnSentenceTrans {
 	}
 	else {
 		"\0\_qTranslate the sentence: %(display)\n\n %*\__q[OnInputSwitch]Switch input method\__q\_q\*"; --
-		"\1\s[10]\_q%(bubbleanswer)\n\n[half]%JoggTwo(bubbles)\n\n%*\__q[OnSentenceTransed,%(bubbleanswer),BUBBLES]Submit\__q\_q"
+		"\1\s[10]\_q\f[height,+4]\f[color,default.anchornotselect]%(bubbleanswer)\f[default]\n\n[half]%(bubbles)\n\n%*\__q[OnSentenceTransed,%(bubbleanswer),BUBBLES]Submit\__q\_q"
 	}
 }
 OnInputSwitch {
@@ -265,7 +268,7 @@ OnFindTypeStart {
 OnFindType
 {
 	if redo == 0 {
-	"\_q Find the word: \f[height,+1]\f[color,default.anchor]%(wordtf[0])\f[default]\n\n"}
+	"\_q Find the word: \f[height,+2]\f[color,default.anchornotselect]%(wordtf[0])\f[default]\n\n"}
 	--
 	quizanswersshuffled = IARRAY
 	toshuffle = ARRAYSIZE(wordtf)
@@ -301,7 +304,7 @@ OnFindType
 		}
 	}
 	--
-	"\f[height,+1]\f[color,default.anchornotselect]\_q%(answerprint)\f[default]"
+	"\f[height,+2]\f[color,default.anchorvisited]\_q%(answerprint)\f[default]"
 }
 
 OnTestquizanswertest
@@ -371,7 +374,7 @@ OnFindMatch
 	//}
 	//}
 	--
-	"\_q Find the matches!\n"
+	"\_qFind the matches!\n"
 	--
 	answernum = ARRAYSIZE(matchw1)
 	answerprint = ""
@@ -386,7 +389,7 @@ OnFindMatch
 		//_numb = RAND(3)
 		{
 			if matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,disable]%(matchw1[_i])\f[color,default] "}
-			else {answerprint += "\f[height,+1]\f[color,default.anchornotselect]\__q[OnFindMatchQuestion,%(matchw1[_i]),first]%(matchw1[_i])\__q\f[default] "}
+			else {answerprint += "\f[color,default.anchornotselect]\__q[OnFindMatchQuestion,%(matchw1[_i]),first]%(matchw1[_i])\__q\f[color,default] "}
 			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,disable]%(matchw3[_a])\f[color,default] "}
 			else {
 			answerprinta += "%(matchw3[_a]) "}
@@ -403,12 +406,12 @@ OnFindMatch
 		if _a > 30; {break}
 	}
 	--
-	"%(answerprint)\n%(answerprinta)\*"
+	"\f[height,+3]%(answerprint)\n%(answerprinta)\f[default]\*"
 }
 OnFindMatchQuestion {
 	matchquestion = reference0
 	--
-	"\0\s[0]\_q Find the matches!\n"
+	"\0\s[0]\_qFind the matches!\n"
 	--
 	answernum = ARRAYSIZE(matchw1)
 	answerprint = ""
@@ -419,19 +422,19 @@ OnFindMatchQuestion {
 	while _i < answernum && _a < answernuma
 	{
 		{
-			if matchw1[_i] == reference0 {answerprint += "\f[height,+1]\f[color,default.anchornotselect]%(matchw1[_i])\f[default] "}
+			if matchw1[_i] == reference0 {answerprint += "\f[color,default.anchornotselect]%(matchw1[_i])\f[color,default] "}
 			elseif matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,disable]%(matchw1[_i])\f[color,default] "}
 			else {answerprint += "%(matchw1[_i]) "}
 			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,disable]%(matchw3[_a])\f[color,default] "; if redo == 0 {answersleft ,= reference0}}
 			else {
-			answerprinta += "\f[height,+1]\f[color,default.anchornotselect]\__q[OnFindMatchAnswer,%(matchw3[_a]),second]%(matchw3[_a])\__q\f[default] "
+			answerprinta += "\f[color,default.anchorvisited]\__q[OnFindMatchAnswer,%(matchw3[_a]),second]%(matchw3[_a])\__q\f[color,default] "
 			}
 		}
 		_i++; _a++
 		if _i > 30 {break}; if _a > 30; {break}
 	}
 	--
-	"%(answerprint)\n%(answerprinta)\*"
+	"\f[height,+3]%(answerprint)\n%(answerprinta)\f[default]\*"
 }
 
 OnFindMatchAnswer {

@@ -1,7 +1,0 @@
-tree_lang[English@Belarusian]
-skill_number[10]
-lesson_notes[tes test test ksdjnvjvbdvbdgb]
-sentence_translation[i am a sentence!@i am a translation;sentence two@translation two;three@try]
-alternate_translation[i am an alternate translation@alternate one;alternate two;alternate try]
-word_searches[i am a word@correct translation@i am wrong@as am i]
-word_matches[word@translation;match this@to this;you need@at least four;for the game@to work]

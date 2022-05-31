@@ -11,9 +11,9 @@ OnDictionary : all {
 			_display += "%*\__q[OnDicShow,%(_lang)]%(_displaylang)\__q\n"
 	}}
 	--; "%(_display)"
-	"\n\n\n[half]%*\__q[OnDicEdit,addlang]Add language\__q %*\__q[OnDicEdit,addword]Add word\n"
-	"%*\__q[OnDicEdit,delang]Remove Language\__q %*\__q[OnDicEdit,delword]Remove word\__q"
-	"\n\n[half]%*\__q[OnMenuRun]Back to menu\__q\*\e"
+	"\n\n\n[half]%*\__q[OnDicEdit,addlang]Add language\__q %*\__q[OnDicEdit,addword]Add word\__q\n"
+	"%*\__q[OnDicEdit,delang]Remove Language\__q"// %*\__q[OnDicEdit,delword]Remove word\__q"
+	"\n\n[half]%*\__q[OnMenuRun]Back to menu\__q\_q\*\e"
 }
 
 OnDicShow {
@@ -33,7 +33,7 @@ OnDicShow {
 		if sort == "fluent"; _display += "%(_wordarray[0]) | %(_wordarray[1])\n"
 		if sort == "learning"; _display += "%(_wordarray[1]) | %(_wordarray[0])\n"
 	}
-	"\_q\0\b[2]\![set,autoscroll,disable]\_q%(_display)\_q"; --
+	"\0\b[2]\![set,autoscroll,disable]\_q%(_display)\_q"; --
 	"\1\C \_q%*\__q[ChangeSort,%(reference0)]Sort by: %(sort) first\__q %*\__q[OnSearchDic,startsearch,%(_sending),%(reference0)]Search for...\__q\n\n[half] %*\__q[OnMenuRun]Main Menu\__q %*\__q[OnDictionary]Dictionary List\__q %*\__q[cancelnodialogue]Bye\__q\_q\*\e"
 }
 
@@ -60,6 +60,7 @@ OnSearchDic {
 		}
 		if _display == ''; "\0\_qNo entry exists for %(reference0). Would you like to add one?\n\n%*\__q[OnDicEdit,addword,%(reference3)]Yes\__q %*\__q[OnDicShow,%(reference3)]No\_q\*"
 		else; "\_qSearch: %(reference0)\n\nResult: %(_display)\_q\x\![raise,OnDicShow,%(reference3)]"
+		"\1\C \_q%*\__q[ChangeSort,%(reference0)]Sort by: %(sort) first\__q %*\__q[OnSearchDic,startsearch,%(_sending),%(reference0)]Search for...\__q\n\n[half] %*\__q[OnMenuRun]Main Menu\__q %*\__q[OnDictionary]Dictionary List\__q %*\__q[cancelnodialogue]Bye\__q\_q\*\e"
 	}
 	LOGGING("%(reference) SHOW THIS TO ME")
 }
@@ -70,7 +71,7 @@ OnDicEdit {
 		when "addlang" {
 			if reference1 != "" {
 				diclang ,= "%(reference1)"
-				"\![raise,OnDicEdit,addword,%(reference1)]"
+				"\![raise,OnDicEdit,addword,%(reference1),addic]"
 			}
 			else {
 				treelang = ASORT(string,treelang)
@@ -80,14 +81,14 @@ OnDicEdit {
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
 					_display += "%*\__q[OnDicEdit,addlang,%(_lang)]%(_displaylang)\__q\n"
 				}
-				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+				"%(_display)"
 			}
 		}
 		when "addword" {
 			if reference1 != "" {
 				_num = ASEARCH(reference1,diclang)
 				LOGGING("%(reference) and %(_num)")
-				"\_qPlease input your word -- it has to be formatted as 'native language@learning language', otherwise displaying it might get all weird!\nAlso, remember that you can't yet delete a word you've added. So make sure everything's spelled correctly!\_q\![open,inputbox,OnDicWord,-1,--reference=%(_num)]\*\t"
+				"\_qPlease input your word -- it has to be formatted as 'native language@learning language', otherwise displaying it might get all weird!\nAlso, remember that you can't yet delete a word you've added. So make sure everything's spelled correctly!\_q\![open,inputbox,OnDicWord,-1,--reference=%(_num),--reference=%(reference2)]\*\t"
 			}
 			else {
 				treelang = ASORT(string,treelang)
@@ -97,7 +98,7 @@ OnDicEdit {
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
 					_display += "%*\__q[OnDicEdit,addword,%(_lang)]%(_displaylang)\__q\n"
 				}
-				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+				"%(_display)"
 			}
 		}
 		when "delang" {
@@ -112,7 +113,7 @@ OnDicEdit {
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
 					_display += "%*\__q[OnDicEdit,delang,%(_lang)]%(_displaylang)\__q\n"
 				}
-				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+				"%(_display)"
 		}
 		when "delword" {
 			if reference1 != "" {
@@ -130,7 +131,7 @@ OnDicEdit {
 					//sorry zi i did this weird & i dont get it
 				}
 				else {
-					"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+					"%(_display)"
 				}
 			}
 			else {
@@ -141,12 +142,13 @@ OnDicEdit {
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
 					_display += "%*\__q[OnDicEdit,delword,%(_lang)]%(_displaylang)\__q\n"
 				}
-				"%(_display)\n\n\__q[cancelnodialogue]Cancel\__q\_q\*"
+				"%(_display)"
 			}
 		}
 		others {
 			"...hey, how did you even get here?"
 		}
+		--; "\0\b[2]\C \n\n%*\__q[OnMenuRun]Main menu\__q %*\__q[OnDictionary]Go back\__q %*\__q[cancelnodialogue]Cancel\__q\_q\*\e"
 	}
 }
 

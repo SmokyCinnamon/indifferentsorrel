@@ -1,4 +1,4 @@
-1.0.1
+1.1.0
 > added options to click on when you finish a lesson! yey
 > updated yaya to Tc-569-5
 > added belarusian wordle to her list of other resources!
@@ -17,3 +17,15 @@
 > Buterbrod will sticky to Tadora when dragged over her! you can remove buterbrod from buterbrod's menu
 > Added three new games! you can play them! they're only in belarusian for now though
 > Tadora will make you translate more sentences overall
+> Fixed a bug where she would shuffle the letters of a single word, therefore making it impossible to get past translation tasks without using the keyboard
+> Fixed a bug where the word bubbles constantly re-shuffled themselves when clicking
+> Added a dictionary! You can even search words!!! you cant delete any though
+> Adjusted the spacing of the main menu slightly
+> Fixed buterbrod not showing up right away when switching the ghost
+> Changed the highlighting in her lessons to use the anchor color of the current balloon! Hopefully this makes things more readable
+> Made some changes to the font size in lessons! for clickability, I hope
+	> also for readability with certain non-latin scripts
+> removed a stray space in the matching game
+> changed the craftmanurl to uh. me
+> if you have the balloon 'Galaxy (Tarantula Nebula)' from Zichqec, she'll display it at the top of the balloon menu, just for you!
+	> its not the version you'll see in my screenshots because i edited that one

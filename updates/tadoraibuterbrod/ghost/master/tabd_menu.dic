@@ -1,4 +1,4 @@
-ghostver {"1.0.1"}
+ghostver {"1.1.0"}
 
 OpenSakuraMenu
 {
@@ -47,23 +47,23 @@ OnMenuRun : all //Main menu
 	"\n/
 	//\![*]\q[Say something,OnAiTalk]\n/
 	\![*]\q[Talk to another ghost,OnStartTalking]\n\n"
-	"%* \__q[OnGameMenu]Games\__q\n"
 	"\![*]\q[Lesson,OnLessonPick] %*\q[Dictionary,OnDictionary]\n"
+	"%*\__q[OnGameMenu]Games\__q\n"
 	--; "%*\__q[CustomExplain]Custom lessons?\__q\n"
 	--
 	if debug == 1 //%(debug = 1) in script input to show the debug options
 	{
-		"\n\![*]\q[Test Variable,OnTestVar] %*\__q[OnEditInbuilt]Inbuilt Lessons\__q\n%*\__q[OnLessonCheck]Re-check default folder\__q\n"
+		"\n[half]\![*]\q[Test Variable,OnTestVar] %*\__q[OnEditInbuilt]Inbuilt Lessons\__q\n%*\__q[OnLessonCheck]Re-check default folder\__q\n\n[half]"
 		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
 	}
-	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q %*\__q[OnOpenDocs]Documentation\__q\n"}
+	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q %*\__q[OnOpenDocs]Documentation\__q\n\n[half]"}
 	"%*\__q[OnConfigMenu]User Config\__q \![*]\q[Functions,OnFunctionMenu]\n"
 	"%*\__q[OnChangeLog]Open Changelog\__q\n"
 	"\![*]\q[Nevermind,Cancel]\n\n"
 	--
 	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)"
 	--
-	"\nRuntime: %(runtime[0]):%(runmin)            Version %(ghostver)\e"
+	"\nRuntime: %(runtime[0]):%(runmin)    Version %(ghostver)\e"
 }
 
 OnLastTalk //Repeats the last thing the ghost said

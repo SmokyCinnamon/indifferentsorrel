@@ -261,7 +261,7 @@ OnWordFindStart {
 OnWordFind
 {
 	if redo == 0 {
-	"\_q Find the word: \f[color,purple]%(wordtf[0])\f[color,default]\n"}
+	"\_q Find the word: \f[color,default.anchornotselect]%(wordtf[0])\f[color,default]\n"}
 	--
 	quizanswersshuffled = IARRAY
 	toshuffle = ARRAYSIZE(wordtf)
@@ -297,7 +297,7 @@ OnWordFind
 		}
 	}
 	--
-	"\f[color,blue]\_q%(answerprint)\f[color,default]"
+	"\f[color,default.anchorvisited]\_q%(answerprint)\f[color,default]"
 }
 
 OnTestquizanswer
@@ -415,9 +415,9 @@ OnWordMatch
 		//_numa = RAND(3)
 		//_numb = RAND(3)
 		{
-			if matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
-			else {answerprint += "\f[color,blue]\q[%(matchw1[_i]),OnMatchQuestion,%(matchw1[_i]),first]\f[color,default] "}
-			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "}
+			if matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,disable]%(matchw1[_i])\f[color,default] "}
+			else {answerprint += "\f[color,default.anchorvisited]\q[%(matchw1[_i]),OnMatchQuestion,%(matchw1[_i]),first]\f[color,default] "}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,disable]%(matchw3[_a])\f[color,default] "}
 			else {
 			answerprinta += "%(matchw3[_a]) "}
 		}
@@ -449,12 +449,12 @@ OnMatchQuestion {
 	while _i < answernum && _a < answernuma
 	{
 		{
-			if matchw1[_i] == reference0 {answerprint += "\f[color,purple]%(matchw1[_i])\f[color,default] "}
-			elseif matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,gray]%(matchw1[_i])\f[color,default] "}
+			if matchw1[_i] == reference0 {answerprint += "\f[color,default.anchornotselect]%(matchw1[_i])\f[color,default] "}
+			elseif matchw1[_i] == graytime[0] || matchw1[_i] == graytime[2] || matchw1[_i] == graytime[4] {answerprint += "\f[color,disable]%(matchw1[_i])\f[color,default] "}
 			else {answerprint += "%(matchw1[_i]) "}
-			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,gray]%(matchw3[_a])\f[color,default] "; if redo == 0 {answersleft ,= reference0}}
+			if matchw3[_a] == graytime[1] || matchw3[_a] == graytime[3] || matchw3[_a] == graytime[5] {answerprinta += "\f[color,disable]%(matchw3[_a])\f[color,default] "; if redo == 0 {answersleft ,= reference0}}
 			else {
-			answerprinta += "\f[color,blue]\q[%(matchw3[_a]),OnMatchAnswer,%(matchw3[_a]),second]\f[color,default] "
+			answerprinta += "\f[color,default.anchorvisited]\q[%(matchw3[_a]),OnMatchAnswer,%(matchw3[_a]),second]\f[color,default] "
 			}
 		}
 		_i++; _a++

@@ -25,7 +25,7 @@ GrabWords {
 			LOGGING("WORDMATCH %(RE_GETSTR)")
 			_aaa = SPLIT(RE_GETSTR[1],';')
 			for _i = 0; _i < ARRAYSIZE(_aaa); _i++ {
-					LOGGING("AAAAAAA IS ZEO and %(_aaa[_i])")
+					LOGGING("%(_aaa[_i])")
 					grabbedwords ,= "%(_aaa[_i])"
 					//--
 					//_bel = SPLIT("%(_aaa[_i])",'@')
@@ -279,8 +279,7 @@ OnStartWordSearch
 	if SHIORI3FW.BalloonName == _defaultballoon; _rightadjust = 0
 	_backwardsallowed = 0
 	_highlightinverted = 1
-	if SHIORI3FW.BalloonName == _defaultballoon; _highlightcolor = "255,255,255"
-	else; _highlightcolor = "default.anchor"
+	_highlightcolor = "default.anchor"
 	
 	//Don't touch these
 	WSOpts = (_fontsize,_rightadjust,_highlightinverted,_highlightcolor)
@@ -300,19 +299,23 @@ WordSearchDialogue
 	}
 	elseif _argv[0] == "Invalid Word" //If the user puts in a word that isn't on the word list or was already guessed - _argv[1] is the word the user guessed
 	{
-		"%(_argv[1]) is not valid."
+		"%(_argv[1]) isn't right, nya. There's only so many words, after all!"
 	}
 	elseif _argv[0] == "Invalid Move" //If the user tried an illegal diagonal move
 	{
-		"You can't move like that.\w8\w8 Moves have to be straight lines;\w4 up,\w4 down,\w4 left,\w4 right,\w4 or diagonal."
+		"Oh, moves have to be straight lines;\w4 up,\w4 down,\w4 left,\w4 right,\w4 or diagonal."
 	}
 	elseif _argv[0] == "Found Word" //If the user found a word - _argv[1] is the word that was found
 	{
-		"You found the word %(_argv[1])."
+		_num = ASEARCH(_argv[1],WordSearchWords)
+		LOGGING("%(_num)")
+		"Hey cool, you found %(_argv[1])! It also means %(WordSearchTrans[_num]), nya!"
 	}
 	elseif _argv[0] == "Finished Puzzle" //If the user completed the puzzle - _argv[1] is the last word the user found. Might be a good idea to add menu buttons here.
 	{
-		"%(_argv[1]) was the last word,\w4 good job!"
+		_num = ASEARCH(_argv[1],WordSearchWords)
+		LOGGING("%(_num)")
+		"Hey, that's right, AND the last word! %(_argv[1]), and it means... %(WordSearchTrans[_num])! You're so amazing, %(username)!"
 		--
 		"\_q\n\![*]\q[Play again,OnStartWordSearch]  \![*]\q[Play something else,OnGameMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
 		
@@ -535,7 +538,7 @@ OnWordSearch
 	if WSOpts[2] == 1; _inverthighlight = WSOpts[2]
 	
 	
-	_display = "\f[anchorfontcolor,%(WSOpts[3])]\f[height,%(_fheight)]\f[bold,1]"
+	_display = "\f[color,%(WSOpts[3])]\f[height,%(_fheight)]\f[bold,1]"
 	if reference0 == "Win"; _display += "\f[anchorstyle,none]\f[cursorstyle,none]"
 	for _i = 0; _i < ARRAYSIZE(WordSearch); _i++
 	{
@@ -560,14 +563,14 @@ OnWordSearch
 					}
 					else
 					{
-						_tag1 = "\_a[OnBlank]"
-						_tag2 = "\_a"
+						_tag1 = "\__q[OnBlank]"
+						_tag2 = "\__q"
 					}
 				}
 				elseif _inverthighlight == 1 //if this is a random letter but inverted highlighting is on
 				{
-					_tag1 = "\_a[OnBlank]"
-					_tag2 = "\_a"
+					_tag1 = "\__q[OnBlank]"
+					_tag2 = "\__q"
 				}
 				_display += "%(_tag1)%(_col)%(_tag2) "
 			}
@@ -576,7 +579,7 @@ OnWordSearch
 				//IF the user has selected a letter, give it a unique link and highlight it
 				if reference0 == "StartLetter" && _i == _startRow && _ii == _startCol
 				{
-					_tag = "\_a"; if _inverthighlight == 1; _tag = "\__q"
+					_tag = "\__q"; if _inverthighlight == 1; _tag = "\__q"
 					_display += "%(_tag)[OnWordSearch,CancelStart,%(_i),%(_ii),%(_startRow),%(_startCol)]%(_col)%(_tag) "
 				}
 				else //Normal display with clickable buttons
@@ -587,13 +590,13 @@ OnWordSearch
 					_tag = ""
 					if _inverthighlight == 1
 					{
-						_tag = "\_a"
+						_tag = "\__q"
 						if _highlightarray[_i][_ii] == "1"; _tag = "\__q"
 					}
 					else
 					{
 						_tag = "\__q"
-						if _highlightarray[_i][_ii] == "1"; _tag = "\_a"
+						if _highlightarray[_i][_ii] == "1"; _tag = "\__q"
 					}
 					
 					_display += "%(_tag)[OnWordSearch,%(_ref),%(_i),%(_ii),%(_startRow),%(_startCol)]%(_col)%(_tag) "
@@ -607,9 +610,10 @@ OnWordSearch
 	_display += "\n[half]\f[height,default]\f[cursorstyle,default]"
 	foreach WordList; _word
 	{
+		_num = ASEARCH(_word,WordSearchWords)
 		_exist = ASEARCH(_word,WordsLeft)
 		if _exist == -1; _display += "\f[strike,1]" //Strike it out if it's been found already
-		_display += "%(_word)"
+		_display += "%(WordSearchTrans[_num])"
 		if _exist == -1; _display += "\f[strike,0]"
 		_display += "  "
 	}
