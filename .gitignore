@@ -15,6 +15,10 @@ updates/tadoraibuterbrod/ghost/master/lessons/
 /nar
 nar/*
 
+# ignore un-narred lessons
+lessons/*
+!lessons/*.nar
+
 # ignore these plugins
 wp-content/plugins/hello.php
 
@@ -44,3 +48,8 @@ zzz_todo.dic
 
 # you know what this is
 aaaaaaaaaa.txt
+
+# walkthrough when working on
+walkthroughtranslation/*
+!walkthroughtranslation/uwintro.html
+!walkthroughtranslation/ukaformatting.css

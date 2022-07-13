@@ -1,5 +1,14 @@
 ghostver {"1.1.0"}
 
+
+OnTestVar
+{
+	"Testing!\x"
+	--
+	LOGGING("This is a debug function! This text will show up in Tama, or in the SHIORI log! You can also output variables and such with this function. This is super handy for debugging without having to output data to your ghost's balloon! Especially for things like loops, where you need to see certain variables at every step of the loop. Make good use of it!")
+	"\![raise,OnWinfo]"
+}
+
 OpenSakuraMenu
 {
 	if AutoUpdates[1] == 2 //If an update is available, the user will be notified when they try to open the menu
@@ -167,7 +176,7 @@ Select.UpdateCheck //Starts an update check
 
 
 //----------Config Menu----------
-OnConfigMenu //I moved changing name/pronouns/birthday over to Nameteach, because they're info about the user
+OnConfigMenu : all //I moved changing name/pronouns/birthday over to Nameteach, because they're info about the user
 {
 	//This is here in case the variables get erased. The buttons will be set to default so the user has something to click. This has happened to my users before and resetting them is a painful process. Do not remove these.
 	if username == ""; username = "User"
@@ -186,17 +195,23 @@ OnConfigMenu //I moved changing name/pronouns/birthday over to Nameteach, becaus
 	elseif reference0 == "cancelled birthday day"; "\![close,inputbox,OnUserBornDay]"
 	if "cancelled birthday" _in_ reference0; {birthday = oldbirthday; ERASEVAR("oldbirthday")} //resets the birthday to the old values, erases the temp variable
 	--
-	"\_q\b2\_l[97]---Config---\n\n/
-	Your name: \q[%(username),OnChangeName]\n/
-	Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n/
-	Your birthday: \q[%(birthday[0]),OnChangeBirthday]\n\n/
-	Your hemisphere: \q[%(hemisphere),ToggleHemisphere]\n/
-	Talk rate: \q[%(talkrate),ChangeTalk]\n/
-	\__q[ToggleLescreate]Lesson Creator: %(lescreator)\__q\n/ 
-	\![*]Enable Auto Update checks?\n(Currently: \q[%(AutoUpdates[0]),ToggleUpdate])\n/
-	//\![*]Opt in to beta updates? (Currently: \q[%(betaTester),ToggleBeta])\n\n/
-	\![*]Enable Uninstall? (Currently: \q[%(deleteshitai),ToggleUninstall])\n\n/
-	\![*]\q[Back to the menu,OnMenuRun]\e"
+	"\_q\b2\_l[97]---Config---\n\n"
+	"Your name: \q[%(username),OnChangeName]\n"
+	"Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n"
+	"Your birthday: \q[%(birthday[0]),OnChangeBirthday]\n\n"
+	"Your hemisphere: \q[%(hemisphere),ToggleHemisphere]\n"
+	"Talk rate: \q[%(talkrate),ChangeTalk]\n"
+	"\__q[ToggleLescreate]Lesson Creator: %(lescreator)\__q\n"
+	"\__q[ToggleWinfo]Comment on apps: %Flag('winfoinfo')\__q\n"
+	"\![*]Enable Auto Update checks?\n(Currently: \q[%(AutoUpdates[0]),ToggleUpdate])\n"
+	//\![*]Opt in to beta updates? (Currently: \q[%(betaTester),ToggleBeta])\n\n"
+	"\![*]Enable Uninstall? (Currently: \q[%(deleteshitai),ToggleUninstall])\n\n"
+	"\![*]\q[Back to the menu,OnMenuRun]\e"
+}
+Select.ToggleWinfo {
+	if Flag("winfoinfo") == 0 {AddFlag("winfoinfo")}; else {RemoveFlag("winfoinfo")}
+	--
+	OnConfigMenu
 }
 Select.ToggleLescreate {
 	if lescreator != "On" {lescreator = "On"}; else {lescreator = "Off"}
@@ -330,14 +345,6 @@ OnChoiceTimeout //Menu has timed out
 Select.Cancel //If the main menu has been cancelled
 {
 	//"\0\s[0]Ok,\w4 let me know if you need something!\e"
-}
-
-OnTestVar
-{
-	"Testing!\e"
-	
-	LOGGING("This is a debug function! This text will show up in Tama, or in the SHIORI log! You can also output variables and such with this function. This is super handy for debugging without having to output data to your ghost's balloon! Especially for things like loops, where you need to see certain variables at every step of the loop. Make good use of it!")
-	diclang = ("English@Belarusian|cat@кот")
 }
 
 OnEditLesson {

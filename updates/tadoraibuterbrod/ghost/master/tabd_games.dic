@@ -1,42 +1,92 @@
 OnGameMenu : all {
 	"\_q"
 	"\__q[OnStartHangman]hangman\__q\n"
-	"\__q[OnStartWordSearch]word search\__q\n"
+	if currentlang == "English@Belarusian"; "\__q[OnStartWordSearch]word search\__q\n"
 	"\__q[OnJuniorJumble,,new]word scramble\__q\n"
 	"\__q[cancelnodialogue]bye lmao\__q\_q"
 }
 
 GrabWords {
-	_fnumresult = FENUM('lessons\default\')
-	_fnsize = ARRAYSIZE(_fnumresult)
-	_randfile = RAND(_fnsize)
-	_file = "lessons/default/%(_fnumresult[_randfile])"
-	_buff = ""
 	grabbedwords = IARRAY
-	//grabbedbel = IARRAY
-	--
-	FCHARSET(1)
-	FOPEN(_file,'r')
-	LOGGING("%(_file)")
-	for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
-		LOGGING("HEY LOOK AT ME")
-		LOGGING("%(_buff)")
-		if RE_SEARCH(_buff,'word_matches\[([^\n]+)\]') {
-			LOGGING("WORDMATCH %(RE_GETSTR)")
-			_aaa = SPLIT(RE_GETSTR[1],';')
-			for _i = 0; _i < ARRAYSIZE(_aaa); _i++ {
-					LOGGING("%(_aaa[_i])")
-					grabbedwords ,= "%(_aaa[_i])"
-					//--
-					//_bel = SPLIT("%(_aaa[_i])",'@')
-					//LOGGING("%(_bel[1])")
-					//grabbedbel ,= _bel[1]
-			}
+	if currentlang == "English@Belarusian" {
+		_fnumresult = FENUM('lessons\default\')
+		_fnsize = ARRAYSIZE(_fnumresult)
+		_randfile = RAND(_fnsize)
+		_file = "lessons/default/%(_fnumresult[_randfile])"
+		_buff = ""
+		//grabbedbel = IARRAY
+		--
+		FCHARSET(1) //sets charset
+		FOPEN(_file,'r') //opens file in read mode
+		LOGGING("%(_file)")
+		for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+			//above has something to do with the buffer, it's basically reading the file line by line
+			LOGGING("HEY LOOK AT ME")
+			LOGGING("%(_buff)")
+			if RE_SEARCH(_buff,'word_matches\[([^\n]+)\]') {
+				//above checks if the start of the buffer matches 'word_matches\[\]' (with escaped brackets in the code only) and then has a regex that will capture everything inside except for a line break.
+				//the parentheses indicate a capture group. RE_GETSTR is an array, with 0 being the entire thing, and above being any capture groups.
+				LOGGING("WORDMATCH %(RE_GETSTR)")
+				grabbedwords ,= RE_GETSTR[1]
 		}}
 		--
 		FCLOSE(_file)
 		LOGGING("fnumresult %(_fnumresult)| fnsize %(_fnsize)| randfile%(_randfile)| GRABBEDWORDS%(grabbedwords)")
-		break
+		}
+		--
+		_fnumresult = FENUM('lessons\')
+		_fnumresult[0] = IARRAY
+		foreach _fnumresult; _filecheck {
+			LOGGING(_filecheck)
+			_file = "lessons/%(_filecheck)"
+			_buff = ""
+			--
+			FCHARSET(1) //sets charset
+			FOPEN(_file,'r') //opens file in read mode
+			LOGGING("%(_file)")
+			--
+			for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+				//above has something to do with the buffer, it's basically reading the file line by line
+				LOGGING("reading file - line below!")
+				LOGGING("%(_buff)")
+				if RE_SEARCH(_buff,'tree_lang\[([^\n]+)\]') {
+					LOGGING("trreelang %(RE_GETSTR) currentlang %(currentlang)")
+					if RE_GETSTR[1] == currentlang {
+						for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+							if RE_SEARCH(_buff,'word_matches\[([^\n]+)\]') {
+								LOGGING("WORDMATCH %(RE_GETSTR)")
+								if grabbedwords == IARRAY; grabbedwords = RE_GETSTR[1]
+								else; grabbedwords[0] += "%(RE_GETSTR[1])"
+				}}}
+			}}
+			FCLOSE(_file)
+		}
+		--
+		grabbedwords[0] = SPLIT(grabbedwords[0],';')
+		LOGGING("fnumresult %(_fnumresult)| fnsize %(_fnsize)| randfile%(_randfile)| GRABBEDWORDS%(grabbedwords)")
+		
+}
+
+UpperLower {
+		_char = IARRAY
+		_char = ("af-ZA","am-ET","ar-AE","ar-BH","ar-DZ","ar-EG","ar-IQ","ar-JO","ar-KW","ar-LB","ar-LY","ar-MA","arn-CL","ar-OM","ar-QA","ar-SA","ar-SY","ar-TN",/
+		"ar-YE","as-IN","az-Cyrl-AZ","az-Latn-AZ","ba-RU","be-BY","bg-BG","bn-BD","bn-IN","bo-CN","br-FR","bs-Cyrl-BA","bs-Latn-BA","ca-ES","co-FR","cs-CZ",/
+		"cy-GB","da-DK","de-AT","de-CH","de-DE","de-LI","de-LU","dsb-DE","dv-MV","el-GR","en-029","en-AU","en-BZ","en-CA","en-GB","en-IE","en-IN","en-JM","en-MY",/
+		"en-NZ","en-PH","en-SG","en-TT","en-US","en-ZA","en-ZW","es-AR","es-BO","es-CL","es-CO","es-CR","es-DO","es-EC","es-ES","es-GT","es-HN","es-MX","es-NI",/
+		"es-PA","es-PE","es-PR","es-PY","es-SV","es-US","es-UY","es-VE","et-EE","eu-ES","fa-IR","fi-FI","fil-PH","fo-FO","fr-BE","fr-CA","fr-CH","fr-FR","fr-LU",/
+		"fr-MC","fy-NL","ga-IE","gd-GB","gl-ES","gsw-FR","gu-IN","ha-Latn-NG","he-IL","hi-IN","hr-BA","hr-HR","hsb-DE","hu-HU","hy-AM","id-ID","ig-NG","ii-CN",/
+		"is-IS","it-CH","it-IT","iu-Cans-CA","iu-Latn-CA","ja-JP","ka-GE","kk-KZ","kl-GL","km-KH","kn-IN","kok-IN","ko-KR","ky-KG","lb-LU","lo-LA","lt-LT","lv-LV",/
+		"mi-NZ","mk-MK","ml-IN","mn-MN","mn-Mong-CN","moh-CA","mr-IN","ms-BN","ms-MY","mt-MT","nb-NO","ne-NP","nl-BE","nl-NL","nn-NO","nso-ZA","oc-FR","or-IN",/
+		"pa-IN","pl-PL","prs-AF","ps-AF","pt-BR","pt-PT","qut-GT","quz-BO","quz-EC","quz-PE","rm-CH","ro-RO","ru-RU","rw-RW","sah-RU","sa-IN","se-FI","se-NO",/
+		"se-SE","si-LK","sk-SK","sl-SI","sma-NO","sma-SE","smj-NO","smj-SE","smn-FI","sms-FI","sq-AL","sr-Cyrl-BA","sr-Cyrl-CS","sr-Cyrl-ME","sr-Cyrl-RS",/
+		"sr-Latn-BA","sr-Latn-CS","sr-Latn-ME","sr-Latn-RS","sv-FI","sv-SE","sw-KE","syr-SY","ta-IN","te-IN","tg-Cyrl-TJ","th-TH","tk-TM","tn-ZA","tr-TR",/
+		"tt-RU","tzm-Latn-DZ","ug-CN","uk-UA","ur-PK","uz-Cyrl-UZ","uz-Latn-UZ","vi-VN","wo-SN","xh-ZA","yo-NG","zh-CN","zh-HK","zh-MO","zh-SG","zh-TW","zu-ZA")
+		for _i = 0; _i < ARRAYSIZE(_char); _i++ {
+			if _argv[1] == "upper"; _argv[0] = TOUPPER(_argv[0],"%(_char[_i])")
+			elseif _argv[1] == "lower"; _argv[0] = TOLOWER(_argv[0],"%(_char[_i])")
+			LOGGING("argc %(_argc) temp %(_argv)")
+		}
+	_argv[0]
 }
 
 //Written by Zichqec https://zichqec.github.io/s-the-skeleton/index.html
@@ -45,7 +95,7 @@ OnStartHangman //Sets up starting variables
 {
 	GrabWords; --
 	_word = ANY(grabbedwords)
-	_wsplit = SPLIT("%(_word)",'@')
+	_wsplit = SPLIT(_word,'@')
 	HMword = _wsplit[1]
 	HMtrans = _wsplit[0]
 	HMlet = IARRAY //HMlet[0] is guessed letters, HMlet[1] is incorrect letters
@@ -59,7 +109,7 @@ OnHangman //Main game window
 	_left = 0
 	for _i = 0; _i < STRLEN(HMword); _i++
 	{
-		_let = TOLOWER(SUBSTR(HMword,_i,1),"be-BY") //Get the current letter and make it lowercase
+		_let = UpperLower(SUBSTR(HMword,_i,1),"lower") //Get the current letter and make it lowercase
 		if _let _in_ HMlet[0] || _let == " "
 		{
 			_word += "%(SUBSTR(HMword,_i,1))"
@@ -115,18 +165,18 @@ OnGuessNormal
 	{
 		"\0\s[0]Hm... that's more than one. Try again with only one?\x"
 	}
-	elseif TOLOWER(reference0,"be-BY") _in_ TOLOWER(HMlet[0],"be-BY") //The user has already guessed that letter
+	elseif UpperLower(reference0,"lower") _in_ UpperLower(HMlet[0],"lower") //The user has already guessed that letter
 	{
 		"\0\s[0]Oh, but that letter's already there! Maybe try again with something that isn't %(reference0), nya?\x"
 	}
-	elseif TOLOWER(reference0,"be-BY") _in_ TOLOWER(HMword,"be-BY") //The letter is in the word
+	elseif UpperLower(reference0,"lower") _in_ UpperLower(HMword,"lower") //The letter is in the word
 	{
 		HMlet[0] += reference0
 	}
 	else //The letter is not in the word
 	{
 		HMlet[0] += reference0
-		HMlet[1] += "%(TOLOWER(reference0),'be-BY') "
+		HMlet[1] += "%(UpperLower(reference0),'lower') "
 	}
 	--
 	OnHangman
@@ -138,7 +188,7 @@ Select.HangmanGuessWhole
 	_left = 0
 	for _i = 0; _i < STRLEN(HMword); _i++
 	{
-		_let = TOLOWER(SUBSTR(HMword,_i,1),"be-BY") //Get the current letter and make it lowercase
+		_let = UpperLower(SUBSTR(HMword,_i,1),"lower") //Get the current letter and make it lowercase
 		if _let _in_ HMlet[0] || _let == " "
 		{
 			_word += "%(SUBSTR(HMword,_i,1))"
@@ -162,7 +212,7 @@ OnGuessWhole
 	_left = 0
 	for _i = 0; _i < STRLEN(HMword); _i++
 	{
-		_let = TOLOWER(SUBSTR(HMword,_i,1),"be-BY") //Get the current letter and make it lowercase
+		_let = UpperLower(SUBSTR(HMword,_i,1),"lower") //Get the current letter and make it lowercase
 		if _let _in_ HMlet[0] || _let == " "
 		{
 			_word += "%(SUBSTR(HMword,_i,1))"
@@ -173,7 +223,7 @@ OnGuessWhole
 			_left++
 		}
 	}
-	if TOLOWER(reference0,"be-BY") == TOLOWER(HMword,"be-BY") //Correct guess, instant win
+	if UpperLower(reference0,"lower") == UpperLower(HMword,"lower") //Correct guess, instant win
 	{
 		HangmanWin
 		--
@@ -228,23 +278,8 @@ OnStartWordSearch
 	WordSearchTrans = IARRAY
 	GrabWords; --
 	for _i = 0; _i < ARRAYSIZE(grabbedwords); _i++ {
-		/*_upper = IARRAY
-		_upper = ("af-ZA","am-ET","ar-AE","ar-BH","ar-DZ","ar-EG","ar-IQ","ar-JO","ar-KW","ar-LB","ar-LY","ar-MA","arn-CL","ar-OM","ar-QA","ar-SA","ar-SY","ar-TN",/
-		"ar-YE","as-IN","az-Cyrl-AZ","az-Latn-AZ","ba-RU","be-BY","bg-BG","bn-BD","bn-IN","bo-CN","br-FR","bs-Cyrl-BA","bs-Latn-BA","ca-ES","co-FR","cs-CZ",/
-		"cy-GB","da-DK","de-AT","de-CH","de-DE","de-LI","de-LU","dsb-DE","dv-MV","el-GR","en-029","en-AU","en-BZ","en-CA","en-GB","en-IE","en-IN","en-JM","en-MY",/
-		"en-NZ","en-PH","en-SG","en-TT","en-US","en-ZA","en-ZW","es-AR","es-BO","es-CL","es-CO","es-CR","es-DO","es-EC","es-ES","es-GT","es-HN","es-MX","es-NI",/
-		"es-PA","es-PE","es-PR","es-PY","es-SV","es-US","es-UY","es-VE","et-EE","eu-ES","fa-IR","fi-FI","fil-PH","fo-FO","fr-BE","fr-CA","fr-CH","fr-FR","fr-LU",/
-		"fr-MC","fy-NL","ga-IE","gd-GB","gl-ES","gsw-FR","gu-IN","ha-Latn-NG","he-IL","hi-IN","hr-BA","hr-HR","hsb-DE","hu-HU","hy-AM","id-ID","ig-NG","ii-CN",/
-		"is-IS","it-CH","it-IT","iu-Cans-CA","iu-Latn-CA","ja-JP","ka-GE","kk-KZ","kl-GL","km-KH","kn-IN","kok-IN","ko-KR","ky-KG","lb-LU","lo-LA","lt-LT","lv-LV",/
-		"mi-NZ","mk-MK","ml-IN","mn-MN","mn-Mong-CN","moh-CA","mr-IN","ms-BN","ms-MY","mt-MT","nb-NO","ne-NP","nl-BE","nl-NL","nn-NO","nso-ZA","oc-FR","or-IN",/
-		"pa-IN","pl-PL","prs-AF","ps-AF","pt-BR","pt-PT","qut-GT","quz-BO","quz-EC","quz-PE","rm-CH","ro-RO","ru-RU","rw-RW","sah-RU","sa-IN","se-FI","se-NO",/
-		"se-SE","si-LK","sk-SK","sl-SI","sma-NO","sma-SE","smj-NO","smj-SE","smn-FI","sms-FI","sq-AL","sr-Cyrl-BA","sr-Cyrl-CS","sr-Cyrl-ME","sr-Cyrl-RS",/
-		"sr-Latn-BA","sr-Latn-CS","sr-Latn-ME","sr-Latn-RS","sv-FI","sv-SE","sw-KE","syr-SY","ta-IN","te-IN","tg-Cyrl-TJ","th-TH","tk-TM","tn-ZA","tr-TR",/
-		"tt-RU","tzm-Latn-DZ","ug-CN","uk-UA","ur-PK","uz-Cyrl-UZ","uz-Latn-UZ","vi-VN","wo-SN","xh-ZA","yo-NG","zh-CN","zh-HK","zh-MO","zh-SG","zh-TW","zu-ZA")
-		for _i = 0; _i < ARRAYSIZE(_lower); _i++ {
-			grabbedwords[_i] = TOUPPER(grabbedwords[_i],"%(_lower[_i])")
-		}*/
-		grabbedwords[_i] = TOUPPER(grabbedwords[_i],"be-BY")
+		grabbedwords[_i] = UpperLower(grabbedwords[_i],"upper")
+		LOGGING("%(grabbedword[_i])")
 		_wsplit = SPLIT("%(grabbedwords[_i])",'@')
 		_len = STRLEN(_wsplit[1])
 		if _len == 1 {} else {
@@ -697,7 +732,7 @@ CreateWordSearch //:deargodhelpme:
 	{
 		//Check to make sure there's a word to add. If there is, pick a random one, then erase it from the array. If the word is too long, skip it and start again.
 		if ARRAYSIZE(_availwords) == 0; {LOGGING("Ran out of words to add");break}
-		_toadd = TOUPPER(ANY(_availwords))
+		_toadd = UpperLower(ANY(_availwords),"upper")
 		LOGGING("Entered loop 1 - Start new word (%(_toadd))")
 		_availwords[LSO] = IARRAY
 		if STRLEN(_toadd) > _dimensions; {LOGGING("%(_toadd) too long for current grid size");continue}
@@ -949,18 +984,19 @@ OnJuniorJumble
 		if reference2 == "wronglen" {} else {GrabWords; --}
 		_word = ANY(grabbedwords)
 		_JumbleWords = SPLIT("%(_word)",'@')
+		LOGGING("word is %(_word) and jumble is %(_JumbleWords)")
 		_len = STRLEN(_JumbleWords[1])
 		LOGGING("LEN %(_len)")
 		        if _len <= 3 {"\![raise,OnJuniorJumble,,new,wronglen]\e"} else {
-			JumbleWord = TOLOWER(_JumbleWords[1],"be-BY")
+			JumbleWord = UpperLower(_JumbleWords[1],"lower")
 			JumbleTrans = _JumbleWords[0]
 			_jumbled = ""
-
+			LOGGING("we need %(JumbleWord)")
 			//Scramble the word
 			_temp = TOSTR(JumbleWord)
 			while STRLEN(_temp) > 0
 			{
-				LOGGING("%(_temp)")
+				LOGGING("this is a temporary %(_temp)")
 				_rand = RAND(STRLEN(_temp))
 				_jumbled += SUBSTR(_temp,_rand,1)
 				_temp = ERASE(_temp,_rand,1)
@@ -971,7 +1007,7 @@ OnJuniorJumble
 			--
 			"Unscramble the word:"
 			--
-			LOGGING("%(_jumbled)")
+			LOGGING("this is %(_jumbled)")
 			"\n\n\f[height,+4]%(_jumbled)\f[default]"
 			--
 			"\_q\n\n\![*]\q[Give up,OnJuniorJumbleQuit]\e"
@@ -979,7 +1015,7 @@ OnJuniorJumble
 	}
 	else //If the user put in a guess
 	{
-		if TOLOWER(reference0,"be-BY") == JumbleWord //Win
+		if UpperLower(reference0,"lower") == JumbleWord //Win
 		{
 			"Hey, you got it, nya! %(JumbleWord) means %(JumbleTrans)!"
 		}

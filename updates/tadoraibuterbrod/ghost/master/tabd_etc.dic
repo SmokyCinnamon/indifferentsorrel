@@ -1,3 +1,66 @@
+OnWinfo : all {
+	if debug == 1 {
+	"\_q"; --
+	_i = FUNCTIONEX("window_info.dll")
+	_display = ""
+	foreach valueex; _program {
+		_program = REPLACE(_program,"\","\\")
+		_display += "\![*]%(_program)\n\n[half]"
+		LOGGING("%(_program)")
+		}
+	LOGGING("pspspsps math man %(valueex)")
+	if ASEARCH("CapJaxMathFax™ for Smooth Math Sailing!",valueex) != -1 {
+		AddFlag("CapJaxOpen"); "it's him; math man"
+		//CapJaxMathFax�
+		_minmax = FUNCTIONEX("window_info.dll","getcaption","Tadora")
+		"\ni feel liek this should be working %(_minmax)\1%(valueex)\0"
+	}
+	else {RemoveFlag("CapJaxOpen"); "math man is no more. perhaps he never was"}
+	"\n\n\b4\![set,autoscroll,disable]%(_display)\_q"
+}}
+//Written by Zichqec https://zichqec.github.io/s-the-skeleton/
+
+//Usage: This is intended to take the place of single-use variables that only contain 0 or 1, used as flags for certain events and such. With these functions, you can store all those flags as a single array, meaning you can make as many flags as you want without having to really worry about save bloat. It can also make your code a bit more readable!
+
+//You'll want to put 'MiscFlags = IARRAY' into your OnFirstBoot. That'll set up an empty array for flags to be stored in.
+//When you want to check if a flag is set or not, you can do it like so:
+//if Flag("My Flag") == 0
+//or
+//if Flag("My Flag") == 1
+
+//Any flags that are NOT in the array are 0, and any flags that ARE in the array are 1. So, to set a flag to 1, you add it to the array like this:
+//if Flag("My Flag") == 0; MiscFlags ,= "My Flag"
+
+//You don't technically need the if check there, but it stops duplicate entries from being added. The ,= is also important; that adds a new element to an array. Don't use += for this!
+
+//If you want to set a flag back to 0, you can remove it like so:
+//RemoveFlag("My Flag")
+
+Flag //Checks to see if a flag exists. Returns 1 if yes, returns 0 if no
+{
+	if ASEARCH(_argv[0],MiscFlags) != -1; 1
+	else; 0
+}
+
+RemoveFlag //Removes all instances of a flag in the array.
+{
+	_elements = ASEARCHEX(_argv[0],MiscFlags)
+	if ARRAYSIZE(_elements) > 0
+	{
+		for _i = ARRAYSIZE(_elements) - 1; _i >= 0; _i-- //Goes from the end of the list to the start, so the elements stay in the same positions while we erase
+		{
+			_current = _elements[_i]
+			MiscFlags[_current] = IARRAY
+		}
+	}
+}
+//by smokycinnamonroll if it matters to u
+//for zi's flag system. to use just do AddFlag("urflag") and this will handle it
+AddFlag {
+    if Flag(_argv[0]) == 0; MiscFlags ,= _argv[0]
+    //_argv[0] is the string passed to it (so "urflag"). all it's doing is checking if the flag exists, and if it doesnt, adding it
+}
+
 //----Drag and Drop----
 
 //When you drop a file on the ghost that isn't something it can install

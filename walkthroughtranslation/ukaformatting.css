@@ -1,0 +1,60 @@
+blockquote
+{
+color: green;
+background-color: #D8D8D8;
+border-style: dashed;
+border-width: thin;
+padding: 15px;
+}
+
+.interior
+{
+background-color:ffffff;
+margin:15px;
+}
+
+.quickbox
+{
+background-color:ffccff;
+border-style: dashed;
+border-width: thin;
+padding: 15px;
+}
+
+p.codeline
+{
+color: green;
+padding: 15px;
+}
+
+#filename
+{
+color: blue;
+font-weight: bold;
+}
+
+h1
+{
+font-size: 200%;
+font-weight: bold;
+text-align: center;
+text-decoration: underline;
+}
+
+h2
+{
+font-size: 120%;
+font-weight: bold;
+text-align: center;
+}
+
+#highlight {
+    background-color: yellow;
+}
+
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}

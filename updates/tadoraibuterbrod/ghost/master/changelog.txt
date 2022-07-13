@@ -1,3 +1,10 @@
+1.1.1
+> Added window_info.dll! If you let her, she can comment on what ypu have open!
+	> This will not work on mac or linux so.... rip you guys i guess
+	> also she doesn't actually comment on much of anything yet. dont worry about it
+> You can now play the word games no matter what your language is set to! Word search not included
+	> also, sometimes she'll return a 1 for some reason. You can ignore this and open up the game menu again, it should be fine after that :V
+
 1.1.0
 > added options to click on when you finish a lesson! yey
 > updated yaya to Tc-569-5

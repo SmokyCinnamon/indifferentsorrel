@@ -30,6 +30,7 @@ RandomTalk : nonoverlap
 {
 	//This will call the example pool I've set up below. The second argument, %(username != ''), means that this pool will be available so long as the username is not blank. You can put any if check in there! For example: %(month == 2) would make a pool only available in February, while %(nowmode == 'Ultimate Form') would make a pool only available while the nowmode variable is set to "Ultimate Form".
 	//parallel Pool("Pool_Example","%(username != '')")
+	parallel Pool("Pool_ImBadAtMath","%(Flag('CapJaxOpen'))")
 	//---Noticing and commenting on other ghosts---
 	//Remember that you have to check for the sakura name of another ghost, not the ghost name.
 	//if "Girl" _in_ ghostexlist
@@ -50,6 +51,20 @@ Pool_Example : array //username != ""
 	"\0\s[0]This is the third dialogue from the pool!\w8\w8 Putting dialogues in a pool like this means that nonoverlap can affect them properly, so long as nothing else interferes!\e"
 	"\0\s[0]This is the fourth dialogue from the pool!\w8\w8 You could nest another pool inside this pool,\w4 and all the dialogues in there would also display with equal probabilities!\e"
 	"\0\s[0]This is the fifth dialogue from the pool!\w8\w8 Pools can be placed anywhere,\w4 not just RandomTalk!\e"
+}
+
+Pool_ImBadAtMath : array {
+	"\0So how's the math going? Get any supers yet?"
+	"\0So, you have me open, but you're doing math instead of learning languages..."
+	"\0I guess if you have that open, you can't be doing any kind of coding..."
+	"\0So are you actually using that thing, or did you get distracted?\w4 ...What time is it...? Are you studying languages instead?"
+	"\0Wow... I can't believe you're actually doing math. This is like, amazing. What are you going to use this for even?\w6\1mrrp\w6\0\n\n[half]Hm... Baking, maybe. You should make some cookies for me sometime. That'd be fun."
+	"\0Do you have that minimized? Are you ignoring it? I can't tell right now. Maybe you should figure out how that works..."
+	"\0So... what else do you plan on having me look at?"
+	"\0Are ya winning, son?"
+	"\0How's that math going?"
+	"\0If I gave Buterbrod 8347 sandwiches and then Buterbrod ate 2598 of them, how many sandwhiches would be left over?\w6\n\n...Ah, nevermind. You're probably busy, anyways. Sorry."
+	"\0You having fun with that over there?"
 }
 
 //-----------Chains-----------
@@ -100,6 +115,9 @@ OnMinuteChange
 	{
 		AutoUpdates[1] = 1
 		"\![updatebymyself,checkonly]"
+	}
+	if Flag("winfoinfo") == 1 {
+		OnWinfo
 	}
 	
 }
