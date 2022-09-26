@@ -1,12 +1,31 @@
 ghostver {"1.1.0"}
 
+OnNotifySelfInfo {
+	//get the absolute path to the shell
+	_abshell = reference4
+	//get her absolute path - erase /shell/master/ (14 characters)
+	tab_path = ERASE(reference4,-14,14)
+}
 
 OnTestVar
 {
-	"Testing!\x"
+	"Testing! \![raise,OnNotifySelfInfo]\x"
 	--
 	LOGGING("This is a debug function! This text will show up in Tama, or in the SHIORI log! You can also output variables and such with this function. This is super handy for debugging without having to output data to your ghost's balloon! Especially for things like loops, where you need to see certain variables at every step of the loop. Make good use of it!")
-	"\![raise,OnWinfo]"
+	//"\![raise,OnWinfo]"
+	/*file writing install.txt
+	_file = 'supplemental/install.txt'
+	FWRITE(_file,'charset,UTF-8')
+	FWRITE(_file,'name,'%(_coursename)')
+	FWRITE(_file,'type,supplement')
+	FWRITE(_file,'accept,Tadora i Buterbrod')
+	when done zipping, use
+	FDEL(_file)
+	to make sure the name can be changed each time.
+	course creators should probably know that revisions are 100% acceptable*/
+	/*for the zip:
+	"\![execute,compressarchive,'%(tab_path)/ghost/master/lessons/zip/%(_coursename).zip','%(tab_path)/ghost/master/lessons/zip/']Zip file generated! Click the balloon to open the folder it's in.\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/zip/]"
+	*/
 }
 
 OpenSakuraMenu
@@ -402,17 +421,21 @@ OnOpenLessonEdit {
 	--; OnOpenLesson
 }
 OnLessonCreateName {
-	"\0\b[2]\_qPlease enter the name of your lesson:\![open,inputbox,OnLessonCreate,0]\*"
+	"\0\b[2]\_qPlease enter the language pair, course title, number, and name of your lesson, in that order and seperated by a forward slash:\![open,inputbox,OnLessonCreate,0]\*"
 }
 OnLessonCreate{
-	_name = reference0
-	_file = "/lessons/%(reference0).txt"
-	if ASEARCH(_name,lessonname) == -1 {lessonname ,= _name}
+	_linfo = SPLIT(reference0,'/')
+	_file = "/lessons/%(_linfo[0])/%(_linfo[2]).txt"
+	if FENUM("lessons\%(_linfo[0])") == ''; MKDIR("lessons/%(_linfo[0])")
+	if FENUM("lessons\%(_linfo[0])\%(_linfo[1])") == ''; MKDIR("lessons/%(_linfo[0])/%(_linfo[1])")
+	//if ASEARCH(_name,lessonname) == -1 {lessonname ,= _name}
 	--
 	FCHARSET(1) //characterset??
 	FOPEN(_file,'w'); _buff = "" //opening the file?? I think??
 	LOGGING("File opened: %(_f) reference: %(reference0) file: %(_file)")
-	FWRITE(_file,"tree_lang[@]")
+	FWRITE(_file,"tree_lang[%(_linfo[1])]")
+	FWRITE(_file,"course_name[%(_linfo[0])]")
+	FWRITE(_file,"lesson_name[%(_linfo[3])]")
 	FWRITE(_file,"skill_number[0]")
 	FWRITE(_file,"lesson_notes[]")
 	FWRITE(_file,"sentence_translation[]")
@@ -427,7 +450,7 @@ OnLessonCreate{
 			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
 			TOINT(RE_GETSTR[1]); skillnum ,= RE_GETSTR[1]; numprog ,= 0}}
 	--; FCLOSE(_file)
-	--; "\![raise,OnLessonCreated,%(_name)]"
+	--; "\![raise,OnLessonCreated,%(_linfo[0])/%(_linfo[1])/%(_linfo[2])]"
 }
 OnLessonCreated {
 	_file = "lessons\%(reference0).txt"

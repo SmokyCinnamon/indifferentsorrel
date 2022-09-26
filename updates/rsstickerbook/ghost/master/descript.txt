@@ -1,0 +1,18 @@
+charset,UTF-8
+
+name,Stickerbook
+type,ghost
+
+shiori,yaya.dll
+
+craftman,Smoky
+craftmanw,
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+sakura.name,Stickerbook
+//kero.name,what
+
+balloon,Stickerbook Balloon
+reccomended.balloon,Stickerbook Balloon
+
+sstp.allowunspecifiedsend,0

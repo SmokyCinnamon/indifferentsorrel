@@ -8,6 +8,7 @@ let links = [
 		{ title: 'Ghosty ghosts' },
 		{ path: 'kiselew', title: 'Киселев Микола' },
 		{ path: 'tadora', title: 'Tadora i Buterbrod' },
+		{ path: 'stickerbook', title: 'Stickerbook' },
 		{ path: 'templates', title: 'Образы' },
 		{ title: 'Ghost Jam' },
 		{ path: 'anemone', title: 'Анемони' },

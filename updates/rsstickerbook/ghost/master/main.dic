@@ -1,0 +1,176 @@
+OnMouseDoubleClick {OpenSakuraMenu}
+
+OpenSakuraMenu {
+	OnMenuRun
+}
+
+OnMenuRun : all {
+	"\0\s[1]\b[6]\_q\![set,autoscroll,disable]\![lock,balloonmove]"
+	"%*\__q[OnConfig]Options\__q\n\n[half]"
+	"%*\__q[OnSongEnter]Add song\__q\n%*\__q[OnSongFinish]Finish song\__q\n"
+	//"%*\__q[OnSongDel]Delete song\__q\n"
+	"\_q"
+	"\1\s[-1]\_q%*\__q[OnBookOpen,frommenu]Look at collections\__q\n"
+	"%*\__q[OnCancel]Close menu\__q\_q"
+}
+
+OnConfig : all {
+	"\0\s[0]\b[2]\![unlock,balloonmove]\_q"
+	"%*\__q[OnChangeName]Change your name: %(username)\__q\n"
+	"%*\__q[OnToggle,monthday]date format: %(dformat)\__q\n"
+	"%*\__q[OnConfirm,reset,reset your entire song list, This can't be undone.]Reset Song List\__q\n"
+	"\n%*\__q[OnMenuRun]Back\__q %*\__q[OnCancel]That's all for now\__q\_q"
+}
+
+OnChangeName {
+	"\0\s[0]* (Please enter your name:)\![open,inputbox,OnNameTeach]"
+}
+
+OnToggle {
+	case reference0 {
+		when "monthday" {
+			if dformat == "ddmm"; dformat = "mmdd"
+			else; dformat = "ddmm"
+		}
+		when "reset" {
+			stickerray = IARRAY
+			--
+			stickerray = ''
+		}
+		others {}
+	}
+	--
+	OnConfig
+}
+
+OnConfirm : all {
+	"\0\s[0]\_q* (Are you sure you want to %(reference1)?%(reference2))\n\n%*\__q"
+	case reference0 {
+		when "reset" {
+			"[OnToggle,reset]"
+		}
+		when "songfinish" {
+			"[OnSongFinish,confirmation,%(reference3),%(reference4)]"
+		}
+		others {}
+	}
+	"Yes\__q %*\__q[OnMenuRun]No\__q\_q"
+}
+
+OnSongEnter {
+	if reference0 == '' {
+		"\0\s[0]\_q* (Please enter the title of the song you're learning:)\![open,inputbox,OnSongEnter]\n%*\__q[OnMenuRun]Back\__q %*\__q[OnCancel]That's all for now\__q\_q\_q"
+	}
+	else {
+		LOGGING("adding things!")
+		_a = ARRAYSIZE(num)
+		_num = ARRAYSIZE(stickerray); _in = RAND(_a)
+		//if _in == 1; _in = 61
+		//if _in == 2; _in = 62
+		if _num == 0 {
+			_in = 0
+		}
+		elseif _num == 2 {
+			_in = 11
+		}
+		elseif _num % 2 == 0 {
+			if _in % 2 == 0; _in ++
+		}
+		else {
+			if _in % 2 != 0; _in -= 1
+		}
+		if dformat = "mmdd" {
+			LOGGING("dayear!")
+			stickerray ,= "%month/%day/%year|%(num[_in])|%(reference0)"
+		}
+		else {
+			LOGGING("monthyear!")
+			stickerray ,= "%day/%month/%year|%(num[_in])|%(reference0)"
+		}
+		LOGGING("%(_a) in %(_in) and %(num[_in])")
+	}
+	if reference0 != ''; OnMenuRun
+}
+
+OnSongFinish {
+	_display = ''
+	if reference0 == '' {
+		foreach stickerray; _i {
+			if _i == ''; continue
+			_j = SPLIT(_i,'|')
+			if _j[3] != ''; continue
+			_display += "%*\__q[OnConfirm,songfinish,complete %(_j[2]),,%(_i)]%(_j[2])\__q\n"
+		}
+		"\1\s[-1]\b[2]\_q\![set,autoscroll,disable]%(_display)\n\n%*\__q[OnMenuRun]Back\__q %*\__q[OnCancel]That's all for now\__q\_q"
+	}
+	elseif reference0 == "confirmation" {
+		//"\0\s[0]\_q* (Are you sure you want to complete %(reference2)?)\n\n%*\__q[OnSongFinishFinal,%(reference1)]Yes\__q %*\__q[OnSongFinish]No\__q\_q"
+		_num = ASEARCH(reference1,stickerray)
+		LOGGING("%(reference1)")
+		LOGGING("%(_num)")
+		LOGGING("%(stickerray)")
+		LOGGING("%(stickerray[_num])")
+		if dformat == "mmdd" {
+			LOGGING("dayear!")
+			stickerray[_num] += "|%month/%day/%year"
+		}
+		else {
+			LOGGING("monthyear!")
+			stickerray[_num] += "|%day/%month/%year"
+		}
+		--
+		OnMenuRun
+	}
+
+}
+
+OnCancel {"\0\s[0]\![unlock,balloonmove]"}
+OnSurfaceRestore {"\0\s[0]\1\s[-1]"}
+
+OnBookOpen : all {
+		_display = ''
+	for _i = 0, _j = 1; _i < ARRAYSIZE(stickerray); _i++, _j++ {
+		if _i == 0 {continue}
+		if _i % 2 == 0 {continue}
+		_j = 0
+		_j = _i + 1
+		_send = stickerray[_i]; _sendt = stickerray[_j]
+		_send = SPLIT(_send,"|")
+		_sendt = SPLIT(_sendt,"|")
+		LOGGING("%(_send) and %(_sendt)")
+		_display += "%*\__q[OnShowPage,%(_send[0]),%(_send[1]),%(_send[2]),%(_send[3]),%(_sendt[0]),%(_sendt[1]),%(_sendt[2]),%(_sendt[3])]pages %(_i)-%(_j)\__q "
+	}
+		"\1\s[-1]\b[2]\_q\![set,autoscroll,disable]%(_display)\n%*\__q[OnMenuRun]Back\__q %*\__q[OnCancel]That's all for now\__q\_q"
+	if reference0 == "frommenu" {
+		//_temp = SPLIT(stickerray[1],"|")
+		//_tempt = SPLIT(stickerray[2],"|")
+		"\0\s[0]"
+		//if _temp[3] != ''; "\0\i[%(_temp[1])]"
+		//if _tempt[3] != ''; "\0\i[%(_tempt[1])]"
+	}
+}
+
+OnShowPage : all {
+	LOGGING("zero %(reference0) one %(reference1) two %(reference2) three %(reference3)")
+	LOGGING("four %(reference4) five %(reference5) six %(reference6) seven %(reference7)")
+	if STRLEN(reference2) > 13 {
+		for _i = 0; _i * 12 < STRLEN(reference2); _i++ {
+			if _i == 0; continue
+			_pos = _i * 12
+			reference2 = INSERT(reference2,_pos,'-\n')
+		}
+	}; --
+	if STRLEN(reference6) > 13 {
+			reference6 = INSERT(reference6,0,"\f[size,-10]")
+			reference6 += "\f[size,+10]"
+	}; --
+	"\0\s[2]\b[4]\![set,autoscroll,disable]\i[84]\_q"
+	"%(reference0) \_l[78,5]%(reference4)\n\n\n[half]"
+	"\f[size,-1]\f[align,left]%(reference2)\_l[81,45]%(reference6)\f[size,+1]\n\n"
+	"\_l[0,76]%(reference3)\_l[81,80]%(reference7)"
+	if reference3 != ''; "\0\i[%(reference1)]"
+	if reference7 != ''; "\0\i[%(reference5)]"
+	"\_q"
+	--
+	OnBookOpen
+}

@@ -1,0 +1,4 @@
+charset,UTF-8
+name,
+type,supplement
+accept,Tadora i Buterbrod

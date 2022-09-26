@@ -1,0 +1,210 @@
+version,1
+surface0
+{
+	element0,overlay,surface0.png,0,0
+	element1,overlay,closedpages.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,63,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,66,0,0,0
+	//colors
+	animation68.interval,bind
+	animation68.pattern0,overlay,74,0,0,0
+	animation69.interval,bind
+	animation69.pattern0,overlay,75,0,0,0
+	animation70.interval,bind
+	animation70.pattern0,overlay,76,0,0,0
+	animation71.interval,bind
+	animation71.pattern0,overlay,77,0,0,0
+	animation72.interval,bind
+	animation72.pattern0,overlay,78,0,0,0
+	animation73.interval,bind
+	animation73.pattern0,overlay,79,0,0,0
+}
+
+surface1
+{
+	element0,overlay,openbook.png,0,0
+	element1,overlay,frontpage.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+	//colors
+	animation68.interval,bind
+	animation68.pattern0,replace,68,0,0,0
+	animation68.pattern1,overlay,82,0,0,0
+	animation69.interval,bind
+	animation69.pattern0,replace,69,0,0,0
+	animation69.pattern1,overlay,82,0,0,0
+	animation70.interval,bind
+	animation70.pattern0,replace,70,0,0,0
+	animation70.pattern1,overlay,82,0,0,0
+	animation71.interval,bind
+	animation71.pattern0,replace,71,0,0,0
+	animation71.pattern1,overlay,82,0,0,0
+	animation72.interval,bind
+	animation72.pattern0,replace,72,0,0,0
+	animation72.pattern1,overlay,82,0,0,0
+	animation73.interval,bind
+	animation73.pattern0,replace,73,0,0,0
+	animation73.pattern1,overlay,82,0,0,0
+}
+
+
+surface66
+{
+	//text bg closed
+	element0,overlay,customizations/closed_text_background.png,0,0
+	element1,overlay,customizations/closed_text_foreground.png,0,0
+
+}
+surface67
+{
+	element0,overlay,customizations/open_text_background.png,0,0
+	element1,overlay,customizations/open_text_foreground.png,0,0
+	//text bg open
+}
+
+//closed book colors
+surface74
+{
+	element0,overlay,customizations/teal_closed.png,0,0
+	element1,overlay,closedpages.png,0,0
+	element2,overlay,customizations/closed_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,63,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,66,0,0,0
+}
+surface75
+{
+	element0,overlay,customizations/lilac_closed.png,0,0
+	element1,overlay,closedpages.png,0,0
+	element2,overlay,customizations/closed_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,63,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,66,0,0,0
+}
+surface76
+{
+	element0,overlay,customizations/dpurp_closed.png,0,0
+	element1,overlay,closedpages.png,0,0
+	element2,overlay,customizations/closed_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,63,0,0,0
+}
+surface77
+{
+	element0,overlay,customizations/purple_closed.png,0,0
+	element1,overlay,closedpages.png,0,0
+	element2,overlay,customizations/closed_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,63,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,66,0,0,0
+}
+surface78
+{
+	element0,overlay,customizations/sienna_closed.png,0,0
+	element1,overlay,closedpages.png,0,0
+	element2,overlay,customizations/closed_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,63,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,66,0,0,0
+}
+surface79
+{
+	element0,overlay,customizations/dgreen_closed.png,0,0
+	element1,overlay,closedpages.png,0,0
+	element2,overlay,customizations/closed_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,63,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,66,0,0,0
+}
+//open colors
+surface68
+{
+	element0,overlay,customizations/teal_open.png,0,0
+	element1,overlay,customizations/open_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+}
+surface69
+{
+	element0,overlay,customizations/lilac_open.png,0,0
+	element1,overlay,customizations/open_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+}
+surface70
+{
+
+	element0,overlay,customizations/dpurp_open.png,0,0
+	element1,overlay,customizations/open_text_background.png,0,0
+	element2,overlay,customizations/open_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+}
+surface71
+{
+	element0,overlay,customizations/purple_open.png,0,0
+	element1,overlay,customizations/open_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+}
+surface72
+{
+	element0,overlay,customizations/sienna_open.png,0,0
+	element1,overlay,customizations/open_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+}
+surface73
+{
+	element0,overlay,customizations/dgreen_open.png,0,0
+	element1,overlay,customizations/open_text_foreground.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+}
+
+surface80
+{
+	element0,overlay,customizations/closed_text_foreground.png,0,0
+}
+
+surface81
+{
+	element0,overlay,customizations/open_text_foreground.png,0,0
+}
+surface82
+{
+	element0,overlay,frontpage.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,64,0,0,0
+	animation1.interval,bind
+	animation1.pattern0,overlay,67,0,0,0
+}
+surface83
+{
+	element0,overlay,fullpage.png,0,0
+	animation0.interval,bind
+	animation0.pattern0,overlay,65,0,0,0
+}
+
+animation-sort,ascend

@@ -1,0 +1,47 @@
+=========================================================
+2022/09/22 21:00:31.799
+
+-----send------------------------
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SenderType: internal
+SecurityLevel: local
+Status: choosing,balloon(0=6/1=0)
+ID: OnSecondChange
+Reference0: 75
+Reference1: 0
+Reference2: 0
+Reference3: 0
+Reference4: 0
+
+
+-----response--------------------
+***CallTime:15msec.
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+=========================================================
+2022/09/22 21:00:32.785
+
+-----send------------------------
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SenderType: internal
+SecurityLevel: local
+Status: choosing,balloon(0=6/1=0)
+ID: OnSecondChange
+Reference0: 75
+Reference1: 0
+Reference2: 0
+Reference3: 0
+Reference4: 0
+
+
+-----response--------------------
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+

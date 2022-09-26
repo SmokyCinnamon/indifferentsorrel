@@ -1,0 +1,47 @@
+charset,UTF-8
+type,shell
+
+name,Default
+craftman,Smoky
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+seriko.alignmenttodesktop,free
+seriko.use_self_alpha,1
+
+menu.sidebar.bitmap.filename,sidebar.png
+
+menu.background.alignment,bottom+repeat-x+repeat-y
+menu.foreground.alignment,bottom+repeat-x+repeat-y
+menu.sidebar.alignment,bottom+repeat-y
+
+menu.font.name,Helvetica
+
+menu.background.font.color.r,255
+menu.background.font.color.g,255
+menu.background.font.color.b,255
+
+menu.disable.font.color.r,212
+menu.disable.font.color.g,212
+menu.disable.font.color.b,212
+
+menu.frame.color.r,155
+menu.frame.color.g,155
+menu.frame.color.b,155
+
+sakura.bindgroup0.name,Pages,Light Mode
+sakura.bindgroup1.name,Pages,Text Background
+
+sakura.bindgroup68.name,Colors,Teal
+sakura.bindgroup69.name,Colors,Lilac
+sakura.bindgroup70.name,Colors,Dark Purple (Text Background)
+sakura.bindgroup71.name,Colors,Purple
+sakura.bindgroup72.name,Colors,Sienna
+sakura.bindgroup73.name,Colors,Dark Green
+
+//sakura.menuitem0,0
+//sakura.menuitem1,1
+
+//sakura.bindgroup0.default,0
+//sakura.bindgroup1.default,0
+
+sakura.bindoption0.group,Pages,multiple

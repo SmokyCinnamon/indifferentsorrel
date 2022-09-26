@@ -190,3 +190,12 @@ a
 	font-size: 12px;
 	height: 12px;
 }
+
+ul {
+	white-space: nowrap;
+}
+
+ul, li {
+	list-style ; none;
+	display: inline;
+}

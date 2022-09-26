@@ -20,7 +20,7 @@ OnLessonCheck {
 OnLangSelect {
 	_display = ''
 	treelang = ASORT(string,treelang)
-	"\0\s[0]\b[2]\_qChoose which course you'd like to see:\n(Currently: %(displang))\n\n[half]"; --
+	"\0\s[0]\b[2]\_qChoose which language you'd like to study:\n(Currently: %(displang))\n\n[half]"; --
 	foreach treelang; _lang {
 		_disarray = SPLIT(_lang,'@')
 		_displaylang = "%(_disarray[1]) from %(_disarray[0])"
@@ -69,8 +69,9 @@ TreeCheck {
 OnLessonPick {
 	//if currentlang == "English@Belarusian"
 	//currentlang = "English@Belarusian"
+	"\0\s[0]\b[2]\![set,autoscroll,disable]\_q"; --
 	if currentlang == "English@Belarusian" {
-	"\0\s[0]\b[2]\![set,autoscroll,disable]\_qHello, which lesson would you like to see?\n\n"
+	"Hello, which lesson would you like to see?\n\n"
 	--
 	"\__q[OnAlphabet,partone]Alphabet: Notes 1\__q | \__q[OnAlphabet,parttwo]Alphabet: Notes 2\__q\n/
 	\__q[OnLessonStart,alphabet]Alphabet: skill\__q\n\n[half]"
@@ -81,44 +82,27 @@ OnLessonPick {
 			  _output += "\__q[OnLessonRead,%(inbuiltlessonname[_i]),inbuilt]%(inbuiltlessonname[_i]) (%(inbuiltnumprog[_i])/%(inbuiltskillnum[_i]))\__q "
 			}
 		if _output == ''; {"\c\![raise,OnLessonPick]"; LOGGING("MENU RESTART")} else {_output}
-	}
+	}}
 	--;
-	"\n\nCUSTOM LESSONS\n\n[half]"; --
-	if ARRAYSIZE(lessonname) != 0 {
+	"\n\nUSER COURSES\n\n[half]"; --
+	if FENUM("lessons/%(currentlang)/") != '' {
 		_output = ''
-		for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
-			//TreeCheck(lessonname[_i])
-			LOGGING("lessonname: %(lessonname[_i]) sort: %(currentsort)")
-			--; if ASEARCH(lessonname[_i],currentsort) != -1 {
+		_courses = FENUM("lessons/english@belarusian/")
+		for _i = 0; _i < ARRAYSIZE(_courses); _i++ {
+			LOGGING("courses: %(_courses[_i]) sort: %(currentsort)")
+			--; if _courses[_i] != '' {
 					LOGGING("hihihihi %(currentsort)")
-		  			_output += "\__q[OnLessonRead,%(lessonname[_i])]%(lessonname[_i]) (%(numprog[_i])/%(skillnum[_i]))\__q "
+		  			_output += "\__q[OnOpenCourse,%(_courses[_i])]%(_courses[_i])\__q "
 			}
 			else {_output += ""}
-			--; if _output == "" {"\c\![raise,OnLessonPick]"; LOGGING("restarting menu")} else {
+			--; if _courses != '' && _output == "" {"\c\![raise,OnLessonPick]"; LOGGING("restarting menu")} else {
 			"%(_output)"
 	}}}
-	--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnLangSelect]Change Course\__q %*\__q[OnMenuRun]Main Menu\__q\n\_q\x\e"
-	}
-	else {
-		"\0\s[0]\b[2]\![set,autoscroll,disable]\_qHello, which lesson would you like to see?\n\n"
-		--
-		if ARRAYSIZE(lessonname) != 0 {
-			_output = ''
-			for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
-					//TreeCheck(lessonname[_i])
-					LOGGING("lessonname: %(lessonname[_i]) sort: %(currentsort)")
-					--; if ASEARCH(lessonname[_i],currentsort) != -1 {
-						LOGGING("hihihihi %(currentsort)")
-			  			_output += "\__q[OnLessonRead,%(lessonname[_i])]%(lessonname[_i]) (%(numprog[_i])/%(skillnum[_i]))\__q "
-					}
-					else {_output += ""}
-				--; if _output == "" {"\c\![raise,OnLessonPick]"; LOGGING("restarting menu")} else {
-					"%(displang):\n\n[half]%(_output)"; LOGGING("please you shouldnt be emoty")
-			}}
-			--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnLangSelect]Change Course\__q %*\__q[OnMenuRun]Main Menu\__q\n\_q\x\e"
-	}}
+	--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnLangSelect]Change Language\__q %*\__q[OnMenuRun]Main Menu\__q\n\_q\x\e"
 }
 
+
+//belarusian bits
 OnAlphabet {
 	if reference0 == "partone" {
 		"\b[2]\_qFrom AlikLagodny on Duolingo:\n"

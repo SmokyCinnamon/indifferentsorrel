@@ -1,0 +1,35 @@
+On_homeurl {
+	"https://smokycinnamon.github.io/indifferentsorrel/updates/rsstickerbook" //pages site
+}
+
+On_sakura.recommendsites {
+	FormatLinks(recomendlinks)
+}
+
+On_sakura.portalsites {
+	FormatLinks(portallinks)
+
+}
+recomendlinks : array {
+	"Smoky's site"; "https://smokycinnamon.github.io/indifferentsorrel/index.html"
+	"Candytuft Affection"; "https://candytuftaffection.bandcamp.com/"
+}
+portallinks : array {
+	"Ukagaka Dream Team Discord"; "https://ukagakadreamteam.tumblr.com/discord"
+	//"Ukagaka Dream Team Wiki"; "https://ukagakadreamteam.com/"
+}
+
+//Written by Zichqec https://zichqec.github.io/s-the-skeleton/
+//Takes an array of alternating names and urls, and formats them for use with the right click menu
+FormatLinks
+{
+  _display = ""
+  for _i = 0; _i < ARRAYSIZE(_argv); _i++
+  {
+     _display += _argv[_i] //Add the link/title
+    //Alternate between adding %ASC(1) or %ASC(2)
+    if _i % 2 == 1; _display += "%ASC(2)"
+    else; _display += "%ASC(1)"
+  }
+  _display
+}

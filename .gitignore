@@ -12,6 +12,8 @@ updates/*
 updates/badtemplaterus/ghost/master/original
 updates/tadoraibuterbrod/ghost/master/lessons/
 !updates/tadoraibuterbrod/ghost/master/lessons/default/
+!updates/rsstickerbook
+updates/rsstickerbook/forrstickers
 /nar
 nar/*
 

@@ -1,3 +1,28 @@
+OnOpenCourse {
+	_lesnum = FENUM("lessons/%(currentlang)/%(reference0)/")
+	_display = ''
+	_lesname = ''
+	foreach _lesnum; _curles {
+		_file = "lessons/%(currentlang)/%(reference0)/%(_lesnum[_curles])"
+		--
+		FCHARSET(1)
+		_f = FOPEN(_file,'r')
+		LOGGING("*hacker voice* im in")
+		LOGGING("%(_f) and %(_file)")
+		for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+			LOGGING("*hacker voice* didnt we just do this")
+			if RE_SEARCH(_buff,'lesson_name\[([^\n]+)\]') {
+				LOGGING("*hacker voice* the codes... theyre here. %(RE_GETSTR)")
+				_lesname = RE_GETSTR[1]
+				break
+			}
+		}
+		_display += "%*\__q[OnLessonRead,_file]%(_lesname)\__q "
+	}
+	--
+	"\_qSelect a lesson to start:\n\n%(_display)\n\n%*\q[Back,OnLessonPick] %*\q[Main menu,OnMenuRun] %*\q[Close menu,byelol]\_q\x"
+}
+
 OnLessonRead {
 	_file = ""
 	if reference1 != "inbuilt" {_file = "lessons\%(reference0).txt"}
