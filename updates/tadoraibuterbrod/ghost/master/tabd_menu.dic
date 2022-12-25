@@ -1,31 +1,20 @@
-ghostver {"1.1.0"}
+ghostver {"1.1.1"}
 
 OnNotifySelfInfo {
 	//get the absolute path to the shell
 	_abshell = reference4
 	//get her absolute path - erase /shell/master/ (14 characters)
-	tab_path = ERASE(reference4,-14,14)
+	if reference4 != ''; tab_path = ERASE(reference4,-14,14)
+	LOGGING("notify self info")
+	LOGGING("%(tab_path)")
 }
 
 OnTestVar
 {
-	"Testing! \![raise,OnNotifySelfInfo]\x"
+	"Testing!\x"
 	--
 	LOGGING("This is a debug function! This text will show up in Tama, or in the SHIORI log! You can also output variables and such with this function. This is super handy for debugging without having to output data to your ghost's balloon! Especially for things like loops, where you need to see certain variables at every step of the loop. Make good use of it!")
 	//"\![raise,OnWinfo]"
-	/*file writing install.txt
-	_file = 'supplemental/install.txt'
-	FWRITE(_file,'charset,UTF-8')
-	FWRITE(_file,'name,'%(_coursename)')
-	FWRITE(_file,'type,supplement')
-	FWRITE(_file,'accept,Tadora i Buterbrod')
-	when done zipping, use
-	FDEL(_file)
-	to make sure the name can be changed each time.
-	course creators should probably know that revisions are 100% acceptable*/
-	/*for the zip:
-	"\![execute,compressarchive,'%(tab_path)/ghost/master/lessons/zip/%(_coursename).zip','%(tab_path)/ghost/master/lessons/zip/']Zip file generated! Click the balloon to open the folder it's in.\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/zip/]"
-	*/
 }
 
 OpenSakuraMenu
@@ -69,22 +58,21 @@ OnMenuRun : all //Main menu
 	--
 	if lastTalk != ""
 	{
-		"\![*]\q[Repeat last dialogue,OnLastTalk]"
+		"\![*]\q[Repeat last dialogue,OnLastTalk]\n"
 	}
 	--
-	"\n/
-	//\![*]\q[Say something,OnAiTalk]\n/
-	\![*]\q[Talk to another ghost,OnStartTalking]\n\n"
+	//\![*]\q[Say something,OnAiTalk]\n
+	"\![*]\q[Talk to another ghost,OnStartTalking]\n\n"
 	"\![*]\q[Lesson,OnLessonPick] %*\q[Dictionary,OnDictionary]\n"
 	"%*\__q[OnGameMenu]Games\__q\n"
 	--; "%*\__q[CustomExplain]Custom lessons?\__q\n"
+	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q %*\__q[OnOpenDocs]Documentation\__q\n%*\__q[OnCourseExport]Export Course\__q\n\n[half]"}
 	--
 	if debug == 1 //%(debug = 1) in script input to show the debug options
 	{
 		"\n[half]\![*]\q[Test Variable,OnTestVar] %*\__q[OnEditInbuilt]Inbuilt Lessons\__q\n%*\__q[OnLessonCheck]Re-check default folder\__q\n\n[half]"
 		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
 	}
-	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q %*\__q[OnOpenDocs]Documentation\__q\n\n[half]"}
 	"%*\__q[OnConfigMenu]User Config\__q \![*]\q[Functions,OnFunctionMenu]\n"
 	"%*\__q[OnChangeLog]Open Changelog\__q\n"
 	"\![*]\q[Nevermind,Cancel]\n\n"
@@ -100,7 +88,7 @@ OnLastTalk //Repeats the last thing the ghost said
 }
 
 Select.CustomExplain {
-	"\0\s[0]\b[2]\![set,autoscroll,disable]\_qBasically if you drag and drop a .txt file on me, I'll set it up as a lesson for you!\nIf you'd like to make one yourself, you can head over to the %*\__q[OnConfigMenu]User Config menu\__q and click on the lesson creator option to turn it on. Then, once you head back to the main menu, you should have an option labeled 'Lesson Configuration'! Once you're in there, the menu's pretty straightforwards. Remember that you have to click on the buttons below the lesson list to use them!\n\n[half]Anyways, if you're looking for documentation for how the lessons work, you can find it \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]here\_a, under the documentation tab. Hopefully that's all you need!\n\n%*\__q[OnMenuRun]Back to menu\__q %*\__q[cancelnodialogue]Ok bye\__q\_q"
+	"\0\s[0]\b[2]\![set,autoscroll,disable]\_qBasically if you drag and drop a proper .zip or .nar file on me, I'll set up a new course for you!\nIf you'd like to make one yourself, you can head over to the %*\__q[OnConfigMenu]User Config menu\__q and click on the lesson creator option to turn it on. Then, once you head back to the main menu, you should have an option labeled 'Lesson Configuration'! Once you're in there, the menu's pretty straightforwards.\n\n[half]Anyways, if you're looking for documentation for how the lessons and stuff work, you can find it \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]here\_a, under the documentation tab. Hopefully that's all you need!\n\n%*\__q[OnMenuRun]Back to menu\__q %*\__q[cancelnodialogue]Ok bye\__q\_q"
 }
 OnOpenDocs {
 	"Documentation can be found under the aptly labeled documentation tab, \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]right here\_a\n\n%*\__q[OnMenuRun]Back to menu\__q %*\__q[cancelnodialogue]Ok bye\__q"
@@ -112,54 +100,10 @@ OnFunctionMenu
 	"\0\_q\b2\s[0]Sure, what do you want me to do?"
 	--
 	"\n\n/
-	\![*]\q[Open Calendar,OpenCalendar]\n/
-	\![*]\q[Check Email,CheckEmail]\n/
-	\![*]\q[Open SSP Preferences,SSPPrefs]\n/
-	\![*]\q[Empty Recycle Bin,RecycleBin]\n/
 	\![*]\q[Show System Information,SystemInfo]\n/
 	\![*]\q[Report a bug,BugReport]\n/
 	\![*]\q[Check for updates,UpdateCheck]\n\n/
 	\![*]\q[Back to main menu,OnMenuRun]\e"
-}
-
-Select.OpenCalendar
-{
-	"\0\s[0]Sure,\w4 here's the calendar!"
-	--
-	"\![open,calendar]\e"
-}
-
-Select.CheckEmail //The dialogue about checking emails will happen in the biff function, no need to add dialogue here
-{
-	"\![biff]\e"
-}
-
-Select.SSPPrefs
-{
-	"\0\s[0]Sure,\w4 here it is!"
-	--
-	"\![open,configurationdialog]\e"
-}
-
-Select.RecycleBin
-{
-	_gomicheck = FUNCTIONEX("gomi.dll", "-n") //Gets the number of items in the recycle bin
-	
-	"Ok,\w4 I'll go empty the recycle bin!\w8\w8\s[-1]\w8\w8\w8\w8\n\n"
-	--
-	if _gomicheck > 0 //If there was something to empty
-	{
-		_gomi = FUNCTIONEX("gomi.dll", "-f") //Calling the Saori to empty the recycle bin
-		_s = ""; if _gomicheck != 1; _s = "s" //Plural check
-		
-		"\s[0]Done!\w8\w8 %(_gomicheck) item%(_s) cleared."
-	}
-	else //If it's empty
-	{
-		"\s[0]It was empty."
-	}
-	--
-	"\n\n\![*]\q[Back to functions menu,OnFunctionMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
 }
 
 Select.SystemInfo //Partially copied from the GT template, but I tweaked a few things
@@ -202,10 +146,8 @@ OnConfigMenu : all //I moved changing name/pronouns/birthday over to Nameteach, 
 	if they == ""; {they = "they"; them = "them"; their = "their"; theyre = "they're"}
 	if birthday[0] == ""; birthday[0] = "???"
 	if hemisphere == ""; hemisphere = "Northern"
-	if talkrate == ""; {talkrate = "every 5 minutes"; aitalkinterval = 300}
 	if deleteshitai == ""; deleteshitai = "Off"
 	if AutoUpdates[0] == ""; AutoUpdates[0] = "On"
-	if betaTester == ""; betaTester = "Off"
 	if lescreator == ""; lescreator = "Off"
 	--
 	//the \_l[97] is telling it to put the ---Config--- at x 97, the middle of the balloon I use. Adjust as needed for your balloon, or remove it if you want
@@ -219,11 +161,9 @@ OnConfigMenu : all //I moved changing name/pronouns/birthday over to Nameteach, 
 	"Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n"
 	"Your birthday: \q[%(birthday[0]),OnChangeBirthday]\n\n"
 	"Your hemisphere: \q[%(hemisphere),ToggleHemisphere]\n"
-	"Talk rate: \q[%(talkrate),ChangeTalk]\n"
 	"\__q[ToggleLescreate]Lesson Creator: %(lescreator)\__q\n"
 	"\__q[ToggleWinfo]Comment on apps: %Flag('winfoinfo')\__q\n"
 	"\![*]Enable Auto Update checks?\n(Currently: \q[%(AutoUpdates[0]),ToggleUpdate])\n"
-	//\![*]Opt in to beta updates? (Currently: \q[%(betaTester),ToggleBeta])\n\n"
 	"\![*]Enable Uninstall? (Currently: \q[%(deleteshitai),ToggleUninstall])\n\n"
 	"\![*]\q[Back to the menu,OnMenuRun]\e"
 }
@@ -251,58 +191,6 @@ Select.ToggleHemisphere
 	OnConfigMenu
 }
 
-Select.ChangeTalk
-{
-	"\0\s[0]How often should I talk?\w8 Right now it's %(talkrate)\n\n/
-	\![*]\q[Every 30 seconds,OnTalkRate,Thirty]\n/
-	\![*]\q[Every minute,OnTalkRate,Minute]\n/
-	\![*]\q[Every 3 minutes,OnTalkRate,ThreeMin]\n/
-	\![*]\q[Every 5 minutes,OnTalkRate,FiveMin]\n/
-	\![*]\q[Don't speak,OnTalkRate,None]\n\n/
-	\![*]\q[Nevermind,OnConfigMenu]\e"
-}
-
-OnTalkRate
-{
-	if reference0 == "Thirty"
-	{
-		talkrate = "every 30 seconds" //this displays the talk rate in the menu
-		aitalkinterval = 30 //this changes the talk rate, in seconds
-		
-		"\0\s[0]Ok,\w4 every 30 seconds it is!"
-	}
-	elseif reference0 == "Minute"
-	{
-		talkrate = "every minute"
-		aitalkinterval = 60
-		
-		"\0\s[0]Ok,\w4 every minute it is!"
-	}
-	elseif reference0 == "ThreeMin"
-	{
-		talkrate = "every 3 minutes"
-		aitalkinterval = 180
-		
-		"\0\s[0]Ok,\w4 every 3 minutes!"
-	}
-	elseif reference0 == "FiveMin"
-	{
-		talkrate = "every 5 minutes"
-		aitalkinterval = 300
-		
-		"\0\s[0]Ok,\w4 every 5 minutes!"
-	}
-	else
-	{
-		talkrate = "never"
-		aitalkinterval = 0
-		
-		"\0\s[0]Ok, I won't talk at all."
-	}
-	--
-	"\n\n\![*]\q[Back to config,OnConfigMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
-}
-
 Select.ToggleUpdate
 {
 	if AutoUpdates[0] != "On"
@@ -313,29 +201,6 @@ Select.ToggleUpdate
 	{
 		AutoUpdates[0] = "Off"
 	}
-	--
-	OnConfigMenu
-}
-
-Select.ToggleBeta
-{
-	if betaTester != "On" //If you don't want a message about opting into beta updates, replace this whole bit with betaTester = "On"
-	{
-		"\0\s[0]\b2If you want a message about risks of running beta versions,\w4 put it here!\w8\w8 Remember to back up your save files just in case!"
-		--
-		"\n\n\![*]\q[Accept the risk and opt in,OptInBeta]\n\![*]\q[No thanks,toconfig]\e"
-	}
-	else
-	{
-		betaTester = "Off"
-	}
-	--
-	OnConfigMenu
-}
-
-Select.OptInBeta
-{
-	betaTester = "On"
 	--
 	OnConfigMenu
 }
@@ -364,143 +229,6 @@ OnChoiceTimeout //Menu has timed out
 Select.Cancel //If the main menu has been cancelled
 {
 	//"\0\s[0]Ok,\w4 let me know if you need something!\e"
-}
-
-OnEditLesson {
-	"\0\b[2]\_q"; --
-	if ARRAYSIZE(lessonname) != 0 {
-		_output = ''
-		for _i = 0; _i < ARRAYSIZE(lessonname); _i++ {
-			  _output += "%*%(lessonname[_i]) "
-			}
-		"%(_output)"
-	}
-	--; "\n\n%*\__q[OnOpenLesson]Edit\__q %*\__q[OnLessonCreateName]Add Lesson\__q %*\__q[OnRenameStart]Rename\__q %*\__q[OnClearOne]Delete\__q\n/
-	%*\__q[OnSkillNumStart]Correct Lesson Data\__q"
-	--; "\n\n\n%*\__q[OnMenuRun]Main Menu\__q\_q\*\e"
-}
-OnSkillNumStart {
-	_display = ""
-	for _i = 0; _i < ARRAYSIZE(lessonname); _i++
-	{
-		_display += "%*\__q[OnSkillNum,%(lessonname[_i]),%(_i)]%(lessonname[_i])\__q "
-	}
-	"\0\s[0]\b[2]\_qSelect the lesson to correct:\n\n[half]%(_display)\n\n\n[half]/
-	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
-}
-OnSkillNum {
-	LOGGING("%(reference0)")
-	FCHARSET(1)
-	_file = "lessons\%(reference0).txt"; _buff = ""
-	FOPEN(_file,'r')
-	--; for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
-		LOGGING("AAAfileopenAAA")
-		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
-			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
-			TOINT(RE_GETSTR[1]); skillnum[reference1] = RE_GETSTR[1]}
-		if RE_SEARCH(_buff,'tree_lang\[([^\n]+@[^\n]+)\]') {if ASEARCH(RE_GETSTR[1],treelang) == -1; {treelang ,= RE_GETSTR[1]}}
-	}
-	--; FCLOSE(_file)
-	LOGGING("%(_file) %(skillnum[reference1]) %(reference1)")
-	--; OnSkillNumStart
-}
-OnOpenLesson {
-	_display = ""
-	for _i = 0; _i < ARRAYSIZE(lessonname); _i++
-	{
-		_display += "%*\__q[OnOpenLessonEdit,%(lessonname[_i]),%(_i)]%(lessonname[_i])\__q "
-	}
-	"\0\s[0]\b[2]\_qSelect the lesson to edit:\n\n[half]%(_display)\n\n\n[half]/
-	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
-}
-OnOpenLessonEdit {
-	LOGGING("%(reference0)")
-	FCHARSET(1)
-	_file = "lessons\%(reference0).txt"; _buff = ""
-	--; "\![open,file,%(_file)]"
-	--; OnOpenLesson
-}
-OnLessonCreateName {
-	"\0\b[2]\_qPlease enter the language pair, course title, number, and name of your lesson, in that order and seperated by a forward slash:\![open,inputbox,OnLessonCreate,0]\*"
-}
-OnLessonCreate{
-	_linfo = SPLIT(reference0,'/')
-	_file = "/lessons/%(_linfo[0])/%(_linfo[2]).txt"
-	if FENUM("lessons\%(_linfo[0])") == ''; MKDIR("lessons/%(_linfo[0])")
-	if FENUM("lessons\%(_linfo[0])\%(_linfo[1])") == ''; MKDIR("lessons/%(_linfo[0])/%(_linfo[1])")
-	//if ASEARCH(_name,lessonname) == -1 {lessonname ,= _name}
-	--
-	FCHARSET(1) //characterset??
-	FOPEN(_file,'w'); _buff = "" //opening the file?? I think??
-	LOGGING("File opened: %(_f) reference: %(reference0) file: %(_file)")
-	FWRITE(_file,"tree_lang[%(_linfo[1])]")
-	FWRITE(_file,"course_name[%(_linfo[0])]")
-	FWRITE(_file,"lesson_name[%(_linfo[3])]")
-	FWRITE(_file,"skill_number[0]")
-	FWRITE(_file,"lesson_notes[]")
-	FWRITE(_file,"sentence_translation[]")
-	FWRITE(_file,"alternate_translation[]")
-	FWRITE(_file,"word_searches[]")
-	FWRITE(_file,"word_matches[]")
-	FCLOSE(_file)
-	FOPEN(_file,'r')
-	--; for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
-		LOGGING("AAAfileopenAAA")
-		if RE_SEARCH(_buff,'skill_number\[(\d\d?)\]') {
-			LOGGING("%(RE_GETSTR)AAA%(_buff)AAA%(skillnum)AAA%(numprog)AAA")
-			TOINT(RE_GETSTR[1]); skillnum ,= RE_GETSTR[1]; numprog ,= 0}}
-	--; FCLOSE(_file)
-	--; "\![raise,OnLessonCreated,%(_linfo[0])/%(_linfo[1])/%(_linfo[2])]"
-}
-OnLessonCreated {
-	_file = "lessons\%(reference0).txt"
-	LOGGING("HI DO YOU WORK %(reference0)")
-	--; "\![open,file,%(_file)]"
-	--; OnEditLesson
-}
-OnRenameStart {
-	_display = ""
-	for _i = 0; _i < ARRAYSIZE(lessonname); _i++
-	{
-		_display += "%*\__q[OnRenameName,%(lessonname[_i]),%(_i)]%(lessonname[_i])\__q "
-	}
-	"\0\s[0]\b[2]\_qSelect the lesson to rename:\n\n[half]%(_display)\n\n\n[half]/
-	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
-}
-OnRenameName {
-	"\_qPlease enter the new name: \![open,inputbox,OnRename,0,--reference=%(reference0),--reference=%(reference1)]\_q\*\e"
-}
-OnRename {
-	_file = "lessons\%(reference2).txt"
-	_filer = "lessons\%(reference0).txt"
-	lessonname[reference3] = "%(reference0)"
-	--
-	LOGGING("%(reference0) %(reference1) %(reference2) %(lessonname[reference3])")
-	LOGGING("%(_file) %(_filer)")
-	FRENAME(_file,_filer)
-	--
-	OnRenameStart
-}
-OnClearOne {
-	_display = "" //Initialize a local variable to hold the display
-
-	for _i = 0; _i < ARRAYSIZE(lessonname); _i++ //Loop through every element of the array
-	{
-		_display += "%*\__q[OnClear,%(_i),%(lessonname[_i])]%(lessonname[_i])\__q " //Add the current element to a string, with a linebreak afterwards
-	}
-	"\0\s[0]\b[2]\_qSelect the lesson to delete (make sure you don't want to keep it -- you won't be able to get it back!):\n\n[half%(_display)\n\n\n[half]/
-	%*\__q[OnEditLesson]Back\__q \![*]\q[Main Menu,OnMenuRun]\_q\*\e"
-}
-
-OnClear {
-	lessonname[reference0] = IARRAY
-	numprog[reference0] = IARRAY
-	skillnum[reference0] = IARRAY
-	--
-	_file = "lessons\%(reference1).txt"
-	FDEL(_file)
-	--
-	OnClearOne
 }
 
 //============Kero Menu============

@@ -21,6 +21,7 @@ dic, lessons_enby.dic
 dic,tabd_lesson.dic
 dic, tabd_dictionary.dic
 dic, tabd_games.dic
+dic, tabd_lessontech.dic
 
 //log, ayame.log
 messagetxt,system/messagetxt/english.txt

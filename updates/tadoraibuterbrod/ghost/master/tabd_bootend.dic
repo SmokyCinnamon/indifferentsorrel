@@ -215,7 +215,8 @@ BootVars
 	booting = 0
 	waitingcommuS = IARRAY
 	waitingcommuM = IARRAY
-	OnTreeLoop
+	if currentlang == "english@belarusian"; OnTreeLoop
+	OnGetLangs
 	if stickybuter == 1; stickybuter = 0
 	
 }

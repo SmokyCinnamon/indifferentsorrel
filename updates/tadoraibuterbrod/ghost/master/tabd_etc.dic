@@ -18,6 +18,53 @@ OnWinfo : all {
 	else {RemoveFlag("CapJaxOpen"); "math man is no more. perhaps he never was"}
 	"\n\n\b4\![set,autoscroll,disable]%(_display)\_q"
 }}
+
+/* 
+|CopyCatKill| is a function to delete duplicates from an array
+
+ USAGE:
+    CopyCatKill(array)
+ 
+ Examples:
+    CopyCatKill(1,2,2,6,3,7,8,6) would return '1,2,6,3,7,8'
+    CopyCatKill("1,2,2,6,3,7,8,6") would return '1,2,6,3,7,8'
+    CopyCatKill("cat","dog","parrot","dog","moth") would return "cat,dog,parrot,moth"
+    CopyCatKill("cat,dog,parrot,dog,moth") would return "cat,dog,parrot,moth"
+
+    animals = "cat,dog,parrot,dog,moth"
+    CopyCatKill(animals) would return 'cat,dog,parrot,moth'
+
+ !! Function is case sensitive !!
+ To make the function case insensitive REPLACE:
+    if _argv[_i] == _argv[_j]; _argv[_j] = ""
+ WITH:
+    if TOLOWER(_argv[_i]) == TOLOWER(_argv[_j]); _argv[_j] = ""
+ */
+
+CopyCatKill
+{
+    _printArr = IARRAY //make an empty array
+    _arrSize = ARRAYSIZE(_argv) //get size
+    --
+    if _arrSize == 1
+    {
+        _argv = SPLIT(_argv,",")
+        _arrSize = ARRAYSIZE(_argv)
+    }
+    --
+    for _i = 0;_i < _arrSize; _i++ //Loop to get every element of the array
+    {
+        for _j = _i+1; _j < _arrSize; _j++ //Loop to check agains every other element of the array
+        {
+            if _argv[_i] == _argv[_j]; _argv[_j] = "" //if the elements are the same, replace with empty string
+        }
+        --
+        if _argv[_i] != ""; _printArr ,= _argv[_i] //if the elemet is not an empty string, add to the empty array
+    }
+    --
+    _printArr //return the new array
+}
+
 //Written by Zichqec https://zichqec.github.io/s-the-skeleton/
 
 //Usage: This is intended to take the place of single-use variables that only contain 0 or 1, used as flags for certain events and such. With these functions, you can store all those flags as a single array, meaning you can make as many flags as you want without having to really worry about save bloat. It can also make your code a bit more readable!
@@ -98,7 +145,7 @@ OnFileDrop2
 		{
 			"\0\s[0]This is music!\e"
 		}
-		when ".txt" {
+		/*when ".txt" {
 			if ASEARCH(_filename,lessonname) == -1 {lessonname ,= _filename}
 			--
 			FOPEN(reference0,'r'); _buff = ""
@@ -116,7 +163,7 @@ OnFileDrop2
 			FCLOSE(reference0)
 			--
 			FMOVE(reference0,'lessons\')
-		}
+		}*/
 		others
 		{
 			if _fileext == "" //If it's a folder. Using \_? lets you display the slashes and such in dialogue, but you have to toggle it off after you no longer need it
@@ -330,97 +377,12 @@ OnVanished
 	"\0\s[0]You uninstalled %(reference0).\e"
 }
 
-//----Mail checking----
-
-//reference2 is the email address it's checking? Wiki says mail server.
-OnBIFFBegin
-{
-	"\0\s[0]Ok,\w4 I'll check for emails!\e"
-}
-
-//reference0 is the number of emails found
-OnBIFFComplete
-{
-	if reference0 == 0 //No new emails
-	{
-		"\0\s[0]Nope,\w4 nothing new.\e"
-	}
-	elseif reference0 < 100 //less than 100 new emails
-	{
-		
-		if reference7 != "" //Reference7 is the headers. If it's empty(if the user has headers off), no need to run this loop. I STRONGLY ENCOURAGE YOU not to run this loop for more than 100 headers, as it may cause severe amounts of lag/freezing. Also, that's a lot to scroll through.
-		{
-			_buff = reference7
-			_len = ARRAYSIZE(_buff)
-			headers = ""
-			_i = 0
-			while _i < _len //Runs through all the elements of the array
-			{
-				if "<" _in_ _buff[_i] && "@" _in_ _buff[_i] && "." _in_ _buff[_i] && ">" _in_ _buff[_i] //If it has an email address
-				{
-					if _i != 0; headers += "\n\n[half]" //Add line breaks
-					headers += "\![*]%(_buff[_i])" //Add a menu option and the header text
-				}
-				else //If it does not have an email address, it must be a particle
-				{
-					headers += ",%(_buff[_i])" //Add the text
-				}	
-				_i++
-			}
-		}
-		--
-		_s = ""; if reference0 != 1; _s = "s" //Plural check, adds an s if the number of emails is not 1
-		"\0\s[0]You've got %(reference0) new email%(_s)."
-		--
-		if reference7 != "" //Same as above, no need to ask if there are no headers
-		{
-			"\w8\w8 Do you want to see the header%(_s)?"
-			--
-			"\n\n\![*]\q[Yes,OnSeeHeaders]\n\*\![*]\q[No,cancelnodialogue]"
-		}
-		--
-		"\e"
-	}
-	else //more than 100 new emails
-	{
-		"\0\s[0]You've got %(reference0) new emails."
-	}
-}
-
 //Displaying the headers. No need to touch this other than changing the surface, or if you want to make the buttons different or something. Reference0 is the list of headers
 OnSeeHeaders
 {
 	"\0\s[0]\b2\_q%(headers)\*\n\n\![*]\q[Done,cancelnodialogue]"
 	--
 	headers = NULL //This erases the variable so you're not storing all those headers and bloating your save. Also, privacy reasons.
-}
-
-//Email checking failed
-//reference0 is the error returned
-OnBIFFFailure
-{
-	if reference0 == "timeout" //If the connection times out
-	{
-		"\0\s[0]The connection timed out.\e"
-	}
-	elseif reference0 == "kick" //if the ghost can't get into the account. Gmail requires an app specific password to get in
-	{
-		"\0\s[0]I can't get into the account.\e"
-	}
-	elseif reference0 == "defect" //If info in the POP menu is wrong
-	{
-		"\0\s[0]The POP settings are wrong,\w4 please double check them."
-		--
-		"\![open,configurationdialog,biff]\e"
-	}
-	elseif reference0 == "artificial" //As far as I can tell, artificial is if the user double clicks on the balloon to stop it
-	{
-		"\0\s[0]Oh,\w4 changed your mind?\e"
-	}
-	else //Some other kind of error.
-	{
-		"\0\s[0]I can't get in.\w8\w8 The error is '%(reference0)'.\e"
-	}
 }
 
 //----Network update---

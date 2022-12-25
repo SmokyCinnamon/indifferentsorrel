@@ -1,0 +1,6 @@
+lesson_name[wonderful creation]
+lesson_notes[hey my site example doesnt work anymore because i changed things lol]
+sentence_translation[i'm a dancing horse@ég er dansandi hestur;they went to the library without me@þeir fóru á bókasafnið án mín;what is up with all these people petting me like seriously@hvað er málið með allt þetta fólk að klappa mér svona alvarlega]
+alternate_translation[]
+word_searches[library@bókasafni@bókabúð@bókahilla;to go@að fara@fer@fór til]
+word_matches[dance@dansa;horse@hestur;library@bókasafni;people@fólk]

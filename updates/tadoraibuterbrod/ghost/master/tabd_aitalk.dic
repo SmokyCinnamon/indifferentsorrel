@@ -117,7 +117,7 @@ OnMinuteChange
 		"\![updatebymyself,checkonly]"
 	}
 	if Flag("winfoinfo") == 1 {
-		OnWinfo
+		//OnWinfo
 	}
 	
 }
@@ -139,15 +139,7 @@ OnSecondChange
 	{
 		runtime[2]++
 	}
-	if reference2 == 1 //This is for if your Sakura and Kero are overlapping. \4 will move the speaking character away from the other character.
-	{
-		if stickybuter == 0 {
-			stickybuter = 1
-			"\1\![set,sticky-window,1,0]\0\s[0]Aw, hi Buterbrod!\e"
-		}
-		else {}
-	}
-	elseif ARRAYSIZE(waitingcommuS) > 0 && second % 5 == 0 //Every 5 seconds, check if the balloon is closed and a communication is waiting, and if so trigger a response
+	if ARRAYSIZE(waitingcommuS) > 0 && second % 5 == 0 //Every 5 seconds, check if the balloon is closed and a communication is waiting, and if so trigger a response
 	{
 		_b = BalloonCheck
 		if _b == 0; WaitingCommu
@@ -187,4 +179,16 @@ EndOffscreenTalk //Being brought back on the screen.
 OnSurfaceRestore //OnSurfaceRestore happens around 30 seconds after the ghost's last dialogue. reference0 here stores the number of the previous surface, so you can have them comment when they change back if you like.
 {
 	"\1\s[10]\0\s[0]\e"
+}
+
+OnOverlap {
+	LOGGING("%(reference)")
+	if reference0 == "0-1"
+	{
+		if stickybuter == 0 {
+			stickybuter = 1
+			"\1\![set,sticky-window,1,0]\0\s[0]Aw, hi Buterbrod!\e"
+		}
+		else {}
+	}
 }

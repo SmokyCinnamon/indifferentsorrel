@@ -34,6 +34,8 @@
           <menu role="tablist">
 		  <li role="tab" aria-selected="true"><button onClick="openTab('About')">About</button></li>
 		  <li role="tab"> <button onClick="openTab('Documentation')">Documentation</button></li>
+		  <li role="tab"> <button onClick="openTab('ExampleCreate')">Lesson Creation (example)</button></li>
+		  <li role="tab"> <button onClick="openTab('ExampleExport')">Exporting (example)</button></li>
 	  </menu>
 		<div id="About" class="tab">
 		<div class="window">
@@ -50,10 +52,17 @@
 				<div id="Documentation" class="tab" style="display:none">
 					<article>
 						<div id="Docs">
-						<p>Jump to:<br><a href=#Creation>Creation of a lesson</a> | <a href=#Trans>Sentence Translation</a> | <a href=#Match>Word Matches</a> | <a href=#Search>That word finding thing</a> | <a href="#ffs">The horrible creation</a> | <a href="#amhost">Uploading lessons</a></p>
-						<p><b>So</b> presumably you're here because you said, "oh hey, what's this documentation tab about?" OR you followed the instructions from the asking about custom lessons menu option in her ghost, in which case you did pretty much the same thing.<br>Now then, you may be wondering what all this custom lesson stuff is about - well, you've come to the right place! As I mentiioned..... somewhere, all you really need for a custom lesson is a properly formatted .txt file. Once you drag and drop said file on Tadora, well, there you have it! She'll have moved it to the correct folder and the user won't have to worry about it anymore.<br><b>Which is all well and good,</b> im sure you're thinking, <b>but what if I want to edit that? Won't I have to find that folder, edit that file, and drag it onto Tadora again? Does that even work???</b><br>Short answer - I guess? But it's not nescessary. Long answer - while you *could* drag it onto her again, she wouldn't actually do anything with it. The name's already in her list, so she won't add it again! Really all you need to do is edit the file and save your changes. You don't even need to reload the ghost to see the results of your hard work! How cool is that?<br>Oh, and as for finding the folder? That step isn't needed either. If you head over to her config menu and turn the option labeled "Lesson Creator" on, she should have a new option in her menu to manage lessons - i.e, let you open and edit them, rename them, or delete them if need be.</p></div>
-						<div id="Creation"><p><b>But wait!!! How the heck do I even make one of these things?!</b></p>
-						<p>Well, that one's pretty simple. Double-click Tadora to bring up her menu, and you should see an option labeled lesson configuration. If you click on that, the menu it takes you to has an option labeled 'add lesson'. That should prompt you for a name, and then will open your new lesson in notepad. It *should* look something like this:</p>
+						<p>Jump to:<br><a href=#Setup>Basic Setup</a> | <a href=#LessonCreation>Creation of a lesson</a> | <a href=#Trans>Sentence Translation</a> | <a href=#Match>Word Matches</a> | <a href=#Search>That word finding thing</a> | <a href="#ffs">The horrible creation</a> | <a href="#Exporting">Exporting the course</a> | <a href="#amhost">Uploading lessons</a> |<a href="#gifex">Example GIFs</a></p>
+						<p><b>So</b> presumably you're here because you said, "oh hey, what's this documentation tab about?" OR you followed the instructions from the asking about custom lessons menu option in her ghost, in which case you did pretty much the same thing.<br>Now then, you may be wondering what all this custom lesson stuff is about - well, you've come to the right place! As I mentioned..... somewhere, all you really need for a custom lesson is a properly formatted .zip or .nar file. Once you drag and drop said file on Tadora, well, there you have it! She'll have added everything to the correct folders, and the user won't have to worry about it anymore.<br><b>Which is all well and good,</b> im sure you're thinking, <b>but what if I want to edit that? Won't I have to find those folders, edit those files, and format + drag it onto Tadora again? Does that even work???</b><br>Short answer - Sor of? But it's not nescessary, and only really likely to work if you already know what you're doing. Long answer - while you *could* do all that, she has an entire menu to make the process easier. Really all you need to do (for lessons, at least) is edit the file and save your changes. You don't even need to reload the ghost to see the results of your hard work! How cool is that?<br>Oh, and as for finding the folder? That step isn't needed either. If you head over to her config menu and turn the option labeled "Lesson Creator" on, she should have a new option in her menu to manage lessons - i.e, let you open and edit them, rename them, or delete them if need be.</p></div>
+						<div id="Setup"><p><b>Initial Setup</b></p>
+						<p>Since version 1.1.1, Tadora can now handle courses, and different languages, in the right way. The downside of this is that <b>individual lessons are no longer supported,</b> but I feel it's a fair trade-off. With that in mind, how does one begin creating a course? ...It's reasonably simple.<br>
+						The very first thing you'll want to do after turning the lesson creator switch to 'on' is go to her main menu, where you'll see some new options. One of those should be labeled 'Lesson Configuration', upon which you'll be asked to...<br>
+						<b>Wait, choose language??? Why in the world do I need to do this? What do you mean <i>add language???</i></b><br>
+						Yeah she asks you to choose a language first. If you're creating a belarusian course for english speakers, you're in luck! just click on the option that says 'english@belarusian', and you should be good to go on to the next screen. If not, however, you're going to want to click the option that's labeled 'add language', and follow the instructions provided. Once that's done, you're going to have to go back into the menu again, and click on your newly created language pair.<br>
+						<b>Isn't this just... the same menu? Hey wait, why is it empty?</b><br>
+						There are no courses yet. To remedy this, follow the same process outlined above, but use the course name instead. And... open the menu again. Click on the options again. I'm very sorry but this is the hell you have now comitted yourself to. (It won't be this horrible later I promise)</p></div>
+						<div id="LessonCreation"><p><b>But wait!!! How the heck do I even make one of these things?!</b></p>
+						<p>Well, that one's pretty simple. Double-click Tadora to bring up her menu, and you should see an option labeled lesson configuration. If you click on that, the menu it takes you will require you to pick the language pair and course you're working on, wherein you'll see a menu that has any current lessons in the course listed. For now, since it's probably empty, click the option labeled 'add lesson'. That should prompt you for a name, and then will open your new lesson in notepad. It *should* look something like this:</p>
 						<p><ul class="tree-view"><code><b>tree_lang[@] <br>skill_number[0] <br>lesson_notes[] <br>sentence_translation[] <br>alternate_translation[] <br>word_searches[] <br>word_matches[] </b></code></ul></p>
 						<p><b>As</b> for how this works, exactly, first you want to write down the language people will be learning <i>from</i>, and then the language that they're... actually learning. So for our example, this would look like the below example:<br>
 						<ul class='tree-view'><code><b>tree_lang[English@Icelandic]</b></code></ul></p>
@@ -79,9 +88,33 @@
 							<p><ul class="tree-view"><b><code>word_searches[library@bókasafni@bókabúð@bókahilla;to go@að fara@fer@fór til]</code></b></ul></p></div>
 						<p><b><u>The last step</u></b> is going back to the lesson configuration menu and clicking on the option labeled 'correct lesson numbers'. This won't matter to other people, seeing as the information needed is created when the lesson is added. <b>This matters to you <i>seeing as the information is created when the lesson is added.</i></b> That's fancy code talk for 'the number of lessons is added as 0 by default, so if you want to see the correct and updated number, you have to use the correct lesson numbers option and click on your lesson'. All it really does is set the number to whatever you put it as instead of 0 so you can see the right stuff.</p>
 						<div id="ffs"><p><b>And that's it!</b> Your horrible creation to torture students in for 456 lessons is done! Yay! Rejoice, and upload it somewhere so people can download it and drop it on their own version of Tadora. Or just play with it yourself because this is super addicting I swear. By the way, the example lesson here put together would look like the following, for your copy/pasting pleasure. I don't know why anyone would want this.<br><ul class="tree-view"><code><b>skill_number[456]<br>lesson_notes[hey losers have fun doing 456 lessons i bet you're really regretting this now!!!\nalso blah blah important grammar tips or whatever]<br>sentence_translation[i'm a dancing horse@ég er dansandi hestur;they went to the library without me@þeir fóru á bókasafnið án mín;what is up with all these people petting me like seriously@hvað er málið með allt þetta fólk að klappa mér svona alvarlega]<br>word_searches[library@bókasafni@bókabúð@bókahilla;to go@að fara@fer@fór til]<br>word_matches[dance@dansa;horse@hestur;library@bókasafni;people@fólk]</code></b></ul></p></div>
-						<div id="amhost"><p><b>Uploading the lessons</b> is as simple as providing the text file in some form to people, like in a zip folder or something. You can put it on like mediafire or something I guess? so long as there's a link to the download for people.<br>By the way, if you're not sure where to upload it, you can always get in touch with me & I can add your file to my site for people to download! That's why i have the super totally real third tab on here to showcase people's lessons :D</p></div>
+						<div id="Exporting"><p><b>Exporting your course</b> does require you to like, know how to navigate the file picker but it's not really that hard, I promise.<br>
+						First, open Tadora's menu. Then, select the option labeled 'Export Course'. Tadora will also tell you what to do here, but you can ignore her if you want. Once you've clicked on the balloon, she'll open a file explorer window showing some folders.<br>
+						Double-click on the language that your course is in - don't just select it! Inside you should see a folder with the name of your course, and <i>that's</i> the one you want to select. Remember to click the confirm button at the bottom of the window.<br>
+						<b>Hey, she's telling me I haven't cleared it out! What's that supposed to mean?!</b><br>
+						Right, so what's going on here is that I can't automate deleting certain things. Fortunately, you don't have to go digging in her files, since she should have opened up another file explorer window. In this one, <b>you do not want to confirm any selections.</b> Instead, right-click and any folders and/or files that you see in this window, then go back and try again.<br>
+						If all has gone well, she should then say that it was generated, and you have two options - one brings up a file explorer window to where your zip file is, and the other takes you back to the main menu. From here, if you click the first option, and then drag and drop your newly-created .zip file somewhere else, so that you don't have to go digging in her files for it later. And that's it! You're done!</p>
+						<p>As a note, if you <i>are</i> willing to go digging through her files, you can do all this by hand - it'll just take a bit longer, and it's way more work to try and explain that process, so I won't :P</b></div>
+						<div id="amhost"><p><b>Uploading the lessons</b> is as simple as providing the .zip or .nar file to people. You can put it on like mediafire or something I guess? so long as there's a link to the download for people.<br>By the way, if you're not sure where to upload it, you can always get in touch with me & I can add your file to my site for people to download! That's why i have the super totally real third tab on here to showcase people's lessons :D</p></div>
 					</article>
-	</div></div></div></div>
+	</div></div>
+	<div class="window">
+		<div id="ExampleCreate" class="tab" style="display:none">
+			<article>
+				<div id="Creategif">
+					<p><img src="img/creation example.gif" alt="An example gif of creating a course, as outlined in the documentation tab" width="584" height="453" class="center"></p>
+					</div>
+			</article>
+		</div>
+	</div>
+	<div class="window">
+	<div id="ExampleExport" class="tab" style="display:none">
+		<article>
+			<p><img src="img/exportexample.gif" alt="An example gif of exporting a course, as outlined in the documentation tab." width="603" height="394" class="center"></p>
+		</article>
+	</div></div>
+	
+	</div></div>
     <div class="window">
 	<div class="title-bar">
     <div class="title-bar-text">More from the Dev</div> 

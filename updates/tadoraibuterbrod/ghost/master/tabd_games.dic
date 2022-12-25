@@ -1,14 +1,14 @@
 OnGameMenu : all {
-	"\_q"
+	"\_qLanguage: %(displang)\n"
 	"\__q[OnStartHangman]hangman\__q\n"
-	if currentlang == "English@Belarusian"; "\__q[OnStartWordSearch]word search\__q\n"
+	if currentlang == "english@belarusian"; "\__q[OnStartWordSearch]word search\__q\n"
 	"\__q[OnJuniorJumble,,new]word scramble\__q\n"
 	"\__q[cancelnodialogue]bye lmao\__q\_q"
 }
 
 GrabWords {
 	grabbedwords = IARRAY
-	if currentlang == "English@Belarusian" {
+	if currentlang == "english@belarusian" {
 		_fnumresult = FENUM('lessons\default\')
 		_fnsize = ARRAYSIZE(_fnumresult)
 		_randfile = RAND(_fnsize)
@@ -34,11 +34,16 @@ GrabWords {
 		LOGGING("fnumresult %(_fnumresult)| fnsize %(_fnsize)| randfile%(_randfile)| GRABBEDWORDS%(grabbedwords)")
 		}
 		--
-		_fnumresult = FENUM('lessons\')
-		_fnumresult[0] = IARRAY
+		_fcresult = FENUM("lessons\%(currentlang)\")
+		_course = ANY(_fcresult) //pick a random course out of the current language
+		_fnumresult = FENUM("lessons\%(currentlang)%(_course)")
+		//_fnumresult[0] = IARRAY
+		LOGGING("courses: %(_fcresult)")
+		LOGGING("single course: %(_course)")
+		LOGGING("FENUM result: %(_fnumresult)")
 		foreach _fnumresult; _filecheck {
 			LOGGING(_filecheck)
-			_file = "lessons/%(_filecheck)"
+			_file = "lessons\%(currentlang)%(_course)\%(_filecheck)"
 			_buff = ""
 			--
 			FCHARSET(1) //sets charset
@@ -49,15 +54,18 @@ GrabWords {
 				//above has something to do with the buffer, it's basically reading the file line by line
 				LOGGING("reading file - line below!")
 				LOGGING("%(_buff)")
-				if RE_SEARCH(_buff,'tree_lang\[([^\n]+)\]') {
-					LOGGING("trreelang %(RE_GETSTR) currentlang %(currentlang)")
-					if RE_GETSTR[1] == currentlang {
-						for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
-							if RE_SEARCH(_buff,'word_matches\[([^\n]+)\]') {
-								LOGGING("WORDMATCH %(RE_GETSTR)")
-								if grabbedwords == IARRAY; grabbedwords = RE_GETSTR[1]
-								else; grabbedwords[0] += "%(RE_GETSTR[1])"
-				}}}
+				LOGGING("trreelang %(RE_GETSTR) currentlang %(currentlang)")
+				for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
+					if RE_SEARCH(_buff,'word_matches\[([^\n]+)\]') {
+						LOGGING("WORDMATCH %(RE_GETSTR)")
+						if grabbedwords == IARRAY; grabbedwords = RE_GETSTR[1]
+						else; grabbedwords[0] += ";%(RE_GETSTR[1])"
+					}
+					if RE_SEARCH(_buff,'word_searches\[([^\n]+)\]') {
+						LOGGING("word searches %(RE_GETSTR)")
+						if grabbedwords == IARRAY; grabbedwords = RE_GETSTR[1]
+						else; grabbedwords[0] += ";%(RE_GETSTR[1])"
+					}
 			}}
 			FCLOSE(_file)
 		}
@@ -279,14 +287,22 @@ OnStartWordSearch
 	GrabWords; --
 	for _i = 0; _i < ARRAYSIZE(grabbedwords); _i++ {
 		grabbedwords[_i] = UpperLower(grabbedwords[_i],"upper")
-		LOGGING("%(grabbedword[_i])")
+		LOGGING("%(grabbedwords[_i])")
 		_wsplit = SPLIT("%(grabbedwords[_i])",'@')
 		_len = STRLEN(_wsplit[1])
-		if _len == 1 {} else {
-			WordSearchTrans ,= _wsplit[0]
-			WordSearchWords ,= _wsplit[1]
+		if _len == 1 {continue} else {
+			if WordSearchTrans == IARRAY && WordSearchWords == IARRAY {
+				WordSearchTrans ,= _wsplit[0]
+				WordSearchWords ,= _wsplit[1]
+			}
+			elseif ASEARCH(_wsplit[0],WordSearchWords) == -1 {
+					WordSearchTrans ,= _wsplit[0]
+					WordSearchWords ,= _wsplit[1]
+			}
+			else {continue}
 		}
 	}
+	--
 	_rightadjust = 0 //Don't touch these ones
 	_highlightcolor = ""
 	
@@ -732,7 +748,7 @@ CreateWordSearch //:deargodhelpme:
 	{
 		//Check to make sure there's a word to add. If there is, pick a random one, then erase it from the array. If the word is too long, skip it and start again.
 		if ARRAYSIZE(_availwords) == 0; {LOGGING("Ran out of words to add");break}
-		_toadd = UpperLower(ANY(_availwords),"upper")
+		_toadd = ANY(_availwords)
 		LOGGING("Entered loop 1 - Start new word (%(_toadd))")
 		_availwords[LSO] = IARRAY
 		if STRLEN(_toadd) > _dimensions; {LOGGING("%(_toadd) too long for current grid size");continue}

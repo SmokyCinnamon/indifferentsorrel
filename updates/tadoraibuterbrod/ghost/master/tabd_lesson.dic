@@ -1,31 +1,8 @@
-OnOpenCourse {
-	_lesnum = FENUM("lessons/%(currentlang)/%(reference0)/")
-	_display = ''
-	_lesname = ''
-	foreach _lesnum; _curles {
-		_file = "lessons/%(currentlang)/%(reference0)/%(_lesnum[_curles])"
-		--
-		FCHARSET(1)
-		_f = FOPEN(_file,'r')
-		LOGGING("*hacker voice* im in")
-		LOGGING("%(_f) and %(_file)")
-		for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
-			LOGGING("*hacker voice* didnt we just do this")
-			if RE_SEARCH(_buff,'lesson_name\[([^\n]+)\]') {
-				LOGGING("*hacker voice* the codes... theyre here. %(RE_GETSTR)")
-				_lesname = RE_GETSTR[1]
-				break
-			}
-		}
-		_display += "%*\__q[OnLessonRead,_file]%(_lesname)\__q "
-	}
-	--
-	"\_qSelect a lesson to start:\n\n%(_display)\n\n%*\q[Back,OnLessonPick] %*\q[Main menu,OnMenuRun] %*\q[Close menu,byelol]\_q\x"
-}
-
-OnLessonRead {
+OnLessonRead : all {
+	LOGGING("REFERENCE BELOW")
+	LOGGING("%(reference)")
 	_file = ""
-	if reference1 != "inbuilt" {_file = "lessons\%(reference0).txt"}
+	if reference1 != "inbuilt" {_file = "%(reference0)"}
 	else {_file = "lessons\default\%(reference0).txt"}
 	_buff = ""
 	checkprog = "%(reference0)"
@@ -37,16 +14,16 @@ OnLessonRead {
 	--
 	FCHARSET(1)
 	_f = FOPEN(_file,'r')
+	LOGGING("%(_f)")
 	LOGGING("%(_file)")
-	//if FOPEN(_file,'r') {
 	for _buff = FREAD(_file); _buff != -1; _buff = FREAD(_file) {
-	LOGGING("AAAfileopenAAA")
+	LOGGING("file is open")
 	if RE_SEARCH(_buff,'lesson_notes\[([^\n]+)\]') {
-			LOGGING("AAAnotesreadAAA %(RE_GETSTR)")
+			LOGGING("notes exist %(RE_GETSTR)")
 			notes = RE_GETSTR[1] //Sets
 		}
 	if RE_SEARCH(_buff,'sentence_translation\[([^\n]+)\]') {
-			LOGGING("AAAsentencesAAA %(RE_GETSTR)")
+			LOGGING("sentences exist %(RE_GETSTR)")
 			_aaa = SPLIT(RE_GETSTR[1],';')
 			//array_2d[_value] += ';'+_newitem?
 			for _i = 0; _i < ARRAYSIZE(_aaa); _i++ {
@@ -88,10 +65,10 @@ OnLessonRead {
 			}
 		}
 	}
-	//}
 	FCLOSE(_file)
-	--;LOGGING("AAAfileclosedAAA %(notes)%(sentences)\n%(findwords)\n%(matchwords)\n\nCOMPARISION:\n%(match[1])\n%(find)")
-	"\b[2]\_q%(notes)\n\_q\x\![raise,OnLessonTest]\e"
+	LOGGING("file is closed %(notes)%(sentences)\n%(findwords)\n%(matchwords)\n\nCOMPARISION:\n%(match[1])\n%(find)")
+	if notes != ""; "\b[2]\_q%(notes)\n\_q"
+	"\n(Click to proceed)\x\![raise,OnLessonTest]\e"
 }
 
 OnLessonTest {
@@ -148,14 +125,11 @@ OnLessonTestStart {
 	}}
 	else {
 	"yay you reached the end!\n\n%*\q[To lessons,OnLessonPick] %*\q[Main menu,OnMenuRun] %*\q[Close menu,byelol]\e"
-	_aaa = ASEARCH(checkprog,lessonname)
-	LOGGING("checking %(checkprog) temp %(_aaa) check %(numprog[_aaa]) num %(skillnum[_aaa]))")
-	LOGGING("%(lessonname) %(numprog) %(skillnum)")
-	if skillnum[_aaa] > numprog[_aaa] {
+	/*if skillnum[_aaa] > numprog[_aaa] {
 		numprog[_aaa]++
 		LOGGING("%(numprog[_aaa]) and %(numprog)")
 	}
-	else {}
+	else {}*/
 	_aa = ASEARCH(checkprog,inbuiltlessonname)
 	if inbuiltskillnum[_aa] > inbuiltnumprog[_aa] {
 		inbuiltnumprog[_aa]++
