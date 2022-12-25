@@ -9,21 +9,9 @@ file,ghost/master/descript.txtac118922a927ab514b33f7646070e005size=288date=20
 file,ghost/master/dictionary_enby.dica6cb06cbe50e2384bb17bfb15d3f2049size=492date=2021-11-18T00:55:06
 file,ghost/master/gomi.dll51fe9597398db01e684a0f9d52c63242size=13312date=2004-06-01T16:00:04
 file,ghost/master/icon.icof95f75a275f6b9ca27ac63cea1fcba1dsize=270398date=2021-12-25T08:31:56
-file,ghost/master/lessons/aicrim_unit1_l1.txtf35ce143060cf7ed4a6c67869934e3bcsize=794date=2022-12-01T22:08:27
 file,ghost/master/lessons/default/inbuilt.txt558d7607909b91f3306be839042f7913size=435date=2022-05-13T12:24:03
-file,ghost/master/lessons/english@belarusian/smokys awesoneness/0.txt2b22063905317bbb9a64abf1ff958cf6size=277date=2022-12-19T17:08:40
-file,ghost/master/lessons/english@belarusian/smokys awesoneness/1.txt08aef7156f0cc2103f2ad4eff779dae2size=254date=2022-12-02T22:33:53
-file,ghost/master/lessons/english@icelandic/wonderfulCreation/0.txt0d181345968b50a0edd8d243f775ca46size=569date=2022-12-20T12:09:27
-file,ghost/master/lessons/hi tumblr.txt6e087516a51440b848171f4541681c03size=1057date=2022-12-01T22:09:55
-file,ghost/master/lessons/importing into anki.txt258fffcebb50fb23baa65ffe095e31aesize=220date=2022-10-20T19:31:20
-file,ghost/master/lessons/keysmash.txt1ec6d2885a0e79b5f0e50486c0df8c80size=1391date=2022-02-12T10:59:23
-file,ghost/master/lessons/langcurry_22.txt57194a09e10a012de88ff4872582ce86size=594date=2022-06-03T10:32:27
-file,ghost/master/lessons/marathi@belarusian/testing/0.txtc95654369e6a2d4c299676509a7525d6size=120date=2022-12-17T17:26:22
-file,ghost/master/lessons/test.txt80a9a4f0aadfae9f3ad03216899f85e7size=448date=2022-02-14T11:53:04
-file,ghost/master/lessons/zip/smokys awesoneness.zip92f139ea15727ac59bfb04a27e0a41c5size=2166date=2022-11-25T18:45:56
 file,ghost/master/lessons_enby.dicd83ca1b4a473cb516b7bcb555c336174size=18512date=2022-11-21T14:26:48
 file,ghost/master/saori_cpuid.dlld13370aee8e579fe2517d789dba7c45esize=225280date=2004-04-17T15:47:18
-file,ghost/master/supplemental/ghost/master/lessons/english@icelandic/wonderfulCreation/0.txt0d181345968b50a0edd8d243f775ca46size=569date=2022-12-20T12:09:27
 file,ghost/master/supplemental/install.txtb55882385b448079289a1b5ddac2de47size=83date=2022-12-21T15:06:29
 file,ghost/master/system/messagetxt/classical-chinese.txt10f4b85eff273e9179ee86df61a3ad64size=5252date=2022-02-12T10:12:51
 file,ghost/master/system/messagetxt/english.txtae0885393f76b7c35cc094f43fd6fafesize=7379date=2022-02-12T10:12:51
