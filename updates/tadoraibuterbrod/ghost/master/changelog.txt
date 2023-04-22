@@ -1,3 +1,24 @@
+1.1.2
+> removed shell change dialogues
+> fixed a typo in commu variables (DustyMinimizedYadora -> DustyMinimizedTadora)
+> removed wallpaper dialogues
+> removed (most) install dialogues
+> removed update data creation dialogues
+> removed OnVanishButtonHold and OnVanished
+> changed OnUpdateReady dialogue
+> changed update progress indicators
+> removed different error dialogue in OnUpdateFailure
+> removed rss/headline dialogue
+> removed sntp check dialogue
+> removed OnScreenSaverEnd
+> removed low battery notifications
+> removed shell scaling dialogue
+> lesson add dialogue no longer says "Please the name of your lesson:", instead having the word 'enter' in between 'please' and 'the'.
+> changed dialogue from "Choose which language pair you're working and course with [...]" to "Choose which language pair and course you're working with [...]"
+> removed ability to add pronouns
+> removed extra menu button captions
+
+
 1.1.1
 > Added window_info.dll! If you let her, she can comment on what you have open!
 	> This will not work on mac or linux so.... rip you guys i guess

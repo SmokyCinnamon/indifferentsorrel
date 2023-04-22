@@ -1,0 +1,181 @@
+OnFirstBoot|Pryvitanne! My name is Tadora, and this here\1mao~\0 is my cat, Buterbrod! I teach people belarusian as my job, so... Hi again! How should I call you?|Pryvitanne znoŭ! It's been a while, hasn't it? ...I'm a bit embarrased to say, but I've forgotten your name. Kali laska, could you tell me again?
+//first string: hasn't been installed before
+//second string: has been installed, but was uninstalled at some point
+
+OnBoot|Oh! I've never been a time traveler before! Hello there from the past %(username)!|Z dzniom naradzennia %(username)! I hope you've had a good day so far!
+//first string: changed clock backwards
+//second string: user birthday
+
+//NormalBoot is in belarusian, and thus untouched.
+
+OnClose|Pakul! I hope you'll come back soon, then!|Pakul! I hope you'll come back soon, then!
+//first string: open more than 5 minutes
+//second string: open less than 5 minutes
+
+OnWindowStateRestore|Huh, kinda cramped down there, don't you think?
+
+OnGhostChanging|I'll reload then, yeah!|Make sure to tell %(reference0) what you learned today!
+
+OnGhostChanged|Hello again!|Oh, bye %(reference0)! I hope we can meet someday!
+_______________________
+
+DustyMinimizedTadora|* (Obsidian disappears into the taskbar with Dusty.)
+_______________________
+
+OnDictionary|show me your langyages|Add language|Add word|Remove Language|Back to menu
+
+OnDicShow|Sort by: %(sort) first|Search for...|Main Menu|Dictionary List|Bye
+
+OnSearchDic|No entry exists for %(reference0). Would you like to add one?|Yes|No|Search:|Result:
+//dicshow is added onto the end of this one too
+
+OnDicEdit|Sure! Which language would you like to add a dictionary for?|Please input your word -- it has to be formatted as 'native language@learning language', otherwise displaying it might get all weird!\nAlso, remember that you can't yet delete a word you've added. So make sure everything's spelled correctly!|Alrighty! First you gotta select a language...|Alright, which one do you want to remove?|Ok, I need you to select a language first.|Main menu|Go back|Cancel
+_______________________
+
+OnInstallBegin|Installing something!
+
+OnInstallComplete|I've installed %(reference1)!\w8\w8 Do you want to bring them here?|Call %(reference1)|Change to %(reference1)|No thanks|I've installed %(reference1)!
+
+OnInstallFailure|Oh,\w4 did you change your mind?|Sorry,\w4 the install failed.\nI got this error: '%(reference0)'.
+
+OnInstallRefuse|I can't install this %(reference1).\w8\w8 Seems like it's meant for %(reference0) instead.
+
+OnNarCreated|Finished making a .nar for your %(reference2)!\w8 You can see it \_a[OnNarLocation,%(reference1)]here.
+
+OnVanishSelecting|Oh,\w4 do you want to uninstall?
+
+OnVanishSelected|Alright,\w4 take care %(username)!
+
+OnVanishCancel|Alright,\w4 I'll stick around for a while longer.
+
+OnUpdateBegin|Ok,\w4 I'll update!
+
+OnUpdateReady|New files: %(reference0)
+
+OnUpdateComplete|There are no new files.|Update complete!\w8\w8 Do you want to see the changelog?|Yes|No
+
+Select.NoChangelog|Ok,\w4 you can see it in the functions menu later if you want!
+
+OnUpdate.OnDowloadBegin|Downloading %(reference0)...|%(_Update_Progress) of %(_Update_Total)
+
+OnUpdate.OnMD5CompareFailure|The MD5 values don't match on file %(_remaining) - '%(_currentfile)'.
+
+OnUpdateFailure|Sorry,\w4 I got an error:\w4 '%(reference0)'.
+
+OnUpdateCheckFailure|Sorry,\w4 I got an error:\w4 '%(reference0)'.
+_______________________
+
+OnGameMenu|Language: %(displang)|hangman|word search|word scramble|bye lmao
+
+OnHangman|Aw, you didn't get it! It was %(HMword), which means %(HMtrans)... I hope you get it next time!|Guessed so far: %(HMlet[1])\n\nTries left:|Guess the whole word|Open the input box again|Give up|Woah no way!! It's %(HMword), you're right, nya!\nOh, and it means %(HMtrans) if you're interested.
+
+OnGuessNormal|Hm... that's more than one. Try again with only one?|Oh, but that letter's already there! Maybe try again with something that isn't %(reference0), nya?
+
+Select.HangmanGuessWhole|So you've got %(_word)...\n\nAnd you've guessed %(HMlet[1]).\n\nThink you figured it out by now?|Open the input box again|Give up
+
+OnGuessWhole|Yeah, you're right, you're amazing!!! %(HMword)! You even had %(_left) letters left empty!\n\n[half]\w4Oh, right, it's also %(HMtrans) if you didn't know. But maybe you did..?|Oh... no, it was %(HMword) -- %(HMtrans). I hope you get it next time, though!
+
+Select.HangmanQuit|Oh, okej. It was %(HMword), which means %(HMtrans), if you wanted to know. Come play again sometime?
+
+HangmanBack|Another!|Different Game|I'm done
+
+WordSearchDialogue|Give up|%(_argv[1]) isn't right, nya. There's only so many words, after all!|Oh, moves have to be straight lines;\w4 up,\w4 down,\w4 left,\w4 right,\w4 or diagonal.|Hey cool, you found %(_argv[1])! It also means %(WordSearchTrans[_num]), nya!|Hey, that's right, AND the last word! %(_argv[1]), and it means... %(WordSearchTrans[_num])! You're so amazing, %(username)!|Play again|Play something else|I'm done
+
+OnJuniorJumble|Unscramble the word:|Give up|Hey, you got it, nya! %(JumbleWord) means %(JumbleTrans)!|Oh, not really... %(reference0), right?\w4 It was actually %(JumbleWord) - or %(JumbleTrans), if you didn't know that already.|Another word|Different game|I'm done
+
+OnJuniorJumbleQuit|Oh, ok... It was %(JumbleWord), which means %(JumbleTrans). But maybe you already knew that?|Another word|Different game|I'm done
+_______________________
+
+OnLessonRead|(Click to proceed)
+
+OnLessonTestStart|yay you reached the end!|To lessons|Main menu|Close menu
+
+OnSentenceTrans|Translate the sentence: %(display)|Switch input method
+
+OnSentenceTransed|Uh... maybe you should try again...?|That's the answer, yup! Good for you!|The correct answer is:\n%(displayanswer)|aw, better try again, huh?
+
+OnFindType|Find the word:
+
+OnTestquizanswertest|Ding ding ding! A winner is you, ня!|(she makes a sound like a loud buzzer.) %(reference0)? Really? There's no way that's it! Try again!
+
+OnFindMatch|Well, that's not supposed to happen... here, let's just go to the next one, ok?|Find the matches!
+
+OnFindMatchAnswer|Great job, ня!|Hmm, I don't think so... Try again, ня
+_______________________
+
+OnEditLesson|Select which language pair you're working with:|Add Language|Select the course you're working on:|Add Course|Almost done! Pick a lesson here and then decide what you're gonna do with it:|Add Lesson|Edit|Delete|look man idk what's going on here|Main Menu
+
+OnLangAdd|Please enter the names of the languages you're adding, wherein the first language is the language the person already knows:\n\nExample: english@belarusian|Please enter the name of your course:
+
+OnLessonCreateName|Please enter the name of your lesson:
+
+OnClearOne|You are about to delete [ %(_display) ].|This action cannot be undone. Are you sure you want to proceed?|Yes|No (back to menu)
+
+OnLangSelect|Choose which language you'd like to study:\n(Currently: %(displang))|Back|Main Menu|Choose which language pair and course you're working with from the following pop-up.
+
+displang|%(_disarray[1]) from %(_disarray[0])
+
+OnLessonPick|Hello, which lesson would you like to see?|ERROR HAS OCCURED. CLICK TO RESTART|USER COURSES|That's all we have for now...|Change Language|Main Menu
+
+OnOpenCourse|Select a lesson to start:|Back|Main menu|Close menu
+
+OnCourseExport|In the following window, please select the language pair (i.e; english@belarusian) and then which course you'd like to export.
+
+OnCopyOver|Hey, you haven't cleared it out yet! Sorry, but you need to go and delete anything in there. That's the one thing I can't do myself!
+
+OnZipFinish|Zip file generated!|Open Folder (selections not saved)|Main Menu
+
+OnOpenZip|Opened!
+_______________________
+
+OpenSakuraMenu|An update is available!\w8\w8 Do you want to download it?|Download it now|Maybe later|Turn off auto updates|Hi there!|Hello!
+
+Select.UpdateLater|Alright,\w4 I'll remind you once a day!
+
+Select.UpdateOff|Auto Update checks turned off,\w4 you can turn them on again in the Config menu!
+
+OnMenuRun|Repeat last dialogue|Talk to another ghost|Lesson|Dictionary|Games|Custom lessons?|Lesson Configuration|Documentation|Export Course|User Config|Functions|Open Changelog|Nevermind|Runtime:|Version
+
+Select.CustomExplain|Basically if you drag and drop a proper .zip or .nar file on me, I'll set up a new course for you!\nIf you'd like to make one yourself, you can head over to the %*\__q[OnConfigMenu]User Config menu\__q and click on the lesson creator option to turn it on. Then, once you head back to the main menu, you should have an option labeled 'Lesson Configuration'! Once you're in there, the menu's pretty straightforwards.\n\n[half]Anyways, if you're looking for documentation for how the lessons and stuff work, you can find it \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]here\_a, under the documentation tab. Hopefully that's all you need!|Back to menu|Ok bye
+
+OnOpenDocs|Documentation can be found under the aptly labeled documentation tab, \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]right here\_a|Back to menu|Ok bye
+
+OnFunctionMenu|Sure, what do you want me to do?|Show System Information|Report a bug|Check for updates|Back to main menu
+
+Select.SystemInfo|OS:|Memory Load:|Physical Memory:|CPU:|Uptime:|Ukagaka:|Back to functions|Done
+
+Select.BugReport|Bugs can be reported to Smoky on \_a[https://www.smokycinnamonroll.tumblr.com]tumblr\_a.|Back to functions|I'm done
+
+OnConfigMenu|Settings|Language:|Your name:|Your birthday:|Your hemisphere:|Lesson Creator:|Comment on apps:|Auto Update checks:|Uninstall:|Back to the menu
+
+Select.ToggleLescreate|On|Off
+
+Select.ToggleHemisphere|Northern|Southern
+
+//toggleupdate + toggleuninstall = on/off
+
+OnChoiceTimeout|Are you still there?
+
+OpenKeroMenu|mrraow|mao|mrrp?
+
+OnKeroMenu|Un-sticky|Bye Buterbrod
+_______________________
+
+MouseMoveSakura|%(stroke[2]) pet streak!|Aww, thanks, haha!|Face in belarusian is твар!
+
+MouseMoveKero|* (%(stroke[2]) pet streak!)|* (Buterbrod purrs.)
+
+OnMouseLeaveAll|(New high score! %(pethighscore[0])!)
+
+MouseDoubleClickSakura|I've been pat!
+_______________________
+
+OnChangeName|Ah! How are you called again?
+//would sound normal in i.e, belarusian, just having a bit of fun with the fact that english isn't her native language
+
+OnNameTeach|Ok, same as before!|Name buddies! That's really cool!|Just User for now.|%(username), got it! Such a nice name, too!|Back to config|I'm done|Ok! I'm really excited that we can get to know each other!
+
+//birthday left alone b/c it's a lot.
+_______________________
+
+//string+word also left alone. so you're done now!

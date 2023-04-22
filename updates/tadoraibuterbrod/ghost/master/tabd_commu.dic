@@ -125,11 +125,11 @@ ReplyToGhost //This is your ghost receiving a communication.
 					holdingObsidian = 0
 					"\0\s[0]А, пакуль...\e"
 				}
-				elseif "DustyMinimizedYadora 0" _in_ reference1 //Dusty was minimized
+				elseif "DustyMinimizedTadora 0" _in_ reference1 //Dusty was minimized
 				{
 					res_reference0 = ""
 					holdingObsidian = 0
-					"\0\s[0]\![bind,obsidian,-,0]* (Obsidian disappears into the taskbar with Dusty.)\w8\w8\n\nА шляпу знік... шкада тое.\e"
+					"\0\s[0]\![bind,obsidian,-,0]%(commutalks[0])\w8\w8\n\nА шляпу знік... шкада тое.\e"
 				}
 				elseif "Tadora,0ObsiJumpDown01" _in_ reference1 {
 					"\0\s[0]\![get,property,OnObsidianJumpDown,currentghost.scope(0).rect]"

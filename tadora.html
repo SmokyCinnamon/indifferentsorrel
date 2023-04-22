@@ -10,7 +10,7 @@
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Indifferent Sorrel"/>
-    <meta property="og:description" content="Ukagaka/Translation projects by SmokyCinnamon"/>
+    <meta property="og:description" content="Tadora i Buterbrod: language learning pals"/>
     <meta property="og:url" content="https://smokycinnamon.github.io/indifferentsorrel/index.html"/>
 </head>
 
@@ -30,14 +30,14 @@
 	 <div class="title-bar">
         <div class="title-bar-text">Tadora i Buterbrod</div>
 	 </div>
-        <div class="window-body">
-          <menu role="tablist">
-		  <li role="tab" aria-selected="true"><button onClick="openTab('About')">About</button></li>
-		  <li role="tab"> <button onClick="openTab('Documentation')">Documentation</button></li>
-		  <li role="tab"> <button onClick="openTab('ExampleCreate')">Lesson Creation (example)</button></li>
-		  <li role="tab"> <button onClick="openTab('ExampleExport')">Exporting (example)</button></li>
+	 <article>
+          <br><menu role="tablist">
+		  <li role="tab" aria-selected="true"><a onClick="openTab('About')">About</a></li>
+		  <li role="tab"> <a onClick="openTab('Documentation')">Documentation</a></li>
+		  <li role="tab"> <a onClick="openTab('ExampleCreate')">Lesson Creation (example)</a></li>
+		  <li role="tab"> <a onClick="openTab('ExampleExport')">Exporting (example)</a></li>
 	  </menu>
-		<div id="About" class="tab">
+		<div id="About" class="tab" role="tabpanel">
 		<div class="window">
 			<article>
 			        <img src="img/Tadora.png" alt="A drawing of Tadora, a brown-skinned cat person with a purple shirt. A gray tabby named Buterbrod is sitting on her lap." width="205" height="251" class="center">
@@ -48,7 +48,7 @@
 		</article></div>
 		</div>
 
-		<div class="window">
+		<div class="window" role="tabpanel">
 				<div id="Documentation" class="tab" style="display:none">
 					<article>
 						<div id="Docs">
@@ -98,7 +98,7 @@
 						<div id="amhost"><p><b>Uploading the lessons</b> is as simple as providing the .zip or .nar file to people. You can put it on like mediafire or something I guess? so long as there's a link to the download for people.<br>By the way, if you're not sure where to upload it, you can always get in touch with me & I can add your file to my site for people to download! That's why i have the super totally real third tab on here to showcase people's lessons :D</p></div>
 					</article>
 	</div></div>
-	<div class="window">
+	<div class="window" role="tabpanel">
 		<div id="ExampleCreate" class="tab" style="display:none">
 			<article>
 				<div id="Creategif">
@@ -114,7 +114,7 @@
 		</article>
 	</div></div>
 	
-	</div></div>
+	</article></div></div>
     <div class="window">
 	<div class="title-bar">
     <div class="title-bar-text">More from the Dev</div> 

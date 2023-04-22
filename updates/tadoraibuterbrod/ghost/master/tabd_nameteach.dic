@@ -41,79 +41,9 @@ OnNameTeach
 	}
 	else //This is continuing from FirstBoot
 	{
-		"\w8 Ok! I'm really excited that we can get to know each other! Oh, next... Pronouns, if I may ask?\n\n"
-		--
-		"%*\__q[OnPronouns,none]None\__q %*\__q[OnCustomPronouns]Custom\__q\n/
-		\![*]\q[He/Him,OnPronouns,masc] \![*]\q[She/Her,OnPronouns,fem]\n/	
-		\![*]\q[They/Them,OnPronouns,undef]\e"
+		"\w8 Ok! I'm really excited that we can get to know each other!\![leave,passivemode]\e"
 	}
 }
-
-OnChangePronoun //Envelope names are the same as the GT template, since I figured most people will be used to them.
-{
-	"\0\s[0]Your pronouns...?"
-	--
-	"\n\n\_q/
-	%*\__q[OnPronouns,none]None\__q %*\__q[OnCustomPronouns]Custom\__q\n/
-	\![*]\q[He/Him,OnPronouns,masc] \![*]\q[She/Her,OnPronouns,fem]\n/	
-	\![*]\q[They/Them,OnPronouns,undef]\e"
-}
-
-
-OnPronouns
-{
-	if reference0 == "masc"
-	{
-		they = "he"
-		them = "him"
-		their = "his"
-		theyre = "he's"
-	}
-	elseif reference0 == "fem"
-	{
-		they = "she"
-		them = "her"
-		their = "her"
-		theyre = "she's"
-	}
-	elseif reference0 == "undef"
-	{
-		they = "they"
-		them = "them"
-		their = "their"
-		theyre = "they're"
-		
-	}
-	elseif reference0 == "none" {
-		they = "%(username)"; them = "%(username)"; their = "%(username)'s"; theyre = "%(username)'s"
-	}
-	else {
-		_pronouns = SPLIT(reference0,"/")
-		they = _pronouns[0]; them =  _pronouns[1]; their = _pronouns[2]; theyre = _pronouns[3]
-		if _pronouns[4] != ""; plural = 1
-
-	}
-	--
-	if booting == 1 //This is the end of the firstboot dialogue
-	{
-		booting = 0
-		"Got it! Remember this; to add custom lessons, all you need is a properly formatted .txt file!\![leave,passivemode]\e"
-	}
-	else //This is if the user is changing their pronouns through the menu
-	{
-		"\0\s[0]Ok! Your pronouns are %(they)/%(them). I think."
-		--
-		"\n\n\![*]\q[Back to config,OnConfigMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
-	}
-}
-OnCustomPronouns {
-	"Alright! Could you please input them like the example on the next line?\nthey/them/their/they're/1\nThe extra one can be omitted if they're not grammatically plural.\x\![open,inputbox,OnPronouns,-1]\x\e"
-}
-//Pronoun examples for my own sake:
-//"%(heshe) left that there."
-//"%(hisher) work is really cool."
-//"I'll ask %(himher) later."
-//"%(hesshes) really good at it."
 
 OnChangeBirthday //Pulled a lot of this from the GT template, but I also modified it a lot
 {

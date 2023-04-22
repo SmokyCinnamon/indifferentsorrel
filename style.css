@@ -143,9 +143,13 @@ u {
   border-bottom: 0.5px solid #222222;
 }
 
-button {
+button,
+input[type="submit"],
+input[type="reset"] {
   box-sizing: border-box;
   border: none;
+  color: inherit;
+  text-shadow: 0 0 var(--text-color);
   background: var(--surface);
   box-shadow: var(--border-raised-outer), var(--border-raised-inner);
   border-radius: 0;
@@ -162,28 +166,45 @@ button {
   box-shadow: var(--border-raised-outer), var(--border-raised-inner);
 }
 
-button:not(:disabled):active {
+button:not(:disabled):active,
+input[type="submit"]:not(:disabled):active,
+input[type="reset"]:not(:disabled):active {
   box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
 }
 
 @media (not(hover)) {
-  button:not(:disabled):hover {
+  button:not(:disabled):hover,
+  input[type="submit"]:not(:disabled):hover,
+  input[type="reset"]:not(:disabled):hover {
     box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
   }
 }
 
-button:focus {
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus {
   outline: 1px dotted #000000;
   outline-offset: -4px;
 }
 
-button::-moz-focus-inner {
+button::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner {
   border: 0;
 }
 
 :disabled,
-:disabled + label {
+:disabled + label,
+input[readonly],
+input[readonly] + label {
   color: var(--button-shadow);
+}
+
+button:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled,
+:disabled + label {
   text-shadow: 1px 1px 0 var(--button-highlight);
 }
 
@@ -205,6 +226,14 @@ button::-moz-focus-inner {
   align-items: center;
 }
 
+.title-bar.inactive {
+  background: linear-gradient(
+    90deg,
+    var(--dialog-gray),
+    var(--dialog-gray-light)
+  );
+}
+
 .title-bar-text {
   font-weight: bold;
   color: white;
@@ -221,6 +250,10 @@ button::-moz-focus-inner {
   display: block;
   min-width: 16px;
   min-height: 14px;
+}
+
+.title-bar-controls button:active {
+  padding: 0;
 }
 
 .title-bar-controls button:focus {
@@ -399,9 +432,12 @@ input[type="checkbox"][disabled]:checked + label::after {
   background: url("./icon/checkmark-disabled.svg");
 }
 
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
+input[type="tel"],
+input[type="number"],
 select,
 textarea {
   padding: 3px 4px;
@@ -415,18 +451,40 @@ textarea {
   border-radius: 0;
 }
 
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
+input[type="tel"],
 select {
   height: 21px;
+}
+input[type="number"] {
+  /* need this 1 pixel to fit the spinner controls in box */
+  height: 22px;
 }
 
 input[type="text"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+input[type="tel"],
+input[type="number"] {
   /* For some reason descenders are getting cut off without this */
   line-height: 2;
+}
+
+input[type="email"]:disabled,
+input[type="tel"]:disabled,
+input[type="password"]:disabled,
+input[type="text"]:disabled,
+input[type="number"]:disabled,
+input[type="email"]:read-only,
+input[type="tel"]:read-only,
+input[type="password"]:read-only,
+input[type="text"]:read-only,
+input[type="number"]:read-only,
+textarea:disabled {
+  background-color: var(--surface);
 }
 
 select {
@@ -445,6 +503,8 @@ select:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
 textarea:focus {
   outline: none;
 }
@@ -695,6 +755,11 @@ ul.tree-view details[open] > summary:before {
   content: "-";
 }
 
+ul.tree-view details > summary::marker,
+ul.tree-view details > summary::-webkit-details-marker {
+  content: "";
+}
+
 pre {
   display: block;
   background: var(--button-highlight);
@@ -804,33 +869,43 @@ menu[role=tablist].multirows > li {
   text-align: center;
 }
 
-
-/*collapsible*/
- /* Style the button that is used to open and close the collapsible content */
-.collapsible {
-  cursor: pointer;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-
+.sunken-panel {
   box-sizing: border-box;
-  background: var(--surface);
+  border: 2px groove transparent;
+  border-image: svg-load("./icon/sunken-panel-border.svg") 2;
+  overflow: auto;
+  background-color: #fff;
+}
+
+table {
+  border-collapse: collapse;
+  position: relative;
+  text-align: left;
+  white-space: nowrap;
+  background-color: #fff;
+}
+
+table > thead > tr > * {
+  position: sticky;
+  top: 0;
+  height: 17px;
   box-shadow: var(--border-raised-outer), var(--border-raised-inner);
-  border-radius: 0;
-
-  min-width: 75px;
-  min-height: 23px;
-  padding: 0 12px;
+  background: var(--surface);
+  box-sizing: border-box;
+  font-weight: normal;
+  padding: 0 var(--grouped-element-spacing);
 }
 
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .collapsible:hover {
-  background-color: var(--surface);
+table.interactive > tbody > tr {
+  cursor: pointer;
 }
 
-/* Style the collapsible content. Note: hidden by default */
-.content {
-  display: none;
-  overflow: hidden;
-  background-color: var(--surface);
+table > tbody > tr.highlighted {
+  color: #fff;
+  background-color: var(--dialog-blue);
+}
+
+table > tbody > tr > * {
+  padding: 0 var(--grouped-element-spacing);
+  height: 14px;
 }

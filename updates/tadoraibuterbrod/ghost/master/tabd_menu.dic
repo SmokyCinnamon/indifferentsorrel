@@ -143,7 +143,6 @@ OnConfigMenu : all //I moved changing name/pronouns/birthday over to Nameteach, 
 {
 	//This is here in case the variables get erased. The buttons will be set to default so the user has something to click. This has happened to my users before and resetting them is a painful process. Do not remove these.
 	if username == ""; username = "User"
-	if they == ""; {they = "they"; them = "them"; their = "their"; theyre = "they're"}
 	if birthday[0] == ""; birthday[0] = "???"
 	if hemisphere == ""; hemisphere = "Northern"
 	if deleteshitai == ""; deleteshitai = "Off"
@@ -156,15 +155,16 @@ OnConfigMenu : all //I moved changing name/pronouns/birthday over to Nameteach, 
 	elseif reference0 == "cancelled birthday day"; "\![close,inputbox,OnUserBornDay]"
 	if "cancelled birthday" _in_ reference0; {birthday = oldbirthday; ERASEVAR("oldbirthday")} //resets the birthday to the old values, erases the temp variable
 	--
-	"\_q\b2\_l[97]---Config---\n\n"
+	"\_q\b2\_l[97]---Settings---\n\n"
+	"\__q[OnPeraklad]Language: %(peraklad)\__q\n"
 	"Your name: \q[%(username),OnChangeName]\n"
-	"Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n"
+	//"Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n"
 	"Your birthday: \q[%(birthday[0]),OnChangeBirthday]\n\n"
 	"Your hemisphere: \q[%(hemisphere),ToggleHemisphere]\n"
 	"\__q[ToggleLescreate]Lesson Creator: %(lescreator)\__q\n"
 	"\__q[ToggleWinfo]Comment on apps: %Flag('winfoinfo')\__q\n"
-	"\![*]Enable Auto Update checks?\n(Currently: \q[%(AutoUpdates[0]),ToggleUpdate])\n"
-	"\![*]Enable Uninstall? (Currently: \q[%(deleteshitai),ToggleUninstall])\n\n"
+	"\![*]Auto Update checks: \q[%(AutoUpdates[0]),ToggleUpdate])\n"
+	"\![*]Uninstall: \q[%(deleteshitai),ToggleUninstall])\n\n"
 	"\![*]\q[Back to the menu,OnMenuRun]\e"
 }
 Select.ToggleWinfo {

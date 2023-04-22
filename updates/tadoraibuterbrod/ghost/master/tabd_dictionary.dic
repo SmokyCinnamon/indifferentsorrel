@@ -1,6 +1,6 @@
 OnDictionary : all {
 	_display = ''
-	"\b[2]\_qshow me your langyages\n\n[half]"
+	"\b[2]\_q%(dictalks[0])\n\n[half]"
 	//"%*\q[Belarusian - English,OnDicShow,byen]\n\n[half]"
 	//"CUSTOM:\n\n[half]"; --
 	{
@@ -11,9 +11,9 @@ OnDictionary : all {
 			_display += "%*\__q[OnDicShow,%(_lang)]%(_displaylang)\__q\n"
 	}}
 	--; "%(_display)"
-	"\n\n\n[half]%*\__q[OnDicEdit,addlang]Add language\__q %*\__q[OnDicEdit,addword]Add word\__q\n"
-	"%*\__q[OnDicEdit,delang]Remove Language\__q"// %*\__q[OnDicEdit,delword]Remove word\__q"
-	"\n\n[half]%*\__q[OnMenuRun]Back to menu\__q\_q\*\e"
+	"\n\n\n[half]%*\__q[OnDicEdit,addlang]%(dictalks[1])\__q %*\__q[OnDicEdit,addword]%(dictalks[2])\__q\n"
+	"%*\__q[OnDicEdit,delang]%(dictalks[3])\__q"// %*\__q[OnDicEdit,delword]Remove word\__q"
+	"\n\n[half]%*\__q[OnMenuRun]%(dictalks[4])\__q\_q\*\e"
 }
 
 OnDicShow {
@@ -34,7 +34,7 @@ OnDicShow {
 		if sort == "learning"; _display += "%(_wordarray[1]) | %(_wordarray[0])\n"
 	}
 	"\0\b[2]\![set,autoscroll,disable]\_q%(_display)\_q"; --
-	"\1\C \_q%*\__q[ChangeSort,%(reference0)]Sort by: %(sort) first\__q %*\__q[OnSearchDic,startsearch,%(_sending),%(reference0)]Search for...\__q\n\n[half] %*\__q[OnMenuRun]Main Menu\__q %*\__q[OnDictionary]Dictionary List\__q %*\__q[cancelnodialogue]Bye\__q\_q\*\e"
+	"\1\C \_q%*\__q[ChangeSort,%(reference0)]%(dictalks[5])\__q %*\__q[OnSearchDic,startsearch,%(_sending),%(reference0)]%(dictalks[6])\__q\n\n[half] %*\__q[OnMenuRun]%(dictalks[7])\__q %*\__q[OnDictionary]%(dictalks[8])\__q %*\__q[cancelnodialogue]%(dictalks[9])\__q\_q\*\e"
 }
 
 ChangeSort {
@@ -58,9 +58,9 @@ OnSearchDic {
 			LOGGING("words %(_words)")
 			LOGGING("display %(_display)")
 		}
-		if _display == ''; "\0\_qNo entry exists for %(reference0). Would you like to add one?\n\n%*\__q[OnDicEdit,addword,%(reference3)]Yes\__q %*\__q[OnDicShow,%(reference3)]No\_q\*"
-		else; "\_qSearch: %(reference0)\n\nResult: %(_display)\_q\x\![raise,OnDicShow,%(reference3)]"
-		"\1\C \_q%*\__q[ChangeSort,%(reference0)]Sort by: %(sort) first\__q %*\__q[OnSearchDic,startsearch,%(_sending),%(reference0)]Search for...\__q\n\n[half] %*\__q[OnMenuRun]Main Menu\__q %*\__q[OnDictionary]Dictionary List\__q %*\__q[cancelnodialogue]Bye\__q\_q\*\e"
+		if _display == ''; "\0\_q%(dictalks[10])\n\n%*\__q[OnDicEdit,addword,%(reference3)]%(dictalks[11])\__q %*\__q[OnDicShow,%(reference3)]%(dictalks[12])\_q\*"
+		else; "\_q%(dictalks[13]) %(reference0)\n\n%(dictalks[14]) %(_display)\_q\x\![raise,OnDicShow,%(reference3)]"
+		"\1\C \_q%*\__q[ChangeSort,%(reference0)]%(dictalks[5])\__q %*\__q[OnSearchDic,startsearch,%(_sending),%(reference0)]%(dictalks[6])\__q\n\n[half] %*\__q[OnMenuRun]%(dictalks[7])\__q %*\__q[OnDictionary]%(dictalks[8])\__q %*\__q[cancelnodialogue]%(dictalks[9])\__q\_q\*\e"
 	}
 	LOGGING("%(reference) SHOW THIS TO ME")
 }
@@ -75,7 +75,7 @@ OnDicEdit {
 			}
 			else {
 				treelang = ASORT(string,treelang)
-				"\0\s[0]\b[2]\_qSure! Which language would you like to add a dictionary for?\n\n[half]"; --
+				"\0\s[0]\b[2]\_q%(dictalks[15])\n\n[half]"; --
 				foreach treelang; _lang {
 					_disarray = SPLIT(_lang,'@')
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
@@ -88,11 +88,11 @@ OnDicEdit {
 			if reference1 != "" {
 				_num = ASEARCH(reference1,diclang)
 				LOGGING("%(reference) and %(_num)")
-				"\_qPlease input your word -- it has to be formatted as 'native language@learning language', otherwise displaying it might get all weird!\nAlso, remember that you can't yet delete a word you've added. So make sure everything's spelled correctly!\_q\![open,inputbox,OnDicWord,-1,--reference=%(_num),--reference=%(reference2)]\*\t"
+				"\_q%(dictalks[16])\_q\![open,inputbox,OnDicWord,-1,--reference=%(_num),--reference=%(reference2)]\*\t"
 			}
 			else {
 				treelang = ASORT(string,treelang)
-				"\0\s[0]\b[2]\_qAlrighty! First you gotta select a language...\n\n[half]"; --
+				"\0\s[0]\b[2]\_q%(dictalks[17])\n\n[half]"; --
 				foreach treelang; _lang {
 					_disarray = SPLIT(_lang,'@')
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
@@ -107,7 +107,7 @@ OnDicEdit {
 				diclang[_num] = IARRAY
 			}
 				diclang = ASORT(string,diclang)
-				"\0\s[0]\b[2]\_qAlright, which one do you want to remove?\n\n[half]"; --
+				"\0\s[0]\b[2]\_q%(dictalks[18])\n\n[half]"; --
 				foreach diclang; _lang {
 					_disarray = SPLIT(_lang[0,'|'],'@')
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
@@ -136,7 +136,7 @@ OnDicEdit {
 			}
 			else {
 				treelang = ASORT(string,treelang)
-				"\0\s[0]\b[2]\_qOk, I need you to select a language first.\n\n[half]"; --
+				"\0\s[0]\b[2]\_q%(dictalks[19])\n\n[half]"; --
 				foreach treelang; _lang {
 					_disarray = SPLIT(_lang,'@')
 					_displaylang = "%(_disarray[1]) - %(_disarray[0])"
@@ -148,7 +148,7 @@ OnDicEdit {
 		others {
 			"...hey, how did you even get here?"
 		}
-		--; "\0\b[2]\C \n\n%*\__q[OnMenuRun]Main menu\__q %*\__q[OnDictionary]Go back\__q %*\__q[cancelnodialogue]Cancel\__q\_q\*\e"
+		--; "\0\b[2]\C \n\n%*\__q[OnMenuRun]%(dictalks[20])\__q %*\__q[OnDictionary]%(dictalks[21])\__q %*\__q[cancelnodialogue]%(dictalks[22])\__q\_q\*\e"
 	}
 }
 

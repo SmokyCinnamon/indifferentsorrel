@@ -4,16 +4,11 @@ let islocal = location.protocol == "https:" ? '' : '.html';
 
 let links = [
 	{ path: 'index', title: 'Main' },
-	{ title: 'Ghosts', sublinks: [
-		{ title: 'Ghosty ghosts' },
-		{ path: 'kiselew', title: 'Киселев Микола' },
+	
+	//{ title: 'Ghosts', sublinks: [
+		//{ title: 'Ghosty ghosts' },
 		{ path: 'tadora', title: 'Tadora i Buterbrod' },
-		{ path: 'stickerbook', title: 'Stickerbook' },
-		{ path: 'templates', title: 'Образы' },
-		{ title: 'Ghost Jam' },
-		{ path: 'anemone', title: 'Анемони' },
-		{ path: 'jihae', title: 'Джи-хэй Хва' },
-	] },
+	//] },
 ];
 
 let basepath = '';

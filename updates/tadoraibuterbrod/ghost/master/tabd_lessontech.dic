@@ -93,7 +93,7 @@ OnOpenLessonEdit {
 }
 OnLessonCreateName {
 	_ref = SPLIT(reference0,',')
-	"\0\b[2]\_qPlease the name of your lesson:\![open,inputbox,OnLessonCreate,0,--reference=%(_ref[0]),--reference=%(_ref[1])]\*"
+	"\0\b[2]\_qPlease enter the name of your lesson:\![open,inputbox,OnLessonCreate,0,--reference=%(_ref[0]),--reference=%(_ref[1])]\*"
 }
 OnLessonCreate{
 	LOGGING("%(reference)")
@@ -194,7 +194,7 @@ OnLangSelect {
 		"%(_display)\n\n\n[half]%*\__q[OnLessonPick]Back\__q %*\__q[OnMenuRun]Main Menu\__q\_q\*"
 	}
 	else {
-		"\![raise,OnNotifySelfInfo]Choose which language pair you're working and course with from the following pop-up.\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/,--id=OnLessonEdit]"
+		"\![raise,OnNotifySelfInfo]Choose which language pair and course you're working with from the following pop-up.\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/,--id=OnLessonEdit]"
 	}
 }
 OnChangeLang {

@@ -103,63 +103,6 @@ FormatLinks
 	_output
 }
 
-On_updatebutton.caption //Caption for the update button
-{
-	"Check for updates"
-}
-
-On_dressuprootbutton.caption //Caption for the dressup button
-{
-	"Accessories"
-}
-
-On_headlinesenserootbutton.caption //Caption for the RSS/Headlines button
-{
-	"Headlines and RSS"
-}
-
-On_readmebutton.caption //Caption for the Readme button
-{
-	"Readme"
-}
-
-On_vanishbutton.caption //Caption for the uninstall button
-{
-	"Uninstall"
-}
-
-On_shellrootbutton.caption //Caption for the change shell button
-{
-	"Change Shell"
-}
-
-On_ghostrootbutton.caption //Caption for the change ghost button
-{
-	"Change Ghost"
-}
-
-On_callghostrootbutton.caption //Caption for the call ghost button
-{
-	"Call Ghost"
-}
-
-On_hidebutton.caption //Caption for the minimize/iconify button
-{
-	"Minimize"
-}
-
-On_quitbutton.caption //Caption for the quit button
-{
-	"Quit"
-}
-
-On_calendarbutton.caption //The default right click menu has this typoed as 'Calender'
-{
-	"Calendar"
-}
-
-
-
 
 //-----Don't touch these-----
 //This stuff is, I believe, written by Umeici. I added a couple things of my own, but you really don't need to worry about them.
