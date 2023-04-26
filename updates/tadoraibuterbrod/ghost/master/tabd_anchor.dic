@@ -3,9 +3,30 @@ OnTranslate
 	_talk = reference0
 	
 	//---Anchors---
-	_talk = REPLACE(_talk, "Example Anchor", "\_a[exampleanchor]Example Anchor\_a")
-	_talk = REPLACE(_talk, "Example word swap", "You don't have to make anchors into links, you can put images and stuff too")
-	_talk = REPLACE(_talk, "Example Anchor with OnFunction", "\_a[OnSomeAnchor]Since this links to OnSomeAnchor, you could create a function called OnSomeAnchor that would be called directly by clicking this\_a")
+	_talk = REPLACE(_talk, "EnUsername", "%(username)")
+	_talk = REPLACE(_talk, "EnReference0", "%(reference0)")
+	_talk = REPLACE(_talk, "EnSort", "%(sort)")
+	_talk = REPLACE(_talk, "EnReference1", "%(reference1)")
+	_talk = REPLACE(_talk, "EnReference2", "%(reference2)")
+	_talk = REPLACE(_talk, "En_UpdateProgress", "%(_Update_Progress)")
+	_talk = REPLACE(_talk, "En_UpdateTotal", "%(_Update_Total)")
+	_talk = REPLACE(_talk, "En_Remaining", "%(_remaining)")
+	_talk = REPLACE(_talk, "En_CurrentFile", "%(_currentfile)")
+	_talk = REPLACE(_talk, "EnDisplang", "%(displang)")
+	_talk = REPLACE(_talk, "EnHMword", "%(HMword)")
+	_talk = REPLACE(_talk, "EnHMtrans", "%(HMtrans)")
+	_talk = REPLACE(_talk, "EnHMlet[1]", "%(HMlet[1])")
+	_talk = REPLACE(_talk, "En_Word", "%(_word)")
+	_talk = REPLACE(_talk, "En_Left", "%(_left)")
+	_talk = REPLACE(_talk, "En_argv[1]", "%(_argv[1])")
+	_talk = REPLACE(_talk, "EnWordSearchTrans[_num]", "%(WordSearchTrans[_num])")
+	_talk = REPLACE(_talk, "EnJumbleWord", "%(JumbleWord)")
+	_talk = REPLACE(_talk, "EnJumbleTrans", "%(JumbleTrans)")
+	_talk = REPLACE(_talk, "En_Display", "%(_display)")
+	_talk = REPLACE(_talk, "En_Disarray[1]", "%(_disarray[1])")
+	_talk = REPLACE(_talk, "En_Disarray[0]", "%(_disarray[0])")
+	_talk = REPLACE(_talk, "EnStroke[2]", "%(stroke[2])")
+	_talk = REPLACE(_talk, "EnPetHighScore[0]", "%(pethighscore[0])")
 	
 	
 	//---Important other stuff, written by Ponapalt---

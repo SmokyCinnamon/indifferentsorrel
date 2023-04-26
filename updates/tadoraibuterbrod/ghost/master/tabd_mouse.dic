@@ -26,7 +26,7 @@ MouseMoveSakura
 				stroke[2]++
 				totalpets++
 				
-				"\0\s[0]%(stroke[2]) pet streak!\e"
+				"\0\s[0]%(mousetalks[0])\e"
 			}
 		}
 		elseif stroke[0] >= 40
@@ -35,7 +35,7 @@ MouseMoveSakura
 			stroke[2]++
 			totalpets++
 			
-			"\0\s[0]Aww, thanks, haha!\e"
+			"\0\s[0]%(mousetalks[1])\e"
 		}
 	}
 	elseif reference4 == "Face"
@@ -45,7 +45,7 @@ MouseMoveSakura
 		if stroke[0] >= 40
 		{
 			stroke[0] = 0
-			"\0\s[0]Face in belarusian is твар!\e"
+			"\0\s[0]%(mousetalks[2])\e"
 		}
 	}
 	elseif reference4 == "Obsidian" //If your collision is named Obsidian
@@ -72,7 +72,7 @@ MouseMoveKero {
 				stroke[2]++
 				totalpets++
 				
-				"\1\s[10]* (%(stroke[2]) pet streak!)\e"
+				"\1\s[10]%(mousetalks[3])\e"
 			}
 		}
 		elseif stroke[0] >= 40
@@ -81,7 +81,7 @@ MouseMoveKero {
 			stroke[2]++
 			totalpets++
 			
-			"\1\s[10]* (Buterbrod purrs.)\e"
+			"\1\s[10]%(mousetalks[4])\e"
 		}
 	}
 }
@@ -94,7 +94,7 @@ OnMouseLeaveAll //When the mouse is no longer on a hitbox. You can change to OnM
 		_b = BalloonCheck
 		if _b == 1 //Checks to see if the balloon is open, and if it is, \C means this will be added onto the previous dialogue.
 		{
-			"\C\n\n(New high score! %(pethighscore[0])!)\e"
+			"\C\n\n%(mousetalks[5])\e"
 		}
 	}
 	--
@@ -127,20 +127,14 @@ OnMouseDoubleClick
 MouseDoubleClickSakura
 {
 	if holdingObsidian == 1 && reference4 == "Obsidian" {"\![get,property,OnObsidianJumpDown,currentghost.scope(0).rect]\e"}
-	elseif reference4 == "Head" || reference4 == "face" //Punching dialogue
+	elseif reference4 == "Head" || reference4 == "face"
 	{
-		"\0\s[0]I've been pat!\e"
+		"\0\s[0]%(mousetalks[6])\e"
 	}
-	else //If you're not punching, you must want the menu
+	else
 	{
 		OpenSakuraMenu
 	}
-}
-
-Select.FirstPunch //The first time the ghost is punched
-{
-	"\0\s[0]Ow!\e"
-	totalpunches++
 }
 
 MouseDoubleClickKero {

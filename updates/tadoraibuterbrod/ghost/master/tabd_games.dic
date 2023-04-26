@@ -1,9 +1,9 @@
 OnGameMenu : all {
-	"\_qLanguage: %(displang)\n"
-	"\__q[OnStartHangman]hangman\__q\n"
-	if currentlang == "english@belarusian"; "\__q[OnStartWordSearch]word search\__q\n"
-	"\__q[OnJuniorJumble,,new]word scramble\__q\n"
-	"\__q[cancelnodialogue]bye lmao\__q\_q"
+	"\_q%(gametalks[0])\n"
+	"\__q[OnStartHangman]%(gametalks[1])\__q\n"
+	if currentlang == "english@belarusian"; "\__q[OnStartWordSearch]%(gametalks[2])\__q\n"
+	"\__q[OnJuniorJumble,,new]%(gametalks[3])\__q\n"
+	"\__q[cancelnodialogue]%(gametalks[4])\__q\_q"
 }
 
 GrabWords {
@@ -112,6 +112,7 @@ OnStartHangman //Sets up starting variables
 
 OnHangman //Main game window
 {
+	if STRLEN(HMword) == 1; OnStartHangman
 	_maxwrong = 6 //Maximum incorrect guesses - set to whatever you like
 	_word = ""
 	_left = 0
@@ -131,7 +132,7 @@ OnHangman //Main game window
 	--
 	if (STRLEN(HMlet[1]) / 2) >= _maxwrong //If the number of incorrect letters is equal to or greater than the number of max tries
 	{
-		"\0\s[0]Aw, you didn't get it! It was %(HMword), which means %(HMtrans)... I hope you get it next time!"
+		"\0\s[0]%(gametalks[5])"
 	}
 	elseif _left > 0 //If there are still letters to guess
 	{
@@ -140,7 +141,7 @@ OnHangman //Main game window
 		
 		"\0\_q\*%(bb)\![set,balloontimeout,-1]\![set,autoscroll,disable]\![open,inputbox,OnGuessNormal,-1]"
 		--
-		"%(_word)\n\nGuessed so far: %(HMlet[1])\n\nTries left: "
+		"%(_word)\n\n%(gametalks[6]) "
 		--
 		for _i = 0; _i < _mistakes; _i++
 		{
@@ -151,16 +152,16 @@ OnHangman //Main game window
 		--
 		if _left > 1
 		{
-			"\n\n\![*]\q[Guess the whole word,HangmanGuessWhole]"
+			"\n\n\![*]\q[%(gametalks[7]),HangmanGuessWhole]"
 		}
 		--
-		"\n\![*]\q[Open the input box again,HangmanInput]\n\n\![*]\q[Give up,HangmanQuit]\e"
+		"\n\![*]\q[%(gametalks[8]),HangmanInput]\n\n\![*]\q[%(gametalks[9]),HangmanQuit]\e"
 	}
 	else //If _left is still 0, the user has guessed all letters correctly
 	{
 		HangmanWin
 		--
-		"\0\s[0]Woah no way!! It's %(HMword), you're right, nya!\nOh, and it means %(HMtrans) if you're interested."
+		"\0\s[0]%(gametalks[10])"
 	}
 	--
 	HangmanBack
@@ -171,11 +172,11 @@ OnGuessNormal
 	if TOSTR(reference0) == "0.0" || TOSTR(reference0) == "0.000000"; reference0 = "." //Unlikely to come up, but periods are handled strangely, and also differently between aya and yaya because screw you lol
 	if STRLEN(reference0) > 1 //The user has put in more than 1 letter
 	{
-		"\0\s[0]Hm... that's more than one. Try again with only one?\x"
+		"\0\s[0]%(gametalks[11])\x"
 	}
 	elseif UpperLower(reference0,"lower") _in_ UpperLower(HMlet[0],"lower") //The user has already guessed that letter
 	{
-		"\0\s[0]Oh, but that letter's already there! Maybe try again with something that isn't %(reference0), nya?\x"
+		"\0\s[0]%(gametalks[12])\x"
 	}
 	elseif UpperLower(reference0,"lower") _in_ UpperLower(HMword,"lower") //The letter is in the word
 	{
@@ -209,9 +210,9 @@ Select.HangmanGuessWhole
 	}
 	"\0\*%(b)\![set,balloontimeout,-1]\![set,autoscroll,disable]\![close,inputbox,OnGuessNormal]\![open,inputbox,OnGuessWhole,-1]"
 	--
-	"\0\s[0]So you've got %(_word)...\n\nAnd you've guessed %(HMlet[1]).\n\nThink you figured it out by now?"
+	"\0\s[0]%(gametalks[13])"
 	--
-	"\n\n\n\![*]\q[Open the input box again,WholeInput]\n\n\![*]\q[Give up,HangmanQuit]\e"
+	"\n\n\n\![*]\q[%(gametalks[14]),WholeInput]\n\n\![*]\q[%(gametalks[15]),HangmanQuit]\e"
 }
 
 OnGuessWhole
@@ -235,11 +236,11 @@ OnGuessWhole
 	{
 		HangmanWin
 		--
-		"\0\s[0]Yeah, you're right, you're amazing!!! %(HMword)! You even had %(_left) letters left empty!\n\n[half]\w4Oh, right, it's also %(HMtrans) if you didn't know. But maybe you did..?"
+		"\0\s[0]%(gametalks[16])"
 	}
 	else //Incorrect guess, instant lose
 	{
-		"\0\s[0]Oh... no, it was %(HMword) -- %(HMtrans). I hope you get it next time, though!"
+		"\0\s[0]%(gametalks[17])"
 	}
 	--
 	HangmanBack
@@ -259,14 +260,14 @@ Select.HangmanQuit
 {
 	"\0\![close,inputbox,OnGuessNormal]\![close,inputbox,OnGuessWhole]%(b)"
 	--
-	"\0\s[0]Oh, okej. It was %(HMword), which means %(HMtrans), if you wanted to know. Come play again sometime?"
+	"\0\s[0]%(gametalks[18])"
 	--
 	HangmanBack
 }
 
 HangmanBack
 {
-	"\n\n\![*]\q[Another!,OnStartHangman]\n%*\__q[OnGameMenu]Different Game\__q \![*]\q[I'm done,cancelnodialogue]\e"
+	"\n\n\![*]\q[%(gametalks[19]),OnStartHangman]\n%*\__q[OnGameMenu]%(gametalks[20])\__q \![*]\q[%(gametalks[21]),cancelnodialogue]\e"
 }
 
 HangmanWin //This function is called every time the user wins hangman. You can use it to easily add friendship/money/whatever in one easy place. This does not include dialogue, it's just for variable changes. The ones I've left in here are examples.
@@ -346,29 +347,29 @@ WordSearchDialogue
 {
 	if _argv[0] == "Menu During Play" //Menu option at the bottom while the game is being played, such as a button to give up/quit
 	{
-		"\n\![*]\q[Give up,OnWordSearchQuit]\e"
+		"\n\![*]\q[%(gametalks[22]),OnWordSearchQuit]\e"
 	}
 	elseif _argv[0] == "Invalid Word" //If the user puts in a word that isn't on the word list or was already guessed - _argv[1] is the word the user guessed
 	{
-		"%(_argv[1]) isn't right, nya. There's only so many words, after all!"
+		"%(gametalks[23])"
 	}
 	elseif _argv[0] == "Invalid Move" //If the user tried an illegal diagonal move
 	{
-		"Oh, moves have to be straight lines;\w4 up,\w4 down,\w4 left,\w4 right,\w4 or diagonal."
+		"%(gametalks[24])"
 	}
 	elseif _argv[0] == "Found Word" //If the user found a word - _argv[1] is the word that was found
 	{
 		_num = ASEARCH(_argv[1],WordSearchWords)
 		LOGGING("%(_num)")
-		"Hey cool, you found %(_argv[1])! It also means %(WordSearchTrans[_num]), nya!"
+		"%(gametalks[25])"
 	}
 	elseif _argv[0] == "Finished Puzzle" //If the user completed the puzzle - _argv[1] is the last word the user found. Might be a good idea to add menu buttons here.
 	{
 		_num = ASEARCH(_argv[1],WordSearchWords)
 		LOGGING("%(_num)")
-		"Hey, that's right, AND the last word! %(_argv[1]), and it means... %(WordSearchTrans[_num])! You're so amazing, %(username)!"
+		"%(gametalks[26])"
 		--
-		"\_q\n\![*]\q[Play again,OnStartWordSearch]  \![*]\q[Play something else,OnGameMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+		"\_q\n\![*]\q[%(gametalks[27]),OnStartWordSearch]  \![*]\q[%(gametalks[28]),OnGameMenu]\n\![*]\q[%(gametalks[29]),cancelnodialogue]\e"
 		
 		ERASEVAR("WordSearch")
 		ERASEVAR("WordList")
@@ -1021,26 +1022,26 @@ OnJuniorJumble
 	
 			"\0\*\![close,inputbox,OnJuniorJumble,-1]\![open,inputbox,OnJuniorJumble,-1]"
 			--
-			"Unscramble the word:"
+			"%(gametalks[30])"
 			--
 			LOGGING("this is %(_jumbled)")
 			"\n\n\f[height,+4]%(_jumbled)\f[default]"
 			--
-			"\_q\n\n\![*]\q[Give up,OnJuniorJumbleQuit]\e"
+			"\_q\n\n\![*]\q[%(gametalks[31]),OnJuniorJumbleQuit]\e"
 		}
 	}
 	else //If the user put in a guess
 	{
 		if UpperLower(reference0,"lower") == JumbleWord //Win
 		{
-			"Hey, you got it, nya! %(JumbleWord) means %(JumbleTrans)!"
+			"%(gametalks[32])"
 		}
 		else //Lose
 		{
-			"Oh, not really... %(reference0), right?\w4 It was actually %(JumbleWord) - or %(JumbleTrans), if you didn't know that already."
+			"%(gametalks[33])"
 		}
 		--
-		"\_q\n\n\![*]\q[Another word,OnJuniorJumble,,new]%*\__q[OnGameMenu]Different game\__q\n\![*]\q[I'm done,cancelnodialogue]\e"
+		"\_q\n\n\![*]\q[%(gametalks[34]),OnJuniorJumble,,new]%*\__q[OnGameMenu]%(gametalks[35])\__q\n\![*]\q[%(gametalks[36]),cancelnodialogue]\e"
 		--
 		ERASEVAR("JumbleWord")
 	}
@@ -1050,9 +1051,9 @@ OnJuniorJumbleQuit
 {
 	"\![close,inputbox,OnJuniorJumble,-1]"
 	--
-	"Oh, ok... It was %(JumbleWord), which means %(JumbleTrans). But maybe you already knew that?"
+	"%(gametalks[37])"
 	--
-	"\_q\n\n\![*]\q[Another word,OnJuniorJumble,,new] %*\__q[OnGameMenu]Different game\__q\n\![*]\q[I'm done,cancelnodialogue]\e"
+	"\_q\n\n\![*]\q[%(gametalks[34]),OnJuniorJumble,,new]%*\__q[OnGameMenu]%(gametalks[35])\__q\n\![*]\q[%(gametalks[36]),cancelnodialogue]\e"
 	--
 	ERASEVAR("JumbleWord")
 }

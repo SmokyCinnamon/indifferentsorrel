@@ -21,17 +21,17 @@ OpenSakuraMenu
 {
 	if AutoUpdates[1] == 2 //If an update is available, the user will be notified when they try to open the menu
 	{
-		"\0\s[0]An update is available!\w8\w8 Do you want to download it?"
+		"\0\s[0]\_q%(menutalks[0])"
 		--
 		//Note: the download it now option will go straight into updating without directing to another function. You can do this with some things using 'script:' in the function name, but it's finicky. If this gives you issues feel free to replace it.
-		"\_q\n\n\![*]\q[Download it now,script:\![updatebymyself\]]\n/
-		\![*]\q[Maybe later,UpdateLater]\n\n/
-		\![*]\q[Turn off auto updates,UpdateOff]\e"
+		"\n\n\![*]\q[%(menutalks[1]),script:\![updatebymyself\]]\n/
+		\![*]\q[%(menutalks[2]),UpdateLater]\n/
+		\![*]\q[%(menutalks[3]),UpdateOff]\_q\e"
 	}
 	else //Normal menu opening
 	{
-		"\0\b2\s[0]Hi there!"
-		"\0\b2\s[0]Hello!"
+		"\0\b2\s[0]%(menutalks[4])"
+		"\0\b2\s[0]%(menutalks[5])"
 		--
 		OnMenuRun
 	}
@@ -41,7 +41,7 @@ Select.UpdateLater //If the user decides to update later
 {
 	AutoUpdates[1] = 1
 	
-	"\0\s[0]Alright,\w4 I'll remind you once a day!\e"
+	"\0\s[0]%(menutalks[6])\e"
 }
 
 Select.UpdateOff //If the user no longer wants to be notified about updates
@@ -49,7 +49,7 @@ Select.UpdateOff //If the user no longer wants to be notified about updates
 	AutoUpdates[0] = "Off"
 	AutoUpdates[1] = 1
 	
-	"\0\s[0]Auto Update checks turned off,\w4 you can turn them on again in the Config menu!\e"
+	"\0\s[0]%(menutalks[7])\e"
 }
 
 OnMenuRun : all //Main menu
@@ -58,28 +58,28 @@ OnMenuRun : all //Main menu
 	--
 	if lastTalk != ""
 	{
-		"\![*]\q[Repeat last dialogue,OnLastTalk]\n"
+		"\![*]\q[%(menutalks[8]),OnLastTalk]\n"
 	}
 	--
 	//\![*]\q[Say something,OnAiTalk]\n
-	"\![*]\q[Talk to another ghost,OnStartTalking]\n\n"
-	"\![*]\q[Lesson,OnLessonPick] %*\q[Dictionary,OnDictionary]\n"
-	"%*\__q[OnGameMenu]Games\__q\n"
-	--; "%*\__q[CustomExplain]Custom lessons?\__q\n"
-	--; if lescreator == "On" {"%*\__q[OnEditLesson]Lesson Configuration\__q %*\__q[OnOpenDocs]Documentation\__q\n%*\__q[OnCourseExport]Export Course\__q\n\n[half]"}
+	"\![*]\q[%(menutalks[9]),OnStartTalking]\n\n"
+	"\![*]\q[%(menutalks[10]),OnLessonPick] %*\q[%(menutalks[11]),OnDictionary]\n"
+	"%*\__q[OnGameMenu]%(menutalks[12])\__q\n"
+	--; "%*\__q[CustomExplain]%(menutalks[13])\__q\n"
+	--; if lescreator == "On" {"%*\__q[OnEditLesson]%(menutalks[14])\__q %*\__q[OnOpenDocs]%(menutalks[15])\__q\n%*\__q[OnCourseExport]%(menutalks[16])\__q\n\n[half]"}
 	--
 	if debug == 1 //%(debug = 1) in script input to show the debug options
 	{
 		"\n[half]\![*]\q[Test Variable,OnTestVar] %*\__q[OnEditInbuilt]Inbuilt Lessons\__q\n%*\__q[OnLessonCheck]Re-check default folder\__q\n\n[half]"
 		//The template update check is in zzz_todo.dic. It doesn't do a network update, it checks my website and compares your version to the most recent version. It cannot update automatically, so as not to erase your progress.
 	}
-	"%*\__q[OnConfigMenu]User Config\__q \![*]\q[Functions,OnFunctionMenu]\n"
-	"%*\__q[OnChangeLog]Open Changelog\__q\n"
-	"\![*]\q[Nevermind,Cancel]\n\n"
+	"%*\__q[OnConfigMenu]%(menutalks[17])\__q \![*]\q[%(menutalks[18]),OnFunctionMenu]\n"
+	"%*\__q[OnChangeLog]%(menutalks[19])\__q\n"
+	"\![*]\q[%(menutalks[20]),Cancel]\n\n"
 	--
 	"%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year) - %(season)"
 	--
-	"\nRuntime: %(runtime[0]):%(runmin)    Version %(ghostver)\e"
+	"\n%(menutalks[21]) %(runtime[0]):%(runmin)    %(menutalks[22]) %(ghostver)\e"
 }
 
 OnLastTalk //Repeats the last thing the ghost said
@@ -88,22 +88,21 @@ OnLastTalk //Repeats the last thing the ghost said
 }
 
 Select.CustomExplain {
-	"\0\s[0]\b[2]\![set,autoscroll,disable]\_qBasically if you drag and drop a proper .zip or .nar file on me, I'll set up a new course for you!\nIf you'd like to make one yourself, you can head over to the %*\__q[OnConfigMenu]User Config menu\__q and click on the lesson creator option to turn it on. Then, once you head back to the main menu, you should have an option labeled 'Lesson Configuration'! Once you're in there, the menu's pretty straightforwards.\n\n[half]Anyways, if you're looking for documentation for how the lessons and stuff work, you can find it \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]here\_a, under the documentation tab. Hopefully that's all you need!\n\n%*\__q[OnMenuRun]Back to menu\__q %*\__q[cancelnodialogue]Ok bye\__q\_q"
+	"\0\s[0]\b[2]\![set,autoscroll,disable]\_q%(menutalks[23])\n\n%*\__q[OnMenuRun]%(menutalks[24])\__q %*\__q[cancelnodialogue]%(menutalks[25])\__q\_q"
 }
 OnOpenDocs {
-	"Documentation can be found under the aptly labeled documentation tab, \_a[https://smokycinnamon.github.io/indifferentsorrel/tadora.html#Docs]right here\_a\n\n%*\__q[OnMenuRun]Back to menu\__q %*\__q[cancelnodialogue]Ok bye\__q"
+	"%(menutalks[26])\n\n%*\__q[OnMenuRun]%(menutalks[24])\__q %*\__q[cancelnodialogue]%(menutalks[25])\__q"
 }
 
 //----------Function Menu----------
-OnFunctionMenu
+OnFunctionMenu : all
 {
-	"\0\_q\b2\s[0]Sure, what do you want me to do?"
-	--
-	"\n\n/
-	\![*]\q[Show System Information,SystemInfo]\n/
-	\![*]\q[Report a bug,BugReport]\n/
-	\![*]\q[Check for updates,UpdateCheck]\n\n/
-	\![*]\q[Back to main menu,OnMenuRun]\e"
+	"\0\_q\b2\s[0]%(menutalks[27])"
+	"\n\n"
+	"\![*]\q[%(menutalks[28]),SystemInfo]\n"
+	"\![*]\q[%(menutalks[29]),BugReport]\n"
+	"\![*]\q[%(menutalks[30]),UpdateCheck]\n\n"
+	"\![*]\q[%(menutalks[31]),OnMenuRun]\e"
 }
 
 Select.SystemInfo //Partially copied from the GT template, but I tweaked a few things
@@ -114,21 +113,21 @@ Select.SystemInfo //Partially copied from the GT template, but I tweaked a few t
 	cpu_clockex = FUNCTIONEX("saori_cpuid.dll","cpu.clockex")
 	"/
 	\0\b[2]\_q/
-	OS: %(os_name) %(os_version)\n/
-	Memory Load: %(memoryload)%\n/
-	Physical Memory: %(memoryavailphys) KB\n/
-	CPU: %(cpu_name) %(cpu_clockex)MHz\n/
-	Uptime: %(systemuphour):%(systemupminute):%(systemupsecond)\n\n/
-	Ukagaka: %property[baseware.version]\n\n/
-	\![*]\q[Back to functions,OnFunctionMenu]\n/
-	\![*]\q[Done,cancelnodialogue]\e"
+	%(menutalks[31]) %(os_name) %(os_version)\n/
+	%(menutalks[32]) %(memoryload)%\n/
+	%(menutalks[33]) %(memoryavailphys) KB\n/
+	%(menutalks[34]) %(cpu_name) %(cpu_clockex)MHz\n/
+	%(menutalks[35]) %(systemuphour):%(systemupminute):%(systemupsecond)\n\n/
+	%(menutalks[36]) %property[baseware.version]\n\n/
+	\![*]\q[%(menutalks[37]),OnFunctionMenu]\n/
+	\![*]\q[%(menutalks[38]),cancelnodialogue]\e"
 }
 
 Select.BugReport
 {
-	"\0\s[0]Bugs can be reported to Smoky on \_a[https://www.smokycinnamonroll.tumblr.com]tumblr\_a."
+	"\0\s[0]%(menutalks[39])"
 	--
-	"\n\n\![*]\q[Back to functions,OnFunctionMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+	"\n\n\![*]\q[%(menutalks[40]),OnFunctionMenu]\n\![*]\q[%(menutalks[41]),cancelnodialogue]\e"
 }
 
 Select.UpdateCheck //Starts an update check
@@ -155,17 +154,17 @@ OnConfigMenu : all //I moved changing name/pronouns/birthday over to Nameteach, 
 	elseif reference0 == "cancelled birthday day"; "\![close,inputbox,OnUserBornDay]"
 	if "cancelled birthday" _in_ reference0; {birthday = oldbirthday; ERASEVAR("oldbirthday")} //resets the birthday to the old values, erases the temp variable
 	--
-	"\_q\b2\_l[97]---Settings---\n\n"
-	"\__q[OnPeraklad]Language: %(peraklad)\__q\n"
-	"Your name: \q[%(username),OnChangeName]\n"
+	"\_q\b2\_l[97]---%(menutalks[42])---\n\n"
+	"\__q[OnPeraklad]%(menutalks[43]) %(peraklad)\__q\n"
+	"%(menutalks[44]) \q[%(username),OnChangeName]\n"
 	//"Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n"
-	"Your birthday: \q[%(birthday[0]),OnChangeBirthday]\n\n"
-	"Your hemisphere: \q[%(hemisphere),ToggleHemisphere]\n"
-	"\__q[ToggleLescreate]Lesson Creator: %(lescreator)\__q\n"
-	"\__q[ToggleWinfo]Comment on apps: %Flag('winfoinfo')\__q\n"
-	"\![*]Auto Update checks: \q[%(AutoUpdates[0]),ToggleUpdate])\n"
-	"\![*]Uninstall: \q[%(deleteshitai),ToggleUninstall])\n\n"
-	"\![*]\q[Back to the menu,OnMenuRun]\e"
+	"%(menutalks[45]) \q[%(birthday[0]),OnChangeBirthday]\n\n"
+	"%(menutalks[46]) \q[%(hemisphere),ToggleHemisphere]\n"
+	"\__q[ToggleLescreate]%(menutalks[47]) %(lescreator)\__q\n"
+	"\__q[ToggleWinfo]%(menutalks[48]) %Flag('winfoinfo')\__q\n"
+	"\![*]%(menutalks[49]) \q[%(AutoUpdates[0]),ToggleUpdate])\n"
+	"\![*]%(menutalks[50]) \q[%(deleteshitai),ToggleUninstall])\n\n"
+	"\![*]\q[%(menutalks[51]),OnMenuRun]\e"
 }
 Select.ToggleWinfo {
 	if Flag("winfoinfo") == 0 {AddFlag("winfoinfo")}; else {RemoveFlag("winfoinfo")}
@@ -173,19 +172,19 @@ Select.ToggleWinfo {
 	OnConfigMenu
 }
 Select.ToggleLescreate {
-	if lescreator != "On" {lescreator = "On"}; else {lescreator = "Off"}
+	if lescreator != "%(menutalks[52])" {lescreator = "%(menutalks[52])"}; else {lescreator = "%(menutalks[53])"}
 	--
 	OnConfigMenu
 }
 Select.ToggleHemisphere
 {
-	if hemisphere != "Northern"
+	if hemisphere != "%(menutalks[54])"
 	{
-		hemisphere = "Northern"
+		hemisphere = "%(menutalks[54])"
 	}
 	else
 	{
-		hemisphere = "Southern"
+		hemisphere = "%(menutalks[55])"
 	}
 	--
 	OnConfigMenu
@@ -193,13 +192,13 @@ Select.ToggleHemisphere
 
 Select.ToggleUpdate
 {
-	if AutoUpdates[0] != "On"
+	if AutoUpdates[0] != "%(menutalks[52])"
 	{
-		AutoUpdates[0] = "On"
+		AutoUpdates[0] = "%(menutalks[52])"
 	}
 	else
 	{
-		AutoUpdates[0] = "Off"
+		AutoUpdates[0] = "%(menutalks[53])"
 	}
 	--
 	OnConfigMenu
@@ -207,13 +206,13 @@ Select.ToggleUpdate
 
 Select.ToggleUninstall
 {
-	if deleteshitai != "On"
+	if deleteshitai != "%(menutalks[52])"
 	{
-		deleteshitai = "On"
+		deleteshitai = "%(menutalks[52])"
 	}
 	else
 	{
-		deleteshitai = "Off"
+		deleteshitai = "%(menutalks[53])"
 	}
 	--
 	OnConfigMenu
@@ -223,7 +222,7 @@ Select.ToggleUninstall
 
 OnChoiceTimeout //Menu has timed out
 {
-	"\0\s[0]Are you still there?\e"
+	"\0\s[0]%(menutalks[56])\e"
 }
 
 Select.Cancel //If the main menu has been cancelled
@@ -235,18 +234,18 @@ Select.Cancel //If the main menu has been cancelled
 
 OpenKeroMenu
 {
-	"\1\s[10]mrraow"
-	"\1\s[10]mao"
-	"\1\s[10]mrrp?"
+	"\1\s[10]%(menutalks[57])"
+	"\1\s[10]%(menutalks[58])"
+	"\1\s[10]%(menutalks[59])"
 	--; "\n\n"; --
 	OnKeroMenu
 }
 
 OnKeroMenu : all
 {
-	if stickybuter == 1; "%*\__q[OnUnsticky]Un-sticky\__q\n"
+	if stickybuter == 1; "%*\__q[OnUnsticky]%(menutalks[60])\__q\n"
 	//if stickybuter == 0; "%*\__q[OnUnsticky,sticky]Sticky\__q\n"
-	"%*\__q[Cancelnodialogue]Bye Buterbrod\__q"
+	"%*\__q[Cancelnodialogue]%(menutalks[61])\__q"
 }
 
 OnUnsticky {

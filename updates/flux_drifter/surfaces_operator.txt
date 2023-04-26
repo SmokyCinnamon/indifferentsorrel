@@ -1,0 +1,79 @@
+version,1
+//Idle
+surface30
+{
+	element0,overlay,operator0.png,0,0
+}
+
+//Petting
+surface31
+{
+	element0,overlay,operator1.png,0,0
+}
+
+//Action
+surface36
+{
+	element0,overlay,operator6.png,0,0
+}
+
+//Singing
+surface35
+{
+	element0,overlay,operator25.png,0,0
+
+	animation7.interval,always
+	animation7.pattern0,overlay,11,0,0,0
+	animation7.pattern1,overlay,12,600,0,0
+	animation7.pattern2,overlay,14,600,0,0
+	animation7.pattern3,overlay,11,600,0,0
+	animation7.pattern4,overlay,15,600,0,0
+	animation7.pattern5,overlay,12,600,0,0
+	animation7.pattern6,overlay,16,600,0,0
+	animation7.pattern7,overlay,14,600,0,0
+	
+	//These collisions only show up on the singing surface, since for this shell the buttons to stop only appear while it is singing. They're also polygon collisions because I didn't want them to be square, but you don't need to do that if you don't want to. You could make these use the same format as the rest of the collisions below and that would work fine.
+	collision6,16,72,54,124,stop_button1
+	collision7,120,79,158,131,stop_button1
+	//collisionex8,stop_button1,polygon,25,86,55,86,61,124,32,124
+}
+
+//These collisions are appended to surfaces 0 through 25, except surface10 because that's the default Kero surface (which this shell isn't using)
+//surface.append30-35
+//{
+	//The only collision that is strictly mandatory for FLELE compatibility is the one labelled 'menu'. All the others are optional, but you can add them if you like.
+	//menu == main menu (Any areas of the shell that do NOT have a hotspot will also act as the main menu in FLUX. In FLELE, ONLY this hotspot will let the user access the main menu.)
+	
+	//These ones are standard for most FLELE shells:
+	//stroke_p == pettable area
+	//play_button == play song, next song if already playing music, resume if a song is paused
+	//stop_button1 or stop_button2 == stop song
+	//k_window == music panel (music bar in FLELE)
+	//clear_button == Clear the playlist
+	
+	//These are additional ones that you can use if you like:
+	//minimize == minimizes the ghost
+	//end_sect == closes the ghost
+	
+	//And these four you can use if you want, but they will not work with FLELE!
+	//next_button == next song
+	//previous_button == previous song
+	//pause_button == pause/resume button
+	//stop_after_current == sets the music to stop after the current song finishes playing
+	
+	//collision0,50,13,121,73,stroke_p
+	//collision1,14,134,43,165,play_button
+	//collision2,122,139,155,168,stop_button
+	//collision3,30,187,78,230,k_window
+	//collision4,83,191,121,236,clear_button
+	//collision5,54,91,119,143,menu
+//}
+surface.append0,1,25
+{	
+	collision0,50,13,121,73,stroke_p
+	collision1,14,134,43,165,play_button
+	collision2,122,139,155,168,stop_button
+	collision3,30,187,78,230,k_window
+	collision4,83,191,121,236,clear_button
+	collision5,54,91,119,143,menu
+}

@@ -5,17 +5,17 @@ OnEditLesson : all {
 	_output = ''
 	if reference0 == '' {
 		OnGetLangs; --
-		"Select which language pair you're working with:\n\n[half]"
+		"%(lessontechtalks[0])\n\n[half]"
 		if ARRAYSIZE(treelang) != 0 {
 			foreach treelang; _lang {
 				_output += "%*\__q[OnEditLesson,language,%(_lang)]%(_lang)\__q\n"
 			}
 			"%(_output)"
 		}
-		"\n\n%*\__q[OnLangAdd,language]Add Language\__q"
+		"\n\n%*\__q[OnLangAdd,language]%(lessontechtalks[1])\__q"
 	}
 	elseif reference0 == "language" {
-		"Select the course you're working on:\n\n[half]"
+		"%(lessontechtalks[2])\n\n[half]"
 		_courses = IARRAY
 		_courses = FENUM("lessons/%(reference1)/")
 		LOGGING("%(_courses)")
@@ -23,12 +23,12 @@ OnEditLesson : all {
 		foreach _courses; _course {
 			_output += "%*\__q[OnEditLesson,course,%(reference1),%(_course)]%(_course)\__q\n"
 		}
-		"\n\n%*\__q[OnLangAdd,course,%(reference1)]Add Course\__q"
+		"\n\n%*\__q[OnLangAdd,course,%(reference1)]%(lessontechtalks[3])\__q"
 	}
 	elseif reference0 == "course" {
 		_lesnum = FENUM("lessons\%(reference1)%(reference2)\")
 		_lesname = ''
-		"Almost done! Pick a lesson here and then decide what you're gonna do with it:\n\n"
+		"%(lessontechtalks[4])\n\n"
 		foreach _lesnum; _curles {
 			_file = "lessons\%(reference1)%(reference2)\%(_curles)"
 			LOGGING("*hacker voice* the blueprints. we need them. %(_lesnum) and %(_lesname)")
@@ -55,29 +55,29 @@ OnEditLesson : all {
 		if _lesnum == "0.txt"; _num = 1
 		else; _num = ARRAYSIZE(_lesnum)
 		LOGGING("this is the number %(_num)")
-		"\n\n%*\__q[OnLessonCreateName,lessons\%(reference1)%(reference2)\,%(_num)]Add Lesson\__q"
+		"\n\n%*\__q[OnLessonCreateName,lessons\%(reference1)%(reference2)\,%(_num)]%(lessontechtalks[5])\__q"
 	}
 	elseif reference0 == "lesson" {
 		"Selected: %(reference2)\n\n[half]"
-		"\n\n%*\__q[OnOpenLessonEdit,%(reference1)]Edit\__q %*\__q[OnClearOne,start,%(reference1)]Delete\__q"
+		"\n\n%*\__q[OnOpenLessonEdit,%(reference1)]%(lessontechtalks[6])\__q %*\__q[OnClearOne,start,%(reference1)]%(lessontechtalks[7])\__q"
 	}
 	else {
-		"look man idk what's going on here"
+		"%(lessontechtalks[8])"
 	}
-	"\n\n\n%*\__q[OnMenuRun]Main Menu\__q\_q\*\e"
+	"\n\n\n%*\__q[OnMenuRun]%(lessontechtalks[9])\__q\_q\*\e"
 }
 
 OnLangAdd {
 	LOGGING(reference)
 	if reference0 == "language" {
-		"\_qPlease enter the names of the languages you're adding, wherein the first language is the language the person already knows:\n\nExample: english@belarusian\_q\*\![open,inputbox,OnLangAdd,--reference=language]"
+		"\_q%(lessontechtalks[10]) english@belarusian\_q\*\![open,inputbox,OnLangAdd,--reference=language]"
 	}
 	elseif reference2 == "language" {
 		MKDIR("lessons/%(reference0)")
 		"\![raise,OnEditLesson]"
 	}
 	elseif reference0 == "course" {
-		"\_qPlease enter the name of your course:\_q\*\![open,inputbox,OnLangAdd,--reference=course,--reference=%(reference1)]"
+		"\_q%(lessontechtalks[11])\_q\*\![open,inputbox,OnLangAdd,--reference=course,--reference=%(reference1)]"
 	}
 	elseif reference2 == "course" {
 		MKDIR("lessons/%(reference3)/%(reference0)")
@@ -93,7 +93,7 @@ OnOpenLessonEdit {
 }
 OnLessonCreateName {
 	_ref = SPLIT(reference0,',')
-	"\0\b[2]\_qPlease enter the name of your lesson:\![open,inputbox,OnLessonCreate,0,--reference=%(_ref[0]),--reference=%(_ref[1])]\*"
+	"\0\b[2]\_q%(lessontechtalks[12])\![open,inputbox,OnLessonCreate,0,--reference=%(_ref[0]),--reference=%(_ref[1])]\*"
 }
 OnLessonCreate{
 	LOGGING("%(reference)")
@@ -133,7 +133,7 @@ OnClearOne {
 	LOGGING("%(reference)")
 	if reference0 == "start" {
 		_display = REPLACE(reference1,'\','/')
-		"\0\b[2]\_qYou are about to delete [ %(_display) ].\n\n[half]This action cannot be undone. Are you sure you want to proceed?\n\n%*\__q[OnClearOne,confirmed,%(reference1)]Yes\__q %*\__q[OnMenuRun]No (back to menu)\__q\*"
+		"\0\b[2]\_q%(lessontechtalks[13])\n\n[half]%(lessontechtalks[14])\n\n%*\__q[OnClearOne,confirmed,%(reference1)]%(lessontechtalks[15])\__q %*\__q[OnMenuRun]%(lessontechtalks[16])\__q\*"
 	}
 	elseif reference0 == "confirmed" {
 		FDEL(reference1)
@@ -185,16 +185,16 @@ OnLangSelect {
 	treelang = ASORT(string,treelang)
 	"\0\s[0]\b[2]\_q"; --
 	if reference0 != "Editing" {
-		"Choose which language you'd like to study:\n(Currently: %(displang))\n\n[half]"; --
+		"%(lessontechtalks[17])\n\n[half]"; --
 		foreach treelang; _lang {
 			_disarray = SPLIT(_lang,'@')
 			_displaylang = "%(_disarray[1]) from %(_disarray[0])"
 			_display += "%*\__q[OnChangeLang,%(_lang)]%(_displaylang)\__q\n"
 		}
-		"%(_display)\n\n\n[half]%*\__q[OnLessonPick]Back\__q %*\__q[OnMenuRun]Main Menu\__q\_q\*"
+		"%(_display)\n\n\n[half]%*\__q[OnLessonPick]%(lessontechtalks[18])\__q %*\__q[OnMenuRun]%(lessontechtalks[19])\__q\_q\*"
 	}
 	else {
-		"\![raise,OnNotifySelfInfo]Choose which language pair and course you're working with from the following pop-up.\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/,--id=OnLessonEdit]"
+		"\![raise,OnNotifySelfInfo]%(lessontechtalks[20])\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/,--id=OnLessonEdit]"
 	}
 }
 OnChangeLang {
@@ -202,7 +202,7 @@ OnChangeLang {
 	currentsort = IARRAY
 	currentlang = "%(reference0)"
 	_disarray = SPLIT(reference0,'@')
-	displang = "%(_disarray[1]) from %(_disarray[0])"
+	displang = "%(lessontechtalks[21])"
 	--
 	OnLangSelect
 }
@@ -212,7 +212,7 @@ OnLessonPick {
 	//currentlang = "English@Belarusian"
 	"\0\s[0]\b[2]\![set,autoscroll,disable]\_q"; --
 	if currentlang == "english@belarusian" {
-	"Hello, which lesson would you like to see?\n\n"
+	"%(lessontechtalks[22])\n\n"
 	--
 	"\__q[OnAlphabet,partone]Alphabet: Notes 1\__q | \__q[OnAlphabet,parttwo]Alphabet: Notes 2\__q\n/
 	\__q[OnLessonStart,alphabet]Alphabet: skill\__q\n\n[half]"
@@ -222,10 +222,10 @@ OnLessonPick {
 		for _i = 0; _i < ARRAYSIZE(inbuiltlessonname); _i++ {
 			  _output += "\__q[OnLessonRead,%(inbuiltlessonname[_i]),inbuilt]%(inbuiltlessonname[_i]) (%(inbuiltnumprog[_i])/%(inbuiltskillnum[_i]))\__q "
 			}
-		if _output == ''; {"\cERROR HAS OCCURED. CLICK TO RESTART.\x\![raise,OnLessonPick]"; LOGGING("MENU RESTART")} else {_output}
+		if _output == ''; {"\c%(lessontechtalks[23])\x\![raise,OnLessonPick]"; LOGGING("MENU RESTART")} else {_output}
 	}}
 	--;
-	"\n\nUSER COURSES\n\n[half]"; --
+	"\n\n%(lessontechtalks[24])\n\n[half]"; --
 	if FENUM("lessons/%(currentlang)/") != '' {
 		_output = ''
 		_courses = FENUM("lessons/%(currentlang)/")
@@ -236,10 +236,10 @@ OnLessonPick {
 		  			_output += "\__q[OnOpenCourse,%(_courses[_i])]%(_courses[_i])\__q "
 			}
 			else {_output += ""}
-			--; if _courses != '' && _output == "" {"\cERROR HAS OCCURED. CLICK TO RESTART.\x\![raise,OnLessonPick]"; LOGGING("restarting menu")} else {
+			--; if _courses != '' && _output == "" {"\c%(lessontechtalks[23]).\x\![raise,OnLessonPick]"; LOGGING("restarting menu")} else {
 			"%(_output)"
 	}}}
-	--; "\n\n[half]That's all we have for now...\n\n\n%*\__q[OnLangSelect]Change Language\__q %*\__q[OnMenuRun]Main Menu\__q\n\_q\x\e"
+	--; "\n\n[half]%(lessontechtalks[25])\n\n\n%*\__q[OnLangSelect]%(lessontechtalks[26])\__q %*\__q[OnMenuRun]%(lessontechtalks[27])\__q\n\_q\x\e"
 }
 
 OnOpenCourse {
@@ -271,11 +271,11 @@ OnOpenCourse {
 			_display += "%*\__q[OnLessonRead,%(_file)]%(_lesname)\__q "
 	}
 	--
-	"\_qSelect a lesson to start:\n\n%(_display)\n\n%*\q[Back,OnLessonPick] %*\q[Main menu,OnMenuRun] %*\q[Close menu,byelol]\_q\x"
+	"\_q%(lessontechtalks[28])\n\n%(_display)\n\n%*\q[%(lessontechtalks[29]),OnLessonPick] %*\q[%(lessontechtalks[30]),OnMenuRun] %*\q[%(lessontechtalks[31]),byelol]\_q\x"
 }
 
 OnCourseExport {
-	"\![raise,OnNotifySelfInfo]\_qIn the following window, please select the language pair (i.e; english@belarusian) and then which course you'd like to export.\_q\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/,--id=OnSystemDialog]"
+	"\![raise,OnNotifySelfInfo]\_q%(lessontechtalks[32])\_q\x\![open,dialog,folder,--dir=%(tab_path)/ghost/master/lessons/,--id=OnSystemDialog]"
 }
 OnSystemDialog {
 	if reference0 == "folder" {
@@ -289,7 +289,7 @@ OnCopyOver {
 	_lespath = reference0
 	if FENUM('/supplemental/ghost/master/lessons/') != '' {
 		LOGGING("fenum ref %(reference)")
-		"\0Hey, you haven't cleared it out yet! Sorry, but you need to go and delete anything in there. That's the one thing I can't do myself!\w6\![open,dialog,open,--dir=%(tab_path)/ghost/master/supplemental/ghost/master/lessons]\w4\n\n%*\__q[OnCourseExport]Try Again\__q %*\__q[OnMenuRun]Main Menu\__q"
+		"\0%(lessontechtalks[33])\w6\![open,dialog,open,--dir=%(tab_path)/ghost/master/supplemental/ghost/master/lessons]\w4\n\n%*\__q[OnCourseExport]%(lessontechtalks[34])\__q %*\__q[OnMenuRun]%(lessontechtalks[37])\__q"
 		//RMDIR('%(reference)') //get rid of previous one - needs to be empty
 	}
 	else {
@@ -336,8 +336,8 @@ OnZipUp {
 
 OnZipFinish {
 	LOGGING("this is her path %(tab_path)")
-	"\![execute,compressarchive,%(tab_path)/ghost/master/lessons/zip/%(reference0).zip,%(tab_path)/ghost/master/supplemental]Zip file generated!\n%*\__q[OnOpenZip]Open Folder (selections not saved)\__q %*\__q[OnMenuRun]Main Menu\__q\*\e"
+	"\![execute,compressarchive,%(tab_path)/ghost/master/lessons/zip/%(reference0).zip,%(tab_path)/ghost/master/supplemental]%(lessontechtalks[35])\n%*\__q[OnOpenZip]%(lessontechtalks[36])\__q %*\__q[OnMenuRun]%(lessontechtalks[37])\__q\*\e"
 }
 OnOpenZip {
-	"\![open,dialog,open,--dir=%(tab_path)/ghost/master/lessons/zip/]\w4Opened!"
+	"\![open,dialog,open,--dir=%(tab_path)/ghost/master/lessons/zip/]\w4%(lessontechtalks[38])"
 }

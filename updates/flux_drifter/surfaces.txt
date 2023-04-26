@@ -1,0 +1,120 @@
+version,1
+//This is using the new seriko definition. If you want to use the old one, change the version to 0
+//As a note, comments in seriko should all be on their own lines. Otherwise, you might get weird errors in your shell.
+
+//Idle
+surface0
+{
+	element0,overlay,surface0.png,0,0
+
+	animation5.interval,bind
+	animation5.pattern0,replace,30,0,0,0
+	animation6.interval,bind
+	animation6.pattern0,replace,40,0,0,0
+}
+
+//Petting
+surface1
+{
+	element0,overlay,surface1.png,0,0
+
+	animation5.interval,bind
+	animation5.pattern0,replace,31,0,0,0
+	animation6.interval,bind
+	animation6.pattern0,replace,41,0,0,0
+}
+
+//Action
+surface6
+{
+	element0,overlay,surface2.png,0,0
+	animation5.interval,bind
+	animation5.pattern0,replace,36,0,0,0
+	animation6.interval,bind
+	animation6.pattern0,replace,46,0,0,0
+}
+
+//Singing
+surface25
+{
+	element0,overlay,surface0.png,0,0
+
+	animation3.interval,rarely
+	animation3.pattern0,replace,0,16600,0,0
+	animation3.pattern1,replace,1,16500,0,0
+	animation3.pattern2,alternativestart,(2)
+
+	animation2.interval,rarely
+	animation2.pattern0,replace,0,16600,0,0
+	animation2.pattern1,replace,2,16088,0,0
+	animation2.pattern2,alternativestart,(3)
+
+	animation4.interval,always
+	animation4.pattern0,overlay,101,0,0,0
+	animation4.pattern1,overlay,102,600,0,0
+	animation4.pattern2,overlay,101,600,0,0
+	animation4.pattern3,overlay,103,600,0,0
+	animation4.pattern4,overlay,101,600,0,0
+	animation4.pattern5,overlay,102,600,0,0
+	animation4.pattern6,overlay,100,600,0,0
+	animation4.pattern8,overlay,103,600,0,0
+
+	animation5.interval,bind
+	animation5.pattern0,replace,35,0,0,0
+	animation6.interval,bind
+	animation6.pattern0,replace,45,0,0,0
+}
+
+//These collisions are appended to surfaces 0 through 25, except surface10 because that's the default Kero surface (which this shell isn't using)
+surface.append0-9
+{
+	animation3.interval,rarely
+	animation3.pattern0,replace,1,0,0,0
+	animation3.pattern1,replace,0,1250,0,0
+	animation3.pattern2,replace,2,607,0,0
+	animation3.pattern3,replace,0,1394,0,0
+	animation3.pattern4,alternativestart,(2)
+
+	animation2.interval,rarely
+	animation2.pattern0,replace,2,0,0,0
+	animation2.pattern1,replace,0,1024,0,0
+	animation2.pattern2,replace,1,605,0,0
+	animation2.pattern3,replace,0,1337,0,0
+	animation2.pattern4,alternativestart,(3)
+}
+surface.append0-25,!10
+{
+	//The only collision that is strictly mandatory for FLELE compatibility is the one labelled 'menu'. All the others are optional, but you can add them if you like.
+	//menu == main menu (Any areas of the shell that do NOT have a hotspot will also act as the main menu in FLUX. In FLELE, ONLY this hotspot will let the user access the main menu.)
+	
+	//These ones are standard for most FLELE shells:
+	//stroke_p == pettable area
+	//play_button == play song, next song if already playing music, resume if a song is paused
+	//stop_button1 or stop_button2 == stop song
+	//k_window == music panel (music bar in FLELE)
+	//clear_button == Clear the playlist
+	
+	//These are additional ones that you can use if you like:
+	//minimize == minimizes the ghost
+	//end_sect == closes the ghost
+	
+	//And these four you can use if you want, but they will not work with FLELE!
+	//next_button == next song
+	//previous_button == previous song
+	//pause_button == pause/resume button
+	//stop_after_current == sets the music to stop after the current song finishes playing
+	
+	collision0,55,47,122,83,stroke_p
+	collision1,57,109,130,148,play_button
+	collision2,43,22,135,53,stop_button
+	collision3,23,53,55,105,k_window
+	collision4,129,48,158,113,clear_button
+	collision5,55,91,127,111,menu
+}
+
+sakura.cursor
+{
+	mousehover0,stroke_p,system:hand
+	mousehover1,stop_button,system:no
+	mousehover2,menu,system:help
+}

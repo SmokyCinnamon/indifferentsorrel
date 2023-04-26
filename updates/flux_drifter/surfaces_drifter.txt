@@ -1,0 +1,48 @@
+version,1
+//Idle
+surface40
+{
+	element0,overlay,drifter0.png,0,0
+}
+
+//Petting
+surface41
+{
+	element0,overlay,drifter1.png,0,0
+}
+
+//Action
+surface46
+{
+	element0,overlay,drifter6.png,0,0
+}
+
+//Singing
+surface45
+{
+	element0,overlay,drifter25.png,0,0
+
+	animation7.interval,always
+	animation7.pattern0,overlay,11,0,0,0
+	animation7.pattern1,overlay,12,600,0,0
+	animation7.pattern2,overlay,11,600,0,0
+	animation7.pattern3,overlay,13,600,0,0
+	animation7.pattern4,overlay,16,600,0,0
+	animation7.pattern5,overlay,12,600,0,0
+	animation7.pattern6,overlay,15,600,0,0
+	animation7.pattern7,overlay,14,600,0,0
+
+	collision6,36,85,68,155,stop_button1
+	collision7,106,86,142,153,stop_button1
+	//collisionex8,stop_button1,polygon,25,86,55,86,61,124,32,124
+}
+
+surface.append0,1,25
+{	
+	animation6.collision0,44,10,127,71,stroke_p
+	animation6.collision1,19,143,64,178,play_button
+	animation6.collision2,118,145,159,190,stop_button
+	animation6.collision3,26,188,75,234,k_window
+	animation6.collision4,88,188,126,238,clear_button
+	animation6.collision5,55,85,117,145,menu
+}

@@ -1,14 +1,6 @@
 //Network Update URL. I recommend using Github Pages to set up a site and store their files! It's free and reliable. I've written up a guide on how to do this here https://zichqec.github.io/s-the-skeleton/github.html
-On_homeurl
-{
-	if betaTester == "On" //You don't need to include beta testing if you don't want to. If you want to get rid of it, replace this whole bit with a single homeurl link.
-	{
-		"https://YourBetaDirectoryHere.com/YourGhost/"
-	}
-	else
-	{
-		"https://smokycinnamon.github.io/indifferentsorrel/updates/tadoraibuterbrod/"
-	}
+On_homeurl {
+	"https://smokycinnamon.github.io/indifferentsorrel/updates/tadoraibuterbrod/"
 }
 
 On_recommendrootbutton.caption //Change [Your Username] to your username, or change the whole caption to whatever you want. This is the top list of websites in the right click menu.
@@ -30,7 +22,7 @@ recommendsites_sakura : array
 	"Lingohut (EN)                                  | https://www.lingohut.com/en/l112/learn-belarusian"
 	"Mova Nanova (BY)                               | https://uroki.movananova.by/classes/vitanni-i-zvaroty-akanne/"
 	"Asvetnik (BY)                                  | http://asvetnik.by/"
-	"Вывучаем Беларускую (BY/RU/UK/PL)              | http://by.lang-study.com/RU/category/asnovy/"
+	"Вывучаем Беларускую (BY/RU/UK/PL) [archived]   | http://web.archive.org/web/20220717221004/by.lang-study.com/"
 	"Internet Polyglot (EN)                         | https://www.internetpolyglot.com/lessons-en-be"
 	"Duolingo post requesting the course (EN)       | https://forum.duolingo.com/comment/10008744"
 	"Duolingo post with a few lessons (RU)          | https://forum.duolingo.com/comment/9966059"
@@ -41,7 +33,8 @@ recommendsites_sakura : array
 	"Memrise (NL)                                   | https://app.memrise.com/courses/belarusian/dutch/"
 	"Ўордлі (BY)                                    | https://ololophilolo.github.io/wordle-by/"
 	//https://tuzinfm.by/
-	"Learn Belarusian (Discord)                     | https://discord.gg/PctMyu2cD4"
+	//"Learn Belarusian (Discord) | https://discord.gg/PctMyu2cD4" shut down due to disuse.
+	"Language Village (Discord, BY + Others)        | https://discord.gg/72dznze"
 	"Ukagaka JP Pioneers (Discord, for other langs) | https://discord.gg/J5kwqqFH7M"
 }
  

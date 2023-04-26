@@ -1,10 +1,9 @@
 //I put anything related to who the user is in here. Name, pronouns, birthday.
 
-OnChangeName
-{
-	"\0\s[0]Ah! How are you called again?"
-	--
-	"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled name change]\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]\e"
+OnChangeName : all {
+	"\0\s[0]%(nameteachtalks[0])"
+	"\n\n\![*]\q[%(dictalks[22]),OnConfigMenu,cancelled name change]\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]\e"
+	//dic talks is b/c apparently i took cancel out
 }
 
 OnNameTeach
@@ -17,31 +16,31 @@ OnNameTeach
 	
 	if _tempname == username && booting != 1 //If the user gives the exact same name as before. The booting check has to be there in case they put in 'user'
 	{
-		"\0\s[0]Ok, same as before!"
+		"\0\s[0]%(nameteachtalks[1])"
 	}
 	elseif "Tadora" _in_ reference0
 	{
-		"\0\s[0]Name buddies! That's really cool!"
+		"\0\s[0]%(nameteachtalks[2])"
 	}
 	elseif reference0 == "" //If the user doesn't put in anything
 	{
 		username = "User"
 		
-		"\0\s[0]Just User for now."
+		"\0\s[0]%(nameteachtalks[3])"
 	}
 	else //if it's none of these above names, we can use it. You can add names that just have comments and can still be used, just don't add a \e at the end.
 	{
 		username = _tempname
-		"\0\s[0]%(username), got it! Such a nice name, too!"
+		"\0\s[0]%(nameteachtalks[4])"
 	}
 	--
 	if booting == 0 //If the user was changing their name through the config menu
 	{
-		"\n\n\![*]\q[Back to config,OnConfigMenu]\n\![*]\q[I'm done,cancelnodialogue]\e"
+		"\n\n\![*]\q[%(nameteachtalks[5]),OnConfigMenu]\n\![*]\q[%(nameteachtalks[6]),cancelnodialogue]\e"
 	}
 	else //This is continuing from FirstBoot
 	{
-		"\w8 Ok! I'm really excited that we can get to know each other!\![leave,passivemode]\e"
+		"\w8 %(nameteachtalks[7])\![leave,passivemode]\e"
 	}
 }
 

@@ -1,0 +1,5 @@
+charset,UTF-8
+type,shell
+name,Ordis (100% normal and alone)
+directory,flux_drifter
+//Make sure to change the name and directory here to the name for your shell! Don't put spaces in the directory name, or you may have trouble doing network updates.

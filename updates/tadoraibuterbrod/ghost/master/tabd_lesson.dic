@@ -67,8 +67,8 @@ OnLessonRead : all {
 	}
 	FCLOSE(_file)
 	LOGGING("file is closed %(notes)%(sentences)\n%(findwords)\n%(matchwords)\n\nCOMPARISION:\n%(match[1])\n%(find)")
-	if notes != ""; "\b[2]\_q%(notes)\n\_q"
-	"\n(Click to proceed)\x\![raise,OnLessonTest]\e"
+	if notes != ""; "\b[2]\_q%(notes)\n"
+	"\n%(lessontalks[0])\_q\x\![raise,OnLessonTest]\e"
 }
 
 OnLessonTest {
@@ -124,7 +124,7 @@ OnLessonTestStart {
 		}
 	}}
 	else {
-	"yay you reached the end!\n\n%*\q[To lessons,OnLessonPick] %*\q[Main menu,OnMenuRun] %*\q[Close menu,byelol]\e"
+	"\_q%(lessontalks[1])\n\n%*\q[%(lessontalks[2]),OnLessonPick] %*\q[%(lessontalks[3]),OnMenuRun] %*\q[%(lessontalks[4]),byelol]\_q\e"
 	/*if skillnum[_aaa] > numprog[_aaa] {
 		numprog[_aaa]++
 		LOGGING("%(numprog[_aaa]) and %(numprog)")
@@ -172,11 +172,11 @@ OnSentenceTransStart {
 }
 OnSentenceTrans {
 	if input == "keeb" {
-		"\0\_qTranslate the sentence: %(display)\n\n%*\__q[OnInputSwitch]Switch input method\__q \_q\![open,inputbox,OnSentenceTransed,0]\*"
+		"\0\_q%(lessontalks[5]) %(display)\n\n%*\__q[OnInputSwitch]%(lessontalks[6])\__q \_q\![open,inputbox,OnSentenceTransed,0]\*"
 	}
 	else {
-		"\0\_qTranslate the sentence: %(display)\n\n %*\__q[OnInputSwitch]Switch input method\__q\_q\*"; --
-		"\1\s[10]\_q\f[height,+4]\f[color,default.anchornotselect]%(bubbleanswer)\f[default]\n\n[half]%(bubbles)\n\n%*\__q[OnSentenceTransed,%(bubbleanswer),BUBBLES]Submit\__q\_q"
+		"\0\_q%(lessontalks[5]) %(display)\n\n %*\__q[OnInputSwitch]%(lessontalks[6])\__q\_q\*"; --
+		"\1\s[10]\_q\f[height,+4]\f[color,default.anchornotselect]%(bubbleanswer)\f[default]\n\n[half]%(bubbles)\n\n%*\__q[OnSentenceTransed,%(bubbleanswer),BUBBLES]%(lessontalks[7])\__q\_q"
 	}
 }
 OnInputSwitch {
@@ -222,10 +222,10 @@ OnSentenceTransed {
 
 	-- //the below is for checking that the above does as it says.
 	//"\_q\b[2]reference: %(reference0)\nans: %(finalanswer) bubbles: %(bubbleanswer)\_q\x"; --
-	if reference0 == "" {redo++; bubbleanswer = ""; "\C\_q Uh... maybe you should try again...?\x\![raise,OnSentenceTrans]"}
+	if reference0 == "" {redo++; bubbleanswer = ""; "\C\_q %(lessontalks[8])\_q\x\![raise,OnSentenceTrans]"}
 	elseif reference0 == finalanswer {
 		sentenceswritten++
-		"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]%(displayref)\n\nThat's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
+		"\0\s[0]\_q%(lessontalks[5])\n\n[half]%(displayref)\n\n%(lessontalks[9])\_q\x\![raise,OnLessonTestStart]"
 	}
 	elseif ARRAYSIZE(altsentence) != -1 {
 		_altanswers = SPLIT(altsentences[altcheck],'@')
@@ -243,16 +243,16 @@ OnSentenceTransed {
 		--
 		if _altiscorrect == 1 {
 			sentenceswritten++
-			"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]%(displayref)\n\nThat's the answer, yup! Good for you!\_q\x\![raise,OnLessonTestStart]"
+			"\0\s[0]\_q%(lessontalks[5])\n\n[half]%(displayref)\n\n%(lessontalks[9])\_q\x\![raise,OnLessonTestStart]"
 		}
 		else {
 				redo++; bubbleanswer = ""
-				"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct answer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+				"\0\s[0]\_q%(lessontalks[5])\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\n%(lessontalks[10])\n%(displayanswer)\n\n[half]%(lessontalks[11])\_q\x\![raise,OnSentenceTrans]"
 		}
 	}
 	else {
 		redo++; bubbleanswer = ""
-		"\0\s[0]\_qTranslate the sentence: %(display)\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\nThe correct answer is:\n%(displayanswer)\n\n[half]aw, better try again, huh?\x\![raise,OnSentenceTrans]"
+		"\0\s[0]\_q%(lessontalks[5])\n\n[half]\f[color,red]%(displayref)\f[color,default]\n\n%(lessontalks[10])\n%(displayanswer)\n\n[half]%(lessontalks[11])\_q\x\![raise,OnSentenceTrans]"
 }}
 
 OnFindTypeStart {
@@ -267,7 +267,7 @@ OnFindTypeStart {
 OnFindType
 {
 	if redo == 0 {
-	"\_q Find the word: \f[height,+2]\f[color,default.anchornotselect]%(wordtf[0])\f[default]\n\n"}
+	"\_q %(lessontalks[12]) \f[height,+2]\f[color,default.anchornotselect]%(wordtf[0])\f[default]\n\n"}
 	--
 	quizanswersshuffled = IARRAY
 	toshuffle = ARRAYSIZE(wordtf)
@@ -290,7 +290,7 @@ OnFindType
 	while _i < answernum
 	{
 		{
-			answerprint += "\_q\__q[OnTestquizanswertest,%(quizanswersshuffled[_i])]%(quizanswersshuffled[_i])\__q\_q "
+			answerprint += "\__q[OnTestquizanswertest,%(quizanswersshuffled[_i])]%(quizanswersshuffled[_i])\__q "
 		}
 		if _i == 5 || _i == 10 || _i == 15 || _i == 20 //do a SUBSTR here to get the last digit of _i and see if it's a 5 or a 0(if its greater than 1)
 		{
@@ -303,7 +303,7 @@ OnFindType
 		}
 	}
 	--
-	"\f[height,+2]\f[color,default.anchorvisited]\_q%(answerprint)\f[default]"
+	"\f[height,+2]\f[color,default.anchorvisited]%(answerprint)\f[default]\_q"
 }
 
 OnTestquizanswertest
@@ -312,7 +312,7 @@ OnTestquizanswertest
 	{
 		"\C"
 		--
-		"\_q\n\nDing ding ding! A winner is you, ня!\_q"
+		"\_q\n\n%(lessontalks[13])\_q"
 		--
 		foundtype++; redo = 0; graytime = IARRAY
 		"\x"
@@ -324,7 +324,7 @@ OnTestquizanswertest
 
 		{
 			redo++
-			"\C\_q\n\n(she makes a sound like a loud buzzer.) %(reference0)? Really? There's no way that's it! Try again!"
+			"\C\_q\n\n%(lessontalks[14])" //BUG
 			--
 			OnFindType
 		}
@@ -361,7 +361,7 @@ OnFindMatch
 	_answersleft = ARRAYSIZE(answersleft)
 	--
 	if answered == 6 && _answersleft == 5 || answered == 4 && _answersleft == 2 {
-		"\_qWell, that's not supposed to happen... here, let's just go to the next one, ok?"
+		"\_q%(lessontalks[15])"
 		--
 		if foundmatch > 2 {
 			foundmatch++
@@ -373,7 +373,7 @@ OnFindMatch
 	//}
 	//}
 	--
-	"\_qFind the matches!\n"
+	"\_q%(lessontalks[16])\n"
 	--
 	answernum = ARRAYSIZE(matchw1)
 	answerprint = ""
@@ -410,7 +410,7 @@ OnFindMatch
 OnFindMatchQuestion {
 	matchquestion = reference0
 	--
-	"\0\s[0]\_qFind the matches!\n"
+	"\0\s[0]\_q%(lessontalks[16])\n"
 	--
 	answernum = ARRAYSIZE(matchw1)
 	answerprint = ""
@@ -444,14 +444,14 @@ OnFindMatchAnswer {
 		else {matchanswer = match4[1]}//}
 		--
 		if reference0 == matchanswer {
-			"\C \n\n\_qGreat job, ня!\_q\x"
+			"\C \n\n\_q%(lessontalks[17])\_q\x"
 			--
 			foundmatch++; shufd = 0; redo = 0
 			--
 			OnLessonTestStart
 		}
 		else {
-		"\C \n\n\_qHmm, I don't think so... Try again, ня\_q\x\c"
+		"\C \n\n\_q%(lessontalks[18])\_q\x\c"
 		--
 		redo++; OnFindMatch
 		}
@@ -470,7 +470,7 @@ OnFindMatchAnswer {
 			matchround++; shufd = 1; redo = 0}
 		else {
 			redo++
-			"\C \n\n\_q Hmm, I don't think so... Try again, ня\_q\x\c"
+			"\C \n\n\_q %(lessontalks[19])\_q\x\c"
 		}
 		--
 		OnFindMatch
