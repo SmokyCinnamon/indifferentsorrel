@@ -106,7 +106,7 @@ OnHourTimeSignal {
 OnSurfaceRestore {
 	if nowmode == "creepymode" {}; else {
 		case stage {
-			when 1 {}
+			when 1 {"\0\s[0]"} //this is apparently slightly bugged, not sure if can fix
 			others {
 				case nowmode {
 					when "hell" {

@@ -167,3 +167,9 @@ OnKeyPress {
 		when "f2" {if debug == 1 {OnTestVar}}
 	}
 }
+
+//This bit of code is what makes menu options that don't start with On direct to Select.options instead. Remove or comment it if you prefer!
+OnChoiceSelect
+{
+    EVAL("Select.%(reference0)")
+}

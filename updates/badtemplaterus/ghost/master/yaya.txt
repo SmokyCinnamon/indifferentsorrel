@@ -5,7 +5,7 @@ charset.file, UTF-8
 charset.save, UTF-8
 charset.extension, UTF-8
 
-include, system_config.txt
+dicdir, yaya_base
 dic, aitalk.dic
 //dic, aiquestion.dic
 dic, anchor.dic
@@ -45,5 +45,12 @@ dic, stage/one/mouse.dic
 dic, stage/one/kmouse.dic
 
 //log, ayame.log
-//msglang,english old
-messagetxt,system/messagetxt/english.txt
+msglang,english
+
+//------------------------------------------------------------------------------
+//実行ログ
+//実行ログをayame.logに記録します。開発時には記録しておいたほうが良いです。
+//------------------------------------------------------------------------------
+// log, ayame.log	
+ignoreiolog, ID: OnSecondChange //OnSecondChange無視
+ignoreiolog, ID: OnMouse        //OnMouse系無視

@@ -82,8 +82,7 @@ OnPronouns
 		л = "ли"; лся = "лись"
 		ой = "ой"; ий = "ие"; ый = "ые"
 	}
-	//id be interested in actually filling this out but i dont have an instinctive knowledge of what goes where...
-	//if anyone else knows, could you get in touch? thanks <3
+	//нашёл на pronouns.page) но сейчас у меня нет терпении для это так что проверить нужно сами
 	/*elseif reference0 == "mur"
 	{
 		он = "мур"; его = "мях"; него = "них"; ему = "им"
@@ -92,17 +91,17 @@ OnPronouns
 		ой = "ау"; ий = "ие"; ый = "ые"
 	}
 	elseif reference0 == "one" {
-		он = "оне"; его = "ех"; него = "них"; ему = "им"
-		им = "ими"; ним = "ними"; нём = "них"
-		л = "ле"; лся = "лись"
-		ой = "ой"; ий = "ие"; ый = "ые"
+		он = "оне"; его = "нех"; него = "нех"; ему = "ем"
+		им = "еми"; ним = "ними"; нём = "нех"
+		л = "ле"; лся = "лесь"
+		ой = "ой"; ий = "ве"; ый = "ые"
 	}*/
 	elseif reference2 == "custominput" {
 		_pronouns = SPLIT(reference0,"/")
 		он = _pronouns[0]; его =  _pronouns[1]; него = _pronouns[2]
 		ему = _pronouns[3]; им = _pronouns[4]; ним = _pronouns[5]
 		нём = _pronouns[6]
-		"%(narrator)А теперь надо концы слова... введите как л/лся/ой/ий/ый, пожалуйста.\nл и лся - делал, случился\nой, ий, ый - слепой, роыаропваы, коричневый\nПонимаешь?\![open,inputbox,OnPronouns,-1,--reference=custominput2]"
+		"%(narrator)А теперь надо концы слова... введите как л/лся/ой/ий/ый, пожалуйста.\nл и лся - делал, случился\nой, ий, ый - слепой, ранний, коричневый\nПонимаешь?\![open,inputbox,OnPronouns,-1,--reference=custominput2]"
 	}
 	elseif reference2 == "custominput2" {
 		_pronouns = SPLIT(reference0,"/")
@@ -129,29 +128,28 @@ OnPronouns
 }
 
 OnChangeBirthday {
-	"%(narrator)\b[0]* (введите месяц своего рождения как номер или назва)"
+	"%(narrator)\b[0]* (введите месяц своего рождения как номер)"
 }
 
-OnUserBornMonth
-{
+OnUserBornMonth {
 	_tempmonth = reference0 //this stores what the user put in as a variable called _tempmonth
 	_tempmonth = TOLOWER(_tempmonth) //changes it to lowercase
 	
-	if _tempmonth == "январь" || _tempmonth == "1" {birthday[4] = 1; birthday[2] = "Январья"}
-	elseif _tempmonth == "февраль" || _tempmonth == "2" {birthday[4] = 2; birthday[2] = "Февраля"}
-	elseif _tempmonth == "март" || _tempmonth == "3" {birthday[4] = 3; birthday[2] = "Марта"}
-	elseif _tempmonth == "апрель" || _tempmonth == "4" {birthday[4] = 4; birthday[2] = "Апреля"}
-	elseif _tempmonth == "май" || _tempmonth == "5" {birthday[4] = 5; birthday[2] = "Май"}
-	elseif _tempmonth == "июнь" || _tempmonth == "6" {birthday[4] = 6; birthday[2] = "Июня"}
-	elseif _tempmonth == "июль" || _tempmonth == "7" {birthday[4] = 7; birthday[2] = "Июля"}
-	elseif _tempmonth == "августь" || _tempmonth == "8" {birthday[4] = 8; birthday[2] = "Августь"}
-	elseif _tempmonth == "сентябрь" || _tempmonth == "9" {birthday[4] = 9; birthday[2] = "Сентября"}
-	elseif _tempmonth == "октябрь" || _tempmonth == "10" {birthday[4] = 10; birthday[2] = "Октября"}
-	elseif _tempmonth == "ноябрь" || _tempmonth == "11" {birthday[4] = 11; birthday[2] = "Ноября"}
-	elseif _tempmonth == "декабрь" || _tempmonth == "12" {birthday[4] = 12; birthday[2] = "Декабря"}
+	if _tempmonth == "1" {birthday[4] = 1; birthday[2] = "Январья"}
+	elseif _tempmonth == "2" {birthday[4] = 2; birthday[2] = "Февраля"}
+	elseif _tempmonth == "3" {birthday[4] = 3; birthday[2] = "Марта"}
+	elseif _tempmonth == "4" {birthday[4] = 4; birthday[2] = "Апреля"}
+	elseif _tempmonth == "5" {birthday[4] = 5; birthday[2] = "Май"}
+	elseif _tempmonth == "6" {birthday[4] = 6; birthday[2] = "Июня"}
+	elseif _tempmonth == "7" {birthday[4] = 7; birthday[2] = "Июля"}
+	elseif _tempmonth == "8" {birthday[4] = 8; birthday[2] = "Августь"}
+	elseif _tempmonth == "9" {birthday[4] = 9; birthday[2] = "Сентября"}
+	elseif _tempmonth == "10" {birthday[4] = 10; birthday[2] = "Октября"}
+	elseif _tempmonth == "11" {birthday[4] = 11; birthday[2] = "Ноября"}
+	elseif _tempmonth == "12" {birthday[4] = 12; birthday[2] = "Декабря"}
 	else //if the month isn't a valid month, like 32 or something.
 	{
-		"%(narrator)* (А %(_tempmonth), это что за месяць?\w4 Имя или номер.)"
+		"%(narrator)* (А %(_tempmonth), это что за месяць?\w4 Номер, пж.)"
 		--
 		"\![open,inputbox,OnUserBornMonth,-1]\![set,balloontimeout,-1]\e"
 	}
@@ -162,14 +160,9 @@ OnUserBornMonth
 	"\![open,inputbox,OnUserBornDay,-1]\![set,balloontimeout,-1]\e"
 }
 
-OnUserBornDay
-{
+OnUserBornDay {
 	_tempday = reference0 //storing the input in _tempday
 	_tempday = TOLOWER(_tempday) //changes it to lowercase
-	_tempday = REPLACE(_tempday,"st","") //if the user types something like 2nd, 3rd, etc, this will make it just the number. It'll just add the suffix back later on the one that actually shows.
-	_tempday = REPLACE(_tempday,"nd","")
-	_tempday = REPLACE(_tempday,"rd","")
-	_tempday = REPLACE(_tempday,"th","")
 	_tempday = TOINT(_tempday) //Converts it to an integer
 	_month = birthday[4] //Just for readability
 	
@@ -203,23 +196,3 @@ OnUserBornDay
 	--
 	"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"
 }
-
-Printday //Sets the appropriate suffix
-{
-	/*if birthday[5] == 1 || birthday[5] == 21 || birthday[5] == 31
-	{
-		"%(birthday[5])st"
-	}
-	elseif birthday[5] == 2 || birthday[5] == 22
-	{
-		"%(birthday[5])nd"
-	}
-	elseif birthday[5] == 3 || birthday[5] == 23
-	{
-		"%(birthday[5])rd"
-	}
-	else
-	{
-		"%(birthday[5])th"
-	}*/
-}	
