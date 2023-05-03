@@ -199,3 +199,8 @@ ul, li {
 	list-style ; none;
 	display: inline;
 }
+
+.img {
+	height: auto;
+	width: auto;
+}
