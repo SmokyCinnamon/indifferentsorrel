@@ -57,9 +57,7 @@ OnMenuRun //Main menu
 	--
 	"%*\q[...Даже\, ничего,Cancel]\n\n"
 	--
-	"%(wd) %(hour):%(nowmin), %(day)/%(month)/%(year) - %(season)"
-	--
-	"\nВреся выполнения: %(runtime[0]):%(runmin)            Версия %(ghostver)\e"
+	"\nВремя выполнения: %(runtime[0]):%(runmin)            Версия %(ghostver)\e"
 }
 Select.spawn {keromode = "грязный!!!"; "\1\s[random]\i[1]\e"}
 OnLastTalk //Repeats the last thing the ghost said
@@ -72,70 +70,9 @@ OnFunctionMenu
 	--
 	"\n/
 	\![*]\q[Конфигурация,OnConfigMenu]\н\n/
-	\![*]\q[Октрыть Календарь,OpenCalendar]\n/
-	\![*]\q[Проверить Почту,CheckEmail]\n/
-	\![*]\q[Открыть Настройки SSP,SSPPrefs]\n/
-	\![*]\q[Отчистить корзину,RecycleBin]\n/
-	\![*]\q[Показать Информация Система,SystemInfo]\n/
 	\![*]\q[Сообщить об Ошибке,BugReport]\n/
 	\![*]\q[Проверить Обновление,UpdateCheck]\n\n/
 	\![*]\q[К главное меню,OnMenuRun]\e"
-}
-
-Select.OpenCalendar
-{
-	"\0\s[0]Вот она."
-	--
-	"\![open,calendar]\e"
-}
-
-Select.CheckEmail //The dialogue about checking emails will happen in the biff function, no need to add dialogue here
-{"\![biff]\e"}
-
-Select.SSPPrefs
-{
-	"\0\s[0]Так, открою."
-	--
-	"\![open,configurationdialog]\e"
-}
-
-Select.RecycleBin
-{
-	_gomicheck = FUNCTIONEX("gomi.dll", "-n") //Gets the number of items in the recycle bin
-	
-	"Ладно,\w4 я иду отчистить.\w8\w8\s[-1]\w8\w8\w8\w8\n\n"
-	--
-	if _gomicheck > 0 //If there was something to empty
-	{
-		_gomi = FUNCTIONEX("gomi.dll", "-f") //Calling the Saori to empty the recycle bin _s = ""; if _gomicheck != 1; _s = "s" //Plural check
-		_и = ""; if _gomicheck != 1; _и = "и"
-		
-		"\s[0]Все!\w8\w8 %(_gomicheck) штук%(_и) отчистил. Как и в работу, так и здесь..."
-	}
-	else //If it's empty
-	{
-		"\s[0]Пустой. Ты не замети%(л)...?"
-	}
-	--
-	"\n\n\![*]\q[К меню функции,OnFunctionMenu]\n\![*]\q[Все,cancelnodialogue]\e"
-}
-
-Select.SystemInfo //Partially copied from the GT template, but I tweaked a few things
-{
-	os_name = FUNCTIONEX("saori_cpuid.dll","os.name")
-	os_version = FUNCTIONEX("saori_cpuid.dll","os.version")
-	cpu_name = FUNCTIONEX("saori_cpuid.dll","cpu.name")
-	cpu_clockex = FUNCTIONEX("saori_cpuid.dll","cpu.clockex")
-	"/
-	\0\b[2]\_q/
-	OS: %(os_name) %(os_version)\n/
-	Загрузку Памяти: %(memoryload)%\n/
-	Физическая Память: %(memoryavailphys) KB\n/
-	CPU: %(cpu_name) %(cpu_clockex)MHz\n/
-	Рабочем Состоянии: %(systemuphour):%(systemupminute):%(systemupsecond)\n\n/
-	Укагака: %property[baseware.version]\n\n/
-	\![*]\q[К функции,OnFunctionMenu]\n/
-	\![*]\q[Всё,cancelnodialogue]\e"
 }
 
 Select.BugReport
@@ -155,46 +92,22 @@ OnConfigMenu //I moved changing name/pronouns/birthday over to Nameteach, becaus
 {
 	//This is here in case the variables get erased. The buttons will be set to default so the user has something to click. This has happened to my users before and resetting them is a painful process. Do not remove these.
 	if username == ""; username = "Пользователь"
-	//if heshe == ""; {heshe = "they"; himher = "them"; hisher = "their"; hesshes = "they're"}
-	if birthday[0] == ""; birthday[0] = "???"
-	if hemisphere == ""; hemisphere = "Северном"
 	if talkrate == ""; {talkrate = "каждый 5 минут"; aitalkinterval = 300}
 	if deleteshitai == ""; deleteshitai = "Выкл"
 	if AutoUpdates[0] == ""; AutoUpdates[0] = "Вкл"
-	if betaTester == ""; betaTester = "Выкл"
 	--
 	//the \_l[97] is telling it to put the ---Config--- at x 97, the middle of the balloon I use. Adjust as needed for your balloon, or remove it if you want
 	if reference0 == "cancelled name change"; "\![close,inputbox,OnNameTeach]" //If the user cancels changing their name, it will send them back to the config menu, and run this extra bit of code to close the inputbox. Same deal with the others below, but for the birthday
-	elseif reference0 == "cancelled birthday month"; "\![close,inputbox,OnUserBornMonth]"
-	elseif reference0 == "cancelled birthday day"; "\![close,inputbox,OnUserBornDay]"
-	if "cancelled birthday" _in_ reference0; {birthday = oldbirthday; ERASEVAR("oldbirthday")} //resets the birthday to the old values, erases the temp variable
 	--
 	"\_q\b2\_l[97]---Config---\n\n/
 	Имя: \q[%(имя),OnChangeName]\n/
 	Местоимение: \q[%(он)/%(его)/%(ему),OnChangePronoun]\n/
 	День Рождения: \q[%(birthday[0]),OnChangeBirthday]\n/
-	Полушарие: \q[%(hemisphere),ToggleHemisphere]\n\n/
 	Время разговоров: \q[%(talkrate),ChangeTalk]\n\n/
 	\![*]Включить Авто-Обновление?\n(Сейчас: \q[%(AutoUpdates[0]),ToggleUpdate])\n/
-	//\![*]Opt in to beta updates? (Сейчас: \q[%(betaTester),ToggleBeta])\n\n/
 	\![*]Включить Удаление? (Сейчас: \q[%(deleteshitai),ToggleUninstall])\n\n/
 	\![*]\q[Назад,OnFunctionMenu]\n \![*]\q[К меню,OnMenuRun]\e"
 }
-
-Select.ToggleHemisphere
-{
-	if hemisphere != "Северном"
-	{
-		hemisphere = "Северном"
-	}
-	else
-	{
-		hemisphere = "Южном"
-	}
-	--
-	OnConfigMenu
-}
-
 Select.ChangeTalk
 {
 	"\0\s[0]Как часто поговорить?\w8 В этом момент это %(talkrate)\n\n/
@@ -212,39 +125,29 @@ OnTalkRate
 	{
 		talkrate = "каждый 30 секунд" //this displays the talk rate in the menu
 		aitalkinterval = 30 //this changes the talk rate, in seconds
-		
-		"\0\s[0]Очень часто."
 	}
 	elseif reference0 == "Minute"
 	{
 		talkrate = "каждая минута"
 		aitalkinterval = 60
-		
-		"\0\s[0]Если уверен."
 	}
 	elseif reference0 == "ThreeMin"
 	{
 		talkrate = "каждый 3 минут"
 		aitalkinterval = 180
-		
-		"\0\s[0]Не так часто."
 	}
 	elseif reference0 == "FiveMin"
 	{
 		talkrate = "каждый 5 минута"
 		aitalkinterval = 300
-		
-		"\0\s[0]Хорошо."
 	}
 	else
 	{
 		talkrate = "никогда"
 		aitalkinterval = 0
-		
-		"\0\s[0]Вот, я не говорю."
 	}
 	--
-	"\n\n\![*]\q[Назад,OnConfigMenu]\n\![*]\q[Это все,cancelnodialogue]\e"
+	"\_q%(talkrate)\n\n\![*]\q[Назад,OnConfigMenu]\n\![*]\q[Это все,cancelnodialogue]\_q\e"
 }
 
 Select.ToggleUpdate
@@ -256,28 +159,6 @@ Select.ToggleUpdate
 	--
 	OnConfigMenu
 }
-
-Select.ToggleBeta
-{
-	if betaTester != "Вкл" //If you don't want a message about opting into beta updates, replace this whole bit with betaTester = "On"
-	{
-		"\0\s[0]\b2If you want a message about risks of running beta versions,\w4 put it here!\w8\w8 Remember to back up your save files just in case!"
-		--
-		"\n\n\![*]\q[Accept the risk and opt in,OptInBeta]\n\![*]\q[No thanks,toconfig]\e"
-	}
-	else
-	{betaTester = "Выкл"}
-	--
-	OnConfigMenu
-}
-
-Select.OptInBeta
-{
-	betaTester = "Вкл"
-	--
-	OnConfigMenu
-}
-
 Select.ToggleUninstall
 {
 	if deleteshitai != "Вкл"
@@ -289,9 +170,6 @@ Select.ToggleUninstall
 }
 
 //----------Misc Functions----------
-
-OnChoiceTimeout //Menu has timed out
-{"\0\s[0]Ты уш%(ёл)?\e"}
 
 Select.Cancel //If the main menu has been cancelled
 {"\0\s[0]А, хорошо.\e"}

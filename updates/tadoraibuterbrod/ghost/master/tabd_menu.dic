@@ -113,21 +113,21 @@ Select.SystemInfo //Partially copied from the GT template, but I tweaked a few t
 	cpu_clockex = FUNCTIONEX("saori_cpuid.dll","cpu.clockex")
 	"/
 	\0\b[2]\_q/
-	%(menutalks[31]) %(os_name) %(os_version)\n/
-	%(menutalks[32]) %(memoryload)%\n/
-	%(menutalks[33]) %(memoryavailphys) KB\n/
-	%(menutalks[34]) %(cpu_name) %(cpu_clockex)MHz\n/
-	%(menutalks[35]) %(systemuphour):%(systemupminute):%(systemupsecond)\n\n/
-	%(menutalks[36]) %property[baseware.version]\n\n/
-	\![*]\q[%(menutalks[37]),OnFunctionMenu]\n/
-	\![*]\q[%(menutalks[38]),cancelnodialogue]\e"
+	%(menutalks[32]) %(os_name) %(os_version)\n/
+	%(menutalks[33]) %(memoryload)%\n/
+	%(menutalks[34]) %(memoryavailphys) KB\n/
+	%(menutalks[35]) %(cpu_name) %(cpu_clockex)MHz\n/
+	%(menutalks[36]) %(systemuphour):%(systemupminute):%(systemupsecond)\n\n/
+	%(menutalks[37]) %property[baseware.version]\n\n/
+	\![*]\q[%(menutalks[38]),OnFunctionMenu]\n/
+	\![*]\q[%(menutalks[39]),cancelnodialogue]\e"
 }
 
 Select.BugReport
 {
-	"\0\s[0]%(menutalks[39])"
+	"\0\s[0]%(menutalks[40])"
 	--
-	"\n\n\![*]\q[%(menutalks[40]),OnFunctionMenu]\n\![*]\q[%(menutalks[41]),cancelnodialogue]\e"
+	"\n\n\![*]\q[%(menutalks[41]),OnFunctionMenu]\n\![*]\q[%(menutalks[42]),cancelnodialogue]\e"
 }
 
 Select.UpdateCheck //Starts an update check
@@ -154,17 +154,17 @@ OnConfigMenu : all //I moved changing name/pronouns/birthday over to Nameteach, 
 	elseif reference0 == "cancelled birthday day"; "\![close,inputbox,OnUserBornDay]"
 	if "cancelled birthday" _in_ reference0; {birthday = oldbirthday; ERASEVAR("oldbirthday")} //resets the birthday to the old values, erases the temp variable
 	--
-	"\_q\b2\_l[97]---%(menutalks[42])---\n\n"
-	"\__q[OnPeraklad]%(menutalks[43]) %(peraklad)\__q\n"
-	"%(menutalks[44]) \q[%(username),OnChangeName]\n"
+	"\_q\b2\_l[97]---%(menutalks[43])---\n\n"
+	"\__q[OnPeraklad]%(menutalks[44]) %(peraklad)\__q\n"
+	"%(menutalks[45]) \q[%(username),OnChangeName]\n"
 	//"Your pronouns: \q[%(they)/%(them),OnChangePronoun]\n"
-	"%(menutalks[45]) \q[%(birthday[0]),OnChangeBirthday]\n\n"
-	"%(menutalks[46]) \q[%(hemisphere),ToggleHemisphere]\n"
-	"\__q[ToggleLescreate]%(menutalks[47]) %(lescreator)\__q\n"
-	"\__q[ToggleWinfo]%(menutalks[48]) %Flag('winfoinfo')\__q\n"
-	"\![*]%(menutalks[49]) \q[%(AutoUpdates[0]),ToggleUpdate])\n"
-	"\![*]%(menutalks[50]) \q[%(deleteshitai),ToggleUninstall])\n\n"
-	"\![*]\q[%(menutalks[51]),OnMenuRun]\e"
+	"%(menutalks[46]) \q[%(birthday[0]),OnChangeBirthday]\n\n"
+	"%(menutalks[47]) \q[%(hemisphere),ToggleHemisphere]\n"
+	"\__q[ToggleLescreate]%(menutalks[48]) %(lescreator)\__q\n"
+	"\__q[ToggleWinfo]%(menutalks[49]) %Flag('winfoinfo')\__q\n"
+	"\![*]%(menutalks[50]) \q[%(AutoUpdates[0]),ToggleUpdate]\n"
+	"\![*]%(menutalks[51]) \q[%(deleteshitai),ToggleUninstall]\n\n"
+	"\![*]\q[%(menutalks[52]),OnMenuRun]\e"
 }
 Select.ToggleWinfo {
 	if Flag("winfoinfo") == 0 {AddFlag("winfoinfo")}; else {RemoveFlag("winfoinfo")}
@@ -172,19 +172,19 @@ Select.ToggleWinfo {
 	OnConfigMenu
 }
 Select.ToggleLescreate {
-	if lescreator != "%(menutalks[52])" {lescreator = "%(menutalks[52])"}; else {lescreator = "%(menutalks[53])"}
+	if lescreator != "%(menutalks[53])" {lescreator = "%(menutalks[53])"}; else {lescreator = "%(menutalks[54])"}
 	--
 	OnConfigMenu
 }
 Select.ToggleHemisphere
 {
-	if hemisphere != "%(menutalks[54])"
+	if hemisphere != "%(menutalks[55])"
 	{
-		hemisphere = "%(menutalks[54])"
+		hemisphere = "%(menutalks[55])"
 	}
 	else
 	{
-		hemisphere = "%(menutalks[55])"
+		hemisphere = "%(menutalks[56])"
 	}
 	--
 	OnConfigMenu
@@ -192,13 +192,13 @@ Select.ToggleHemisphere
 
 Select.ToggleUpdate
 {
-	if AutoUpdates[0] != "%(menutalks[52])"
+	if AutoUpdates[0] != "%(menutalks[53])"
 	{
-		AutoUpdates[0] = "%(menutalks[52])"
+		AutoUpdates[0] = "%(menutalks[53])"
 	}
 	else
 	{
-		AutoUpdates[0] = "%(menutalks[53])"
+		AutoUpdates[0] = "%(menutalks[54])"
 	}
 	--
 	OnConfigMenu
@@ -206,13 +206,13 @@ Select.ToggleUpdate
 
 Select.ToggleUninstall
 {
-	if deleteshitai != "%(menutalks[52])"
+	if deleteshitai != "%(menutalks[53])"
 	{
-		deleteshitai = "%(menutalks[52])"
+		deleteshitai = "%(menutalks[53])"
 	}
 	else
 	{
-		deleteshitai = "%(menutalks[53])"
+		deleteshitai = "%(menutalks[54])"
 	}
 	--
 	OnConfigMenu
@@ -222,7 +222,7 @@ Select.ToggleUninstall
 
 OnChoiceTimeout //Menu has timed out
 {
-	"\0\s[0]%(menutalks[56])\e"
+	"\0\s[0]%(menutalks[57])\e"
 }
 
 Select.Cancel //If the main menu has been cancelled
@@ -234,18 +234,18 @@ Select.Cancel //If the main menu has been cancelled
 
 OpenKeroMenu
 {
-	"\1\s[10]%(menutalks[57])"
 	"\1\s[10]%(menutalks[58])"
 	"\1\s[10]%(menutalks[59])"
+	"\1\s[10]%(menutalks[60])"
 	--; "\n\n"; --
 	OnKeroMenu
 }
 
 OnKeroMenu : all
 {
-	if stickybuter == 1; "%*\__q[OnUnsticky]%(menutalks[60])\__q\n"
+	if stickybuter == 1; "%*\__q[OnUnsticky]%(menutalks[61])\__q\n"
 	//if stickybuter == 0; "%*\__q[OnUnsticky,sticky]Sticky\__q\n"
-	"%*\__q[Cancelnodialogue]%(menutalks[61])\__q"
+	"%*\__q[Cancelnodialogue]%(menutalks[62])\__q"
 }
 
 OnUnsticky {

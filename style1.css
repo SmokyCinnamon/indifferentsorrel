@@ -26,25 +26,28 @@ article
     padding: 20px;
 }
 
+.freezeframe article {
+	background: #beb8ff; /*This is the white boxes that the text is in. You can change this to anything you like*/
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+}
+
 footer
 {
-    margin-top: 5px;
-    margin-left: 5%;
-    margin-right: 5%;
-    background: #f0f0f0;
-    padding: 5px;
-    border-radius: 5px;
     text-align: center;
 }
 
 h1
 {
-    text-align: center;
+	font-size: 16px;
 }
 
 h2
 {
-    text-align: center;
+	font-size: 14px;
 }
 
 a
@@ -62,8 +65,8 @@ a
     margin-right: auto;
     max-width: 100%;
     height: auto;
-    /*border-radius: 5px; If you want your images to be perfectly square, remove the border-radius bit*/
 }
+
 .right
 {
     display: block;
@@ -142,44 +145,6 @@ a
   background-color: #beb8ff;
 }
 
-/* The dropdown container */
-.dropdown
-{
-  float: left;
-  overflow: hidden;
-}
-
-/* Dropdown button */
-.window .dropbtn
-{
-  font-size: 15px;
-  border: none;
-  outline: none;
-  background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  font-color: inherit;
-  margin: 0; /* Important for vertical align on mobile phones */
-}
-
-/* Dropdown content (hidden by default) */
-.dropdown-content
-{
-  display: none;
-  position: absolute;
-  background-color: #beb8ff;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  border-radius: 2px;
-  z-index: 1;
-}
-
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content
-{
-  display: block;
-}
-
 .navdivider
 {
 	padding-left: 10px;
@@ -192,15 +157,44 @@ a
 }
 
 ul {
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 
 ul, li {
 	list-style ; none;
 	display: inline;
+	word-wrap: break-word;
 }
 
-.img {
+img {
 	height: auto;
 	width: auto;
+	max-width: 100%;
+}
+
+.gallery { /* this is the main div that wraps your gallery */
+  display:flex;
+  flex-wrap:wrap;
+}
+
+.gallery img {
+  max-width: 100%; /* this sets the width for every image */
+  max-height: 300px;
+  height:auto; /* this sets the height for every image. Try setting it to 'auto' and see how it looks weird since every image has a slightly different height? */
+  object-fit:cover; /* this crops the image so they are all the same size. This might be an issue if you have landscape AND portrait images. Feel free to take this property out temporarily to see exactly what it does! */
+  
+}
+
+/* this is the div which CROPS every image */
+.gallery > div {
+  width:200px;
+  height:150px;
+  margin-right:10px; /* this controls the gaps between the images */
+  margin-bottom:10px; /* this controls the gaps between the images */
+}
+
+/* this resizes the image on hover. note that objects in 'portrait'  */
+.gallery img:hover {
+  transform:scale(1.0); /* this scales up the image when you hover over it */
+  object-fit:contain; /* this keeps the aspect ratio of the original images*/
 }

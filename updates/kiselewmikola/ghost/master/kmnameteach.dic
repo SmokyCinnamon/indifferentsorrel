@@ -2,9 +2,9 @@
 
 OnChangeName
 {
-	"\0\s[0]Так,\w4 какая у тебя имя?"
+	"\0\s[0]...Хм? Хочешь рассказать как тебя зовут?"
 	--
-	"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled name change]\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]\e"
+	"\n\n\![*]\q[Нет,OnConfigMenu,cancelled name change]\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]\e"
 }
 
 OnNameTeach
@@ -19,42 +19,27 @@ OnNameTeach
 	{
 		"\0\s[0]Ничего не име%(л) в виду?"
 	}
-	elseif "template" _in_ reference0 || _tempname == "X." || _tempname == "x." //Checking with _tempname because 'X.' has a period, which would be removed. I don't want to stop someone putting in just X
-	{
-		"\0\s[0]That's my name!\w8\w8 I can't call you that!\w8\w8 Try again."
-		--
-		"\n\n\![*]\q[Cancel,OnConfigMenu,cancelled name change]\![open,inputbox,OnNameTeach,-1]\e"
-	}
 	elseif reference0 == "" //If the user doesn't put in anything
 	{
-		имя = "Пользователь"
+		имя = "Сябар"
 		
-		"\0\s[0]Ну ладно. Ты теперь %(имя)"
+		"\0\s[0]Ну ладно. Пока что будешь %(имя), окей?"
 	}
 	else //if it's none of these above names, we can use it. You can add names that just have comments and can still be used, just don't add a \e at the end.
 	{
 		имя = _tempname
-		"\0\s[0]Ты теперь %(username)."
+		"\0\s[0]%(имя), так? Поспробую не забыть."
 	}
 	--
 	if booting == 0 //If the user was changing their name through the config menu
 	{
 		"\n\n\![*]\q[Назад,OnConfigMenu]\n\![*]\q[Это был все,cancelnodialogue]\e"
 	}
-	else //This is continuing from FirstBoot
-	{
-		"\w8\w8 Приятно познакомиться. А твои местоимени что?\n\n"
-		--
-		"\![*]\q[Он/Его/Его,OnPronouns,он]\n/
-		\![*]\q[Она/Её/Её,OnPronouns,её]\n/	
-		\![*]\q[Они/Их/Их,OnPronouns,undef]\e"
-		//maybe variable controlled. i personally don't care, but...
-	}
 }
 
 OnChangePronoun //Envelope names are the same as the GT template, since I figured most people will be used to them.
 {
-	"\0\s[0]Твои местоимени что?"
+	"\0\s[0]А? Местоимения? Не бы думали что я так много говорили о тебе..."
 	--
 	"\n\n\_q/
 	\![*]\q[Он/Его/Его,OnPronouns,он]\n/
@@ -111,25 +96,12 @@ OnPronouns
 		
 	}
 	else
-	{"А. Мне нужно их как это\н'они\их\них\им\им\ними\них\ли\лись\ли'\n.Тот самый вещь. \![open,inputbox,OnCustomPronouns,-1]\e"}
+	{"(Введите как 'они\их\них\им\им\ними\них\ли\лись\ли'\n.Тот самый вещь. \![open,inputbox,OnCustomPronouns,-1]\e"}
 	--
-	if booting == 1 //This is the end of the firstboot dialogue
-	{
-		booting = 0
-		"Буду помнить. Если есть вопросы, всегда можешь спросить.\w6\![leave,passivemode]\e"
-	}
-	else //This is if the user is changing their pronouns through the menu
-	{
-		"\0\s[0]Все готов."
-		--
-		"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"
-	}
+	"\0\s[0]Буду помнить..."
+	--
+	"\n\n\![*]\q[Назад,OnConfigMenu] \![*]\q[Всё,cancelnodialogue]\e"
 }
-//Pronoun examples for my own sake:
-//"%(heshe) left that there."
-//"%(hisher) work is really cool."
-//"I'll ask %(himher) later."
-//"%(hesshes) really good at it."
 
 OnCustomPronouns {
 	_pronouns = SPLIT(reference0,"/")
@@ -145,98 +117,3 @@ OnCustomPronouns {
 	лся = _pronouns[8]
 	ёл = _pronouns[9]
 }
-OnChangeBirthday //Pulled a lot of this from the GT template, but I also modified it a lot
-{
-	oldbirthday = birthday
-	
-	"\0\s[0]Вот! Ты роди%(лся) в какой месяць?"
-	--
-	"\n\n\![*]\q[Нет,OnConfigMenu,cancelled birthday month]\![open,inputbox,OnUserBornMonth,-1]\![set,balloontimeout,-1]\e"
-}
-
-//birthday[0] - word birthday
-//birthday[1] - number birthday
-//birthday[2] - word month
-//birthday[3] - word day
-//birthday[4] - number month
-//birthday[5] - number day
-//Use birthday[0] to display the user's birthday, and birthday[1] to do checks with the numbers
-
-OnUserBornMonth
-{
-	_tempmonth = reference0 //this stores what the user put in as a variable called _tempmonth
-	_tempmonth = TOLOWER(_tempmonth) //changes it to lowercase
-	
-	if _tempmonth == "январь" || _tempmonth == "1" {birthday[4] = 1; birthday[2] = "Января"}
-	elseif _tempmonth == "февраль" || _tempmonth == "2" {birthday[4] = 2; birthday[2] = "Февраля"}
-	elseif _tempmonth == "март" || _tempmonth == "3" {birthday[4] = 3; birthday[2] = "Марта"}
-	elseif _tempmonth == "апрель" || _tempmonth == "4" {birthday[4] = 4; birthday[2] = "Апреля"}
-	elseif _tempmonth == "май" || _tempmonth == "5" {birthday[4] = 5; birthday[2] = "Мая"}
-	elseif _tempmonth == "июнь" || _tempmonth == "6" {birthday[4] = 6; birthday[2] = "Июня"}
-	elseif _tempmonth == "июль" || _tempmonth == "7" {birthday[4] = 7; birthday[2] = "Июля"}
-	elseif _tempmonth == "августь" || _tempmonth == "8" {birthday[4] = 8; birthday[2] = "Августь"}
-	elseif _tempmonth == "сентябрь" || _tempmonth == "9" {birthday[4] = 9; birthday[2] = "Сентября"}
-	elseif _tempmonth == "октябрь" || _tempmonth == "10" {birthday[4] = 10; birthday[2] = "Октября"}
-	elseif _tempmonth == "ноябрь" || _tempmonth == "11" {birthday[4] = 11; birthday[2] = "Ноября"}
-	elseif _tempmonth == "декабрь" || _tempmonth == "12" {birthday[4] = 12; birthday[2] = "Декабря"}
-	else //if the month isn't a valid month, like 32 or something.
-	{
-		"\0\s[0]%(_tempmonth)? Попробуйте еще раз, пожалуйста."
-		--
-		"\n\n\![*]\q[Нет,OnConfigMenu,cancelled birthday month]\![open,inputbox,OnUserBornMonth,-1]\![set,balloontimeout,-1]\e"
-	}
-	--
-	//If it's a valid month
-	"%(birthday[2])?\w8\w8 Хорошо, и день был?"
-	--
-	"\n\n\![*]\q[Нет,OnConfigMenu,cancelled birthday day]\![open,inputbox,OnUserBornDay,-1]\![set,balloontimeout,-1]\e"
-}
-
-OnUserBornDay
-{
-	
-	_tempday = reference0 //storing the input in _tempday
-	_tempday = TOLOWER(_tempday) //changes it to lowercase
-	_tempday = REPLACE(_tempday,"st","") //if the user types something like 2nd, 3rd, etc, this will make it just the number. It'll just add the suffix back later on the one that actually shows.
-	_tempday = REPLACE(_tempday,"nd","")
-	_tempday = REPLACE(_tempday,"rd","")
-	_tempday = REPLACE(_tempday,"th","")
-	_tempday = TOINT(_tempday) //Converts it to an integer
-	_month = birthday[4] //Just for readability
-	
-	if ((_month == 1 || _month == 3 || _month == 5 || _month == 7 || _month == 8 || _month == 10 || _month == 12) && _tempday >= 1 && _tempday <= 31) || (_month == 2 && _tempday >= 1 && _tempday <= 29) || ((_month == 4 || _month == 6 || _month == 9 || _month == 11) && _tempday >= 1 && _tempday <= 30) //This ugly function checks if the day falls into a valid range.
-	{
-		birthday[5] = _tempday
-		birthday[3] = Printday
-		birthday[1] = "%(birthday[4])/%(birthday[5])" //If you want to write dates as DD/MM, feel free to swap this around
-		birthday[0] = "%(birthday[2]) %(birthday[3])"
-		ERASEVAR("oldbirthday")
-		
-		if birthday[1] == "%(month)/%(day)" //if today is the user's birthday. Don't forget to switch this if you change the format to DD/MM
-		{"\0\s[0]Ой, с днём %(username)! Если бы я узнал раньше, я было б что-то для тебя купить..."}
-		/*elseif birthday[1] == "12/25" //If it's on christmas. Put any date you'd like here. If you change the format to DD/MM, make sure you change any dates like this that might be in bootend.
-		{
-			"\0\s[0]Oh,\w4 you were born on Christmas?\w8\w8 Cool!"
-		}*/
-		else //if the birthday is not listed above.
-		{"\0\s[0]Так! Твой день рождения %(birthday[0]).\w8\w8 Я запомню."}
-		--
-		"\n\n\![*]\q[Назад,OnConfigMenu]\n\![*]\q[Это все,cancelnodialogue]\e"
-	}
-	else //If it isn't a valid day, we open the input box again and have a \e so the dialogue below doesn't play.
-	{
-		"\0\s[0]Не правильная день.\w8\w8 Ещё раз, пожалуйста."
-		--
-		"\n\n\![*]\q[Нет,OnConfigMenu,cancelled birthday day]\![open,inputbox,OnUserBornDay,-1]\e"
-	}
-	
-}
-
-Printday //Sets the appropriate suffix
-{
-	"%(birthday[5])"
-	/*if birthday[5] == 1 || birthday[5] == 21 || birthday[5] == 31 {"%(birthday[5])st"}
-	elseif birthday[5] == 2 || birthday[5] == 22 {"%(birthday[5])nd"}
-	elseif birthday[5] == 3 || birthday[5] == 23 {"%(birthday[5])rd"}
-	else {"%(birthday[5])th"}*/
-}	
