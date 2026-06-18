@@ -6,10 +6,36 @@ let links = [
 	{ path: 'index', title: 'Main' },
 	{ path: 'ghostguide_by', title: 'Як стварыць укагаку (YAYA)' },
 	
-	//{ title: 'Ghosts', sublinks: [
-		//{ title: 'Ghosty ghosts' },
+	{ title: 'Ghosts', sublinks: [
+		{ title: 'Ghosty ghosts' },
+		{ path: 'p_m', title: 'Pasha and Misha' },
 		{ path: 'tadora', title: 'Tadora i Buterbrod' },
-	//] },
+		{ path: 'stickerbook', title: 'Stickerbook' },
+		{ path: 'shipwreck', title: 'The Perpetual Shipwreck of a Poet' },
+		{ title: 'Jam Ghosts' },
+		{ path: 'r_n', title: 'Rocky and Noteworthy' },
+		{ path: 'spring_cleaning', title: 'Весняя уборка' },
+		{ path: 'ghost_jam_2022', title: 'Ghost Jam 22' },
+		{ path: 'ghost_jam_2023', title: 'Ghost Jam 23' },
+		{ path: 'ghost_jam_2024', title: 'Ghost Jam 24' },
+		{ path: 'ghost_jam_2025', title: 'Ghost Jam 25' },
+		{ path: 'idea_adoption_2023', title: 'Idea Adoption Jam 23' },
+		{ path: 'idea_adoption_2024', title: 'Idea Adoption Jam 24' },
+		{ title: 'Templates' },
+		{ path: 'simplicity_ru', title: 'Шаблон простота' },
+		{ path: 'horror_template', title: 'Smokys Horror Template' },
+	] },
+	{ title: 'Shells', sublinks: [
+		{ title: 'Ghosty shells' },
+		//{ path: 'shell/water_dishes', title: 'Water Dishes (Hydrate)' },
+		//{ path: 'shell/ordis', title: 'Ordis (FLUX/FLELE)' },
+		//{ path: 'shell/sad_statue', title: 'Very Sad Statue (Hydrate)' },
+		//{ path: 'shell/cup_of_dirt', title: 'Cup of Dirt (Hydrate)' },
+		//{ path: 'shell/irl_tadora', title: 'I.R.L Tadora' },
+		//{ title: 'Freeshells' },
+		//{ path: 'shell/free/kittypunk', title: 'Kittypunk' },
+		//{ path: 'shell/free/sheetcat', title: 'Sheet cat' },
+	] },
 ];
 
 let basepath = '';
@@ -39,22 +65,16 @@ function linkHTML(link) {
 		return ` <button><a href="${basepath}${link.path}${islocal}" ${className}>${link.title}</a></button>`;
 	} else if (link.sublinks) {
 		return `
-			<div class="dropdown">
-					<button>${link.title}
-						<i class="fa fa-caret-down"></i>
-					</button>
-					<div class="dropdown-content">
-						<div class="window">
-							<div class="window-body">
-								${link.sublinks.map(linkHTML).join('')}
-								</fieldset></p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>`;
+			<fieldset><legend>
+				${link.title}
+					<i class="fa fa-caret-down"></i>
+				</legend>
+					<div class="window-content">
+						${link.sublinks.map(linkHTML).join('')}
+					</div><br>
+			</fieldset>`;
 	} else {
-		return `<fieldset><legend>${link.title}</legend><br>`;
+		return `<br><b>${link.title}: </b>`;
 	}
 }
 
