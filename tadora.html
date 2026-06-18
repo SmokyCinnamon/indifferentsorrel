@@ -12,6 +12,7 @@
     <meta property="og:title" content="Indifferent Sorrel"/>
     <meta property="og:description" content="Tadora i Buterbrod: language learning pals"/>
     <meta property="og:url" content="https://smokycinnamon.github.io/indifferentsorrel/index.html"/>
+	<script src="https://unpkg.com/freezeframe/dist/freezeframe.min.js"></script>
 </head>
 
 <body>
@@ -31,20 +32,23 @@
         <div class="title-bar-text">Tadora i Buterbrod</div>
 	 </div>
 	 <article>
-          <br><menu role="tablist">
+          <br>
+		  <menu role="tablist">
 		  <li role="tab" aria-selected="true"><a onClick="openTab('About')">About</a></li>
 		  <li role="tab"> <a onClick="openTab('Documentation')">Documentation</a></li>
-		  <li role="tab"> <a onClick="openTab('ExampleCreate')">Lesson Creation (example)</a></li>
-		  <li role="tab"> <a onClick="openTab('ExampleExport')">Exporting (example)</a></li>
-	  </menu>
+		  <li role="tab"> <a onClick="openTab('Courses')">Courses</a></li>
+		  </menu>
 		<div id="About" class="tab" role="tabpanel">
 		<div class="window">
-			<article>
-			        <img src="img/Tadora.png" alt="A drawing of Tadora, a brown-skinned cat person with a purple shirt. A gray tabby named Buterbrod is sitting on her lap." width="205" height="251" class="center">
-        		      <p>Tadora and her cat Buterbrod can be downloaded today for the low low price of free! You're gonna love them i promise.</p>
-			      <p>Also did I mention she has the ability to let you go through duolingo-like lessons? She has the ability to let you go through duolingo-like lessons. And if you have a correctly formatted .txt file, all you need to do is drop it on her and she'll add it to her list of custom lessons!!! So you should totally find somebody who makes those if you're not interested in belarusian.<br>Oh did I not mention the belarusian? She's meant to help you with belarusian. It's really cool, trust me. You should learn belarusian. You should download Tadora to help you. She's great. She has a bunch of links to other resources which I spent a total of like maybe ten minutes copy/pasting from a different ghost of mine. She has a cat named Buterbrod. You can pet the cat. The cat will purr. Learn belarusian. Please talk to me about learning belarusian. I will be very excited to hear that you, too, are learning belarusian. If you already know belarusian talk to me anyways I need help with the inbuilt lessons. Send me a message on tumblr. You aren't even limited by language for custom lessons so long as you have the right keyboards.</p>
+			<article><h1>Tadora i Buterbrod</h1>
+			    <img src="img/Tadora.png" alt="A drawing of Tadora, a brown-skinned cat person with a purple shirt. A gray tabby named Buterbrod is sitting on her lap." width="205" height="251" class="center">
+        		<p>Tadora and her cat Buterbrod can be downloaded today for the low low price of free! You're gonna love them i promise.</p>
+			    <p>
+				So, now for the second pitch: Tadora is a ghost aimed at helping you practice/learn languages. She has lessons that function similar to duolingo, the <i>capability</i> of stories as found on duolingo, and some fun word games to try!<br>
+				On a fresh install she comes with two courses: an adaptation of <a href="https://web.archive.org/web/20210307095037/https://forum.duolingo.com/comment/10008744">these example lessons</a> by AlikLagodny on the duolingo forums, and an adaptation of the russian lessons from the site <a href="https://web.archive.org/web/20190521020959/http://by.lang-study.com/">Вывучаем беларуску</a>. more can be found at the courses tab above!
+				</p>
 				<button class=center><a href="https://github.com/SmokyCinnamon/indifferentsorrel/releases/">Download Here!</a></button><br>
-			        <img src="img/lesexample.gif" alt="An example gif of Tadora's first lesson." width="482" height="374" class="center">
+			    <img src="img/lesexample.gif" alt="An example gif of Tadora's first lesson." width="482" height="374" class="center, overlay">
 		</article></div>
 		</div>
 
@@ -52,69 +56,173 @@
 				<div id="Documentation" class="tab" style="display:none">
 					<article>
 						<div id="Docs">
-						<p>Jump to:<br><a href=#Setup>Basic Setup</a> | <a href=#LessonCreation>Creation of a lesson</a> | <a href=#Trans>Sentence Translation</a> | <a href=#Match>Word Matches</a> | <a href=#Search>That word finding thing</a> | <a href="#ffs">The horrible creation</a> | <a href="#Exporting">Exporting the course</a> | <a href="#amhost">Uploading lessons</a> |<a href="#gifex">Example GIFs</a></p>
-						<p><b>So</b> presumably you're here because you said, "oh hey, what's this documentation tab about?" OR you followed the instructions from the asking about custom lessons menu option in her ghost, in which case you did pretty much the same thing.<br>Now then, you may be wondering what all this custom lesson stuff is about - well, you've come to the right place! As I mentioned..... somewhere, all you really need for a custom lesson is a properly formatted .zip or .nar file. Once you drag and drop said file on Tadora, well, there you have it! She'll have added everything to the correct folders, and the user won't have to worry about it anymore.<br><b>Which is all well and good,</b> im sure you're thinking, <b>but what if I want to edit that? Won't I have to find those folders, edit those files, and format + drag it onto Tadora again? Does that even work???</b><br>Short answer - Sor of? But it's not nescessary, and only really likely to work if you already know what you're doing. Long answer - while you *could* do all that, she has an entire menu to make the process easier. Really all you need to do (for lessons, at least) is edit the file and save your changes. You don't even need to reload the ghost to see the results of your hard work! How cool is that?<br>Oh, and as for finding the folder? That step isn't needed either. If you head over to her config menu and turn the option labeled "Lesson Creator" on, she should have a new option in her menu to manage lessons - i.e, let you open and edit them, rename them, or delete them if need be.</p></div>
-						<div id="Setup"><p><b>Initial Setup</b></p>
-						<p>Since version 1.1.1, Tadora can now handle courses, and different languages, in the right way. The downside of this is that <b>individual lessons are no longer supported,</b> but I feel it's a fair trade-off. With that in mind, how does one begin creating a course? ...It's reasonably simple.<br>
-						The very first thing you'll want to do after turning the lesson creator switch to 'on' is go to her main menu, where you'll see some new options. One of those should be labeled 'Lesson Configuration', upon which you'll be asked to...<br>
-						<b>Wait, choose language??? Why in the world do I need to do this? What do you mean <i>add language???</i></b><br>
-						Yeah she asks you to choose a language first. If you're creating a belarusian course for english speakers, you're in luck! just click on the option that says 'english@belarusian', and you should be good to go on to the next screen. If not, however, you're going to want to click the option that's labeled 'add language', and follow the instructions provided. Once that's done, you're going to have to go back into the menu again, and click on your newly created language pair.<br>
-						<b>Isn't this just... the same menu? Hey wait, why is it empty?</b><br>
-						There are no courses yet. To remedy this, follow the same process outlined above, but use the course name instead. And... open the menu again. Click on the options again. I'm very sorry but this is the hell you have now comitted yourself to. (It won't be this horrible later I promise)</p></div>
-						<div id="LessonCreation"><p><b>But wait!!! How the heck do I even make one of these things?!</b></p>
-						<p>Well, that one's pretty simple. Double-click Tadora to bring up her menu, and you should see an option labeled lesson configuration. If you click on that, the menu it takes you will require you to pick the language pair and course you're working on, wherein you'll see a menu that has any current lessons in the course listed. For now, since it's probably empty, click the option labeled 'add lesson'. That should prompt you for a name, and then will open your new lesson in notepad. It *should* look something like this:</p>
-						<p><ul class="tree-view"><code><b>tree_lang[@] <br>skill_number[0] <br>lesson_notes[] <br>sentence_translation[] <br>alternate_translation[] <br>word_searches[] <br>word_matches[] </b></code></ul></p>
-						<p><b>As</b> for how this works, exactly, first you want to write down the language people will be learning <i>from</i>, and then the language that they're... actually learning. So for our example, this would look like the below example:<br>
-						<ul class='tree-view'><code><b>tree_lang[English@Icelandic]</b></code></ul></p>
-						<p><b>Next,</b> you want to write the number of skills the user has to go through, i.e; lessons, or levels. I... don't tend to make a distinction. If you wanted to have, say, 456 lessons, it'd look like so:</p>
-						<p><ul class='tree-view'><code><b>skill_number[456]</b></code></ul><br>
-						This is a bit weird, but I can't really stop you, so... go live your dreams, I guess.<br>
-						<b>Next,</b> you want the lesson notes. For example;<br></p>
-						<ul class="tree-view"><code><b>lesson_notes[hey losers have fun doing 456 lessons i bet you're really regretting this now!!!\nalso blah blah important grammar tips or whatever]</b></code></ul>
-						<br><b>The \n makes it display on a new line!</b> Helpful if you're writing long pages of text.</p></div>
-						<p><b><u>Getting into the words:</u></b><br>
-						So, you're looking at this example code, and you're saying "??? what the fuck is going on here???" because i redid this so its empty now. So far I have three excersises coded in: <b>translation, matching,</b> and <b>finding the correct word</b>. (which i'm sure has a shorter name somewhere.) Each seperate sentence, word game, or word to match <b>must be seperated by ;</b> -- no exceptions! Also @ symbols. What this means is you need some not-empty examples, which i can helpfully provide!<br>
-						<div id="Trans">A hypothetical group of translations would look like this (and I used google translate for this which I do not reccomend to my aspiring lesson creators.):<br>
-							<ul class="tree-view"><code><b>lesson_translation[i'm a dancing horse@ég er dansandi hestur;they went to the library without me@þeir fóru á bókasafnið án mín;what is up with all these people petting me like seriously@hvað er málið með allt þetta fólk að klappa mér svona alvarlega]</b></code></ul><br>
-							if you wanted any alternate translations, for differing word order, you'd add something like <br>
-							<ul class="tree-view"><b><code>alternate_translation[i am an alternate translation@alternate one;alternate two;alternate try]</code></ul><br>
-							It is important to add as many elements as the original list of sentences.</b> Basically what this means is that if you want an alternate translation for one and three, but not two, you'd put two ';'s in a row, and then the rest would be normal. You may have noticed use of the @ symbol in my above example! This is because if you want more than one alternative for a singular sentence, adding another semicolon will not have the desired result.<br>(As an aside, you can add all the punctuation you want other than those two symbols - it will display normally, but the user doesn't need to input it if they don't want to! So punctuation away, aspiring lesson creator. Follow your dreams. Put in those five million exclamation marks. We've already proven you have no limit on how ridiculous this can get.)<br>
-						<b>Also</b> because i realized I don't know where to put it now, the main function of the @ symbols is to <u>seperate your sentence/word from it's translation.</u> No semicolons randomly in the middle or it will break.</p></div>
-						<div id="Match"><p><b>Matching</b> could technically take a sentence input, but I don't reccommend it. (It might display awkwardly.) What I <i>do</i> reccomend, however, is finding all the new words in your lesson and adding them here. You do not have to do this though, if you don't want to. This is your lesson! Make your users/students trapped in your 456 lessons match those sentences if that is what your heart desires.<br>
-							As you may have already guessed, the code for the matching game will look something like this:<br></p>
-							<p><ul class="tree-view"><b><code>word_matches[dance@dansa;horse@hestur;library@bókasafni;people@fólk]</code></b></ul><br>
-							<b>You need at least four for the game to work</b>. It will also not display more than four at a time. Other than that, though, go wild! Variety is always fun.</p></div>
-						<div id="Search"><p><b>Finding</b> the correct word is one that might take a little more thinking. Do you want to just misspell it slightly? Have the wrong case? Have a similar sounding/looking word to distinguish it from? Whatever the case, you'll want to input something like this example. Note that the second word is the correct answer! Putting it anywhere else will just confuse people:<br></p>
-							<p><ul class="tree-view"><b><code>word_searches[library@bókasafni@bókabúð@bókahilla;to go@að fara@fer@fór til]</code></b></ul></p></div>
-						<p><b><u>The last step</u></b> is going back to the lesson configuration menu and clicking on the option labeled 'correct lesson numbers'. This won't matter to other people, seeing as the information needed is created when the lesson is added. <b>This matters to you <i>seeing as the information is created when the lesson is added.</i></b> That's fancy code talk for 'the number of lessons is added as 0 by default, so if you want to see the correct and updated number, you have to use the correct lesson numbers option and click on your lesson'. All it really does is set the number to whatever you put it as instead of 0 so you can see the right stuff.</p>
-						<div id="ffs"><p><b>And that's it!</b> Your horrible creation to torture students in for 456 lessons is done! Yay! Rejoice, and upload it somewhere so people can download it and drop it on their own version of Tadora. Or just play with it yourself because this is super addicting I swear. By the way, the example lesson here put together would look like the following, for your copy/pasting pleasure. I don't know why anyone would want this.<br><ul class="tree-view"><code><b>skill_number[456]<br>lesson_notes[hey losers have fun doing 456 lessons i bet you're really regretting this now!!!\nalso blah blah important grammar tips or whatever]<br>sentence_translation[i'm a dancing horse@ég er dansandi hestur;they went to the library without me@þeir fóru á bókasafnið án mín;what is up with all these people petting me like seriously@hvað er málið með allt þetta fólk að klappa mér svona alvarlega]<br>word_searches[library@bókasafni@bókabúð@bókahilla;to go@að fara@fer@fór til]<br>word_matches[dance@dansa;horse@hestur;library@bókasafni;people@fólk]</code></b></ul></p></div>
-						<div id="Exporting"><p><b>Exporting your course</b> does require you to like, know how to navigate the file picker but it's not really that hard, I promise.<br>
-						First, open Tadora's menu. Then, select the option labeled 'Export Course'. Tadora will also tell you what to do here, but you can ignore her if you want. Once you've clicked on the balloon, she'll open a file explorer window showing some folders.<br>
-						Double-click on the language that your course is in - don't just select it! Inside you should see a folder with the name of your course, and <i>that's</i> the one you want to select. Remember to click the confirm button at the bottom of the window.<br>
-						<b>Hey, she's telling me I haven't cleared it out! What's that supposed to mean?!</b><br>
-						Right, so what's going on here is that I can't automate deleting certain things. Fortunately, you don't have to go digging in her files, since she should have opened up another file explorer window. In this one, <b>you do not want to confirm any selections.</b> Instead, right-click and any folders and/or files that you see in this window, then go back and try again.<br>
-						If all has gone well, she should then say that it was generated, and you have two options - one brings up a file explorer window to where your zip file is, and the other takes you back to the main menu. From here, if you click the first option, and then drag and drop your newly-created .zip file somewhere else, so that you don't have to go digging in her files for it later. And that's it! You're done!</p>
-						<p>As a note, if you <i>are</i> willing to go digging through her files, you can do all this by hand - it'll just take a bit longer, and it's way more work to try and explain that process, so I won't :P</b></div>
-						<div id="amhost"><p><b>Uploading the lessons</b> is as simple as providing the .zip or .nar file to people. You can put it on like mediafire or something I guess? so long as there's a link to the download for people.<br>By the way, if you're not sure where to upload it, you can always get in touch with me & I can add your file to my site for people to download! That's why i have the super totally real third tab on here to showcase people's lessons :D</p></div>
+						<fieldset>
+						<legend>Jump to:</legend>
+							<a href="#lesType">Lesson Types</a> | <a href="#charCode">Language Tags</a> | <a href="#courseCredit">Course Credit</a> | <a href="#wordText">Plain Text</a> | <a href="#wordMatch">Word Matching</a> | <a href="#sentenceTrans">Sentence Translation</a> | <a href="#Cloze">Cloze Sentences</a> | <a href="#wordFind">Find the word/Questions</a> | <a href="#ffs">Conclusion</a>
+						<div class="field-row">
+							<a href="#exporting">Exporting a course</a>
+						</div>
+						</fieldset>
+						<div><p><h1>How to create a course: a weird guide</h1>
+						<b>So,</b> you're probably here because you like clicking tabs on pages. Me too! Now let's explain what's going on here:<br>
+						Tadora is a language practice ghost, sort of like duolingo in ghost form. Except I am one person, and duo is many. This means that though I may have the time and resources, I most certainly do <i>not</i> have the language knowledge required to create Tadora Courses tm for every language under the sun. Whether this is a good thing or not depends on who you ask, I suppose. This is where you come in!<br>
+						</p><p><b>To get started,</b> double-click Tadora to open the main menu, then click over to the profile tab. Here, scroll down until you see the option labeled <code>'Creator Menu: 0'</code>. Click that option, then head back to the main menu. (You should notice some new options in the profile page, but we're not concerned with those for now.)<br>
+						<b>O</b>nce you've returned to the main menu, click on the new button labeled <code>Course Creator ( - )</code>. This will take you to a language selection screen. If you have a fresh install, the only thing listed should be <code>english@belarusian</code>. But I will be honest with you: you probably do not know belarusian or wish to create a belarusian course for english speakers. This is okay! To add the language you <i>do</i> want to create a course for, click the <code>Add Language</code> button at the bottom. This will open an input box, which is where you want to put the language of your course.<br>
+						(<b>N</b>ote that the input box is not empty, but rather has <code>english@belarusian</code> in it. This is an example text! You'll want to input the language as <code>language the user is learning from</code> first, then the <b><code>@</code></b> symbol to separate them, and <code>language the user wants to learn</code> second.)<br>
+						<b>For example,</b> let's pretend we're making an <b>Icelandic for English speakers</b> course. We'll want to enter <code>english@icelandic</code> and click 'OK' or hit the return key on the keyboard. This will return us to the language selection menu, where our new language is now listed! So go ahead and click on that button to go to the next step.<br><br>
+						<b>T</b>he language being selected, we now have to select a course.<br>
+						<i>But wait!</i> I hear you say, <i>there's no course to select here!</i><br>
+						No need to panic acquaintance reader! In place of our Add Language button on the previous page, we now have an <code>Add Course</code> button! This works the same exact way, where you click it, enter your course name in the input box, and then click on your newly added course to continue.<br>
+						<b>W</b>e are going to name our course <b>smokys epic icelandic course</b> so users know just how cool we are.<br><br>
+						<b>The</b> final, most important page is the <b>Lesson Selection Page</b>. I hope you understand how to add a lesson now!<br>
+						<b>O</b>ur first lesson will be titled <b>introduction to horse problems</b>, so we'll want to click <code>Add Lesson</code> and type <code>introduction to horse problems</code> in the provided input box. This will generate some example text to get you started!<br><br>
+						<b>In</b> theory, this is all you need to know to create a course, but I'll try to go a bit more in-depth below so you know what's going on. Have fun!<br><br>
+						</p></div>
+						<div id="lesType"><p><h2>Lesson Types</h2>
+						<code>lesson_type[0]</code><br>
+						<b>There</b> are three lesson types: <b>Practice, Story</b> and <b>Notes.</b> These are denoted by numbers <b>0, 1,</b> and <b>2,</b> respectively.<br>
+						<b>Practice</b> is the traditional duolingo-style lesson. There's no structure, so all the excersize types are chosen at random when you start a lesson. So, while you <i>technically</i> can add text to these lessons, it won't display in the same place every single time - I don't reccomend it.<br>
+						<b>Story</b> can also be understood as 'Textbook' style lessons. These will display your excersizes in the order they are written, so they can also be helpful if you want a specific structure to your lesson.<br>
+						<b>Notes</b> are functionally the same as <b>story</b> lessons, except they are displayed in Tadora's lesson selection with <code>Notes:</code> next to the name. Best suited for tips and grammar explanations!<br>
+						</p></div>
+						<div id="charCode"><p><h2>Language Tags</h2>
+						<code>lang_tag[en-US,be-BY]</code><br>
+						<b>Language</b> tags are there so that Tadora can perform certain text manipulation effects correctly, so please don't remove this line!<br>
+						<b>T</b>hey're only read from the <b>very first lesson</b>, so there's no need to add this line to all of your lessons. Keep that file size down! ...minorly.<br>
+						<b>A</b>ll you need to do here is write the language tags for both of your languages separated by commas. If you need more than two, that's fine, but don't go adding the entire list of language tags, or else there will be some noticable lag!<br>
+						<b>F</b>or our super cool Icelandic course, we would write this as <code>lang_tag[en-US,is-IS]</code> or <code>lang_tag[en,is]</code>.<br>
+						<a href="https://en.wikipedia.org/wiki/IETF_language_tag#List_of_common_primary_language_subtags">You can find a list of common language tags here!</a><br><br>
+						</p></div>
+						<div id="courseCredit"><p><h2>Course Credit</h2>
+						<code>course_credit[Lead Writer (Icelandic, English): \_a[https://example.com]Smoky @ example.com\_a]</code><br>
+						<b>Course</b> credit is where you write all the important information about who wrote the course, where it was from, and where you can be found! This is also only read from the very first lesson, so like, don't delete it unless you <i>really</i> want to be anonymous.<br>
+						<code>\_a[]\_a</code> is a link tag, like <code>< a href=""></a></code> in HTML. The link goes in the brackets, and the displayed text between the closing bracket and second <code>\_a</code> tag.<br>
+						<b>Y</b>ou can add manual linebreaks with <code>\n</code> and <code>\n[half]</code> or add another line. For example:<br>
+						<ul class="tree-view"><code>
+						course_credit[Lead Writer, Proofreader (English): \_a[https://example.com]Smoky @ example.com\_a]<br>
+						course_credit[icelandic translated from google translate.\nDownloaded from \_a[https://example.com]Some place!\_a]</code></ul><br><br>
+						</p></div>
+						<div id="wordText"><p><h2>Plain Text</h2>
+						<code>word_text[I'm a text box!]</code><br>
+						<b>Plain</b> text is most important in <b>Story</b> and <b>Note</b> type lessons. You can use manual formatting with <code>\n</code> and <code>\n[half]</code> for linebreaks, or separate chunks of text with a semicolon <code>;</code> (equivalent to <code>\n\n[half]</code>).  Adding a new line will start a separate page of text. For example:<br>
+						<ul class="tree-view"><code>
+						word_text[Horse: I'm a talking horse!\nPerson: helvíti sem hesturinn getur talað\nHorse: Hér tala menn íslensku! Vá!]<br>
+						word_text[Horse: I know Icelandic because I am a horse in iceland, probably.\nHorse: helvíti isn't related to me talking, though. Click to find out what that person said!;Horse: yay! You followed my instructions! The literal translation of helvíti sem hesturinn getur talað is \f[italic,1]Probably\f[default] 'hell that horse can talk'. Isn't language cool?]
+						</code></ul><br>
+						<a href="https://ukagakadreamteam.github.io/ukadoc/manual/list_sakura_script.html#_f_bold,parameter_">(More about SakuraScript formatting here)</a><br>
+						</p></div>
+						<div id="wordMatch"><h2>Word Matching</h2>
+						<code>word_matches[dance@dansa;horse@hestur;library@bókasafni;people@fólk]</code><br>
+						<b>Word</b> matches are formatted with the language the user knows first, and the one they're learning second, seperated by the at symbol <code>@</code> for translations and semicolons <code>;</code> for separate words.<br>
+						<b>Y</b>ou can change the order if you want to, but keep in mind that the <b>games</b> pull their vocabulary from word_matches[] lines without a message, so it might get a little messed up!<br>
+						<b>I</b>f you want, you can add a message to your word matches with a hashtag <code>#</code>, like so:<br>
+						<code>word_matches[How do we refer to people?#friend@vinur;acquaintance@kunningi;horse friend@hestavinur]</code><br>
+						<b>M</b>atches can have as many words as you want within one pair of brackets - just note that in matches <i>without</i> a message, only four words will be displayed at a time. (For one with a message, all words to match will be displayed... so use caution!)<br>
+						An example of both types:<br>
+						<ul class="tree-view">
+						<code>word_matches[dance@dansa;horse@hestur;library@bókasafni;people@fólk]<br>
+						word_matches[How do we refer to people?#friend@vinur;acquaintance@kunningi;horse friend@hestavinur]</code></ul><br>
+						</p></div>
+						<div id="sentenceTrans"><p><h2>Sentence Translation</h2>
+						<code>sentence_translation[i'm a dancing horse@ég er dansandi hestur]</code><br>
+						<b>Sentence translation</b> is formatted as the sentence to translate first, then the accepted translation(s), separated by the at symbol <code>@</code> . To add alternate translations, just add another @ symbol, and then the sentence to be accepted. As with <b>Plain text, Cloze,</b> and <b>Find/Question</b> excersizes, you can have more than one excersize within the square brackets [] if they're separated with a semicolon ; .<br>
+						<b>S</b>entence translation excersizes cannot have a separate message added. Single words can be used.<br>They will only display one way, so if you want to have the user translate from the target language into the source language, you'll have to put the target language first and the source language translations second.<br>
+						An example:<br>
+						<ul class="tree-view"><code>
+						sentence_translation[i'm a dancing horse@ég er dansandi hestur@ég er hestur dansandi;they went to the library without me@þeir fóru á bókasafnið án mín]<br>
+						sentence_translation[what is up with all these people petting me like seriously@hvað er málið með allt þetta fólk að klappa mér svona alvarlega]
+						</code></ul><br>
+						</p></div>
+						<div id="Cloze"><p><h2>Cloze Sentences</h2>
+						<code>word_cloze[ég er dansandi |hestur|]</code><br>
+						<b>Cloze sentences,</b> if you haven't heard of them before, are kind of like dynamic fill in the blank sentences. In Tadora, you can have as many clozes in a sentence as you want!<br>
+						<b>To</b> hide a word, enclose it in pipes | . If you want to add a hint to your hidden word, you can do so using the @ symbol within the pipes. (<code>|hestur@horse|</code>, for example.)
+						As with <b>Word Matches</b> and <b>Find/Question</b> excersizes, you can add a message to the start with a hashtag # to separate it from the actual sentence.<br>
+						As with <b>Plain text, Sentence translation,</b> and <b>Find/Question</b> excersizes, you can have multiple clozes within a set of square brackets [] so long as they're separated with semicolons ;
+						An example:<br>
+						<ul class="tree-view"><code>
+						word_cloze[ég er dansandi |hestur|;|þeir fóru@they went| á |bókasafnið@library| án |mín@me|]<br>
+						word_cloze[Where did the horse want to go with them?#mig langaði að fara á |bókasafnið| með þeim]
+						</code></ul><br>
+						</p></div>
+						<div id="wordFind"><p><h2>Find the word/Questions</h2>
+						<code>word_searches[library@bókasafni@bókabúð@bókahilla</code><br>
+						<b>Find the word/Questions</b> are grouped together in writing, but they do function a little differently depending on how they're written! They do however share the same basic structure. The first and second words are, essentially, the pair you're looking for, and the other words can be anything! For a basic word find structure it may be helpful to have similar looking words.<br>
+						When written without a message, the possible answers are shuffled.<br>
+						<b>When</b> written <i>with</i> a message, answers are not shuffled - it then functions similar to a multiple-choice question on a quiz. (There will be an added space in between the message and the 'word to find'.) As an example:<br>
+						<code>word_searches[In Icelandic, what kind of horse#is this?@dansandi@dancing@reading@dansandi]</code><br>
+						A different example:<br>
+						<code>word_searches[Fill in the blank#ég er ___ hestur@dansandi@writing@dansandi@jumping@singing]</code><br>
+						As with <b>Word Matches</b> and <b>sentence translation,</b> multiple questions can be within the same pair of square brackets [] if they're separated with semicolons ;<br>
+						Example of both types of question:<br>
+						<ul class="tree-view"><code>
+						word_searches[library@bókasafni@bókabúð@bókahilla;to go@að fara@fer@fór til]<br>
+						word_searches[Fill in the blank#ég er ___ hestur@dansandi@writing@dansandi@jumping@singing]
+						</code></ul><br><br><br>
+						</p></div>
+						<div id="ffs"><p><h2>Conclusion (Our wonderful creation)</h2>
+						<b>That's it! We're done!</b> And so now that we're done i must for posterity show you what all these google translate icelandic sentences look like together, so you can copy/paste it into the first lesson of a course somewhere or something. I dunno.<br>
+						<b>Two</b> other things, before you continue: if you're reasonably tech-savvy, you can head over to wherever tadora's files are and create your courses by hand! If you do decide to do things that way, just note that the files are <b>0-indexed</b> - meaning that the very first file where she will look to find important information needs to be named 0.txt. Past that I can't stop you from doing what you will... but the lesson display might get a bit weird.<br>
+						The second thing is it's always a good idea to test your lessons! Besides the fact that it's just plain fun, sometimes you might run into formatting issues, and it's always better to catch those before you show your work to the general public, and not after.<br><br>
+						<ul class="tree-view"><code>
+						lesson_name[introduction to horse problems]<br>
+						lesson_type[0] //remember only types 1 and 2 will display linearly!<br>
+						lang_tag[en,is]<br>
+						course_credit[Lead Writer, Proofreader (English): \_a[https://example.com]SmokyCinnamonRoll @ example.com\_a]<br>
+						course_credit[icelandic translated from google translate.\nDownloaded from \_a[https://example.com]Some place!\_a]]<br><br>
+						word_text[Horse: I'm a talking horse!\nPerson: helvíti sem hesturinn getur talað\nHorse: Hér tala menn íslensku! Vá!]<br>
+						word_text[Horse: I know Icelandic because I am a horse in iceland, probably.\nHorse: helvíti isn't related to me talking, though. Click to find out what that person said!;Horse: yay! You followed my instructions! The literal translation of helvíti sem hesturinn getur talað is \f[italic,1]Probably\f[default] 'hell that horse can talk'. Isn't language cool?]<br><br>
+						word_matches[dance@dansa;horse@hestur;library@bókasafni;people@fólk]<br>
+						word_matches[How do we refer to people?#friend@vinur;acquaintance@kunningi;horse friend@hestavinur]<br><br>
+						sentence_translation[i'm a dancing horse@ég er dansandi hestur@ég er hestur dansandi;they went to the library without me@þeir fóru á bókasafnið án mín]<br>
+						sentence_translation[what is up with all these people petting me like seriously@hvað er málið með allt þetta fólk að klappa mér svona alvarlega]<br><br>
+						word_cloze[ég er dansandi |hestur|;|þeir fóru@they went| á |bókasafnið@library| án |mín@me|]<br>word_cloze[Where did the horse want to go with them?#mig langaði að fara á |bókasafnið| með þeim]<br><br>
+						word_searches[library@bókasafni@bókabúð@bókahilla;to go@að fara@fer@fór til]<br>
+						word_searches[Fill in the blank#ég er ___ hestur@dansandi@writing@dansandi@jumping@singing]
+						</code></ul>
+						</p></div>
+					</article>
+					<article>
+						<div id="exporting"><h1>How to export a course</h1>
+						<p><b>Exporting your course</b> is very easy! For those in the know, Tadora generates these as <a href="">Supplemental files</a>, so just like creating a course, if you know where the files are you can do this manually! If not, though, that's perfectly okay - it's why this guide exists!</p>
+						<p><b>To</b> get started, you'll want to make sure the creator menu is on. (Head to the profile menu and scroll down until you see <code>Creator Menu: 0</code> or <code>Creator Menu: 1</code>. If it's 0, just click on it so it says 1!) Once you've done that, go back to the main menu (or double-click tadora to bring it up). There, you'll see an option labeled <code>Export Course ()</code>. Go ahead and click on it!</p>
+						<p><b>The</b> first menu you'll see should be familiar by now - all you have to do is select a language, and it'll take you to the <b>Course selection</b> menu.<br>
+						<b>In</b> the <b>course selection</b> menu, you'll want to select the course you've spent all this time making! This will do one of two things:<br>
+						<b>One:</b> Tadora will create your course! Yay!!! Once she says that it was created, click <code>See File</code> to see where your newly exported .zip file of a course is located. (note that she will append the hour and minute to the end of the file name - feel free to remove this!)<br>
+						<b>Two:</b> Tadora will open the file explorer to the top level of the 'supplemental/tree/' folder, and say that the folder needs to be empty to continue. If this happens, all you need to do is delete the <i>contents</i> of the tree folder, close the file explorer, then try again.</p>
+						<p><b>And</b> then hopefully your course is exported! All courses are exported to the '/zip' folder, which you'll find in the top layer of her files, next to '/ghost' and '/shell'. If you're going to need it often, I'd reccomend pinning the folder to quick access or making a shortcut or something. If not, though, after clicking see file, feel free to move the .zip file to a folder where you can access it more easily.
+						</p></div>
+						<div><h2>Uploading your course</h2>
+						<p><b>Uploading</b> a course somewhere is less inside my jurisdiction. Since she generates a plain .zip file, you should be able to upload it most anywhere! Google drive, Github or Neocities, for example, would be decent choices. (Note that Neocities is NOT to be used as a file repository, so if you want to use that, set up a simple website to let people know what you're all about!)<br>
+						<b>If</b> hosting it somewhere yourself seems too intimidating, you can always shoot me a message on <a href="https://ev-n-learning.tumblr.com">tumblr</a> and I'd be happy to display it on my website here!
+						</p></div>
 					</article>
 	</div></div>
-	<div class="window" role="tabpanel">
-		<div id="ExampleCreate" class="tab" style="display:none">
-			<article>
-				<div id="Creategif">
-					<p><img src="img/creation example.gif" alt="An example gif of creating a course, as outlined in the documentation tab" width="584" height="453" class="center"></p>
-					</div>
-			</article>
-		</div>
-	</div>
 	<div class="window">
-	<div id="ExampleExport" class="tab" style="display:none">
+	<div id="Courses" class="tab" style="display:none">
 		<article>
-			<p><img src="img/exportexample.gif" alt="An example gif of exporting a course, as outlined in the documentation tab." width="603" height="394" class="center"></p>
+			<p>
+			<h1>Nothing yet...!</h1>
+			<fieldset>
+				<legend>Belarusian for English Speakers</legend>
+				<div class="field-row">
+					Вывучаем Беларуску - bundled with Tadora!
+				</div>
+			</fieldset>
+			</p>
 		</article>
 	</div></div>
 	
-	</article></div></div>
+	</article>
+	<article><h2>Example Gifs</h2>
+			<div class="gallery">
+		<fieldset class="overlay">
+		<img src="img/creation example.gif" alt="An example gif of creating a course, as outlined in the documentation tab" width="584" height="453"> 
+		<img src="img/exportexample.gif" alt="An example gif of exporting a course, as outlined in the documentation tab." width="603" height="394">
+		</fieldset></div>
+	</article>
+	</div></div>
+	</div></div>
     <div class="window">
 	<div class="title-bar">
     <div class="title-bar-text">More from the Dev</div> 
@@ -129,6 +237,15 @@
 			<p class="status-bar-field"></p>
 		</div>
 	</div>
+
+	<script>
+		new Freezeframe('.overlay', {
+		overlay: true,
+		responsive: false,
+		trigger: 'click',
+		});
+	</script>
+
 
 		<script>
 function openTab(tabName) {

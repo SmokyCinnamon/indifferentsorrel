@@ -1,7 +1,0 @@
-charset,UTF-8
-type,ghost
-
-name,Коржев Жора
-directory,zhorakorzhev
-
-//balloon.directory,x_template_balloon

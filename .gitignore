@@ -3,20 +3,20 @@
 
 # ignore everything in updates except released ghosts:
 updates/*
-!updates/zhorakorzhev
-!updates/kiselewmikola
-!updates/tadoraibuterbrod
-!updates/badtemplaterus
-!updates/aneguitar
-!updates/jihaeandpavel
-updates/badtemplaterus/ghost/master/original
-updates/tadoraibuterbrod/ghost/master/lessons/
-!updates/tadoraibuterbrod/ghost/master/lessons/default/
-!updates/rsstickerbook
-updates/rsstickerbook/forrstickers
-!updates/flux_drifter
-/nar
-nar/*
+#!updates/zhorakorzhev
+#!updates/kiselewmikola
+#!updates/tadoraibuterbrod
+#!updates/badtemplaterus
+#!updates/aneguitar
+#!updates/jihaeandpavel
+#updates/badtemplaterus/ghost/master/original
+#updates/tadoraibuterbrod/ghost/master/lessons/
+#!updates/tadoraibuterbrod/ghost/master/lessons/default/
+#!updates/rsstickerbook
+#updates/rsstickerbook/forrstickers
+#!updates/flux_drifter
+#/nar
+#nar/*
 
 # ignore un-narred lessons
 lessons/*
@@ -56,3 +56,9 @@ aaaaaaaaaa.txt
 walkthroughtranslation/*
 !walkthroughtranslation/uwintro.html
 !walkthroughtranslation/ukaformatting.css
+
+ghost page template.html
+
+# i can't figure out how to css properly, so ignore ghost and shell folder.
+ghost/
+shell/

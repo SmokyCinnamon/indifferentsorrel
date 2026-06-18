@@ -1,6 +1,0 @@
-﻿charset,UTF-8
-type,ghost
-name,Плохой Русский Образец 1.0.2
-directory,badtemplaterus
-
-//balloon.directory,
